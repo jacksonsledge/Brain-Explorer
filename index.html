@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Brain Explorer">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#d0daee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070b1a" media="(prefers-color-scheme: dark)">
 <title>Brain Explorer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +24,8 @@
   --head:"Bricolage Grotesque","Avenir Next","Trebuchet MS",system-ui,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -36,20 +43,22 @@
   --chip:rgba(21,31,58,.92); --accent:#7aa5ff; --onaccent:#0a1226;
   --soft:rgba(255,255,255,.07);
 }
-html{height:100%;background:var(--bg2);scroll-padding-top:env(safe-area-inset-top,0px)}
+html{height:100%;background:var(--bg2);-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior:none;touch-action:manipulation}
 *,*::before,*::after{box-sizing:inherit}
 body{
-  margin:0;height:100%;overflow:hidden;color:var(--ink);font-family:var(--body);
+  margin:0;height:100%;overflow:hidden;color:var(--ink);font-family:var(--body);overscroll-behavior:none;
   background:radial-gradient(ellipse at 50% 38%,var(--bg1) 0%,var(--bg2) 78%);
   -webkit-tap-highlight-color:transparent;
 }
-button{font:inherit;color:inherit}
+button{font:inherit;color:inherit;touch-action:manipulation}
 button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-#app{position:relative;width:100%;height:100%;overflow:hidden}
+#app{position:fixed;inset:0;overflow:hidden}
 #c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;outline:none}
+#c,#top,#tools,#labels,#layers,#dbar,#zoom,#hint{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#c.panning{cursor:move}
 
 /* top bar */
-#top{position:absolute;top:0;left:0;right:0;z-index:6;pointer-events:none}
+#top{position:absolute;top:0;left:0;right:0;z-index:6;pointer-events:none;padding:var(--sat) var(--sar) 0 var(--sal)}
 .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0}
 .brand h1{margin:0;font:700 21px/1.1 var(--head);letter-spacing:-.01em}
 .brand p{margin:2px 0 0;font-size:13px;color:var(--muted)}
@@ -64,7 +73,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .sep{flex:0 0 auto;align-self:center;font-size:12.5px;color:var(--muted);padding:0 2px 0 6px;white-space:nowrap}
 
 /* tools */
-#tools{position:absolute;right:12px;top:calc(var(--topui,100px) + 6px);z-index:6;display:flex;flex-direction:column;gap:8px;transition:right .3s ease}
+#tools{position:absolute;right:calc(12px + var(--sar));top:calc(var(--topui,100px) + 6px);z-index:6;display:flex;flex-direction:column;gap:8px;transition:right .3s ease;
+  max-height:calc(100% - var(--topui,100px) - 140px - var(--sab));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:6px;margin:-6px}
+#tools::-webkit-scrollbar{display:none}
+.tool{flex:0 0 auto}
+/* zoom buttons */
+#zoom{position:absolute;z-index:6;right:calc(12px + var(--sar));bottom:calc(16px + var(--sab));display:flex;flex-direction:column;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);background:var(--chip);backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(6,11,28,.18);transition:right .3s ease,bottom .3s ease}
+#zoom button{width:48px;height:46px;border:0;background:none;font:700 24px/1 var(--head);cursor:pointer;display:grid;place-items:center}
+#zoom button+button{border-top:1px solid var(--line)}
+#zoom button:active{background:var(--soft)}
+#zoom svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
 .tool{width:58px;height:54px;border-radius:14px;border:1px solid var(--line);background:var(--chip);display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;cursor:pointer;backdrop-filter:blur(8px)}
 .tool svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -97,7 +116,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .dd-menu{position:absolute;top:calc(100% + 6px);left:0;width:min(340px,calc(100vw - 28px));overflow-y:auto;overscroll-behavior:contain;
   background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(6,11,28,.35);padding:0 6px 6px;backdrop-filter:blur(14px)}
 .dd-search{position:sticky;top:0;z-index:1;padding:8px 2px 6px;background:var(--panel)}
-.dd-search input{width:100%;min-height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:500 15px var(--body);outline:none}
+.dd-search input{width:100%;min-height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:500 16px var(--body);outline:none}
 .dd-search input:focus{border-color:var(--accent)}
 .dd-clear{width:100%;min-height:38px;margin:2px 0 4px;border:0;border-radius:10px;background:var(--soft);font-weight:600;font-size:14px;cursor:pointer;color:var(--accent)}
 #chips{display:block}
@@ -120,7 +139,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .sv button{border:0;background:none;padding:8px 12px;border-radius:999px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
 .sv button.on{background:var(--accent);color:var(--onaccent)}
 @media (max-width:560px){ .mode{padding:8px 9px;font-size:13.5px} .sv button{padding:7px 10px;font-size:13px} }
-#layers{position:absolute;left:12px;top:calc(var(--topui,100px) + 6px);z-index:6;width:min(250px,calc(100% - 96px));padding:6px;border-radius:16px;
+#layers{position:absolute;left:calc(12px + var(--sal));top:calc(var(--topui,100px) + 6px);z-index:6;width:min(250px,calc(100% - 96px));padding:6px;border-radius:16px;
   background:var(--panel);border:1px solid var(--line);box-shadow:0 8px 24px rgba(6,11,28,.25);backdrop-filter:blur(12px)}
 .ly-head{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:36px;padding:0 8px;border:0;background:none;font:700 14px var(--head);cursor:pointer;color:var(--ink)}
 .ly-head svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
@@ -139,13 +158,30 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .ly-actions{display:flex;gap:6px;padding:6px 2px 2px}
 .ly-actions button{flex:1;min-height:34px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-weight:600;font-size:12.5px;cursor:pointer;color:var(--ink)}
 .ts{display:none}
-@media (max-width:560px){ .tl{display:none} .ts{display:inline} .mode{padding:8px 11px} }
+@media (max-width:560px), (max-height:520px){ .tl{display:none} .ts{display:inline} }
+@media (max-width:560px){ .mode{padding:8px 8px} }
+@media (max-width:380px){ .mode{font-size:13px;padding:8px 7px} }
+/* short landscape phones: one compact control row, icon-only tools in columns */
+@media (max-height:520px) and (orientation:landscape){
+  .brand{display:none}
+  .bar{position:absolute;right:0;top:var(--sat);padding:8px calc(10px + var(--sar)) 0 0}
+  .ctrl{padding:8px 60px 8px 12px;flex-wrap:nowrap}
+  .modes,.sv{flex:0 0 auto} .dd{min-width:0} .dd-btn{max-width:100%}
+  #tools{flex-wrap:wrap-reverse;align-content:flex-end;overflow:visible;max-height:calc(100% - var(--topui,60px) - 80px - var(--sab));gap:6px}
+  .tool{width:44px;height:40px;font-size:0;gap:0}
+  #zoom{flex-direction:row;bottom:calc(10px + var(--sab))}
+  #zoom button{width:44px;height:40px}
+  #zoom button+button{border-top:0;border-left:1px solid var(--line)}
+  #hint{bottom:calc(10px + var(--sab));font-size:12px;padding:6px 12px}
+  .mode-diseases #zoom{bottom:calc(var(--dbh,150px) + 18px + var(--sab))}
+  #dbar{padding:6px 10px} #dSlider{margin-top:4px;height:24px} .db-legend{display:none}
+}
 .mode-diseases.dview-brain #bXray{display:flex!important}
 .mode-diseases.dview-brain .nerve-only{display:none!important}
 .mode-diseases #hint{display:none}
-#dbar{position:absolute;z-index:7;left:12px;right:12px;bottom:12px;padding:10px 14px 10px;border-radius:18px;background:var(--panel);
+#dbar{position:absolute;z-index:7;left:calc(12px + var(--sal));right:calc(12px + var(--sar));bottom:calc(12px + var(--sab));padding:10px 14px 10px;border-radius:18px;background:var(--panel);
   border:1px solid var(--line);box-shadow:0 10px 30px rgba(6,11,28,.3);backdrop-filter:blur(14px)}
-@media (min-width:820px){ #dbar{right:auto;width:min(560px,calc(100% - 24px))} .panel-open #dbar{max-width:calc(100% - 408px)} }
+@media (min-width:820px), (min-width:600px) and (max-height:520px){ #dbar{right:auto;width:min(560px,calc(100% - 24px))} .panel-open #dbar{max-width:calc(100% - 470px)} }
 .db-top{display:flex;align-items:center;gap:10px}
 .db-play{width:44px;height:44px;flex:0 0 auto;border-radius:50%;border:0;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;cursor:pointer}
 .db-play svg{width:18px;height:18px;fill:currentColor}
@@ -168,13 +204,22 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .lg-dots i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 .note-s{margin:14px 0 4px;font-size:12.5px;color:var(--muted);line-height:1.45}
 .nav button:disabled{opacity:.4;cursor:default}
-@media (max-width:819px){
-  .mode-diseases #panel{bottom:calc(var(--dbh,150px) + 20px);left:8px;right:8px;border-radius:18px;max-height:min(42%,380px)}
+@media (max-width:599px), (max-width:819px) and (min-height:521px){
+  .mode-diseases #panel:not(.open){transform:translateY(calc(100% + var(--dbh,150px) + 40px))}
+  .mode-diseases #panel{bottom:calc(var(--dbh,150px) + 20px + var(--sab));left:8px;right:8px;border-radius:18px;max-height:min(42%,380px)}
   .db-view button{padding:7px 10px}
 }
 .dd-empty{margin:10px;color:var(--muted);font-size:14px}
 .jump{width:100%;margin:4px 0 10px;min-height:44px;border:0;border-radius:12px;background:var(--accent);color:var(--onaccent);font:700 15px var(--head);cursor:pointer}
-@media (max-width:819px){ #tools{gap:6px} .tool{width:54px;height:46px;font-size:10.5px} .tool svg{width:18px;height:18px} }
+@media (max-width:599px), (max-width:819px) and (min-height:521px){
+  .mode-diseases #zoom{bottom:calc(var(--dbh,150px) + 24px + var(--sab))}
+  .panel-open #zoom{opacity:0;pointer-events:none}
+  .p-head{padding-top:6px}
+}
+.grab{flex:0 0 auto;height:22px;margin-bottom:-14px;display:grid;place-items:center;cursor:grab;touch-action:none;position:relative;z-index:1}
+.grab::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--line)}
+@media (pointer:coarse){ .label{padding:5px 11px 5px 8px;font-size:12.5px} .label.lvl{font-size:11px} }
+@media (max-width:599px), (max-width:819px) and (min-height:521px){ #tools{gap:6px} .tool{width:54px;height:46px;font-size:10.5px} .tool svg{width:18px;height:18px} }
 
 /* labels */
 #labels{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
@@ -187,7 +232,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 #tip{position:absolute;left:0;top:0;z-index:7;pointer-events:none;padding:5px 10px;border-radius:8px;background:var(--ink);color:var(--bg1);
   font-size:12.5px;font-weight:600;opacity:0;transition:opacity .12s;white-space:nowrap}
-#hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;max-width:calc(100% - 28px);text-align:center;
+#hint{position:absolute;left:50%;bottom:calc(16px + var(--sab));transform:translateX(-50%);z-index:4;max-width:calc(100% - 150px);text-align:center;
   padding:9px 16px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-size:13px;font-weight:500;
   color:var(--muted);transition:opacity .4s;pointer-events:none;backdrop-filter:blur(8px)}
 #hint.gone{opacity:0}
@@ -196,9 +241,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #panel{position:absolute;z-index:8;left:0;right:0;bottom:0;max-height:min(54%,470px);display:flex;flex-direction:column;
   background:var(--panel);border-top:4px solid var(--rc,var(--accent));border-radius:20px 20px 0 0;
   box-shadow:0 -10px 34px rgba(8,14,34,.28);backdrop-filter:blur(14px);
-  transform:translateY(106%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}
-#panel.open{transform:none}
-.scroll{overflow-y:auto;padding:16px 18px 6px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  transform:translateY(106%);visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s linear .32s}
+#panel.open{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.scroll{overflow-y:auto;padding:16px calc(18px + var(--sar)) 6px calc(18px + var(--sal));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .p-head{display:flex;gap:12px;align-items:flex-start;padding-right:40px}
 .swatch{flex:0 0 auto;width:14px;height:44px;border-radius:7px;background:var(--rc,var(--accent));margin-top:2px}
 .p-head h2{margin:0;font:700 24px/1.12 var(--head);letter-spacing:-.01em}
@@ -215,18 +260,20 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .fact p{margin:0;font-size:14.5px;line-height:1.5}
 #close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:var(--soft);cursor:pointer;
   font-size:17px;display:grid;place-items:center}
-.nav{display:flex;gap:8px;padding:10px 18px 14px;border-top:1px solid var(--line)}
+.nav{display:flex;gap:8px;padding:10px calc(18px + var(--sar)) calc(14px + var(--sab)) calc(18px + var(--sal));border-top:1px solid var(--line)}
 .nav button{flex:1;min-height:42px;border-radius:12px;border:1px solid var(--line);background:var(--soft);cursor:pointer;font-weight:600;font-size:14px}
-@media (min-width:820px){
-  #panel{left:auto;right:12px;top:calc(var(--topui,100px) + 4px);bottom:12px;width:360px;max-height:none;border-top:0;
+@media (min-width:820px), (min-width:600px) and (max-height:520px){
+  #panel{left:auto;right:calc(12px + var(--sar));top:calc(var(--topui,100px) + 4px);bottom:calc(12px + var(--sab));width:360px;max-height:none;border-top:0;
     border-left:4px solid var(--rc,var(--accent));border-radius:18px;box-shadow:0 12px 40px rgba(8,14,34,.3);transform:translateX(112%)}
   #panel.open{transform:none}
-  .panel-open #tools{right:384px}
-  #hint{bottom:20px}
+  .panel-open #tools,.panel-open #zoom{right:calc(384px + var(--sar))}
+  #hint{bottom:calc(20px + var(--sab));max-width:calc(100% - 180px)}
+  .grab{display:none}
+  .mode-diseases #zoom{bottom:calc(20px + var(--sab))}
 }
 
 /* intro */
-#intro{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;
+#intro{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:calc(16px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));
   background:rgba(6,11,28,.5);backdrop-filter:blur(7px)}
 #intro.hidden{display:none}
 .card{width:100%;max-width:440px;max-height:100%;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;
@@ -251,7 +298,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 </head>
 <body>
 <div id="app">
-  <canvas id="c" tabindex="0" aria-label="Interactive 3D brain. Drag to rotate, scroll or pinch to zoom, tap a region to learn about it."></canvas>
+  <canvas id="c" tabindex="0" aria-label="Interactive 3D brain. Drag to rotate, scroll or pinch to zoom, drag with two fingers or right-drag to move, tap a region to learn about it. Keyboard: plus and minus zoom."></canvas>
   <div id="labels"></div>
 
   <div id="top">
@@ -267,7 +314,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <button class="mode" id="mSections" role="tab" aria-selected="false">Sections</button>
       <button class="mode" id="mDiseases" role="tab" aria-selected="false">Diseases</button>
     </div>
-      <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true">Cross-section</button><button id="svWhole" role="tab" aria-selected="false">Whole cord</button></div>
+      <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true"><span class="tl">Cross-section</span><span class="ts">Cross</span></button><button id="svWhole" role="tab" aria-selected="false"><span class="tl">Whole cord</span><span class="ts">Whole</span></button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -316,10 +363,15 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <div class="db-ticks" id="dTicks"></div>
     <div class="db-legend" id="dLegend"></div>
   </div>
-  <div id="hint">Drag to rotate, pinch or scroll to zoom, tap a part</div>
+  <div id="zoom" role="group" aria-label="Zoom">
+    <button id="zIn" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button id="zOut" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+  </div>
+  <div id="hint">Drag to rotate, pinch to zoom, two fingers to move, tap a part</div>
   <div id="tip"></div>
 
   <aside id="panel" aria-live="polite" aria-label="Region details">
+    <div class="grab" id="grab" aria-hidden="true"></div>
     <button id="close" aria-label="Close details">&#10005;</button>
     <div class="scroll" id="scroll">
       <div class="p-head"><span class="swatch"></span><div><h2 id="pName"></h2><p class="p-where" id="pWhere"></p><span class="badge" id="pBadge" hidden>Deep structure, shown in X-ray view</span></div></div>
@@ -338,7 +390,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <h1 id="introTitle">Brain Explorer</h1>
       <p>Turn a 3D model of the human brain, zoom in, and tap any part to see what it does.</p>
       <ul class="how">
-        <li><span class="ic">&#9757;</span><span>Drag to rotate. Pinch or scroll to zoom.</span></li>
+        <li><span class="ic">&#9757;</span><span>Drag to rotate. Pinch to zoom in and out, and drag with two fingers to move the model. With a mouse, scroll to zoom and right-drag (or Shift-drag) to move.</span></li>
         <li><span class="ic">&#129504;</span><span>Tap a colored part or a label, or pick one from the parts menu at the top.</span></li>
         <li><span class="ic">&#128065;</span><span>Switch on X-ray to find structures hidden deep inside, or Meninges to see the brain’s protective layers.</span></li>
         <li><span class="ic">&#9889;</span><span>Tap Nervous system to explore nerves through the whole body, or Sections to see how the system is organized.</span></li>
@@ -2253,8 +2305,10 @@ function refreshUI(){
   });
 }
 
+var SIDE_Q='(min-width:820px), (min-width:600px) and (max-height:520px)';
+function sideLayout(){ return window.matchMedia?window.matchMedia(SIDE_Q).matches:W>=820; }
 function updateViewTargets(){
-  var desktop=W>=820, open=panel.classList.contains('open');
+  var desktop=sideLayout(), open=panel.classList.contains('open');
   var dbh=(mode==='diseases' && dbar && !dbar.hidden)?dbar.offsetHeight+20:0;
   var right=(desktop&&open)?W-384:W;
   var bottom=(!desktop&&open)?H-panel.offsetHeight-dbh:H-dbh;
@@ -2405,7 +2459,29 @@ function closeDetails(){
   if(mode==='diseases'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); refreshUI(); updateViewTargets(); }
   else select(null);
 }
-function zoomMin(){ return bodyView()?0.15:(mode==='spine'?0.3:0.5); }
+function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:0.35); }
+/* ---- zoom toward a point and pan (move the view centre in the screen plane) */
+var PV=new THREE.Vector3(), PU=new THREE.Vector3(), CV=new THREE.Vector3();
+function pxWorld(dist){ return 2*dist*Math.tan(camera.fov*Math.PI/360)/H; }
+function panBase(){ return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:BRAIN_C); }
+function panRadius(){ return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:1.3); }
+function clampV(v){ var b=panBase(), r=panRadius(); CV.copy(v).sub(b); if(CV.length()>r){ CV.setLength(r); v.copy(b).add(CV); } }
+function shiftCenter(dx,dy,s,both){
+  camera.updateMatrixWorld();
+  PV.setFromMatrixColumn(camera.matrixWorld,0).multiplyScalar(dx*s);
+  PU.setFromMatrixColumn(camera.matrixWorld,1).multiplyScalar(-dy*s);
+  CENTER_T.add(PV).add(PU); clampV(CENTER_T);
+  if(both){ CENTER.add(PV).add(PU); clampV(CENTER); }
+}
+function panBy(dx,dy){ if(dx||dy){ shiftCenter(-dx,-dy,pxWorld(cur.fit*cur.zoom*cur.pm),true); setSpin(false); } }
+function zoomAt(f,sx,sy){
+  var z0=tgt.zoom, z1=clamp(z0*f,zoomMin(),1.8);
+  if(Math.abs(z1-z0)<1e-6) return;
+  tgt.zoom=z1;
+  if(sx==null) return;
+  // keep the point under the fingers or cursor in place while zooming
+  shiftCenter(sx-(W/2-cur.ox),sy-(H/2-cur.oy),pxWorld(tgt.fit*z0*tgt.pm)*(1-z1/z0),false);
+}
 $('#close').addEventListener('click',closeDetails);
 $('#bPrev').addEventListener('click',function(){ step(-1); });
 $('#bNext').addEventListener('click',function(){ step(1); });
@@ -2432,6 +2508,8 @@ $('#infoBtn').addEventListener('click',function(){ intro.classList.remove('hidde
 window.addEventListener('keydown',function(e){
   if(e.target && e.target.tagName==='INPUT' && e.key!=='Escape') return;
   if(e.key==='Escape'){ if(!ddMenu.hidden) closeDD(); else if(!intro.classList.contains('hidden')) intro.classList.add('hidden'); else closeDetails(); }
+  else if(e.key==='+' || e.key==='='){ zoomAt(1/1.25); }
+  else if(e.key==='-' || e.key==='_'){ zoomAt(1.25); }
   else if(selected && e.key==='ArrowRight'){ step(1); }
   else if(selected && e.key==='ArrowLeft'){ step(-1); }
 });
@@ -2439,6 +2517,7 @@ window.addEventListener('keydown',function(e){
 /* ------------------------------------------------------------ parts dropdown */
 var ddBtn=$('#ddBtn'), ddMenu=$('#ddMenu'), ddSearch=$('#ddSearch'), ddEmpty=$('#ddEmpty');
 var finePointer=!!(window.matchMedia && window.matchMedia('(pointer:fine)').matches);
+if(finePointer) hint.textContent='Drag to rotate, scroll to zoom, right-drag to move, click a part';
 function openDD(){
   ddMenu.hidden=false; ddBtn.setAttribute('aria-expanded','true'); dismissHint();
   var r=ddMenu.getBoundingClientRect(), ar=app.getBoundingClientRect();
@@ -2892,7 +2971,7 @@ function enterDiseases(){
   updateStageUI(true); setPlayIcon();
   updateDisease();
   app.style.setProperty('--dbh',dbar.offsetHeight+'px');
-  if(W>=820){ fillDPanel(); panel.classList.add('open'); app.classList.add('panel-open'); }
+  if(sideLayout()){ fillDPanel(); panel.classList.add('open'); app.classList.add('panel-open'); }
 }
 function leaveDiseases(){
   dPlaying=false; dSnap=null; selected=null;
@@ -3066,12 +3145,17 @@ function pick(cx,cy){
   if(id && mode==='sections') id=SECTION_OF[id]||null;
   return id;
 }
-var pointers=new Map(), down=null, pinch=0, lastHover=0;
+var pointers=new Map(), down=null, pinch=0, pmid=null, lastHover=0;
+function canvasXY(x,y){ var r=canvas.getBoundingClientRect(); return [x-r.left,y-r.top]; }
+function twoFinger(){ var q=Array.from(pointers.values()); pinch=Math.hypot(q[0].x-q[1].x,q[0].y-q[1].y); pmid={x:(q[0].x+q[1].x)/2,y:(q[0].y+q[1].y)/2}; }
 canvas.addEventListener('pointerdown',function(e){
   canvas.setPointerCapture(e.pointerId);
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(pointers.size===1){ down={x:e.clientX,y:e.clientY,t:performance.now(),moved:false}; canvas.style.cursor='grabbing'; }
-  else { down=null; var p=Array.from(pointers.values()); pinch=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y); }
+  if(pointers.size===1){
+    down={x:e.clientX,y:e.clientY,t:performance.now(),moved:false,pan:e.pointerType==='mouse' && (e.button===1 || e.button===2 || e.shiftKey)};
+    canvas.style.cursor=down.pan?'move':'grabbing';
+  }
+  else { down=null; if(pointers.size===2) twoFinger(); }
   dismissHint(); tip.style.opacity=0;
 });
 canvas.addEventListener('pointermove',function(e){
@@ -3080,16 +3164,18 @@ canvas.addEventListener('pointermove',function(e){
   var dx=e.clientX-p.x, dy=e.clientY-p.y; p.x=e.clientX; p.y=e.clientY;
   if(pointers.size===1 && down){
     if(!down.moved && Math.hypot(e.clientX-down.x,e.clientY-down.y)>6) down.moved=true;
-    if(down.moved){ tgt.az+=dx*0.0075; tgt.el=clamp(tgt.el+dy*0.0075,-1.35,1.35); }
-  } else if(pointers.size===2){
-    var q=Array.from(pointers.values()), d=Math.hypot(q[0].x-q[1].x,q[0].y-q[1].y);
-    if(pinch>0 && d>0) tgt.zoom=clamp(tgt.zoom*pinch/d,zoomMin(),1.8);
-    pinch=d;
+    if(down.moved){ if(down.pan) panBy(dx,dy); else { tgt.az+=dx*0.0075; tgt.el=clamp(tgt.el+dy*0.0075,-1.35,1.35); } }
+  } else if(pointers.size===2 && pmid){
+    // two fingers: pinch to zoom around the fingers, drag together to move
+    var q=Array.from(pointers.values()), d=Math.hypot(q[0].x-q[1].x,q[0].y-q[1].y), m={x:(q[0].x+q[1].x)/2,y:(q[0].y+q[1].y)/2};
+    if(pinch>0 && d>0){ var c=canvasXY(m.x,m.y); zoomAt(pinch/d,c[0],c[1]); }
+    panBy(m.x-pmid.x,m.y-pmid.y);
+    pinch=d; pmid=m;
   }
 });
 function endPtr(e){
   if(!pointers.delete(e.pointerId)) return;
-  if(pointers.size<2) pinch=0;
+  if(pointers.size===2) twoFinger(); else { pinch=0; pmid=null; }
   if(pointers.size===0){
     canvas.style.cursor='grab';
     if(e.type==='pointerup' && down && !down.moved && performance.now()-down.t<700){
@@ -3101,8 +3187,39 @@ function endPtr(e){
 }
 canvas.addEventListener('pointerup',endPtr);
 canvas.addEventListener('pointercancel',endPtr);
+canvas.addEventListener('lostpointercapture',endPtr);
 canvas.addEventListener('pointerleave',function(e){ if(e.pointerType==='mouse'){ tip.style.opacity=0; setHover(null); } });
-canvas.addEventListener('wheel',function(e){ e.preventDefault(); tgt.zoom=clamp(tgt.zoom*Math.exp(e.deltaY*0.0012),zoomMin(),1.8); dismissHint(); },{passive:false});
+canvas.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+canvas.addEventListener('wheel',function(e){
+  e.preventDefault(); dismissHint();
+  var dy=e.deltaMode===1?e.deltaY*16:(e.deltaMode===2?e.deltaY*H:e.deltaY), c=canvasXY(e.clientX,e.clientY);
+  zoomAt(Math.exp(clamp(dy,-200,200)*(e.ctrlKey?0.01:0.0012)),c[0],c[1]);   // ctrlKey: trackpad pinch
+},{passive:false});
+// Safari: stop the page itself from zooming; a Mac trackpad pinch zooms the model instead
+var gScale=1;
+['gesturestart','gesturechange','gestureend'].forEach(function(t){
+  document.addEventListener(t,function(e){
+    e.preventDefault();
+    if(e.target!==canvas || pointers.size>0 || !e.scale) return;
+    if(t==='gesturestart') gScale=1;
+    else if(t==='gesturechange'){ var c=canvasXY(e.clientX,e.clientY); zoomAt(gScale/e.scale,c[0],c[1]); gScale=e.scale; kick(); }
+  },{passive:false});
+});
+$('#zIn').addEventListener('click',function(){ zoomAt(1/1.4); dismissHint(); });
+$('#zOut').addEventListener('click',function(){ zoomAt(1.4); dismissHint(); });
+// phones: swipe the panel's handle down to close it
+(function(){
+  var grab=$('#grab'), sy=null, dy=0;
+  grab.addEventListener('pointerdown',function(e){ sy=e.clientY; dy=0; grab.setPointerCapture(e.pointerId); panel.style.transition='none'; });
+  grab.addEventListener('pointermove',function(e){ if(sy==null) return; dy=Math.max(0,e.clientY-sy); panel.style.transform=dy?'translateY('+dy+'px)':''; });
+  function end(){ if(sy==null) return; sy=null; panel.style.transition=''; panel.style.transform=''; if(dy>60) closeDetails(); }
+  grab.addEventListener('pointerup',end); grab.addEventListener('pointercancel',end);
+})();
+// iOS can drop the 3D context in the background; redraw when the page comes back
+canvas.addEventListener('webglcontextlost',function(e){ e.preventDefault(); });
+canvas.addEventListener('webglcontextrestored',function(){ kick(2000); });
+document.addEventListener('visibilitychange',function(){ if(!document.hidden){ last=0; kick(1500); } });
+window.addEventListener('orientationchange',function(){ setTimeout(layout,250); });
 canvas.addEventListener('dblclick',resetView);
 
 function setHover(id){ if(id!==hovered){ hovered=id; applyColors(); } }

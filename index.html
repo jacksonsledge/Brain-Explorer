@@ -3398,6 +3398,7 @@ function buildSenses(){
     (view==='head'?sensePickHead:sensePickBody).push(m); return m;
   }
   function path(id,pts,view,rad){
+    view=view||'head';
     var col=R[id].color, c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength();
     var tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; tex.repeat.set(Math.max(1,Math.round(L/(view==='head'?0.14:0.2))),1);
     var m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(10,Math.round(L*(view==='head'?60:40))),(rad||(view==='head'?0.011:0.008))*1.4,8,false),

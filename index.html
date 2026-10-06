@@ -1410,6 +1410,13 @@ var REGIONS = [
   damage:'Because so many fibers pass through the small internal capsule, even a tiny stroke there can weaken the whole opposite side of the body.',
   fact:'Each corticospinal tract, which carries commands for skilled movement, holds about a million nerve fibers.',
   view:{az:80,el:15}, at:[0,0.1,0], zoom:0.85},
+ {id:'th_loop',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: white matter',name:'Cerebrum–Cerebellum Loop',short:'Cerebrum–cerebellum loop',color:'#e879f9',badge:'Pathway, shown in X-ray view',
+  where:'From the cortex down to the pons, into the cerebellum, and back up through the thalamus',
+  summary:'The cerebrum and cerebellum work together constantly, but never through a direct cable. The cortex sends its plans down to the pons, which passes them into the cerebellum. The cerebellum sends its corrections up to the thalamus, which passes them back to the cortex.',
+  funcs:['Lets the cerebellum check and fine-tune movements the cortex plans','Helps time and smooth skilled sequences, such as writing or playing an instrument','Supports learning new skills through practice','Also links the cerebellum with planning, language and attention areas'],
+  damage:'Damage anywhere along the loop causes clumsiness and poor coordination. A small stroke in the pons can cause both weakness and clumsiness on one side (ataxic hemiparesis), and damage to the cerebellum’s outflow can cause tremor.',
+  fact:'After a stroke in one side of the cerebrum, the cerebellum on the opposite side often becomes less active too, because it has lost its input through this loop. This is called crossed cerebellar diaschisis.',
+  view:{az:28,el:-4}, at:[0,-0.2,-0.22], zoom:0.95},
  {id:'th_neocortex',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex',name:'The Neocortex',short:'Neocortex',color:'#4cc9f0',
   where:'The six-layered outer sheet covering most of the cerebrum, 2 to 4 mm thick',
   summary:'The neocortex makes up about 90 percent of the cerebral cortex. Everywhere it has the same basic plan: six layers of nerve cells, wired into vertical columns. This model shows a tiny block of it, about 2.5 mm deep, greatly enlarged.',
@@ -4105,6 +4112,16 @@ var TH={
   deep:['Some people are born without a corpus callosum (agenesis of the corpus callosum). Many manage everyday life well, because other pathways help the hemispheres communicate.',
    'Because the language areas are usually on the left, information that reaches only the right hemisphere has to cross the corpus callosum before it can be put into words.'],
   rel:['th_hemispheres','th_association']},
+ th_loop:{how:['The cortex, mainly the frontal and parietal lobes, sends fibers down through the internal capsule to the pons.',
+   'In the pons, these fibers pass their signals to pontine nuclei.',
+   'Fibers from the pontine nuclei cross the midline and enter the opposite half of the cerebellum through the middle cerebellar peduncle.',
+   'The cerebellum compares the plan with signals about what the body is doing, then sends its output from the dentate nucleus through the superior cerebellar peduncle.',
+   'This output crosses back in the midbrain to the thalamus, which relays it up to the motor and prefrontal cortex.'],
+  deep:['The route crosses the midline twice, so each half of the cerebellum works with the opposite half of the cerebrum but controls the same side of the body.',
+   'About 20 million fibers run from the cortex to the pons on each side, far more than the roughly 1 million in each corticospinal tract.',
+   'Some cerebellar output also goes to the red nucleus in the midbrain, which helps adjust movement.',
+   'Similar loops link the cerebellum with the prefrontal cortex, which helps explain its role in planning, language and attention.'],
+  rel:['th_projection','th_cerebellum']},
  th_projection:{how:['Under the cortex, projection fibers spread out like the rays of a crown, called the corona radiata.',
    'They squeeze through the internal capsule, a narrow band between the thalamus and the basal ganglia.',
    'Below it, they gather into the cerebral peduncles of the midbrain and continue to the brainstem and spinal cord.',
@@ -4190,7 +4207,7 @@ var TH_OVER={cerebrum:'th_cerebrum',neocortex:'th_neocortex',cerebellum:'th_cere
 var PRIORITY_TH=TH_IDS.filter(function(id){ return TH_OVERS.indexOf(id)<0 || id==='th_cerebrum'; });
 var THINK_MAP={callosum:'th_commissural',cerebellum:'th_cerebellum'};
 CORTEX_IDS.forEach(function(id){ THINK_MAP[id]='th_cerebrum'; });
-var TH_ALSO={th_projection:['thalamus']};
+var TH_ALSO={th_projection:['thalamus'],th_loop:['thalamus']};
 var CB_ZONES=['th_cb_vermis','th_cb_para','th_cb_lat','th_cb_floc'];
 var tView='cerebrum', thBuilt=false, thCer=new THREE.Group(), thNeo=new THREE.Group(), thCb=new THREE.Group(), TH_G={cerebrum:thCer,neocortex:thNeo,cerebellum:thCb};
 var thPick={cerebrum:[],neocortex:[],cerebellum:[]}, thPaths=[], thStn=[], thAnch={cerebrum:{},neocortex:{},cerebellum:{}}, thCerMats=[], cbMesh=null, thXrayBefore=false;
@@ -4296,6 +4313,14 @@ function buildThink(){
     var y=ccY(z), w=(i===0||i===6)?0.45:0.6, d=(i%2)?1:-1;
     put('th_commissural','cerebrum','p',pulseMesh([[-d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))],[-d*0.3,y+0.015,z],[0,y+0.01,z],[d*0.3,y+0.015,z],[d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))]],0.012,CM),{kind:'path',pri:2});
   });
+  var LC=R.th_loop.color;
+  both(function(s){
+    function L(pts,r){ put('th_loop','cerebrum','p',pulseMesh(M(s,pts),r||0.017,LC,0.13),{kind:'path',pri:2}); }
+    [[0.42,0.56,0.32],[0.42,0.5,-0.3]].forEach(function(c){ L([c,[0.3,0.3,c[2]*0.5],[0.2,0.08,0.02],[0.09,-0.16,0.03],[0.05,-0.38,0.07]]); });   // cortex -> pons
+    L([[0.05,-0.38,0.07],[0.0,-0.42,0.06],[-0.08,-0.43,0.03],[-0.17,-0.42,-0.12],[-0.27,-0.4,-0.33],[-0.34,-0.38,-0.55],[-0.38,-0.36,-0.72]],0.019);              // crosses, middle peduncle -> cerebellum
+    L([[-0.24,-0.4,-0.66],[-0.2,-0.38,-0.5],[-0.13,-0.32,-0.32],[-0.04,-0.2,-0.13],[0.04,-0.06,-0.07],[0.13,0.08,-0.05]]);                                       // dentate -> superior peduncle -> crosses -> thalamus
+    [[0.42,0.58,0.06],[0.36,0.44,0.46]].forEach(function(c){ L([[0.13,0.08,-0.05],[0.2,0.22,0.02],[0.3,0.4,c[2]*0.7],c]); });               // thalamus -> motor and prefrontal cortex
+  });
   put('th_commissural','cerebrum','p',pulseMesh([[-0.46,-0.15,0.2],[-0.22,-0.03,0.25],[0,0.0,0.27],[0.22,-0.03,0.25],[0.46,-0.15,0.2]],0.013,CM),{kind:'path',pri:2});
   both(function(s){
   });
@@ -4310,6 +4335,8 @@ function buildThink(){
   stations('th_hemispheres','cerebrum',[['Left hemisphere',sp(lat(-0.15,0.55),1),nd(lat(-0.15,0.55))],['Right hemisphere',sp(lat(-0.15,0.55),-1),[-0.8,0.55,-0.15]],['Longitudinal fissure',[0,0.72,0.3],[0,1,0.2]]]);
   stations('th_association','cerebrum',[['Arcuate fasciculus',[0.56,0.2,-0.08]],['Superior longitudinal fasciculus',[0.45,0.42,0.22]],['Uncinate fasciculus',[0.45,-0.15,0.3]],['Cingulum',[0.11,0.54,-0.15]],['Inferior longitudinal fasciculus',[0.45,-0.1,-0.5]]]);
   stations('th_commissural','cerebrum',[['Corpus callosum',[0,0.5,0.0]],['Anterior commissure',[0.22,-0.03,0.25]]]);
+  anch('cerebrum','th_loop',[0.36,0.44,0.46]);
+  stations('th_loop','cerebrum',[['1. Cortex sends plans',[0.42,0.56,0.32]],['2. Pons (relay)',[0.05,-0.4,0.08]],['3. Middle peduncle: into the cerebellum',[-0.2,-0.42,-0.18]],['4. Cerebellum',[-0.38,-0.36,-0.72]],['5. Superior peduncle: back out',[-0.08,-0.26,-0.22]],['6. Thalamus (relay)',[0.13,0.08,-0.05]],['7. Back to the cortex',[0.42,0.58,0.06]]]);
   stations('th_projection','cerebrum',[['Corona radiata',[0.42,0.45,0.05]],['Internal capsule',[0.22,0.1,0.02]],['Cerebral peduncle',[0.07,-0.3,-0.05]]]);
 
   /* ---------------- neocortex: an enlarged block of the six layers */
@@ -4557,6 +4584,7 @@ function applyThinkColors(){
     r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material);
       m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); m.material.userData.seOp=op; });
   });
+  R.cerebellum.meshes.forEach(function(m){ var see=sel==='th_loop'; m.material.transparent=true; m.material.opacity=see?0.3:1; m.material.depthWrite=!see; });
   // the model's own parts
   TH_IDS.forEach(function(id){
     var lit=litOf(id), h=hov===id;
@@ -4566,7 +4594,7 @@ function applyThinkColors(){
       m.material.color.setRGB(c[0],c[1],c[2]);
       var k=u.kind==='path'?((sel===id||h)?0.85:(lit?0.55:0.12)):(sel===id?0.22:(lit?0.08:0));
       m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
-      if(u.op0<1){ var o=lit?u.op0*(sel===id?1.6:1):u.op0*(u.view==='cerebrum'?0.12:0.35); o=Math.min(o,0.95); if(u.view==='cerebrum') m.material.userData.thOp=o; else m.material.opacity=o; }
+      if(u.op0<1 || u.view==='cerebrum'){ var o=lit?u.op0*(sel===id?1.6:1):u.op0*(u.view==='cerebrum'?0.04:0.35); o=Math.min(o,0.95); if(u.view==='cerebrum') m.material.userData.thOp=o; else m.material.opacity=o; }
     });
   });
   // cerebellum surface by functional zone; see-through when its inner parts are chosen
@@ -4624,7 +4652,7 @@ function updateThinkStations(taken){
 function thFrame(dt){
   if(!thBuilt) return;
   var cv=tView==='cerebrum' && xrayT>0.02; thCer.visible=cv;
-  if(cv) for(var i=0;i<thCerMats.length;i++){ var m=thCerMats[i]; m.opacity=xrayT*(m.userData.thOp!=null?m.userData.thOp:1); m.depthWrite=xrayT>0.95; }
+  if(cv) for(var i=0;i<thCerMats.length;i++){ var m=thCerMats[i]; m.opacity=xrayT*(m.userData.thOp!=null?m.userData.thOp:1); m.depthWrite=xrayT>0.95 && (m.userData.thOp==null || m.userData.thOp>0.5); }
   if(signalsOn) for(var j=0;j<thPaths.length;j++){ var p=thPaths[j]; if(p.visible && p.userData.grp.visible) p.userData.tex.offset.x-=dt*0.8; }
 }
 function xrayTo(on){ xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false'); }
@@ -4633,7 +4661,7 @@ function enterThink(){
   ['cerebrum','neocortex','cerebellum'].forEach(function(t){ app.classList.toggle('tv-'+t,t===tView); });
   setThinkAnchors();
 }
-function leaveThink(){ xrayTo(thXrayBefore); }
+function leaveThink(){ xrayTo(thXrayBefore); R.cerebellum.meshes.forEach(function(m){ m.material.transparent=false; m.material.depthWrite=true; m.material.opacity=1; m.material.needsUpdate=true; }); }
 function thChips(title,ids){
   var tree=$('#pTree'); tree.appendChild(el('h3',null,title));
   var kd=el('div','kids');

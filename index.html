@@ -1346,13 +1346,13 @@ var REGIONS = [
   view:{az:-140,el:22}, at:[-0.1,-0.3,-0.25], zoom:0.95,
   bview:{az:115,el:6}, bat:[-0.05,0,0], bzoom:1},
  {id:'se_intero',kind:'sense',mode:'senses',group:'Senses of the body',name:'Internal Senses (Interoception)',short:'Internal senses',color:'#c5e04a',
-  where:'Sensors in the heart, blood vessels, lungs, gut and bladder',
+  where:'Sensors in organs and blood vessels throughout the body',
   summary:'Interoception is the sense of the body’s inner state: heartbeat, breathing, hunger, fullness, thirst, the need to urinate and more. Sensors in organs and blood vessels send signals, mainly through the vagus nerve and the spinal cord, to the brainstem, hypothalamus and insula.',
   funcs:[],
   damage:'Damage to these nerves, as in diabetic autonomic neuropathy, can blunt warning signals. For example, a heart attack may cause little chest pain, and a person may not sense a full bladder.',
   fact:'About 80 percent of the fibers in the vagus nerve carry signals from the organs to the brain, not commands from the brain to the organs.',
   view:{az:40,el:12}, at:[0,-0.3,0], zoom:0.85,
-  bview:{az:55,el:8}, bat:[0.05,0.95,0], bzoom:0.6}
+  bview:{az:40,el:8}, bat:[0,0.85,0], bzoom:0.72}
 ];
 var PERIPH=['n_cauda','n_spinal','n_cranial','n_vagus','n_phrenic','n_sympathetic','n_enteric','n_intercostal','n_brachial','n_axillary','n_musculo','n_median','n_ulnar','n_radial','n_lumbar','n_sacral','n_obturator','n_femoral','n_sciatic','n_tibial','n_fibular'];
 var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia'],sec_pns:PERIPH,
@@ -3364,9 +3364,10 @@ var SENSE={
    'Chemoreceptors in the carotid bodies and the brainstem sense oxygen, carbon dioxide and acid in the blood.',
    'Stretch receptors in the lungs, stomach and bladder sense how full they are.',
    'Sensors in the gut wall detect nutrients, and hormones from the gut and fat tissue also report on hunger and fullness.',
+   'Sensors in the liver track blood sugar and nutrients, and sensors in the kidneys respond to pressure and chemical changes.',
    'Sensors in and near the hypothalamus monitor blood temperature and salt concentration, which drives thirst.'],
   steps:['Most signals from the heart, lungs and gut travel up the vagus nerve, and some up the glossopharyngeal nerve, to the nucleus of the solitary tract in the medulla.',
-   'Signals from the bladder, the lower gut and pain from organs travel through spinal nerves into the spinal cord.',
+   'Other signals, such as pain from the heart, gut and kidneys, travel with the sympathetic nerves into the thoracic and upper lumbar spinal cord. Signals from the bladder and lower bowel enter the sacral cord.',
    'The brainstem passes the signals to the parabrachial nucleus in the pons, the hypothalamus and the amygdala.',
    'The thalamus relays them to the posterior insula, which maps the body’s inner state.',
    'The anterior insula and the anterior cingulate cortex turn this into feelings and urges, such as hunger, thirst or noticing a racing heart.'],
@@ -3554,7 +3555,7 @@ function buildSenses(){
     intB.push([S(0.75,s*1.0,0.1),S(0.77,s*0.7,-0.3),NTS(s)],[NTS(s),S(0.55,s*0.55,-0.55),PB(s)],[PB(s),S(0.1,s*0.3,0.25),HYP(s)],[PB(s),[s*0.2,-0.2,-0.05],AMY(s)],
       [PB(s),S(0.12,s*0.4,-0.2),[s*0.1,0.06,-0.06],[s*0.35,0.05,-0.03],InsP(s)],[InsP(s),[s*0.565,0.03,0.07],InsA(s)],[InsA(s),[s*0.3,0.25,0.35],ACC(s)]);
   });
-  intB.push([S(1.0,0.2,0.0),S(0.8,0.4,-0.2),PB(1)]);   // spinal route from the bladder joins in
+  intB.push([S(1.0,0.2,0.0),S(0.8,0.4,-0.2),PB(1)],[S(1.0,-0.2,0.0),S(0.8,-0.4,-0.2),PB(-1)]);   // spinal routes from the organs join in
   [['se_touch',touchB],['se_temp',tempB],['se_pain',painB],['se_proprio',propB],['se_intero',intB]].forEach(function(e){ e[1].forEach(function(p){ path(e[0],p,'head',0.008); }); });
   // internal senses arrive from the neck: the vagus nerve (heart, lungs, gut) and the glossopharyngeal nerve from the carotid sinus
   bothSides(function(s){
@@ -3608,14 +3609,36 @@ function buildSenses(){
   path('se_proprio',[[-0.012,0.68,-0.13],[-0.012,0.8,-0.14]].concat(up(-0.018,0.88,1.6,-0.004)).concat([[-0.018,1.63,-0.05]]),'body');
   brainEnd('se_proprio',propB);
   stations('se_proprio','body',[['Joint and muscle sensors in the ankle and foot',foot],['Muscle spindles in the calf',calf],['Tibial and sciatic nerves',[-0.19,-0.6,-0.065]],['Muscle spindles in the thigh',thigh],['Femoral nerve',[-0.15,-0.12,0.08]],['Dorsal root ganglion',[-0.03,0.47,-0.12]],['Dorsal column and spinocerebellar tract',[-0.012,1.0,-0.15]],['Brain: cerebellum, thalamus, cortex',B2([-0.32,-0.42,-0.66])]]);
-  // internal senses: stomach via the vagus nerve, bladder via sacral nerves into the cord
-  var stom=organ('se_intero',sph(1,24,16),mat('#c5e04a',{transparent:true,opacity:0.45,depthWrite:false}),[0.11,0.64,0.12],[0.09,0.07,0.05],'body');
-  var blad=organ('se_intero',sph(1,20,14),mat('#c5e04a',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.0,0.12],[0.06,0.05,0.05],'body');
-  marker('se_intero',[0.12,0.66,0.12],0.016); marker('se_intero',[0,0.03,0.12],0.016);
-  path('se_intero',[[0.12,0.66,0.12],[0.08,0.65,0.08],[0.06,0.85,0.06],[0.05,1.05,0.06],[0.06,1.2,0.05],[0.07,1.38,0.03],[0.07,1.5,0.02],[0.06,1.62,0],[0.03,1.69,-0.03]],'body');
-  path('se_intero',[[0,0.03,0.12],[0.03,0.06,0.03],[0.05,0.12,-0.08],[0.02,0.2,-0.12],[0.012,0.4,-0.12],[0.006,0.6,-0.12]].concat(up(0.004,0.68,1.6,0.004)).concat([[0.004,1.63,-0.04]]),'body');
+  // internal senses: sensors in organs and blood vessels throughout the trunk.
+  // Vagus nerves (heart, aortic arch, lungs, stomach, liver, intestines), glossopharyngeal nerves (carotid sinus),
+  // spinal visceral nerves (heart, kidneys) into the thoracic and lumbar cord, sacral nerves (bladder).
+  var IC='#c5e04a';
+  function viscus(p,sc,op){ return organ('se_intero',sph(1,24,16),mat(IC,{transparent:true,opacity:op||0.35,depthWrite:false}),p,sc,'body'); }
+  var HEART=[0.03,1.07,0.07], AORTA=[0.03,1.25,0.045], STOM=[0.12,0.66,0.12], LIVER=[-0.11,0.8,0.09], GUT=[0,0.36,0.11], BLAD=[0,0.03,0.12];
+  viscus(HEART,[0.06,0.07,0.05],0.45); viscus(STOM,[0.09,0.07,0.05]); viscus(LIVER,[0.13,0.07,0.07]); viscus(GUT,[0.16,0.12,0.05],0.25); viscus(BLAD,[0.06,0.05,0.05],0.45);
+  [1,-1].forEach(function(s){ viscus([s*0.17,1.13,0.0],[0.1,0.17,0.08],0.18); viscus([s*0.11,0.6,-0.085],[0.035,0.055,0.03],0.5); });   // lungs, kidneys
+  [HEART,AORTA,STOM,LIVER,GUT,BLAD,[0.17,1.15,0.04],[-0.17,1.15,0.04],[0.11,0.6,-0.06],[-0.11,0.6,-0.06],[0.07,1.55,0.06],[-0.07,1.55,0.06]].forEach(function(q){ marker('se_intero',q,0.016); });
+  [1,-1].forEach(function(s){
+    // vagus trunk: from the intestines up through the abdomen, chest and neck to the solitary nucleus
+    var top=B2(S(0.75,s*1.0,0.1));
+    path('se_intero',[[s*0.03,0.4,0.11],[s*0.06,0.45,0.09],[s*0.08,0.65,0.08],[s*0.06,0.85,0.06],[s*0.05,1.05,0.06],[s*0.06,1.2,0.05],[s*0.07,1.38,0.03],[s*0.07,1.5,0.02],[s*0.06,1.62,0],top],'body');
+    path('se_intero',[[s*0.17,1.15,0.04],[s*0.12,1.17,0.05],[s*0.065,1.19,0.05]],'body',0.006);           // lung stretch sensors
+    path('se_intero',[[s*0.07,1.55,0.06],[s*0.055,1.61,0.03],[s*0.035,1.66,0.0],B2(S(0.74,s*1.0,0.06))],'body',0.006);   // carotid sinus, glossopharyngeal nerve
+  });
+  path('se_intero',[HEART,[0.045,1.09,0.065],[0.05,1.1,0.06]],'body',0.006);                     // heart, left vagus
+  path('se_intero',[[0.0,1.07,0.075],[-0.04,1.09,0.065],[-0.05,1.1,0.06]],'body',0.006);          // heart, right vagus
+  path('se_intero',[AORTA,[0.05,1.26,0.05],[0.065,1.28,0.045]],'body',0.006);                    // aortic arch baroreceptors
+  path('se_intero',[STOM,[0.1,0.66,0.1],[0.08,0.65,0.08]],'body',0.006);                         // stomach
+  path('se_intero',[LIVER,[-0.08,0.78,0.08],[-0.065,0.72,0.075]],'body',0.006);                  // liver
+  // spinal visceral nerves: heart (upper thoracic) and kidneys (lower thoracic), then cross and rise
+  path('se_intero',[[0.04,1.06,0.05],[0.045,1.1,0.0],[0.045,1.2,cordZ(1.2)+0.05],[0.04,1.26,cordZ(1.26)+0.02],[0.012,1.27,cordZ(1.27)-0.01],[0,1.28,cordZ(1.28)],[-0.01,1.3,cordZ(1.3)+0.004]].concat(up(-0.011,1.38,1.6,0.006)).concat([B2(S(1.0,-0.2,0.0))]),'body',0.006);
+  path('se_intero',[[0.11,0.6,-0.06],[0.07,0.64,-0.1],[0.035,0.72,-0.125],[0.012,0.78,cz(0.78)-0.005],[0,0.8,cz(0.8)],[-0.009,0.82,cz(0.82)+0.004],[-0.011,0.88,cz(0.88)+0.006],[-0.011,1.38,cz(1.38)+0.006]],'body',0.006);
+  path('se_intero',[[-0.11,0.6,-0.06],[-0.07,0.64,-0.1],[-0.035,0.72,-0.125],[-0.012,0.78,cz(0.78)-0.005],[-0.011,0.88,cz(0.88)+0.006]],'body',0.006);
+  // bladder: sacral nerves into the cord, rising on both sides
+  path('se_intero',[BLAD,[0.03,0.06,0.03],[0.05,0.12,-0.08],[0.02,0.2,-0.12],[0.012,0.4,-0.12],[0.006,0.6,-0.12]].concat(up(0.004,0.68,1.6,0.004)).concat([B2(S(1.0,0.2,0.0))]),'body');
   brainEnd('se_intero',intB);
-  stations('se_intero','body',[['Stretch sensors in the stomach',[0.12,0.66,0.12]],['Vagus nerve',[0.06,1.05,0.06]],['Bladder sensors',[0,0.03,0.12]],['Sacral nerves into the cord',[0.02,0.2,-0.12]],['Brainstem, hypothalamus, insula',B2(NTS(1))]]);
+  stations('se_intero','body',[['Heart',HEART],['Aortic arch (blood pressure)',AORTA],['Lungs (stretch)',[0.17,1.15,0.04]],['Carotid sinus',[0.07,1.55,0.06]],['Stomach',STOM],['Liver',LIVER],
+    ['Intestines',GUT],['Kidneys',[0.11,0.6,-0.06]],['Bladder',BLAD],['Vagus nerve',[0.06,0.85,0.06]],['Spinal visceral nerves',[0.045,1.15,0.03]],['Brainstem, hypothalamus, insula',B2(NTS(1))]]);
 
   // label anchors: sense organs in the head view, receptors in the body view; body senses show their brain end in the head view
   seAnch.head={se_vision:[0.4,-0.3,1.22],se_hearing:[0.99,-0.3,-0.06],se_balance:[0.62,-0.33,-0.15],se_smell:[0,-0.5,1.36],se_taste:[0,-0.85,1.12],

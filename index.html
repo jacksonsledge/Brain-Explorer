@@ -1352,7 +1352,7 @@ var REGIONS = [
   damage:'Damage to these nerves, as in diabetic autonomic neuropathy, can blunt warning signals. For example, a heart attack may cause little chest pain, and a person may not sense a full bladder.',
   fact:'About 80 percent of the fibers in the vagus nerve carry signals from the organs to the brain, not commands from the brain to the organs.',
   view:{az:40,el:12}, at:[0,-0.3,0], zoom:0.85,
-  bview:{az:40,el:8}, bat:[0,0.85,0], bzoom:0.72}
+  bview:{az:40,el:8}, bat:[0,0.25,0], bzoom:1}
 ];
 var PERIPH=['n_cauda','n_spinal','n_cranial','n_vagus','n_phrenic','n_sympathetic','n_enteric','n_intercostal','n_brachial','n_axillary','n_musculo','n_median','n_ulnar','n_radial','n_lumbar','n_sacral','n_obturator','n_femoral','n_sciatic','n_tibial','n_fibular'];
 var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia'],sec_pns:PERIPH,
@@ -3365,9 +3365,12 @@ var SENSE={
    'Stretch receptors in the lungs, stomach and bladder sense how full they are.',
    'Sensors in the gut wall detect nutrients, and hormones from the gut and fat tissue also report on hunger and fullness.',
    'Sensors in the liver track blood sugar and nutrients, and sensors in the kidneys respond to pressure and chemical changes.',
+   'Stretch sensors in the heart\u2019s atria sense blood volume, and receptors in the airways and esophagus trigger coughing and swallowing.',
+   'Small nerve endings in muscles sense the chemical changes of exercise, which you feel as effort and fatigue. Similar endings in the skin report warmth, itch and gentle touch as part of the body\u2019s condition.',
    'Sensors in and near the hypothalamus monitor blood temperature and salt concentration, which drives thirst.'],
   steps:['Most signals from the heart, lungs and gut travel up the vagus nerve, and some up the glossopharyngeal nerve, to the nucleus of the solitary tract in the medulla.',
    'Other signals, such as pain from the heart, gut and kidneys, travel with the sympathetic nerves into the thoracic and upper lumbar spinal cord. Signals from the bladder and lower bowel enter the sacral cord.',
+   'Signals from the diaphragm travel in the phrenic nerve to segments C3 to C5. Signals from muscles and skin about the body\u2019s condition enter lamina I of the dorsal horn, cross, and rise in the spinothalamic tract.',
    'The brainstem passes the signals to the parabrachial nucleus in the pons, the hypothalamus and the amygdala.',
    'The thalamus relays them to the posterior insula, which maps the body’s inner state.',
    'The anterior insula and the anterior cingulate cortex turn this into feelings and urges, such as hunger, thirst or noticing a racing heart.'],
@@ -3636,8 +3639,33 @@ function buildSenses(){
   path('se_intero',[[-0.11,0.6,-0.06],[-0.07,0.64,-0.1],[-0.035,0.72,-0.125],[-0.012,0.78,cz(0.78)-0.005],[-0.011,0.88,cz(0.88)+0.006]],'body',0.006);
   // bladder: sacral nerves into the cord, rising on both sides
   path('se_intero',[BLAD,[0.03,0.06,0.03],[0.05,0.12,-0.08],[0.02,0.2,-0.12],[0.012,0.4,-0.12],[0.006,0.6,-0.12]].concat(up(0.004,0.68,1.6,0.004)).concat([B2(S(1.0,0.2,0.0))]),'body');
+  // more internal sensors: esophagus, airways, heart atria, diaphragm, pancreas, colon, rectum
+  var tube=function(pts,r){ return organ('se_intero',new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'),40,r,10,false),mat(IC,{transparent:true,opacity:0.3,depthWrite:false}),null,null,'body'); };
+  tube([[0,1.58,0.0],[0,1.4,0.03],[0.005,1.2,0.0],[0.015,1.0,-0.02],[0.04,0.85,0.02],[0.08,0.74,0.08]],0.016);      // esophagus
+  tube([[0,1.6,0.075],[0,1.45,0.068],[0,1.3,0.06]],0.013); tube([[0,1.3,0.06],[0.06,1.25,0.05],[0.12,1.19,0.04]],0.01); tube([[0,1.3,0.06],[-0.06,1.25,0.05],[-0.12,1.19,0.04]],0.01);   // trachea and bronchi
+  var dia=viscus([0,0.92,0.0],[0.3,0.05,0.2],0.15);                                                                                     // diaphragm
+  var pan=viscus([0.03,0.7,0.0],[0.11,0.022,0.03],0.45);                                                                               // pancreas
+  viscus([0,0.09,-0.07],[0.03,0.05,0.03],0.45);                                                                                         // rectum
+  var ESO=[0.01,1.1,-0.01], AIR=[0,1.45,0.068], ATR=[0.03,1.12,0.06], DIA=[0.14,0.9,0.07], PAN=[0.04,0.7,-0.02], COL=[0.21,0.35,0.07], REC=[0,0.09,-0.05];
+  [ESO,AIR,ATR,DIA,PAN,COL,REC].forEach(function(q){ marker('se_intero',q,0.014); });
+  path('se_intero',[ESO,[-0.03,1.1,0.03],[-0.052,1.1,0.058]],'body',0.005);                                       // esophagus to the vagus
+  path('se_intero',[AIR,[0.04,1.46,0.04],[0.07,1.47,0.022]],'body',0.005);                                         // airway receptors to the vagus
+  path('se_intero',[ATR,[0.045,1.12,0.058],[0.054,1.12,0.056]],'body',0.005);                                      // atria: blood volume
+  path('se_intero',[DIA,[0.13,1.0,0.08],[0.11,1.25,0.06],[0.08,1.42,0],[0.04,1.52,-0.07],[0.015,1.53,cordZ(1.53)-0.005],[0.004,1.535,cordZ(1.535)+0.004]],'body',0.005);   // phrenic nerve to C3-C5
+  path('se_intero',[PAN,[0.045,0.8,-0.06],[0.045,0.95,cordZ(0.95)+0.05],[0.04,1.05,cordZ(1.05)+0.03],[0.012,1.06,cordZ(1.06)-0.005],[0,1.07,cordZ(1.07)],[-0.011,1.09,cordZ(1.09)+0.006]],'body',0.005);   // pancreas, spinal
+  path('se_intero',[COL,[0.12,0.5,-0.06],[0.06,0.62,-0.1],[0.035,0.72,-0.125]],'body',0.005);                     // descending colon, lumbar
+  path('se_intero',[REC,[0.03,0.12,-0.1],[0.02,0.2,-0.12]],'body',0.005);                                           // rectum, sacral
+  // muscle (and skin) interoceptors in the limbs: lamina I, then the crossed spinothalamic route to the insula
+  var ARM=[0.6,0.32,0.05], ARM2=[-0.625,0.33,0], CALF=[0.205,-1.3,-0.06], CALF2=[-0.205,-1.3,-0.06];
+  [ARM,ARM2,CALF,CALF2].forEach(function(q){ marker('se_intero',q,0.016); });
+  path('se_intero',[ARM,[0.545,0.64,0.045],[0.47,0.97,0.04],[0.38,1.24,0.01],[0.22,1.33,-0.02],[0.085,1.39,-0.065],[0.045,1.402,-0.085],[0.012,1.41,-0.095],[0,1.415,cordZ(1.415)],[-0.011,1.42,cordZ(1.42)+0.006]],'body',0.005);
+  path('se_intero',[ARM2,[-0.585,0.66,0.02],[-0.55,0.84,-0.045],[-0.48,1.03,-0.06],[-0.39,1.23,-0.02],[-0.22,1.33,-0.02],[-0.085,1.43,-0.06],[-0.045,1.438,-0.078],[-0.01,1.442,-0.09],[0,1.448,cordZ(1.448)],[0.004,1.455,cordZ(1.455)+0.004]],'body',0.005);
+  [1,-1].forEach(function(s){ var c=s>0?CALF:CALF2;
+    path('se_intero',[c,[s*0.2,-1.05,-0.055],[s*0.2,-0.86,-0.05],[s*0.19,-0.6,-0.065],[s*0.18,-0.25,-0.09],[s*0.12,-0.03,-0.13],[s*0.06,0.12,-0.13],[s*0.02,0.24,-0.12],[s*0.015,0.4,-0.12],[s*0.008,0.62,-0.122],[0,0.64,-0.118]]
+      .concat(s>0?[[-0.01,0.66,cz(0.66)+0.005]].concat(up(-0.011,0.72,0.88,0.006)):[[0.004,0.68,cz(0.68)+0.004]]),'body',0.005); });
   brainEnd('se_intero',intB);
-  stations('se_intero','body',[['Heart',HEART],['Aortic arch (blood pressure)',AORTA],['Lungs (stretch)',[0.17,1.15,0.04]],['Carotid sinus',[0.07,1.55,0.06]],['Stomach',STOM],['Liver',LIVER],
+  stations('se_intero','body',[['Esophagus',ESO],['Airways (cough receptors)',AIR],['Heart atria (blood volume)',ATR],['Diaphragm',DIA],['Phrenic nerve (C3–C5)',[0.11,1.25,0.06]],['Pancreas',PAN],['Colon',COL],['Rectum',REC],
+    ['Muscles: exercise and effort',ARM],['Muscles in the legs',CALF],['Lamina I and spinothalamic route',[-0.011,1.2,cordZ(1.2)+0.006]],['Heart',HEART],['Aortic arch (blood pressure)',AORTA],['Lungs (stretch)',[0.17,1.15,0.04]],['Carotid sinus',[0.07,1.55,0.06]],['Stomach',STOM],['Liver',LIVER],
     ['Intestines',GUT],['Kidneys',[0.11,0.6,-0.06]],['Bladder',BLAD],['Vagus nerve',[0.06,0.85,0.06]],['Spinal visceral nerves',[0.045,1.15,0.03]],['Brainstem, hypothalamus, insula',B2(NTS(1))]]);
 
   // label anchors: sense organs in the head view, receptors in the body view; body senses show their brain end in the head view

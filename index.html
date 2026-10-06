@@ -3367,16 +3367,21 @@ var SENSE={
    'Sensors in the liver track blood sugar and nutrients, and sensors in the kidneys respond to pressure and chemical changes.',
    'Stretch sensors in the heart\u2019s atria sense blood volume, and receptors in the airways and esophagus trigger coughing and swallowing.',
    'Small nerve endings in muscles sense the chemical changes of exercise, which you feel as effort and fatigue. Similar endings in the skin report warmth, itch and gentle touch as part of the body\u2019s condition.',
-   'Sensors in and near the hypothalamus monitor blood temperature and salt concentration, which drives thirst.'],
-  steps:['Most signals from the heart, lungs and gut travel up the vagus nerve, and some up the glossopharyngeal nerve, to the nucleus of the solitary tract in the medulla.',
+   'Some internal sensors sit inside the brain itself, in small areas with no blood\u2013brain barrier. The OVLT and subfornical organ sense blood salt and the hormone angiotensin and trigger thirst, and the area postrema detects toxins in the blood and triggers nausea.',
+   'The arcuate nucleus of the hypothalamus reads hunger and fullness hormones, such as ghrelin from the stomach and leptin from fat tissue.',
+   'Temperature-sensing neurons in the hypothalamus monitor the warmth of the blood.'],
+  steps:['Most signals from the heart, lungs and gut travel up the vagus nerve, and some up the glossopharyngeal nerve, to the nucleus of the solitary tract in the medulla. The cell bodies of these sensory neurons sit in the nodose and petrosal ganglia just below the skull.',
    'Other signals, such as pain from the heart, gut and kidneys, travel with the sympathetic nerves into the thoracic and upper lumbar spinal cord. Signals from the bladder and lower bowel enter the sacral cord.',
-   'Signals from the diaphragm travel in the phrenic nerve to segments C3 to C5. Signals from muscles and skin about the body\u2019s condition enter lamina I of the dorsal horn, cross, and rise in the spinothalamic tract.',
+   'Spinal visceral fibers pass through the sympathetic chain without stopping and have their cell bodies in the dorsal root ganglia. Some pain from the pelvic and abdominal organs also rises in a pathway near the middle of the dorsal columns. Signals from the diaphragm travel in the phrenic nerve to segments C3 to C5. Signals from muscles and skin about the body\u2019s condition enter lamina I of the dorsal horn, cross, and rise in the spinothalamic tract.',
    'The brainstem passes the signals to the parabrachial nucleus in the pons, the hypothalamus and the amygdala.',
    'The thalamus relays them to the posterior insula, which maps the body’s inner state.',
    'The anterior insula and the anterior cingulate cortex turn this into feelings and urges, such as hunger, thirst or noticing a racing heart.'],
   proc:['Most internal signals are handled automatically. The brainstem and hypothalamus adjust heart rate, breathing, digestion and hormones without you noticing.',
    'The insula combines inner signals with emotion and context, which helps explain why feelings like anxiety come with body sensations.',
-   'The brain predicts the body’s needs, for example raising your heart rate as you stand up so you do not feel faint.'],
+   'The brain predicts the body’s needs, for example raising your heart rate as you stand up so you do not feel faint.',
+   'Reflex loops close in the brainstem. In the baroreflex, a rise in blood pressure sensed in the carotid sinus and aortic arch makes the solitary nucleus slow the heart through the vagus nerve within a heartbeat or two.',
+   'Bladder-filling signals reach the periaqueductal gray and the pontine micturition center, which coordinates emptying when the time is right.',
+   'In the insula, signals are refined from back to front: the posterior insula maps raw body signals, and the anterior insula links them with emotion and awareness.'],
   impact:['Internal senses drive basic motivations such as eating, drinking, breathing and resting.',
    'People differ in how accurately they can sense their own heartbeat. Differences in interoception are being studied in anxiety, depression and eating disorders.',
    'Slow, deep breathing changes the signals from the lungs and heart and can calm the body’s stress response.']}
@@ -3559,18 +3564,33 @@ function buildSenses(){
       [PB(s),S(0.12,s*0.4,-0.2),[s*0.1,0.06,-0.06],[s*0.35,0.05,-0.03],InsP(s)],[InsP(s),[s*0.565,0.03,0.07],InsA(s)],[InsA(s),[s*0.3,0.25,0.35],ACC(s)]);
   });
   intB.push([S(1.0,0.2,0.0),S(0.8,0.4,-0.2),PB(1)],[S(1.0,-0.2,0.0),S(0.8,-0.4,-0.2),PB(-1)]);   // spinal routes from the organs join in
+  intB.push([S(1.0,0,-0.6),S(0.92,0.08,-0.82),S(0.8,0,-0.3),S(0.6,-0.2,0.05),S(0.35,-0.35,0.0),S(0.15,-0.45,-0.1),VPL(-1),[-0.36,0.06,-0.06],InsP(-1)]);   // midline dorsal column route for pelvic and abdominal organ pain
   [['se_touch',touchB],['se_temp',tempB],['se_pain',painB],['se_proprio',propB],['se_intero',intB]].forEach(function(e){ e[1].forEach(function(p){ path(e[0],p,'head',0.008); }); });
   // internal senses arrive from the neck: the vagus nerve (heart, lungs, gut) and the glossopharyngeal nerve from the carotid sinus
   bothSides(function(s){
     organ('se_intero',sph(0.022,16,12),mat('#c5e04a',{emissive:'#c5e04a',emissiveIntensity:0.5}),[s*0.2,-1.3,0.14]);
     path('se_intero',[[s*0.22,-1.72,0.02],[s*0.22,-1.4,0.03],[s*0.23,-1.05,-0.05],[s*0.24,-0.86,-0.14],S(0.75,s*1.0,0.1)],'head',0.008);
     path('se_intero',[[s*0.2,-1.3,0.14],[s*0.21,-1.15,0.08],[s*0.23,-0.95,-0.04],[s*0.24,-0.83,-0.13],S(0.74,s*1.0,0.06)],'head',0.006);
+    var gm=mat('#eef7c4',{roughness:0.4});
+    organ('se_intero',sph(1,16,12),gm,[s*0.23,-1.05,-0.05],[0.022,0.035,0.022]);   // nodose (inferior vagal) ganglion
+    organ('se_intero',sph(1,16,12),gm,[s*0.23,-0.95,-0.04],[0.016,0.022,0.016]);   // petrosal (inferior glossopharyngeal) ganglion
   });
+  // sensors inside the brain: circumventricular organs sample the blood directly (no blood-brain barrier)
+  var OVLT=[0,-0.17,0.27], SFO=[0,0.18,0.06], MNPO=[0,-0.08,0.24], ARC=[0,-0.11,0.19], AP=S(0.82,0,-0.95), PAG=S(0.1,0,-0.45), PMC=S(0.42,0.25,-0.75);
+  var cvo=mat('#c5e04a',{emissive:'#c5e04a',emissiveIntensity:0.6});
+  [OVLT,SFO,ARC,AP].forEach(function(q){ organ('se_intero',sph(0.018,14,10),cvo,q); });
+  path('se_intero',[OVLT,MNPO,HYP(1)],'head',0.005); path('se_intero',[MNPO,HYP(-1)],'head',0.005);
+  path('se_intero',[SFO,[0,0.06,0.17],MNPO],'head',0.005);
+  path('se_intero',[ARC,[0.04,-0.08,0.2],HYP(1)],'head',0.005);
+  path('se_intero',[AP,S(0.81,0.2,-0.8),NTS(1)],'head',0.005); path('se_intero',[AP,S(0.81,-0.2,-0.8),NTS(-1)],'head',0.005);
+  // bladder signals reach the periaqueductal gray and the pontine micturition center
+  path('se_intero',[S(0.8,0.4,-0.2),S(0.4,0.2,-0.45),PAG],'head',0.006); path('se_intero',[PAG,S(0.3,0.15,-0.65),PMC],'head',0.006);
   stations('se_touch','head',[['From the spinal cord (dorsal column)',S(1.0,0.25,-0.55)],['Cuneate nucleus',S(0.9,0.3,-0.72)],['Crosses over (medial lemniscus)',S(0.8,0,-0.3)],['Thalamus (VPL)',VPL(-1)],['Touch cortex: hand area',S1hand(-1)]]);
   stations('se_temp','head',[['From the spinal cord (already crossed)',S(1.0,0.6,0.1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Thalamus',VPL(1)],['Posterior insula',InsP(1)],['Touch cortex',S1hand(1)]]);
   stations('se_pain','head',[['From the spinal cord (already crossed)',S(1.0,-0.6,0.1)],['Periaqueductal gray',S(0.1,0,-0.45)],['Thalamus',VPL(-1)],['Touch cortex: leg area',S1leg(-1)],['Insula',InsP(-1)],['Anterior cingulate cortex',ACC(-1)]]);
   stations('se_proprio','head',[['Gracile nucleus',S(0.92,-0.12,-0.8)],['Crosses over',S(0.8,0,-0.3)],['Thalamus',VPL(1)],['Touch cortex: leg area',S1leg(1)],['Parietal cortex',SPL(1)],['To the cerebellum (same side)',[-0.32,-0.42,-0.66]]]);
-  stations('se_intero','head',[['Vagus nerve (from the heart, lungs and gut)',[0.22,-1.45,0.03]],['Carotid sinus (blood pressure)',[0.2,-1.3,0.14]],['Into the medulla',S(0.75,1.0,0.1)],['Nucleus of the solitary tract',NTS(1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Amygdala',AMY(1)],['Posterior insula',InsP(1)],['Anterior insula',InsA(1)],['Anterior cingulate cortex',ACC(1)]]);
+  stations('se_intero','head',[['Nodose ganglion (vagus)',[0.23,-1.05,-0.05]],['Petrosal ganglion (IX)',[0.23,-0.95,-0.04]],['OVLT: blood salt, thirst',OVLT],['Subfornical organ: thirst hormone',SFO],['Arcuate nucleus: hunger hormones',ARC],
+    ['Area postrema: toxins, nausea',AP],['Periaqueductal gray',PAG],['Pontine micturition center',PMC],['Dorsal column route (organ pain)',S(0.92,0.08,-0.82)],['Vagus nerve (from the heart, lungs and gut)',[0.22,-1.45,0.03]],['Carotid sinus (blood pressure)',[0.2,-1.3,0.14]],['Into the medulla',S(0.75,1.0,0.1)],['Nucleus of the solitary tract',NTS(1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Amygdala',AMY(1)],['Posterior insula',InsP(1)],['Anterior insula',InsA(1)],['Anterior cingulate cortex',ACC(1)]]);
 
   /* ---- body view: receptors and the full route up the spinal cord into the brain */
   function cz(y){ return y>=0.6?cordZ(y):-0.12; }
@@ -3664,8 +3684,14 @@ function buildSenses(){
   [1,-1].forEach(function(s){ var c=s>0?CALF:CALF2, f=s>0?FOOT:FOOT2;
     path('se_intero',[f,[s*0.2,-1.94,0.09],[s*0.19,-1.86,0.0],[s*0.19,-1.75,-0.035],c,[s*0.2,-1.05,-0.055],[s*0.2,-0.86,-0.05],[s*0.19,-0.6,-0.065],[s*0.18,-0.25,-0.09],[s*0.12,-0.03,-0.13],[s*0.06,0.12,-0.13],[s*0.02,0.24,-0.12],[s*0.015,0.4,-0.12],[s*0.008,0.62,-0.122],[0,0.64,-0.118]]
       .concat(s>0?[[-0.01,0.66,cz(0.66)+0.005]].concat(up(-0.011,0.72,0.88,0.006)):[[0.004,0.68,cz(0.68)+0.004]]),'body',0.005); });
+  // sensory ganglia: nodose (vagus), petrosal (IX), and dorsal root ganglia of the spinal visceral fibers
+  var gmb=mat('#eef7c4',{roughness:0.4}), GN=[0.06,1.62,0];
+  [[0.06,1.62,0],[-0.06,1.62,0],[0.035,1.66,0.0],[-0.035,1.66,0.0],[0.04,1.26,cordZ(1.26)+0.02],[0.04,1.05,cordZ(1.05)+0.03],[0.035,0.72,-0.125],[-0.035,0.72,-0.125]].forEach(function(q,k){
+    organ('se_intero',sph(k<2?0.013:0.009,12,8),gmb,q,null,'body'); });
+  // pelvic and abdominal organ pain also rises near the midline of the dorsal columns
+  path('se_intero',[[0.006,0.6,-0.12],[0.001,0.64,cz(0.64)-0.012]].concat(up(0.0,0.72,1.6,-0.014)).concat([B2(S(1.0,0,-0.6))]),'body',0.005);
   brainEnd('se_intero',intB);
-  stations('se_intero','body',[['Esophagus',ESO],['Airways (cough receptors)',AIR],['Heart atria (blood volume)',ATR],['Diaphragm',DIA],['Phrenic nerve (C3–C5)',[0.11,1.25,0.06]],['Pancreas',PAN],['Colon',COL],['Rectum',REC],
+  stations('se_intero','body',[['Nodose ganglion',GN],['Dorsal root ganglion',[0.04,1.26,cordZ(1.26)+0.02]],['Dorsal column (midline)',[0,1.0,cz(1.0)-0.014]],['Esophagus',ESO],['Airways (cough receptors)',AIR],['Heart atria (blood volume)',ATR],['Diaphragm',DIA],['Phrenic nerve (C3–C5)',[0.11,1.25,0.06]],['Pancreas',PAN],['Colon',COL],['Rectum',REC],
     ['Muscles: exercise and effort',ARM],['Muscles in the legs',CALF],['Hand (skin and muscles)',HAND],['Foot (skin and muscles)',FOOT2],['Lamina I and spinothalamic route',[-0.011,1.2,cordZ(1.2)+0.006]],['Heart',HEART],['Aortic arch (blood pressure)',AORTA],['Lungs (stretch)',[0.17,1.15,0.04]],['Carotid sinus',[0.07,1.55,0.06]],['Stomach',STOM],['Liver',LIVER],
     ['Intestines',GUT],['Kidneys',[0.11,0.6,-0.06]],['Bladder',BLAD],['Vagus nerve',[0.06,0.85,0.06]],['Spinal visceral nerves',[0.045,1.15,0.03]],['Brainstem, hypothalamus, insula',B2(NTS(1))]]);
 

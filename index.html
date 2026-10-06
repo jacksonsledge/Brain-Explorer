@@ -130,6 +130,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .nomatch{display:none!important}
 .senses-only{display:none!important}
 .mode-senses .sv.senses-only{display:inline-flex!important}
+.think-only{display:none!important}
+.mode-think .sv.think-only{display:inline-flex!important}
+.mode-think.tv-cerebrum #bXray{display:flex!important}
+#pTree .facts{margin:12px 0 4px}
 .label.stn{pointer-events:none!important;font-size:10.5px;font-weight:600;padding:2px 8px 2px 6px;box-shadow:0 1px 5px rgba(0,0,0,.18)}
 .label.stn .dot{width:6px;height:6px}
 .scroll ol.steps{margin:0;padding:0;list-style:none;counter-reset:st}
@@ -322,9 +326,11 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <button class="mode" id="mSections" role="tab" aria-selected="false">Sections</button>
       <button class="mode" id="mDiseases" role="tab" aria-selected="false">Diseases</button>
       <button class="mode" id="mSenses" role="tab" aria-selected="false"><span class="tl">Senses of the mind</span><span class="ts">Senses</span></button>
+      <button class="mode" id="mThink" role="tab" aria-selected="false"><span class="tl">Thinking organs of the mind</span><span class="ts">Thinking</span></button>
     </div>
       <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true"><span class="tl">Cross-section</span><span class="ts">Cross</span></button><button id="svWhole" role="tab" aria-selected="false"><span class="tl">Whole cord</span><span class="ts">Whole</span></button></div>
       <div class="sv senses-only" role="tablist" aria-label="Senses view"><button id="seHead" class="on" role="tab" aria-selected="true">Head</button><button id="seBody" role="tab" aria-selected="false">Body</button></div>
+      <div class="sv think-only" role="tablist" aria-label="Thinking organ"><button id="tvCer" class="on" role="tab" aria-selected="true">Cerebrum</button><button id="tvNeo" role="tab" aria-selected="false">Neocortex</button><button id="tvCb" role="tab" aria-selected="false">Cerebellum</button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -407,6 +413,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#129460;</span><span>Open Spinal cord for a close-up of the cord’s inside, its pathways and its levels.</span></li>
         <li><span class="ic">&#129516;</span><span>Open Diseases to watch how Alzheimer’s, Parkinson’s and migraine affect the brain and nerves.</span></li>
         <li><span class="ic">&#128066;</span><span>Open Senses of the mind to see how each sense is detected, how its signals reach the brain, and how the brain makes sense of them.</span></li>
+        <li><span class="ic">&#128161;</span><span>Open Thinking organs of the mind to look closely at the cerebrum, the six layers of the neocortex and the cerebellum, and see how they work.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
       </ul>
       <div class="facts">
@@ -1352,7 +1359,275 @@ var REGIONS = [
   damage:'Damage to these nerves, as in diabetic autonomic neuropathy, can blunt warning signals. For example, a heart attack may cause little chest pain, and a person may not sense a full bladder.',
   fact:'About 80 percent of the fibers in the vagus nerve carry signals from the organs to the brain, not commands from the brain to the organs.',
   view:{az:40,el:12}, at:[0,-0.3,0], zoom:0.85,
-  bview:{az:40,el:8}, bat:[0,0.25,0], bzoom:1}
+  bview:{az:40,el:8}, bat:[0,0.25,0], bzoom:1},
+ {id:'th_cerebrum',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum',name:'The Cerebrum',short:'Cerebrum',color:'#7aa5ff',
+  where:'The large, folded upper part of the brain, filling most of the skull',
+  summary:'The cerebrum is the largest part of the brain, about 85 percent of its weight. Its wrinkled outer layer, the cerebral cortex, is where you think, plan, speak, see, feel and remember. Beneath it lie white-matter cables and deep clusters of nerve cells that link everything together.',
+  funcs:['Conscious thought, reasoning and decisions','Language, reading and writing','Voluntary movement','Making sense of sight, sound, touch, taste and smell','Learning, memory and emotion'],
+  damage:'Damage to the cerebrum, from a stroke, injury or disease, causes problems that depend on where it happens. It can affect movement or feeling on one side of the body, speech, vision, memory, personality or judgment.',
+  fact:'If the cerebral cortex were spread out flat, it would cover about 2,000 to 2,500 square centimeters, roughly a 50 cm (20 inch) square. Folding lets it fit inside the skull, and about two thirds of it is hidden in the grooves.',
+  view:{az:30,el:15}, zoom:1},
+ {id:'th_hemispheres',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum',name:'Left and Right Hemispheres',short:'Hemispheres',color:'#ff8fa3',
+  where:'The two halves of the cerebrum, separated by a deep groove down the middle',
+  summary:'The cerebrum is split into two hemispheres. Each one mainly controls and feels the opposite side of the body. They look alike, but some skills lean to one side, and they share information constantly through the corpus callosum.',
+  funcs:['Each hemisphere moves and feels the opposite side of the body','The left side usually leads for language, speech and grammar','The right side usually leads for spatial attention, recognizing faces and reading tone of voice','Both work together on almost every task'],
+  damage:'A stroke in one hemisphere often causes weakness and numbness on the opposite side of the body. Left-sided damage often affects language. Right-sided damage can cause a person to ignore the left side of space (neglect).',
+  fact:'The idea that people are “left-brained” or “right-brained” is a myth. A large brain-scan study found no evidence that some people use one hemisphere more than the other overall.',
+  view:{az:-110,el:52}, zoom:1},
+ {id:'th_frontal',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum: lobes',name:'Frontal Lobe',short:'Frontal lobe',color:'#5b8def',
+  where:'The front of each hemisphere, behind the forehead, up to the central groove',
+  summary:'The frontal lobe is the largest lobe, about a third of the cortex. It is the brain’s planner and doer: it sets goals, makes decisions, controls impulses, produces speech and sends the commands that move your muscles.',
+  funcs:['Planning, judgment and self-control (prefrontal cortex)','Holding information in mind for a few seconds (working memory)','Starting and sequencing movements (premotor and motor cortex)','Producing speech (Broca’s area, usually on the left)','Steering the eyes toward what matters'],
+  damage:'Frontal damage can change personality and behavior, make it hard to plan, start tasks or control impulses, cause weakness on the opposite side of the body, or make speech slow and effortful (Broca’s aphasia).',
+  fact:'The prefrontal cortex is one of the last brain areas to finish maturing. Its connections keep strengthening into the mid-twenties.',
+  view:{az:55,el:20}, zoom:0.95},
+ {id:'th_parietal',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum: lobes',name:'Parietal Lobe',short:'Parietal lobe',color:'#3cc68a',
+  where:'The top and upper back of each hemisphere, behind the central groove',
+  summary:'The parietal lobe feels touch and builds your sense of space. It combines touch, body position, vision and hearing into a map of where your body is and where things are around you, so you can reach, point and find your way.',
+  funcs:['Feeling touch, pain, temperature and body position (sensory cortex)','Knowing where things are in space','Guiding the hands and eyes when you reach for something','Directing attention','Numbers, calculation and reading (especially the left angular gyrus)'],
+  damage:'Damage on the right can cause neglect, where a person ignores the left half of their world. Damage on the left can cause trouble with writing, calculation, finger naming and telling left from right (Gerstmann syndrome).',
+  fact:'People with neglect may eat only the food on the right side of their plate, then finish the rest once the plate is turned around.',
+  view:{az:-25,el:45}, zoom:0.95},
+ {id:'th_temporal',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum: lobes',name:'Temporal Lobe',short:'Temporal lobe',color:'#f2994a',
+  where:'The lower side of each hemisphere, beside the ears',
+  summary:'The temporal lobe handles hearing, understanding language, recognizing what you see, and storing new memories. Its inner part holds the hippocampus and amygdala, which link memory with emotion.',
+  funcs:['Hearing and recognizing sounds (auditory cortex)','Understanding spoken and written words (Wernicke’s area, usually on the left)','Recognizing faces, objects and places (lower temporal lobe)','Forming new long-term memories (hippocampus)','Knowledge of facts and the meaning of words'],
+  damage:'Damage can cause trouble understanding speech (Wernicke’s aphasia), difficulty forming new memories, or an inability to recognize faces (prosopagnosia). The temporal lobe is also a common starting point for seizures.',
+  fact:'The fusiform gyrus on the underside of the temporal lobe has an area that responds strongly to faces, which helps you recognize a friend in a split second.',
+  view:{az:10,el:0}, zoom:0.95},
+ {id:'th_occipital',kind:'think',mode:'think',tv:'cerebrum',group:'Cerebrum: lobes',name:'Occipital Lobe',short:'Occipital lobe',color:'#b16cf0',
+  where:'The back of each hemisphere, above the cerebellum',
+  summary:'The occipital lobe is the brain’s vision center. It receives signals from the eyes and builds them into edges, shapes, colors and motion, then sends the results forward to the temporal and parietal lobes.',
+  funcs:['Primary visual cortex (V1) maps everything you see','Separate areas handle color (V4) and motion (V5)','A lower “what” stream to the temporal lobe recognizes objects','An upper “where and how” stream to the parietal lobe guides movement'],
+  damage:'Damage to one occipital lobe removes the opposite half of vision in both eyes. Rare damage to specific areas can remove color vision (achromatopsia) or the ability to see motion (akinetopsia).',
+  fact:'Some people blinded by damage to V1 can still point toward objects they say they cannot see, a phenomenon called blindsight.',
+  view:{az:-75,el:15}, zoom:0.95},
+ {id:'th_insula',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Insula',short:'Insula',color:'#ffcf4d',badge:'Hidden inside the side groove, shown in X-ray view',
+  where:'A hidden lobe deep inside the side groove (lateral sulcus) of each hemisphere',
+  summary:'The insula is a lobe of cortex folded out of sight beneath the frontal, parietal and temporal lobes. It reads the body’s inner state, such as heartbeat, breathing, hunger and pain, and turns it into feelings and awareness.',
+  funcs:['Taste (primary taste cortex)','Sensing the body’s inner state (interoception)','Feelings such as disgust, craving and empathy','Awareness of your own body and emotions'],
+  damage:'Damage can change taste, blunt awareness of body signals, and alter emotional reactions. Damage to the insula has been linked to people suddenly losing the urge to smoke.',
+  fact:'In a study of smokers who had strokes, those with insula damage were far more likely to quit easily, without cravings.',
+  view:{az:10,el:5}, at:[0.3,0,0.05], zoom:0.8},
+ {id:'th_limbic',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Limbic Lobe and System',short:'Limbic system',color:'#ff6f91',badge:'Inner parts, shown in X-ray view',
+  where:'A ring of structures on the inner edge of each hemisphere, around the brainstem',
+  summary:'The limbic system links memory, emotion and motivation. It includes the cingulate gyrus, the hippocampus, which stores new memories, and the amygdala, which detects threats and gives memories their emotional weight.',
+  funcs:['Forming new memories of events and facts (hippocampus)','Recognizing danger and triggering fear (amygdala)','Linking emotions with memories','Motivation, attention and noticing errors (cingulate gyrus)','Finding your way with mental maps (hippocampus)'],
+  damage:'Damage to both hippocampi causes severe difficulty forming new memories. Damage to the amygdala reduces fear and the ability to read fear in other people’s faces.',
+  fact:'In 1953 a patient known as H.M. had both hippocampi removed to stop seizures. He could no longer form new long-term memories, yet he could still learn new motor skills, which showed that different memory systems use different brain parts.',
+  view:{az:15,el:15}, at:[0.15,0.1,0], zoom:0.85},
+ {id:'th_basal',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Basal Ganglia',short:'Basal ganglia',color:'#9b8cff',badge:'Deep inside the cerebrum, shown in X-ray view',
+  where:'Clusters of nerve cells deep in each hemisphere, beside the thalamus',
+  summary:'The basal ganglia are deep clusters of nerve cells, mainly the caudate, putamen and globus pallidus. They work like a selection system, letting wanted movements and thoughts go ahead while holding back unwanted ones.',
+  funcs:['Starting and smoothing voluntary movement','Holding back unwanted movements','Learning habits and routines','Reward, motivation and choosing between options'],
+  damage:'Losing dopamine signals to the basal ganglia causes Parkinson’s disease, with slowness, stiffness and tremor. Damage to the caudate in Huntington’s disease causes unwanted, dance-like movements.',
+  fact:'Habits you no longer think about, such as tying your shoes, rely heavily on the basal ganglia, which frees the cortex to think about other things.',
+  view:{az:35,el:25}, at:[0.15,0.1,0.05], zoom:0.8},
+ {id:'th_association',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: white matter',name:'Association Fibers',short:'Association fibers',color:'#2ec4b6',badge:'White matter, shown in X-ray view',
+  where:'White-matter cables inside each hemisphere, linking one area of cortex to another',
+  summary:'Association fibers are bundles of nerve fibers that connect different areas within the same hemisphere. They let the language areas, memory areas and attention areas share information and work as networks.',
+  funcs:['Linking the language areas (arcuate fasciculus)','Connecting the frontal and parietal lobes for attention and movement (superior longitudinal fasciculus)','Linking the frontal lobe to the temporal lobe for emotion and memory (uncinate fasciculus)','Carrying visual information forward for recognition (inferior longitudinal fasciculus)'],
+  damage:'Damage to the arcuate fasciculus can cause conduction aphasia: a person understands and speaks fairly well but has great trouble repeating what they hear.',
+  fact:'All the white-matter fibers in an adult brain laid end to end would stretch an estimated 150,000 to 180,000 kilometers, enough to circle the Earth about four times.',
+  view:{az:10,el:12}, at:[0.2,0.05,0], zoom:0.85},
+ {id:'th_commissural',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: white matter',name:'Commissural Fibers',short:'Commissural fibers',color:'#f2c14e',badge:'White matter, shown in X-ray view',
+  where:'Fibers crossing the midline, mainly through the corpus callosum',
+  summary:'Commissural fibers link the left and right hemispheres. The corpus callosum is by far the largest, with about 200 million fibers. The smaller anterior commissure links parts of the temporal lobes.',
+  funcs:['Sharing information between the two hemispheres','Coordinating the two hands','Joining the left and right halves of what you see','Letting the language side name things felt by the left hand'],
+  damage:'If the corpus callosum is cut, as was once done to treat severe epilepsy, the hemispheres work more separately. A person may be unable to name an object held only in the left hand.',
+  fact:'Roger Sperry won a Nobel Prize in 1981 partly for “split-brain” studies, which showed what each hemisphere can do on its own.',
+  view:{az:90,el:45}, at:[0,0.25,0], zoom:0.85},
+ {id:'th_projection',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: white matter',name:'Projection Fibers',short:'Projection fibers',color:'#ff9f1c',badge:'White matter, shown in X-ray view',
+  where:'Fibers fanning from the cortex down through the internal capsule to the brainstem',
+  summary:'Projection fibers connect the cortex with the rest of the nervous system. They fan out under the cortex (the corona radiata), funnel through a narrow band called the internal capsule, and continue down into the brainstem and spinal cord.',
+  funcs:['Carrying movement commands down to the brainstem and spinal cord','Bringing sensory signals up from the thalamus','Linking the cortex with the basal ganglia','Two-way loops between the cortex and the thalamus'],
+  damage:'Because so many fibers pass through the small internal capsule, even a tiny stroke there can weaken the whole opposite side of the body.',
+  fact:'Each corticospinal tract, which carries commands for skilled movement, holds about a million nerve fibers.',
+  view:{az:80,el:15}, at:[0,0.1,0], zoom:0.85},
+ {id:'th_ventricles',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Ventricles',short:'Ventricles',color:'#5aa9e6',badge:'Fluid spaces, shown in X-ray view',
+  where:'Connected fluid-filled spaces inside the brain',
+  summary:'The ventricles are four connected spaces filled with cerebrospinal fluid. The two large lateral ventricles curve through the hemispheres. The fluid cushions the brain, keeps it buoyant and helps clear away waste.',
+  funcs:['Making cerebrospinal fluid (in the choroid plexus)','Cushioning the brain against bumps','Making the brain float, so it presses far less on its base','Carrying away waste and chemical signals'],
+  damage:'If the fluid cannot drain, the ventricles swell and press on the brain, a condition called hydrocephalus. It is often treated with a thin tube (shunt) that drains the extra fluid.',
+  fact:'The brain makes about half a liter of cerebrospinal fluid a day, but only about 150 milliliters is present at a time, so it is replaced several times daily.',
+  view:{az:30,el:25}, at:[0,0,-0.05], zoom:0.85},
+
+ {id:'th_neocortex',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex',name:'The Neocortex',short:'Neocortex',color:'#4cc9f0',
+  where:'The six-layered outer sheet covering most of the cerebrum, 2 to 4 mm thick',
+  summary:'The neocortex makes up about 90 percent of the cerebral cortex. Everywhere it has the same basic plan: six layers of nerve cells, wired into vertical columns. This model shows a tiny block of it, about 2.5 mm deep, greatly enlarged.',
+  funcs:['Perception: building sights, sounds and touch into meaning','Thought, language and planning','Voluntary movement','Learning by strengthening and adjusting connections'],
+  damage:'Problems in how the neocortex forms or is wired can cause epilepsy, learning difficulties and other conditions. Damage in adulthood, as in a stroke or dementia, removes the abilities of the area affected.',
+  fact:'The name means “new cortex,” a historical label. It is also called the isocortex, meaning “same cortex,” because it has the same six-layer plan almost everywhere.',
+  view:{az:35,el:14}, zoom:1},
+ {id:'th_l1',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer I: Molecular Layer',short:'Layer I',color:'#c5f6fa',
+  where:'The outermost layer, just under the pia mater',
+  summary:'Layer I has very few nerve cells. It is a dense mat of dendrite tips reaching up from pyramidal cells below, and of axons arriving from other areas and from the thalamus. Here signals from many sources meet and adjust activity in the layers below.',
+  funcs:['Where the top branches (tufts) of pyramidal cells receive input','Receives feedback from higher brain areas','Adjusts how strongly cells below respond'],
+  damage:'Problems in the outer layers during development, for example when nerve cells overshoot their place, are linked to some forms of cortical malformation and epilepsy.',
+  fact:'Signals arriving at the very top of a pyramidal cell in layer I can combine with signals at its base to make the cell fire a powerful burst.',
+  view:{az:35,el:30}, at:[0,0.82,0], zoom:0.6},
+ {id:'th_l2',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer II: External Granular Layer',short:'Layer II',color:'#99e9f2',
+  where:'The second layer from the surface',
+  summary:'Layer II is packed with small pyramidal cells and some small round (granule) cells. Together with layer III, it links one area of cortex to other areas nearby.',
+  funcs:['Communication between nearby cortical areas','Combining information within the column','Learning new associations'],
+  damage:'Some of the earliest changes of Alzheimer’s disease appear in layer II of the entorhinal cortex, a memory gateway in the temporal lobe.',
+  fact:'Layers II and III are often studied together and called “layer 2/3,” because their cells and connections are so similar.',
+  view:{az:35,el:22}, at:[0,0.67,0], zoom:0.6},
+ {id:'th_l3',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer III: External Pyramidal Layer',short:'Layer III',color:'#66d9e8',
+  where:'A thick layer in the upper half of the cortex',
+  summary:'Layer III holds medium-sized pyramidal cells whose axons travel to other parts of the cortex, including across the corpus callosum to the other hemisphere. It is the main “talking to other areas” layer.',
+  funcs:['Connections to other cortical areas in the same hemisphere','Connections to the other hemisphere through the corpus callosum','Passing processed signals down to layer V'],
+  damage:'Layer III is especially thick in association areas that combine information. Thinning of these upper layers has been reported in several psychiatric and neurological conditions.',
+  fact:'Pyramidal cells in layer III can each receive thousands of connections on tiny dendrite bumps called spines.',
+  view:{az:35,el:16}, at:[0,0.4,0], zoom:0.65},
+ {id:'th_l4',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer IV: Internal Granular Layer',short:'Layer IV',color:'#ffd43b',
+  where:'The middle layer of the cortex',
+  summary:'Layer IV is the main input layer. Signals from the thalamus arrive here, mostly onto small spiny stellate cells, which pass them up and down within the column.',
+  funcs:['Receives sensory signals relayed by the thalamus','Spiny stellate cells spread the signal within the column','Thick in sensory areas, very thin in the motor cortex'],
+  damage:'Damage to the thalamic fibers that end here cuts the cortex off from the senses for that area, even if the cortex itself is healthy.',
+  fact:'In the primary visual cortex, layer IV is so rich in incoming fibers that it forms a white stripe you can see without a microscope, called the stria of Gennari.',
+  view:{az:35,el:12}, at:[0,0.12,0], zoom:0.6},
+ {id:'th_l5',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer V: Internal Pyramidal Layer',short:'Layer V',color:'#ffa94d',
+  where:'A thick layer in the lower half of the cortex',
+  summary:'Layer V holds the largest pyramidal cells. It is the main output layer, sending commands out of the cortex to the basal ganglia, brainstem and spinal cord.',
+  funcs:['Main output to the basal ganglia, brainstem and spinal cord','Betz cells in the motor cortex send commands for movement','Large cells combine input from every layer'],
+  damage:'Loss of the large layer V cells of the motor cortex is a key feature of amyotrophic lateral sclerosis (ALS), causing weakness and stiffness.',
+  fact:'Betz cells, giant pyramidal cells in layer V of the motor cortex, have cell bodies up to about 0.1 mm across, among the largest in the brain.',
+  view:{az:35,el:10}, at:[0,-0.15,0], zoom:0.65},
+ {id:'th_l6',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'Layer VI: Multiform Layer',short:'Layer VI',color:'#f783ac',
+  where:'The deepest layer, just above the white matter',
+  summary:'Layer VI contains cells of many shapes. Its pyramidal cells send signals back to the thalamus, adjusting what information the thalamus sends up to the cortex.',
+  funcs:['Feedback to the thalamus','Tuning how strongly sensory signals are passed on','Linking the cortex with the white matter below'],
+  damage:'Problems in the loop between layer VI and the thalamus have been linked to certain seizures, such as absence seizures.',
+  fact:'There are many more fibers running from the cortex back down to the thalamus than up from the thalamus to the cortex.',
+  view:{az:35,el:8}, at:[0,-0.52,0], zoom:0.6},
+ {id:'th_wm',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: six layers',name:'White Matter',short:'White matter',color:'#adb5bd',
+  where:'Below layer VI, under the gray matter of the cortex',
+  summary:'Under the six layers lies white matter: millions of axons wrapped in myelin, a fatty insulation that makes signals travel much faster. These cables carry signals to and from the cortex.',
+  funcs:['Fast signal highways between brain areas','Myelin is made by cells called oligodendrocytes','Connects the cortex with the thalamus, basal ganglia, brainstem and spinal cord'],
+  damage:'Multiple sclerosis damages myelin, slowing or blocking signals. Depending on where the damage is, it can affect vision, feeling, strength, balance or thinking.',
+  fact:'Myelin can make a signal travel up to about 100 times faster, more than 100 meters per second in the largest fibers.',
+  view:{az:35,el:5}, at:[0,-0.9,0], zoom:0.65},
+ {id:'th_pyramidal',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: cells and circuits',name:'Pyramidal Neurons',short:'Pyramidal cells',color:'#4c6ef5',
+  where:'In layers II, III, V and VI',
+  summary:'Pyramidal neurons are the main cells of the neocortex, with a cone-shaped cell body. A long apical dendrite climbs toward the surface and shorter basal dendrites spread around the base. Their axons carry the cortex’s output.',
+  funcs:['Excite other cells using the chemical glutamate','Collect thousands of inputs on dendritic spines','Send the cortex’s output to other areas, the thalamus, the basal ganglia and the spinal cord','Strengthen or weaken connections as you learn'],
+  damage:'When pyramidal cells are too easily excited, or the inhibition holding them in check fails, groups of them can fire together in a seizure.',
+  fact:'A single large pyramidal cell can receive 10,000 or more connections from other neurons.',
+  view:{az:35,el:14}, at:[0,0,0], zoom:0.8},
+ {id:'th_stellate',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: cells and circuits',name:'Spiny Stellate Cells',short:'Stellate cells',color:'#f59f00',
+  where:'Mainly in layer IV of sensory cortex',
+  summary:'Spiny stellate cells are small, star-shaped excitatory neurons. They are the first cortical cells to receive many of the signals from the thalamus, and they pass them on within the same column.',
+  funcs:['Receive sensory input from the thalamus','Spread the signal up to layers II and III','Help each column respond to one kind of feature, such as an edge at a certain angle'],
+  damage:'If thalamic input is lost early in life, for example if one eye is covered for a long time, the connections to layer IV cells are rewired, which is why childhood lazy eye needs early treatment.',
+  fact:'David Hubel and Torsten Wiesel won a Nobel Prize in 1981 for showing that cells in the visual cortex respond to edges at particular angles.',
+  view:{az:35,el:12}, at:[0,0.12,0], zoom:0.65},
+ {id:'th_inter',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: cells and circuits',name:'Inhibitory Interneurons',short:'Interneurons',color:'#e64980',
+  where:'Scattered through all six layers',
+  summary:'About 20 percent of neocortex neurons are inhibitory interneurons. They release GABA, which quiets other cells. Like brakes and timers, they keep activity balanced and help groups of cells fire in rhythm.',
+  funcs:['Basket cells wrap around pyramidal cell bodies to control when they fire','Chandelier cells control the start of the axon','Martinotti cells send axons up to layer I to quiet dendrites','Create brain rhythms that help coordinate areas'],
+  damage:'When inhibition is too weak, activity can spread out of control, causing seizures. Changes in interneurons are also studied in schizophrenia and autism.',
+  fact:'Some interneurons can fire hundreds of times per second, helping to produce fast brain rhythms called gamma waves.',
+  view:{az:35,el:14}, at:[0,0,0], zoom:0.8},
+ {id:'th_column',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: cells and circuits',name:'Cortical Columns',short:'Column',color:'#94d82d',
+  where:'Vertical units running through all six layers',
+  summary:'The neocortex is organized into vertical columns. Cells stacked through the six layers above one spot tend to respond to the same thing, such as touch on one fingertip. The smallest units, minicolumns, hold about 80 to 120 neurons.',
+  funcs:['Group cells that process the same feature','Repeat the same circuit across the whole cortex','Let neighboring columns compare and sharpen signals'],
+  damage:'Changes in the size and spacing of minicolumns have been reported in some brain conditions, though their meaning is still being studied.',
+  fact:'Vernon Mountcastle discovered cortical columns in the touch cortex in 1957. They are a repeated pattern: the same basic circuit is used again and again.',
+  view:{az:35,el:18}, at:[0,0.05,0], zoom:0.85},
+ {id:'th_circuit',kind:'think',mode:'think',tv:'neocortex',group:'Neocortex: cells and circuits',name:'The Six-Layer Circuit',short:'Signal flow',color:'#12b886',
+  where:'Connections running up and down through the layers',
+  summary:'Signals follow a typical route through the layers. Input from the thalamus reaches layer IV, rises to layers II and III, which talk to other areas, then descends to layer V, which sends output. Layer VI sends feedback to the thalamus.',
+  funcs:['Thalamus to layer IV: sensory input arrives','Layer IV to layers II and III: the signal is processed and shared with other areas','Layers II and III to layer V: the signal is turned into output','Layer V to the brainstem and spinal cord; layer VI back to the thalamus'],
+  damage:'Damage at any step disrupts the circuit. In a stroke, nerve cells in the affected area stop working within minutes because they need a constant supply of oxygen.',
+  fact:'A signal can pass through all the layers of a column in a few hundredths of a second.',
+  view:{az:35,el:12}, at:[0,-0.1,0], zoom:0.95},
+
+ {id:'th_cerebellum',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum',name:'The Cerebellum',short:'Cerebellum',color:'#27bfcc',
+  where:'At the back of the head, below the cerebrum and behind the brainstem',
+  summary:'The cerebellum, or “little brain,” makes up only about 10 percent of the brain’s volume but holds about 80 percent of its nerve cells. It fine-tunes movement, balance and posture, and it also helps with timing, learning skills and some kinds of thinking.',
+  funcs:['Coordinating smooth, accurate movement','Balance, posture and eye movements','Learning and fine-tuning motor skills','Precise timing','Supporting attention, language and planning'],
+  damage:'Damage causes ataxia: clumsy, unsteady movement on the same side of the body as the damage. Signs include a wide, staggering walk, shaking when reaching for a target, slurred speech and jerky eye movements.',
+  fact:'If the cerebellar cortex were unfolded, its surface would be about 80 percent as large as the whole neocortex.',
+  view:{az:-72,el:24}, zoom:1},
+ {id:'th_cb_vermis',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Vermis',short:'Vermis',color:'#ffb347',
+  where:'The narrow middle strip joining the two cerebellar hemispheres',
+  summary:'The vermis, Latin for “worm,” is the middle strip of the cerebellum. It controls the muscles of the trunk and posture, keeps you upright, and helps steer the eyes.',
+  funcs:['Posture and balance of the trunk','Walking and standing steadily','Eye movements','Sends output through the fastigial nucleus'],
+  damage:'Damage to the vermis causes truncal ataxia: unsteady sitting and standing and a wide-based, staggering walk, while the arms may work fairly well.',
+  fact:'Long-term heavy alcohol use often damages the front of the vermis, which is why it can cause a lasting unsteady walk.',
+  view:{az:-90,el:35}, zoom:0.85},
+ {id:'th_cb_para',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Paravermis (Intermediate Zone)',short:'Paravermis',color:'#8bd450',
+  where:'A strip on each side of the vermis',
+  summary:'The paravermis compares the movement you intended with signals from the spinal cord about the movement actually happening, and corrects the arms and legs while they move.',
+  funcs:['Correcting limb movements as they happen','Receives position signals from the spinal cord','Sends output through the interposed nuclei (emboliform and globose)'],
+  damage:'Damage makes limb movements overshoot or undershoot (dysmetria) and causes a tremor that worsens near the target (intention tremor).',
+  fact:'The finger-to-nose test, where you touch your nose and then a doctor’s finger, checks how well this part of the cerebellum is working.',
+  view:{az:-75,el:40}, zoom:0.85},
+ {id:'th_cb_lat',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Cerebellar Hemispheres (Lateral Zone)',short:'Hemispheres',color:'#a78bfa',
+  where:'The large outer parts on the left and right',
+  summary:'The large lateral hemispheres work closely with the cerebral cortex. They help plan and time skilled movement sequences before they start, and take part in language, attention and working memory.',
+  funcs:['Planning and timing skilled movements','Learning sequences, like playing an instrument','Supporting language, attention and planning','Sends output through the dentate nucleus to the thalamus and cortex'],
+  damage:'Damage makes skilled movements slow and broken up and makes rapid alternating movements difficult (dysdiadochokinesia). It can also cause subtle problems with planning, language and mood.',
+  fact:'Each side of the cerebellum works with the opposite side of the cerebrum but controls the same side of the body.',
+  view:{az:-35,el:20}, zoom:0.85},
+ {id:'th_cb_floc',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Flocculonodular Lobe',short:'Flocculonodular lobe',color:'#2ec4b6',
+  where:'On the underside, at the front, next to the brainstem',
+  summary:'The flocculonodular lobe, the flocculus on each side and the nodulus in the middle, works with the inner ear’s balance organs. It keeps your eyes steady when your head moves and helps you balance.',
+  funcs:['Balance, using signals from the inner ear','Keeping your eyes fixed on a target while the head moves','Adapting eye reflexes when they need recalibrating'],
+  damage:'Damage causes unsteadiness, especially when standing or walking, and jerky, flickering eye movements (nystagmus).',
+  fact:'This part of the cerebellum sends signals directly to the balance nuclei of the brainstem without going through the deep nuclei.',
+  view:{az:-20,el:-40}, at:[0,-0.25,0.2], zoom:0.85},
+ {id:'th_cb_nuclei',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Deep Cerebellar Nuclei',short:'Deep nuclei',color:'#ffd23f',badge:'Inside the cerebellum, shown see-through',
+  where:'Clusters of cells buried in the white matter of each side',
+  summary:'Four pairs of deep nuclei, the dentate, emboliform, globose and fastigial, send out almost all of the cerebellum’s output. The cerebellar cortex shapes their activity by inhibiting them.',
+  funcs:['Dentate nucleus: planning and skilled movement, through the thalamus to the cortex','Emboliform and globose (interposed) nuclei: limb movements','Fastigial nucleus: posture, balance and eye movements','Turning the cortex’s calculations into output signals'],
+  damage:'Damage to the dentate nucleus or its outflow causes severe clumsiness and tremor on the same side. Deep brain stimulation near this pathway is used to treat some tremors.',
+  fact:'The dentate nucleus is wrinkled like a crumpled bag. Its name means “toothed.”',
+  view:{az:-55,el:30}, at:[0,0,0.1], zoom:0.8},
+ {id:'th_cb_ped',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Cerebellar Peduncles',short:'Peduncles',color:'#5ab0ff',
+  where:'Three pairs of cables joining the cerebellum to the brainstem',
+  summary:'Three pairs of cables connect the cerebellum to the brainstem. The middle and inferior peduncles bring signals in, and the superior peduncle carries the cerebellum’s output to the thalamus and midbrain.',
+  funcs:['Middle peduncle (the largest): input from the cerebral cortex, relayed through the pons','Inferior peduncle: input from the spinal cord, inner ear and inferior olive','Superior peduncle: output to the thalamus and red nucleus'],
+  damage:'Damage to the peduncles disconnects the cerebellum, causing ataxia similar to damage to the cerebellum itself.',
+  fact:'About 40 times more fibers enter the cerebellum than leave it. It gathers a huge amount of information to produce a precise, refined output.',
+  view:{az:20,el:15}, at:[0,0,0.5], zoom:0.85},
+ {id:'th_cb_folium',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: microcircuit',name:'A Folium: the Cerebellar Cortex',short:'Folium',color:'#f4a6c6',
+  where:'One leaf-like fold of cerebellar cortex, shown enlarged',
+  summary:'The cerebellar surface is folded into thin leaves called folia. Every folium has the same three layers: the outer molecular layer, a single row of Purkinje cells, and the granular layer packed with tiny granule cells. White matter runs in the middle.',
+  funcs:['Molecular layer: where parallel fibers meet Purkinje cell dendrites','Purkinje cell layer: the only output of the cortex','Granular layer: receives input from mossy fibers','The same circuit repeats across the whole cerebellum'],
+  damage:'Some inherited conditions, called spinocerebellar ataxias, slowly destroy Purkinje cells and thin the cerebellar cortex, causing progressive clumsiness.',
+  fact:'The cerebellar cortex is only about 1 mm thick, but it is so tightly folded that, in a cut down the middle, the white matter inside looks like a branching tree. This is called the arbor vitae, “tree of life.”',
+  view:{az:-55,el:20}, zoom:0.6},
+ {id:'th_cb_purkinje',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: microcircuit',name:'Purkinje Cells',short:'Purkinje cells',color:'#e956a0',
+  where:'In a single row between the molecular and granular layers',
+  summary:'Purkinje cells are large neurons with a flat, fan-like dendritic tree. Each receives about 200,000 connections from parallel fibers and one powerful climbing fiber. They are the only cells that send signals out of the cerebellar cortex, and they inhibit the deep nuclei.',
+  funcs:['Combine signals from huge numbers of parallel fibers','Fire steadily, quieting the deep nuclei with the chemical GABA','Adjust their connections when climbing fibers signal an error','About 15 million of them in the human cerebellum'],
+  damage:'Loss of Purkinje cells, from inherited ataxias, alcohol or some autoimmune diseases, causes worsening coordination.',
+  fact:'They are named after Jan Evangelista Purkyně, who described them in 1837.',
+  view:{az:-55,el:15}, zoom:0.5},
+ {id:'th_cb_granule',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: microcircuit',name:'Granule Cells and Parallel Fibers',short:'Granule cells',color:'#69db7c',
+  where:'Packed in the granular layer, with axons rising to the molecular layer',
+  summary:'Granule cells are the smallest and most numerous neurons in the brain. Each receives a few mossy fiber inputs. Its axon rises to the molecular layer and splits in a T into a parallel fiber that runs along the folium, passing through hundreds of Purkinje cell fans.',
+  funcs:['Spread and recode incoming mossy fiber signals','Parallel fibers excite many Purkinje cells in a row','Provide the huge number of inputs that make fine adjustments possible'],
+  damage:'Some viral infections and rare genetic conditions damage granule cells and cause ataxia.',
+  fact:'There are more granule cells than all other neurons in the brain combined, about 50 billion or more.',
+  view:{az:-55,el:15}, zoom:0.5},
+ {id:'th_cb_mossy',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: microcircuit',name:'Mossy Fibers',short:'Mossy fibers',color:'#4cc9f0',
+  where:'Incoming fibers that end in the granular layer',
+  summary:'Mossy fibers bring most of the information into the cerebellum: plans from the cerebral cortex via the pons, body position from the spinal cord, and balance signals from the inner ear. They end in knob-like rosettes on granule cells.',
+  funcs:['Carry information about plans, position and balance','Each branches to reach hundreds of granule cells','Also send branches to the deep nuclei'],
+  damage:'Damage to the spinal pathways that carry mossy fibers, as in Friedreich’s ataxia, deprives the cerebellum of position information and causes ataxia.',
+  fact:'They are called mossy because early microscopists thought their tufted endings looked like moss.',
+  view:{az:-55,el:15}, zoom:0.5},
+ {id:'th_cb_climbing',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: microcircuit',name:'Climbing Fibers',short:'Climbing fibers',color:'#ff7a45',
+  where:'Fibers from the inferior olive that climb along Purkinje cell dendrites',
+  summary:'Climbing fibers come from the inferior olive in the medulla, on the opposite side. Each Purkinje cell receives exactly one, which wraps around its dendrites like a vine and makes hundreds of connections. They signal when a movement goes wrong.',
+  funcs:['Send “error” signals when a movement misses its target','Trigger a strong burst in the Purkinje cell (a complex spike)','Teach the cerebellum by weakening the parallel fiber connections that caused the error'],
+  damage:'Damage to the inferior olive or its fibers impairs motor learning and can cause a rhythmic tremor of the palate.',
+  fact:'This error-driven learning, proposed by David Marr, James Albus and Masao Ito, helps explain how practice makes movements smooth and automatic.',
+  view:{az:-55,el:15}, zoom:0.5}
 ];
 var PERIPH=['n_cauda','n_spinal','n_cranial','n_vagus','n_phrenic','n_sympathetic','n_enteric','n_intercostal','n_brachial','n_axillary','n_musculo','n_median','n_ulnar','n_radial','n_lumbar','n_sacral','n_obturator','n_femoral','n_sciatic','n_tibial','n_fibular'];
 var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia'],sec_pns:PERIPH,
@@ -2325,7 +2600,7 @@ var chipEls={}, labelEls={}, lastGrp=null;
 REGIONS.forEach(function(r,i){
   var grp=r.group||(r.kind==='cortex'?'Outer surface':(r.kind==='mesh'?'Base of the brain':(r.kind==='vessel'?'Blood vessels':'Inside (X-ray)')));
   if(grp!==lastGrp){ lastGrp=grp; var sp=document.createElement('span'); sp.className='sep'; sp.dataset.mode=r.mode||'brain'; sp.textContent=grp; chipsEl.appendChild(sp); }
-  var b=document.createElement('button'); b.className='chip'+(r.kind==='deep'?' deep':''); b.style.setProperty('--c',r.color);
+  var b=document.createElement('button'); b.className='chip'+((r.kind==='deep'||r.inner)?' deep':''); b.style.setProperty('--c',r.color);
   b.innerHTML='<i class="dot"></i>'; b.appendChild(document.createTextNode(r.short));
   b.addEventListener('click',function(){ select(r.id); });
   b.dataset.mode=r.mode||'brain'; b.dataset.id=r.id; chipsEl.appendChild(b); chipEls[r.id]=b;
@@ -2390,7 +2665,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
-  if(mode==='spine' || mode==='senses') applyVisibility();
+  if(mode==='spine' || mode==='senses' || mode==='think') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
     chipEls[r.id].classList.toggle('sel',mode==='diseases'?(r.id===curDisease):(selected===r.id));
@@ -2409,7 +2684,7 @@ function updateViewTargets(){
   tgt.ox=W/2-cx; tgt.oy=H/2-cy;
   tgt.pm=open?(desktop?1.12:1.2):1;
 }
-var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
+var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } if(mode==='think'){ applyThinkColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
 function measureLabels(){ REGIONS.forEach(function(r){ labelEls[r.id]._w=labelEls[r.id].offsetWidth; }); }
 function layout(){
   if(typeof kick==='function') kick(1200);
@@ -2422,7 +2697,7 @@ function layout(){
   var availH=Math.max(120,H-topUI-8);
   fitDist=3.5*H/Math.min(W,availH);
   var fitBody=Math.max(4.4*H/(0.728*availH),2.0*H/(0.728*W));
-  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:(mode==='senses'?fitDist*1.35:fitDist));
+  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:(mode==='senses'?fitDist*1.35:(mode==='think'?Math.max(fitDist*TH_FIT[tView],(tView==='cerebellum'?5.8:2.2)*H/(0.728*W)):fitDist)));
   if(!fitInit){ cur.fit=tgt.fit; fitInit=true; }
   updateViewTargets();
 }
@@ -2431,6 +2706,7 @@ if(window.ResizeObserver){ new ResizeObserver(layout).observe(app); } else { win
 function setXray(on){
   xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false');
   if(!on && selected && R[selected].kind==='deep') select(null);
+  if(!on && mode==='think' && selected && R[selected].inner) select(null);
 }
 function setVessels(on){
   vesselsOn=on; $('#bVessels').setAttribute('aria-pressed',on?'true':'false'); $('#bFlow').classList.toggle('off',!on);
@@ -2453,27 +2729,30 @@ function setMode(m){
   if(m===mode) return;
   if(mode==='diseases') leaveDiseases(); else select(null);
   if(mode==='senses') leaveSenses();
+  if(mode==='think') leaveThink();
   setHover(null); tip.style.opacity=0; dismissHint(); closeDD();
   mode=m;
-  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses');
-  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses']].forEach(function(t){
+  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses'); app.classList.toggle('mode-think',m==='think');
+  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses'],['mThink','think']].forEach(function(t){
     var e=$('#'+t[0]), on=(t[1]===m); e.classList.toggle('on',on); e.setAttribute('aria-selected',on?'true':'false');
     if(on && e.scrollIntoView) e.scrollIntoView({block:'nearest',inline:'nearest'});
   });
   if(m!=='brain') layerCollapsed=true;
   if(m==='spine') buildSpine();
   if(m==='senses') enterSenses();
+  if(m==='think') enterThink();
   applyVisibility(); applyModeChips();
   if(m==='diseases') enterDiseases();
   refreshUI(); resetView(); layout();
   if(m==='senses' && sideLayout()) select('se_all');
+  if(m==='think' && sideLayout()) select(TH_OVER[tView]);
 }
 function setSpin(on){ autoSpin=on; $('#bSpin').setAttribute('aria-pressed',on?'true':'false'); }
 function setLabels(on){ showLabels=on; $('#bLabels').setAttribute('aria-pressed',on?'true':'false'); }
 
 function fillPanel(r){
   $('#hFuncs').textContent=r.hFuncs||'What it does'; $('#hDamage').textContent=r.hDamage||'If it is damaged';
-  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense');
+  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
   panel.style.setProperty('--rc',r.color);
   $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray view':''); bd.hidden=!bd.textContent;
@@ -2512,6 +2791,7 @@ function fillPanel(r){
       kb.innerHTML='<i class="dot"></i>'; kb.appendChild(document.createTextNode(c.short)); kb.addEventListener('click',function(){ select(cid); }); kp.appendChild(kb); });
     tree.appendChild(kp);
   } else if(r.kind==='sense') fillSense(r);
+  else if(r.kind==='think') fillThink(r);
   else tree.hidden=true;
   var ul=$('#pFuncs'); ul.innerHTML='';
   r.funcs.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
@@ -2519,6 +2799,7 @@ function fillPanel(r){
 }
 function focusOn(r){
   if(r.mode==='senses'){ senseFocus(r); return; }
+  if(r.mode==='think'){ thinkFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
   if(r.mode==='nerves'||r.mode==='sections'||r.mode==='spine'){ var at=r.at||(r.mode==='spine'?(r.sv==='whole'?[0,0.82,-0.1]:[0.35,-0.08,0.05]):[0,0,0]); tgt.zoom=r.zoom||0.6; CENTER_T.set(at[0],at[1],at[2]); }
@@ -2529,6 +2810,7 @@ function select(id){
   if(mode==='spine' && id && R[id] && R[id].sv && R[id].sv!==sView) setSView(R[id].sv);
   if(mode==='diseases'){ dSelect(id); return; }
   if(mode==='senses' && isSense(id)){ var want=(id==='se_all' || SENSE[id].se==='head')?'head':'body'; if(id==='se_all' || want!==seView && !(seView==='head' && SENSE[id].se==='body' && selected===id)) setSeView(want,true); }
+  if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
   if(id && R[id].kind==='cover' && !meningesOn) setMeninges(true);
@@ -2550,6 +2832,7 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
+  if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
   var dv=mode==='spine'?(sView==='whole'?DEF_W:DEF_X):(bodyView()?DEFN:((mode==='senses' && seView==='head')?DEF_SE:DEF)); tgt.az=cur.az+wrap(dv.az-cur.az); tgt.el=dv.el; tgt.zoom=1;
   CENTER_T.copy(mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C))); setSpin(false);
   if(selected) select(null);
@@ -2560,12 +2843,12 @@ function closeDetails(){
   if(mode==='diseases'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); refreshUI(); updateViewTargets(); }
   else select(null);
 }
-function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:(mode==='senses'?0.3:0.35)); }
+function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:((mode==='senses'||mode==='think')?0.3:0.35)); }
 /* ---- zoom toward a point and pan (move the view centre in the screen plane) */
 var PV=new THREE.Vector3(), PU=new THREE.Vector3(), CV=new THREE.Vector3();
 function pxWorld(dist){ return 2*dist*Math.tan(camera.fov*Math.PI/360)/H; }
-function panBase(){ return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C)); }
-function panRadius(){ return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:((mode==='senses' && seView==='head')?1.6:1.3)); }
+function panBase(){ if(mode==='think') return TH_C[tView]; return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C)); }
+function panRadius(){ if(mode==='think') return tView==='cerebellum'?2.2:1.6; return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:((mode==='senses' && seView==='head')?1.6:1.3)); }
 function clampV(v){ var b=panBase(), r=panRadius(); CV.copy(v).sub(b); if(CV.length()>r){ CV.setLength(r); v.copy(b).add(CV); } }
 function shiftCenter(dx,dy,s,both){
   camera.updateMatrixWorld();
@@ -2598,6 +2881,7 @@ $('#mSections').addEventListener('click',function(){ setMode('sections'); });
 $('#mDiseases').addEventListener('click',function(){ setMode('diseases'); });
 $('#mSpine').addEventListener('click',function(){ setMode('spine'); });
 $('#mSenses').addEventListener('click',function(){ setMode('senses'); });
+$('#mThink').addEventListener('click',function(){ setMode('think'); });
 $('#svCross').addEventListener('click',function(){ setSView('cross'); });
 $('#svWhole').addEventListener('click',function(){ setSView('whole'); });
 $('#bPaths').addEventListener('click',function(){ setPaths(!showAllPaths); });
@@ -3006,15 +3290,15 @@ function applyDiseaseColors(){
   });
 }
 function applyVisibility(){
-  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain') || (mode==='senses' && seView==='head')); nerveGroup.visible=bodyView();
+  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain') || (mode==='senses' && seView==='head') || (mode==='think' && tView==='cerebrum')); nerveGroup.visible=bodyView();
   spineGroup.visible=(mode==='spine'); crossGroup.visible=(sView==='cross'); wholeGroup.visible=(sView==='whole');
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && vesselsOn); });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && vesselsOn); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
   Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
-  applySenseVis();
+  applySenseVis(); applyThinkVis();
   R.sc_csf.meshes.forEach(function(m){ m.visible=layerOn.arachnoid; });
   updateLayerCard();
 }
@@ -3821,6 +4105,675 @@ function fillSense(r){
 $('#seHead').addEventListener('click',function(){ setSeView('head'); });
 $('#seBody').addEventListener('click',function(){ setSeView('body'); });
 
+/* ------------------------------------------------------------ thinking organs of the mind */
+var TH={
+ th_cerebrum:{stats:[['85%','of the brain’s weight'],['16 billion','nerve cells in its cortex'],['2–4 mm','thick cortex']],
+  how:['The cortex is a thin sheet of gray matter (nerve cell bodies) folded into ridges (gyri) and grooves (sulci), which fits a large surface into the skull.',
+   'Each hemisphere has four main lobes, frontal, parietal, temporal and occipital, plus the hidden insula and the limbic areas on the inner side.',
+   'Primary areas receive the senses or send movement commands. Association areas, the largest part of the cortex, combine this information to recognize, understand, decide and plan.',
+   'Under the cortex, white-matter cables connect areas within a hemisphere, link the two hemispheres, and carry signals to and from the rest of the body.',
+   'Deep nuclei such as the basal ganglia, together with the thalamus, form loops with the cortex that select actions and pass information along.'],
+  deep:['No single area does “thinking.” Even a simple task, like naming a picture, uses vision, memory, language and movement areas working together as a network.',
+   'Signals usually flow both ways. Higher areas send predictions down to sensory areas, which helps you recognize things quickly and fill in missing details.',
+   'The cerebrum keeps changing with experience. Practicing a skill strengthens the connections it uses, a property called plasticity.',
+   'Language is controlled mainly by the left hemisphere in about 95 percent of right-handed people and about 70 percent of left-handed people.'],
+  rel:['th_neocortex','th_cerebellum']},
+ th_hemispheres:{how:['A deep groove, the longitudinal fissure, separates the hemispheres. The corpus callosum bridges them at the bottom of the groove.',
+   'Movement and touch pathways cross the midline, so the left hemisphere controls and feels the right side of the body, and the right hemisphere the left side.',
+   'Vision is split too: each hemisphere sees the opposite half of the visual field from both eyes.',
+   'Some abilities lean to one side (lateralization). The two hemispheres constantly share what they do through about 200 million fibers.'],
+  deep:['Handedness is linked to, but does not decide, which side handles language.',
+   'The right hemisphere helps with the emotional tone of speech, humor and seeing the overall picture, while the left handles words and grammar.',
+   'In young children, if one hemisphere is badly damaged, the other can often take over many of its abilities.'],
+  rel:['th_commissural','th_frontal']},
+ th_frontal:{how:['The primary motor cortex, a strip just in front of the central groove, sends commands down the spinal cord. Each part controls a different body part.',
+   'The premotor and supplementary motor areas in front of it plan and sequence movements.',
+   'The prefrontal cortex, at the front, holds goals in mind, weighs choices, and holds back unwanted actions.',
+   'Broca’s area, in the lower frontal lobe (usually on the left), plans the movements of speech and helps with grammar.'],
+  deep:['The prefrontal cortex is strongly connected with nearly every other part of the brain, which lets it guide behavior using all available information.',
+   'The orbitofrontal cortex, above the eyes, links choices with their expected rewards and with emotion.',
+   'Frontal eye fields move your eyes on purpose toward things you choose to look at.'],
+  rel:['th_parietal','th_basal']},
+ th_parietal:{how:['The primary sensory cortex, just behind the central groove, receives touch, pain, temperature and body-position signals from the opposite side of the body.',
+   'Behind it, association areas combine touch with vision and hearing to work out where things are relative to your body.',
+   'The upper (superior) parietal lobule guides reaching and grasping. The lower (inferior) lobule, including the supramarginal and angular gyri, helps with language, reading and numbers.',
+   'The parietal lobe also helps decide where to focus attention.'],
+  deep:['The parietal lobe forms the “where and how” stream of vision, guiding the hand to the right place with the right grip.',
+   'It keeps a body map, which helps you feel that your body is your own.',
+   'The right parietal lobe pays attention to both sides of space, while the left mainly attends to the right side. This is why neglect usually follows right-sided damage.'],
+  rel:['th_frontal','th_occipital']},
+ th_temporal:{how:['The primary auditory cortex sits on small ridges (Heschl’s gyri) hidden inside the side groove. It maps sounds by pitch.',
+   'Wernicke’s area, at the back of the upper temporal lobe (usually left), helps you understand words and sentences.',
+   'The lower temporal lobe forms the “what” stream of vision, recognizing objects, faces and places.',
+   'The inner (medial) temporal lobe holds the hippocampus and amygdala, which build new memories and attach emotion to them.'],
+  deep:['The front of the temporal lobe (the temporal pole) stores general knowledge, such as what a word or an object means.',
+   'Over time, memories first stored with the help of the hippocampus become anchored in the cortex.',
+   'Music, voices and speech are processed partly separately: the right temporal lobe is especially involved in melody and pitch.'],
+  rel:['th_limbic','th_occipital']},
+ th_occipital:{how:['Signals from the eyes travel through the thalamus to the primary visual cortex (V1), around the calcarine groove at the back of the brain.',
+   'Each part of V1 maps one small part of the visual field. The center of vision gets the most space.',
+   'Nearby areas pick out more complex features, such as color, shape and motion.',
+   'From there, the “what” stream runs down into the temporal lobe and the “where and how” stream runs up into the parietal lobe.'],
+  deep:['Cells in V1 respond to edges and lines at particular angles, the first step in recognizing shapes.',
+   'The upper half of what you see is mapped below the calcarine groove, and the lower half above it.',
+   'In people who are blind from birth, the occipital lobe takes part in reading Braille and hearing, a striking example of plasticity.'],
+  rel:['th_temporal','th_parietal']},
+ th_insula:{how:['The insula is covered by flaps of the frontal, parietal and temporal lobes, called the opercula, and lies under the side groove.',
+   'The back part (posterior insula) receives signals about the body’s inner state from the thalamus.',
+   'The front part (anterior insula) combines these signals with emotion and context, producing conscious feelings such as thirst, disgust or a racing heart.'],
+  deep:['The anterior insula works with the cingulate cortex to notice what is important right now and shift attention to it.',
+   'The insula is active when you feel your own pain and when you see someone else in pain, which links it with empathy.'],
+  rel:['th_limbic','th_temporal']},
+ th_limbic:{how:['The hippocampus binds together the details of an event (what, where and when) so it can be stored and recalled later.',
+   'The amygdala quickly judges whether something is dangerous or important, and triggers fear and the body’s alarm response.',
+   'The cingulate gyrus arches above the corpus callosum. It monitors conflicts and mistakes and links emotion with action.',
+   'These parts are connected in loops with the hypothalamus, the thalamus and the frontal lobe.'],
+  deep:['Emotional events are remembered more strongly because the amygdala boosts memory storage in the hippocampus.',
+   'The hippocampus contains “place cells” that fire when you are in a particular location, building a map of your surroundings.',
+   'New nerve cells may continue to form in a small part of the hippocampus in adults, though how much this happens in humans is still debated.'],
+  rel:['th_temporal','th_insula']},
+ th_basal:{how:['The cortex sends plans for many possible actions to the striatum (the caudate and putamen).',
+   'A “go” (direct) pathway releases the chosen action, and a “stop” (indirect) pathway holds back competing ones.',
+   'The result passes through the globus pallidus to the thalamus and back to the cortex, forming a loop.',
+   'Dopamine from the substantia nigra tunes the balance between “go” and “stop.”'],
+  deep:['Separate loops through the basal ganglia handle movement, eye movements, thinking and emotion.',
+   'Dopamine signals also teach the basal ganglia which actions lead to rewards, helping form habits.',
+   'Deep brain stimulation of parts of this circuit can ease the symptoms of Parkinson’s disease.'],
+  rel:['th_frontal','th_projection']},
+ th_association:{how:['Association fibers are axons wrapped in myelin, bundled into named tracts called fasciculi.',
+   'The arcuate fasciculus curves around the side groove, linking Wernicke’s area with Broca’s area.',
+   'The superior longitudinal fasciculus links the parietal and frontal lobes. The uncinate fasciculus hooks from the front of the temporal lobe to the lower frontal lobe.',
+   'The cingulum runs inside the cingulate gyrus, and the inferior longitudinal and inferior fronto-occipital fasciculi run front to back through the lower brain.',
+   'Short U-shaped fibers also link neighboring gyri just under the cortex.'],
+  deep:['Doctors can map these tracts in living people with diffusion MRI, which tracks how water moves along the fibers.',
+   'White-matter tracts keep maturing through childhood and adolescence as more myelin is added.'],
+  rel:['th_commissural','th_projection']},
+ th_commissural:{how:['The corpus callosum is a thick arch of fibers under the longitudinal fissure. Its front part (genu) links the frontal lobes, and its back part (splenium) links the occipital lobes.',
+   'The anterior commissure, a small bundle in front of the third ventricle, links parts of the temporal lobes.',
+   'Most fibers connect matching areas on the two sides, so both hemispheres stay coordinated.'],
+  deep:['Some people are born without a corpus callosum (agenesis of the corpus callosum). Many manage everyday life well, because other pathways help the hemispheres communicate.',
+   'Because the language areas are usually on the left, information that reaches only the right hemisphere has to cross the corpus callosum before it can be put into words.'],
+  rel:['th_hemispheres','th_association']},
+ th_projection:{how:['Under the cortex, projection fibers spread out like the rays of a crown, called the corona radiata.',
+   'They squeeze through the internal capsule, a narrow band between the thalamus and the basal ganglia.',
+   'Below it, they gather into the cerebral peduncles of the midbrain and continue to the brainstem and spinal cord.',
+   'Fibers travel both ways: down for commands, and up from the thalamus for sensations.'],
+  deep:['Most movement fibers cross to the other side at the bottom of the brainstem, which is why each hemisphere controls the opposite side of the body.',
+   'Within the internal capsule, the fibers for the face, arm and leg are arranged in an orderly sequence.'],
+  rel:['th_basal','th_association']},
+ th_ventricles:{how:['The two lateral ventricles curve through the hemispheres in a C shape, with horns reaching into the frontal, occipital and temporal lobes.',
+   'They drain through small openings into the narrow third ventricle between the two halves of the thalamus.',
+   'A thin channel, the cerebral aqueduct, leads down through the midbrain to the fourth ventricle in front of the cerebellum.',
+   'From there, the fluid flows around the brain and spinal cord and is absorbed into the veins.'],
+  deep:['The choroid plexus, which makes the fluid, filters it from the blood and controls its chemistry.',
+   'The ventricles widen as brain tissue shrinks with age or disease, so doctors look at their size on scans.'],
+  rel:['th_limbic','th_basal']},
+
+ th_neocortex:{stats:[['6','layers of cells'],['~80%','of its neurons excite others'],['~90%','of the cerebral cortex']],
+  how:['The six layers are numbered I to VI from the surface inward. Each layer has its own mix of cells and connections.',
+   'Input from the thalamus arrives mainly in layer IV. Layers II and III connect with other areas of the cortex. Layers V and VI send output.',
+   'Excitatory pyramidal and stellate cells use the chemical glutamate. Inhibitory interneurons use GABA to keep activity in check.',
+   'Cells are wired into vertical columns, so cells above the same spot work on the same piece of information.'],
+  deep:['The thickness of each layer differs between areas. Sensory areas have a thick layer IV, while the motor cortex has a very thin one and a thick layer V.',
+   'In 1909, Korbinian Brodmann used these differences to divide the cortex into numbered areas, up to number 52. Doctors still use these numbers today.',
+   'Before birth, the layers form from the inside out: newer nerve cells climb past older ones, guided by long support cells called radial glia.',
+   'Learning changes the cortex physically: new dendritic spines appear and connections strengthen or weaken.'],
+  rel:['th_cerebrum','th_cerebellum']},
+ th_l1:{how:['Its main contents are the dendrite tufts of pyramidal cells and axons running parallel to the surface.','A few inhibitory interneurons here can switch whole groups of dendrites on or off.'],
+  deep:['Feedback from higher areas and from certain parts of the thalamus arrives here, helping attention and context shape what the cell below responds to.'], with:['th_pyramidal']},
+ th_l2:{how:['Small pyramidal cells here send axons to nearby areas and down to layer V.','Many short connections between neighbors let cells in this layer combine information across a small patch of cortex.'],
+  deep:['Cells in layers II and III have some of the richest horizontal connections in the cortex, linking columns that handle related features.'], with:['th_pyramidal']},
+ th_l3:{how:['Medium pyramidal cells collect input from layer IV and from other cortical areas.','Their axons travel through the white matter to other areas and, across the corpus callosum, to the other hemisphere.'],
+  deep:['Layer III is especially thick in the prefrontal and association areas, which combine many kinds of information.'], with:['th_pyramidal','th_circuit']},
+ th_l4:{how:['Fibers from the thalamus end mostly here.','Spiny stellate cells pass the signal up to layers II and III, starting the processing in the column.'],
+  deep:['Because the motor cortex has almost no layer IV, it is called agranular cortex.'], with:['th_stellate','th_circuit']},
+ th_l5:{how:['Large pyramidal cells collect input from layers II and III and from the thalamus.','Their axons leave the cortex for the basal ganglia, brainstem and spinal cord.'],
+  deep:['Many layer V cells also send a branch to the thalamus, informing other cortical areas about the commands being sent.'], with:['th_pyramidal','th_circuit']},
+ th_l6:{how:['Pyramidal cells here send axons back to the thalamus.','This feedback can sharpen or dampen the sensory signals the thalamus sends up.'],
+  deep:['Layer VI also contains cells whose axons run sideways within the cortex, helping coordinate nearby columns.'], with:['th_pyramidal','th_circuit']},
+ th_wm:{how:['Axons leave the cortex and enter the white matter on the way to their targets.','Oligodendrocytes wrap the axons in many layers of myelin, with small gaps (nodes) where the signal jumps from one to the next.'],
+  deep:['Myelin keeps being added through the teens and twenties, which helps signals travel faster as the brain matures.'], with:['th_circuit']},
+ th_pyramidal:{how:['The apical dendrite climbs to layer I. Basal dendrites spread around the cell body.','Thousands of tiny spines on the dendrites each receive a connection.','When enough excitation builds up, the cell fires a signal down its axon.'],
+  deep:['Learning strengthens some spines and removes others. This is one of the physical bases of memory.','Different parts of the dendrite can do their own small calculations before the cell decides whether to fire.'], with:['th_circuit']},
+ th_stellate:{how:['The cells receive thalamic fibers on their dendrites in layer IV.','Their axons stay within the column, mainly rising to layers II and III.'],
+  deep:['In the touch cortex of rodents, layer IV cells form clusters called barrels, one for each whisker, a clear example of columns.'], with:['th_circuit']},
+ th_inter:{how:['Interneurons are local cells: their axons stay within a small area of cortex.','Different types target different parts of pyramidal cells: the cell body, the axon start, or the dendrites.','Some interneurons inhibit other interneurons, which releases the brake on pyramidal cells.'],
+  deep:['Excitation and inhibition are kept in careful balance. Even small shifts can change how the cortex behaves.'], with:['th_pyramidal']},
+ th_column:{how:['A minicolumn is a thin vertical chain of neurons running through the layers.','Many minicolumns bundle into larger columns, roughly half a millimeter across.','In the visual cortex, neighboring columns respond to slightly different line angles or to one eye more than the other.'],
+  deep:['Because the circuit repeats, scientists think the cortex may use the same basic calculation for vision, touch, hearing and thought.'], with:['th_pyramidal','th_stellate','th_inter']},
+ th_circuit:{how:['A thalamic fiber delivers a sensory signal to layer IV.','Stellate cells pass it up to layers II and III.','Layers II and III share it with other areas and send it down to layer V.','Layer V sends commands out of the cortex. Layer VI sends feedback to the thalamus.'],
+  deep:['The pulses in the model show this flow. Turn Signals off to pause them.','Real circuits are richer than this simple route, with many loops and shortcuts between layers.'], with:['th_pyramidal','th_stellate']},
+
+ th_cerebellum:{stats:[['~80%','of the brain’s neurons'],['~10%','of the brain’s volume'],['3','pairs of peduncles']],
+  how:['The cerebellum receives copies of the movement commands planned in the cerebral cortex.',
+   'It also receives signals from the spinal cord and inner ear about where the body actually is and how it is moving.',
+   'It compares the plan with what is happening and sends corrections through its deep nuclei to the thalamus and brainstem.',
+   'When a movement misses, climbing fiber error signals adjust the circuit, so the next try is better.'],
+  deep:['A deep groove, the primary fissure, divides the anterior lobe from the larger posterior lobe. The small flocculonodular lobe sits underneath.',
+   'Functionally, the vermis and paravermis handle posture and limb movement, the lateral hemispheres handle planning and thinking, and the flocculonodular lobe handles balance.',
+   'The cerebellum predicts the sensations your own movements will cause. This is one reason you cannot tickle yourself.',
+   'The cerebellum also supports attention, language, working memory and emotion. Damage can cause cerebellar cognitive affective syndrome.'],
+  rel:['th_cerebrum','th_neocortex']},
+ th_cb_vermis:{how:['The vermis receives signals from the spinal cord about the trunk, and from the inner ear and eyes.','It sends output through the fastigial nucleus to the balance and posture centers of the brainstem.'],
+  deep:['The back part of the vermis also helps control fast eye movements, making sure they land accurately.'], rel:['th_cb_para','th_cb_floc']},
+ th_cb_para:{how:['The paravermis receives signals from the spinal cord about limb position, along with copies of motor commands.','It sends corrections through the interposed nuclei and red nucleus to the limbs.'],
+  deep:['Together, the vermis and paravermis are called the spinocerebellum, because of their strong input from the spinal cord.'], rel:['th_cb_vermis','th_cb_lat']},
+ th_cb_lat:{how:['The hemispheres receive input from wide areas of the cerebral cortex, relayed through the pons and the middle peduncle.','They send output through the dentate nucleus and thalamus back to the motor and prefrontal cortex, forming a loop.'],
+  deep:['Because of these loops with the cerebral cortex, the lateral hemispheres are called the cerebrocerebellum.'], rel:['th_cb_nuclei','th_cb_ped']},
+ th_cb_floc:{how:['It receives signals directly from the balance organs of the inner ear and from the vestibular nuclei.','Its Purkinje cells signal straight to the vestibular nuclei in the brainstem.'],
+  deep:['It is called the vestibulocerebellum because of its close link with the vestibular (balance) system.'], rel:['th_cb_vermis']},
+ th_cb_nuclei:{how:['Mossy and climbing fibers excite the deep nuclei directly.','Purkinje cells from the cortex above inhibit them, sculpting their output.','The nuclei send the final signals out through the peduncles.'],
+  deep:['Because the cortex works by inhibiting the nuclei, a pause in Purkinje cell firing can release a precisely timed burst of output.'], with:['th_cb_ped'], rel:['th_cb_purkinje','th_cb_ped']},
+ th_cb_ped:{how:['The middle peduncle carries signals from the pontine nuclei, which relay plans from the opposite cerebral cortex.','The inferior peduncle carries signals from the spinal cord, the inner ear and the opposite inferior olive.','The superior peduncle carries output from the deep nuclei. It crosses in the midbrain to the opposite red nucleus and thalamus.'],
+  deep:['The pulses in the model show the direction of the signals: in through the middle and inferior peduncles, out through the superior peduncle.'], with:['th_cb_nuclei'], rel:['th_cb_nuclei','th_cb_mossy']},
+ th_cb_folium:{how:['Mossy fibers excite granule cells in the granular layer.','Granule cell axons rise and form parallel fibers in the molecular layer, crossing the flat fans of many Purkinje cells.','Climbing fibers wind up the Purkinje cell dendrites.','Purkinje cells send the result down to the deep nuclei.'],
+  deep:['Inhibitory interneurons, the stellate, basket and Golgi cells, shape the timing of this circuit.','Each Purkinje fan is flat and stands across the folium, while parallel fibers run along it, so each fiber passes through many fans like a wire through a row of fences.'],
+  with:['th_cb_purkinje','th_cb_granule','th_cb_mossy','th_cb_climbing'], rel:['th_cb_purkinje','th_cb_granule','th_cb_mossy','th_cb_climbing']},
+ th_cb_purkinje:{how:['Parallel fibers make weak connections all along the Purkinje cell’s fan.','The climbing fiber makes one very strong connection that causes a burst called a complex spike.','The Purkinje cell’s axon carries an inhibitory signal down to the deep nuclei.'],
+  deep:['When a climbing fiber signal and parallel fiber signals arrive together, those parallel fiber connections weaken (long-term depression). This is thought to be a key way the cerebellum learns.'],
+  with:['th_cb_climbing'], rel:['th_cb_climbing','th_cb_granule','th_cb_nuclei']},
+ th_cb_granule:{how:['Each granule cell receives input from about four mossy fibers, in clusters called glomeruli.','Its axon rises to the molecular layer and splits into a parallel fiber several millimeters long.','Each parallel fiber contacts hundreds of Purkinje cells.'],
+  deep:['Golgi cells inhibit granule cells, controlling how many are active at once and when.'], with:['th_cb_mossy','th_cb_purkinje'], rel:['th_cb_mossy','th_cb_purkinje']},
+ th_cb_mossy:{how:['Mossy fibers enter through the middle and inferior peduncles.','In the granular layer, each ends in many swollen rosettes, each contacting dozens of granule cell dendrites.'],
+  deep:['The same mossy fiber message is spread across many granule cells and recoded, which may help the cerebellum tell similar situations apart.'], with:['th_cb_granule'], rel:['th_cb_granule','th_cb_ped']},
+ th_cb_climbing:{how:['Each climbing fiber comes from one cell in the inferior olive on the opposite side.','It enters through the inferior peduncle and winds around one Purkinje cell’s dendrites.','It fires only about once per second, but each signal has a strong effect.'],
+  deep:['In infancy each Purkinje cell receives several climbing fibers. All but one are pruned away as the brain matures.'], with:['th_cb_purkinje'], rel:['th_cb_purkinje','th_cb_ped']}
+};
+var TH_VERSE={th_cerebrum:['“For the LORD giveth wisdom: out of his mouth cometh knowledge and understanding.”','Proverbs 2:6 (KJV)'],
+ th_neocortex:['“Thy hands have made me and fashioned me: give me understanding, that I may learn thy commandments.”','Psalm 119:73 (KJV)'],
+ th_cerebellum:['“The steps of a good man are ordered by the LORD: and he delighteth in his way.”','Psalm 37:23 (KJV)']};
+var TH_IDS=REGIONS.filter(function(r){ return r.mode==='think'; }).map(function(r){ return r.id; });
+var TH_OVER={cerebrum:'th_cerebrum',neocortex:'th_neocortex',cerebellum:'th_cerebellum'}, TH_OVERS=['th_cerebrum','th_neocortex','th_cerebellum'];
+var PRIORITY_TH=TH_IDS.filter(function(id){ return TH_OVERS.indexOf(id)<0; });
+var THINK_MAP={prefrontal:'th_frontal',premotor:'th_frontal',motor:'th_frontal',broca:'th_frontal',sensory:'th_parietal',parietal:'th_parietal',
+  temporal:'th_temporal',auditory:'th_temporal',wernicke:'th_temporal',occipital:'th_occipital',insula:'th_insula',cingulate:'th_limbic',
+  hippocampus:'th_limbic',amygdala:'th_limbic',callosum:'th_commissural',basal:'th_basal',cerebellum:'th_cerebellum'};
+var TH_ALSO={th_projection:['thalamus'],th_ventricles:['thalamus']};
+var CB_ZONES=['th_cb_vermis','th_cb_para','th_cb_lat','th_cb_floc'];
+var tView='cerebrum', thBuilt=false, thCer=new THREE.Group(), thNeo=new THREE.Group(), thCb=new THREE.Group(), TH_G={cerebrum:thCer,neocortex:thNeo,cerebellum:thCb};
+var thPick={cerebrum:[],neocortex:[],cerebellum:[]}, thPaths=[], thStn=[], thAnch={cerebrum:{},neocortex:{},cerebellum:{}}, thCerMats=[], cbMesh=null, thXrayBefore=false;
+var TH_C={cerebrum:BRAIN_C,neocortex:new THREE.Vector3(0,-0.14,0),cerebellum:new THREE.Vector3(1.0,-0.1,0.1)};
+var TH_DEF={cerebrum:{az:30*Math.PI/180,el:15*Math.PI/180},neocortex:{az:35*Math.PI/180,el:14*Math.PI/180},cerebellum:{az:-72*Math.PI/180,el:24*Math.PI/180}};
+var TH_FIT={cerebrum:1,neocortex:1.05,cerebellum:1.55};
+thCer.visible=thNeo.visible=thCb.visible=false; scene.add(thCer); scene.add(thNeo); scene.add(thCb);
+function isThink(id){ return !!(id && R[id] && R[id].mode==='think'); }
+function thSel(){ return (isThink(selected) && TH_OVERS.indexOf(selected)<0)?selected:null; }
+function cbClear(){ return selected==='th_cb_nuclei' || selected==='th_cb_ped'; }
+// the cerebellum's outer shape: a unit direction -> a point on the folded surface
+function cbShape(dx,dy,dz){
+  var ax=Math.abs(dx), r=1;
+  r-=0.14*Math.exp(-Math.pow(dx/0.09,2))*Math.max(0,-dz)*(1-0.7*Math.max(0,dy));       // notch at the back between the hemispheres
+  r-=0.32*Math.exp(-Math.pow(dx/0.32,2))*Math.pow(Math.max(0,dz),2)*(1-0.5*smooth(0.25,0.5,dy));   // hollow at the front for the brainstem
+  r+=0.06*Math.exp(-Math.pow(dx/0.13,2))*Math.max(0,dy)*Math.max(0,-dz+0.3);            // raised vermis on top
+  r+=0.07*Math.pow(ax,2)*Math.max(0,-dz)*(1-ax);                                         // rounded hemispheres at the back
+  var x=1.1*dx*r, y=0.62*dy*r, z=0.8*dz*r;
+  if(y>0) y*=0.95; else y*=1.08;
+  y-=0.08*ax*ax;
+  // folia run in arcs around the front notch, where the peduncles enter
+  var d=Math.hypot(x,y+0.05,z-0.62), k=1;
+  k-=0.05*Math.pow(Math.abs(Math.cos(d*60)),4);
+  k-=0.07*Math.exp(-Math.pow((d-0.8)/0.022,2))*smooth(-0.15,0.1,dy);                  // primary fissure (top)
+  k-=0.06*Math.exp(-Math.pow((dy+0.12)/0.035,2))*(1-smooth(0.0,0.4,dz));               // horizontal fissure (around the back)
+  k-=0.06*Math.exp(-Math.pow((d-0.5)/0.022,2))*(1-smooth(-0.35,-0.15,dy));             // posterolateral fissure (underneath)
+  return [x*k,(y+0.05)*k-0.05,(z-0.62)*k+0.62];
+}
+function cbZone(dx,dy,dz){
+  var phi=Math.atan2(dy,dz), ax=Math.abs(dx);
+  if(phi>-1.45 && phi<-0.5 && (ax<0.12 || (ax>0.42 && ax<0.82 && phi>-1.3))) return 3;
+  return ax<0.13?0:(ax<0.36?1:2);
+}
+function buildThink(){
+  if(thBuilt) return; thBuilt=true;
+  function V(a){ return new THREE.Vector3(a[0],a[1],a[2]); }
+  var rnd=(function(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; })(20240613);
+  function rr(a,b){ return a+(b-a)*rnd(); }
+  function tmat(c,o){ return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.5,metalness:0},o||{})); }
+  function treg(id,m,view,o){
+    o=o||{};
+    m.userData={region:id,think:true,view:view,kind:o.kind||'part',pri:o.pri||2,vol:!!o.vol,box:o.parent?1:0,tex:m.userData.tex||null,grp:TH_G[view],
+      base:[m.material.color.r,m.material.color.g,m.material.color.b],op0:m.material.opacity};
+    if(o.kind==='path') thPaths.push(m);
+    if(o.ro) m.renderOrder=o.ro;
+    R[id].meshes.push(m); (o.parent||TH_G[view]).add(m);
+    if(!o.nopick) thPick[view].push(m);
+    if(view==='cerebrum' && thCerMats.indexOf(m.material)<0){ m.material.transparent=true; thCerMats.push(m.material); }
+    return m;
+  }
+  // collect small pieces and merge each kind into one mesh (far fewer draw calls)
+  var buckets={}, border=[];
+  function put(id,view,key,mesh,o){ var k=id+'|'+view+'|'+key; if(!buckets[k]){ buckets[k]={id:id,view:view,list:[],o:o||{}}; border.push(k); } buckets[k].list.push(mesh); return mesh; }
+  function flush(){
+    border.forEach(function(k){
+      var b=buckets[k], L=b.list, first=L[0], m=first;
+      if(L.length>1){
+        var mat=first.material, tex=null;
+        if(first.userData.tex){ tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; mat=mat.clone(); mat.emissiveMap=tex; }
+        m=new THREE.Mesh(mergeMeshes(L),mat); m.userData.tex=tex; m.renderOrder=first.renderOrder;
+        L.forEach(function(o){ o.geometry.dispose(); });
+      }
+      treg(b.id,m,b.view,b.o);
+    });
+    buckets={}; border=[];
+  }
+  function mesh(geo,mat,p,s){ var m=new THREE.Mesh(geo,mat); if(p) m.position.set(p[0],p[1],p[2]); if(s) m.scale.set(s[0],s[1],s[2]); return m; }
+  function curveOf(pts){ return new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'); }
+  function tube(pts,r,mat,rad){ var c=curveOf(pts); return new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(6,Math.round(c.getLength()*40)),r,rad||6,false),mat); }
+  function seg(a,b,r,mat){ return new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(V(a),V(b)),1,r,5,false),mat); }
+  function pulseMesh(pts,r,col,step){
+    var c=curveOf(pts), L=c.getLength(), tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping;
+    tex.repeat.set(Math.max(1,Math.round(L/(step||0.16))),1); tex.offset.x=rnd();
+    var m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(10,Math.round(L*55)),r,7,false),tmat(col,{emissive:col,emissiveMap:tex,roughness:0.4}));
+    m.userData.tex=tex; return m;
+  }
+  function stations(id,view,list){ list.forEach(function(st){
+    var el=document.createElement('div'); el.className='label stn'; el.style.setProperty('--c',R[id].color); el.innerHTML='<i class="dot"></i>'; el.appendChild(document.createTextNode(st[0]));
+    labelsEl.appendChild(el); thStn.push({el:el,p:st[1].isVector3?st[1].clone():V(st[1]),n:st[2]?(st[2].isVector3?st[2].clone():V(st[2]).normalize()):null,id:id,view:view}); }); }
+  function anch(view,id,p,n){ thAnch[view][id]={p:p.isVector3?p.clone():V(p),n:n?(n.isVector3?n.clone():V(n).normalize()):null}; }
+  function both(fn){ [1,-1].forEach(fn); }
+  function M(s,pts){ return pts.map(function(p){ return [s*p[0],p[1],p[2]]; }); }
+
+  /* ---------------- cerebrum: white-matter tracts and ventricles (brain coordinates, shown in X-ray) */
+  var AS=R.th_association.color, CM=R.th_commissural.color, PJ=R.th_projection.color;
+  var ARC=[[0.55,0.02,0.42],[0.57,0.14,0.2],[0.56,0.2,-0.08],[0.53,0.13,-0.32],[0.53,-0.03,-0.42],[0.55,-0.15,-0.28]],
+      SLF=[[0.4,0.36,0.56],[0.45,0.42,0.22],[0.46,0.41,-0.12],[0.43,0.33,-0.48]],
+      UNC=[[0.25,-0.06,0.6],[0.36,-0.11,0.38],[0.45,-0.15,0.3],[0.53,-0.16,0.43]],
+      ILF=[[0.33,0.0,-0.86],[0.45,-0.1,-0.5],[0.5,-0.17,-0.1],[0.52,-0.2,0.25]],
+      IFOF=[[0.28,0.06,-0.86],[0.4,-0.02,-0.4],[0.43,-0.04,0.05],[0.36,0.02,0.4],[0.27,0.08,0.68]],
+      CIN=[[0.11,0.38,0.5],[0.11,0.53,0.2],[0.11,0.54,-0.15],[0.11,0.45,-0.42],[0.15,0.22,-0.58],[0.22,-0.03,-0.44],[0.29,-0.16,-0.16]];
+  both(function(s){
+    [[ARC,0.017],[SLF,0.014],[UNC,0.013],[ILF,0.013],[IFOF,0.012],[CIN,0.012]].forEach(function(t){ put('th_association','cerebrum','p',pulseMesh(M(s,t[0]),t[1],AS),{kind:'path',pri:2}); });
+    // projection fibers: corona radiata -> internal capsule -> cerebral peduncle
+    [[0.42,0.58,0.42],[0.46,0.63,0.16],[0.45,0.62,-0.1],[0.42,0.55,-0.36],[0.63,0.33,0.28],[0.67,0.36,-0.02],[0.62,0.3,-0.3],[0.34,0.4,0.6]].forEach(function(p,i){
+      var icz=0.03+p[2]*0.22, ic=[0.22,0.1,icz];
+      put('th_projection','cerebrum','p',pulseMesh(M(s,[p,[p[0]*0.6+0.09,p[1]*0.55+0.08,p[2]*0.55+icz*0.45],ic,[0.13,-0.1,0.0],[0.07,-0.36,-0.06]]),0.011,PJ),{kind:'path',pri:2});
+    });
+  });
+  var CCZ=[0.58,0.47,0.25,0,-0.25,-0.45,-0.56], CCY=[0.27,0.40,0.47,0.49,0.46,0.40,0.30];
+  function ccY(z){ for(var i=1;i<CCZ.length;i++){ if(z>=CCZ[i]){ var t=(z-CCZ[i])/(CCZ[i-1]-CCZ[i]); return CCY[i]+(CCY[i-1]-CCY[i])*t; } } return CCY[CCY.length-1]; }
+  [0.46,0.3,0.12,-0.06,-0.24,-0.4,-0.52].forEach(function(z,i){
+    var y=ccY(z), w=(i===0||i===6)?0.45:0.6, d=(i%2)?1:-1;
+    put('th_commissural','cerebrum','p',pulseMesh([[-d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))],[-d*0.3,y+0.015,z],[0,y+0.01,z],[d*0.3,y+0.015,z],[d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))]],0.012,CM),{kind:'path',pri:2});
+  });
+  put('th_commissural','cerebrum','p',pulseMesh([[-0.46,-0.15,0.2],[-0.22,-0.03,0.25],[0,0.0,0.27],[0.22,-0.03,0.25],[0.46,-0.15,0.2]],0.013,CM),{kind:'path',pri:2});
+  var vm=tmat(R.th_ventricles.color,{transparent:true,opacity:0.8,roughness:0.25});
+  both(function(s){
+    put('th_ventricles','cerebrum','v',tube(M(s,[[0.06,0.24,0.36],[0.09,0.33,0.15],[0.1,0.34,-0.1],[0.14,0.26,-0.33],[0.24,0.1,-0.38],[0.31,-0.06,-0.22],[0.33,-0.14,-0.02]]),0.04,vm,10));
+    put('th_ventricles','cerebrum','v',tube(M(s,[[0.14,0.26,-0.33],[0.15,0.2,-0.48],[0.13,0.14,-0.6]]),0.026,vm,10));
+    put('th_ventricles','cerebrum','v',tube(M(s,[[0.08,0.25,0.22],[0.04,0.18,0.12],[0.0,0.13,0.08]]),0.012,vm));
+  });
+  put('th_ventricles','cerebrum','v',mesh(new THREE.SphereGeometry(1,20,14),vm,[0,0.06,0.02],[0.014,0.1,0.15]));
+  put('th_ventricles','cerebrum','v',tube([[0,-0.02,-0.1],[0,-0.14,-0.075],[0,-0.29,-0.13],[0,-0.37,-0.18]],0.009,vm));
+  put('th_ventricles','cerebrum','v',mesh(new THREE.SphereGeometry(1,20,14),vm,[0,-0.41,-0.2],[0.075,0.08,0.03]));
+  flush();
+  // label anchors and stations (cerebrum)
+  function sp(d,s,l){ return surfacePoint(d,s||1,l==null?0.02:l); }
+  function nd(d){ return new THREE.Vector3(d[0],d[1],d[2]).normalize(); }
+  [['th_frontal',lat(0.62,0.32)],['th_parietal',lat(-0.38,0.62)],['th_temporal',lat(0.12,-0.45)],['th_occipital',lat(-0.86,0.06)]].forEach(function(a){ anch('cerebrum',a[0],sp(a[1]),nd(a[1])); });
+  anch('cerebrum','th_hemispheres',sp([0.25,0.95,0.15],-1),[-0.2,1,0.1]);
+  anch('cerebrum','th_insula',[0.6,0.02,0.1]); anch('cerebrum','th_limbic',[0.36,-0.2,-0.08]); anch('cerebrum','th_basal',[0.3,0.12,0.18]);
+  anch('cerebrum','th_association',[0.56,0.2,-0.08]); anch('cerebrum','th_commissural',[0,0.5,0.12]); anch('cerebrum','th_projection',[0.42,0.45,0.05]); anch('cerebrum','th_ventricles',[0.1,0.34,-0.12]);
+  function ca(id){ return [anchors[id].p,anchors[id].n]; }
+  stations('th_frontal','cerebrum',[['Prefrontal cortex'].concat(ca('prefrontal')),['Premotor cortex'].concat(ca('premotor')),['Primary motor cortex'].concat(ca('motor')),['Broca’s area'].concat(ca('broca'))]);
+  stations('th_parietal','cerebrum',[['Primary sensory cortex'].concat(ca('sensory')),['Superior parietal lobule',sp(lat(-0.45,0.72)),nd(lat(-0.45,0.72))],['Angular and supramarginal gyri',sp(lat(-0.45,0.2)),nd(lat(-0.45,0.2))]]);
+  stations('th_temporal','cerebrum',[['Auditory cortex'].concat(ca('auditory')),['Wernicke’s area'].concat(ca('wernicke')),['Temporal pole',sp(lat(0.55,-0.42)),nd(lat(0.55,-0.42))],['Fusiform gyrus: faces',sp([0.35,-0.9,-0.3]),[0.2,-1,-0.2]]]);
+  stations('th_occipital','cerebrum',[['Primary visual cortex (V1)',sp([0.2,0.02,-0.98]),[0.15,0,-1]],['V4: color',sp([0.4,-0.75,-0.55]),[0.3,-0.8,-0.5]],['V5: motion',sp([0.78,0.05,-0.62]),[0.8,0,-0.6]]]);
+  stations('th_hemispheres','cerebrum',[['Left hemisphere',sp(lat(-0.15,0.55),1),nd(lat(-0.15,0.55))],['Right hemisphere',sp(lat(-0.15,0.55),-1),[-0.8,0.55,-0.15]],['Longitudinal fissure',[0,0.72,0.3],[0,1,0.2]]]);
+  stations('th_insula','cerebrum',[['Anterior insula: feelings',[0.58,0.04,0.22]],['Posterior insula: body signals',[0.6,0.0,-0.04]]]);
+  stations('th_limbic','cerebrum',[['Cingulate gyrus',[0.06,0.58,0.18]],['Hippocampus',[0.33,-0.13,-0.24]],['Amygdala',[0.34,-0.2,0.18]]]);
+  stations('th_basal','cerebrum',[['Caudate nucleus',[0.19,0.34,0.15]],['Putamen and globus pallidus',[0.3,0.08,0.12]],['Thalamus (relay)',[0.14,0.12,-0.05]]]);
+  stations('th_association','cerebrum',[['Arcuate fasciculus',[0.56,0.2,-0.08]],['Superior longitudinal fasciculus',[0.45,0.42,0.22]],['Uncinate fasciculus',[0.45,-0.15,0.3]],['Cingulum',[0.11,0.54,-0.15]],['Inferior longitudinal fasciculus',[0.45,-0.1,-0.5]]]);
+  stations('th_commissural','cerebrum',[['Corpus callosum',[0,0.5,0.0]],['Anterior commissure',[0.22,-0.03,0.25]]]);
+  stations('th_projection','cerebrum',[['Corona radiata',[0.42,0.45,0.05]],['Internal capsule',[0.22,0.1,0.02]],['Cerebral peduncle',[0.07,-0.3,-0.05]]]);
+  stations('th_ventricles','cerebrum',[['Lateral ventricle',[0.1,0.34,-0.1]],['Third ventricle',[0,0.12,0.02]],['Cerebral aqueduct',[0,-0.2,-0.09]],['Fourth ventricle',[0,-0.41,-0.2]]]);
+
+  /* ---------------- neocortex: an enlarged block of the six layers */
+  var LY=[0.9,0.74,0.612,0.196,0.036,-0.348,-0.7], LIDS=['th_l1','th_l2','th_l3','th_l4','th_l5','th_l6'], XW=0.9, ZW=0.55;
+  LIDS.forEach(function(id,i){
+    var h=LY[i]-LY[i+1], g=new THREE.BoxGeometry(2*XW,h,2*ZW), y=(LY[i]+LY[i+1])/2;
+    var m=mesh(g,tmat(R[id].color,{transparent:true,opacity:0.2,depthWrite:false,roughness:0.8}),[0,y,0]);
+    treg(id,m,'neocortex',{pri:1,vol:true,ro:1});
+    var e=new THREE.LineSegments(new THREE.EdgesGeometry(g),new THREE.LineBasicMaterial({color:R[id].color,transparent:true,opacity:0.7}));
+    e.position.set(0,y,0); thNeo.add(e);
+    anch('neocortex',id,[XW,y,-ZW]);
+  });
+  (function(){
+    var g=new THREE.BoxGeometry(2*XW,0.45,2*ZW), m=mesh(g,tmat(R.th_wm.color,{transparent:true,opacity:0.22,depthWrite:false,roughness:0.8}),[0,-0.925,0]);
+    treg('th_wm',m,'neocortex',{pri:1,vol:true,ro:1});
+    var e=new THREE.LineSegments(new THREE.EdgesGeometry(g),new THREE.LineBasicMaterial({color:'#8d99ae',transparent:true,opacity:0.6})); e.position.set(0,-0.925,0); thNeo.add(e);
+    var wmm=tmat('#dfe5ee',{roughness:0.35});
+    for(var i=0;i<16;i++){ var y=rr(-1.1,-0.75), z=rr(-0.5,0.5); put('th_wm','neocortex','f',tube([[-XW,y,z],[-0.3,y+rr(-0.04,0.04),z+rr(-0.05,0.05)],[0.3,y+rr(-0.04,0.04),z+rr(-0.05,0.05)],[XW,y,z]],0.014,wmm),{pri:2}); }
+    anch('neocortex','th_wm',[XW,-0.925,-ZW]);
+  })();
+  // pia mater and a small artery diving into the cortex (decoration)
+  var pia=mesh(new THREE.BoxGeometry(2*XW,0.012,2*ZW),tmat('#f4a6ad',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.906,0]); thNeo.add(pia);
+  var art=tmat('#e03131',{roughness:0.35,emissive:'#5a0d0d'});
+  thNeo.add(tube([[-XW,0.93,-0.2],[-0.3,0.94,-0.1],[0.2,0.93,0.05],[XW,0.93,0.25]],0.022,art,8));
+  [[-0.45,-0.14],[0.15,0.03],[0.62,0.18]].forEach(function(q){ thNeo.add(tube([[q[0],0.93,q[1]],[q[0]+0.02,0.6,q[1]],[q[0]-0.03,0.1,q[1]+0.02],[q[0],-0.5,q[1]]],0.01,art)); });
+  // pyramidal neurons
+  var PYM=tmat(R.th_pyramidal.color,{roughness:0.4,emissive:R.th_pyramidal.color,emissiveIntensity:0.12});
+  var pyrL5=null, cells={l23:[],l5:[],l6:[],st:[],bk:[]};
+  function pyr(x,y,z,s,top,axTo){
+    put('th_pyramidal','neocortex','c',mesh(new THREE.ConeGeometry(0.024*s,0.07*s,10),PYM,[x,y,z]),{pri:3});
+    var ax=x+rr(-0.04,0.04), az=z+rr(-0.03,0.03), mid=[x+rr(-0.03,0.03),(y+top)/2,z+rr(-0.03,0.03)];
+    put('th_pyramidal','neocortex','c',tube([[x,y+0.03*s,z],mid,[ax,top,az]],0.006*s,PYM),{pri:3});
+    for(var o=0;o<2;o++){ var t=0.35+0.3*o, b=[x+(mid[0]-x)*t*2,y+(top-y)*t,z+(mid[2]-z)*t*2], a=rnd()*6.28;
+      put('th_pyramidal','neocortex','c',tube([b,[b[0]+Math.cos(a)*0.08,b[1]+0.05,b[2]+Math.sin(a)*0.06]],0.0035*s,PYM),{pri:3}); }
+    if(top>0.7) for(var k=0;k<4;k++){ var a2=k/4*6.28+rnd(), L=rr(0.1,0.16);
+      put('th_pyramidal','neocortex','c',tube([[ax,top,az],[ax+Math.cos(a2)*L*0.5,top+0.05,az+Math.sin(a2)*L*0.4],[ax+Math.cos(a2)*L,Math.min(0.885,top+0.08),az+Math.sin(a2)*L*0.7]],0.004*s,PYM),{pri:3}); }
+    for(var j=0;j<5;j++){ var a3=j/5*6.28+rnd(), L2=rr(0.08,0.13)*s;
+      put('th_pyramidal','neocortex','c',tube([[x,y-0.025*s,z],[x+Math.cos(a3)*L2*0.5,y-0.05*s,z+Math.sin(a3)*L2*0.5],[x+Math.cos(a3)*L2,y-0.06*s-rr(0,0.05),z+Math.sin(a3)*L2]],0.004*s,PYM),{pri:3}); }
+    put('th_pyramidal','neocortex','c',tube([[x,y-0.035*s,z],[x+rr(-0.02,0.02),(y+axTo)/2,z],[x+rr(-0.03,0.03),axTo,z+rr(-0.03,0.03)]],0.0028*s,PYM),{pri:3});
+  }
+  for(var i=0;i<10;i++){ var p23=[rr(-0.75,0.75),rr(0.26,0.56),rr(-0.42,0.42)]; cells.l23.push(p23); pyr(p23[0],p23[1],p23[2],0.8,rr(0.76,0.82),rr(-0.2,0.1)); }
+  [[-0.5,-0.14,0.18],[-0.12,-0.2,-0.2],[0.25,-0.12,0.22],[0.6,-0.18,-0.12]].forEach(function(p){ cells.l5.push(p); pyr(p[0],p[1],p[2],1.35,rr(0.77,0.82),-1.0); });
+  pyrL5=cells.l5[2];
+  for(var i6=0;i6<5;i6++){ var p6=[rr(-0.75,0.75),rr(-0.62,-0.42),rr(-0.42,0.42)]; cells.l6.push(p6); pyr(p6[0],p6[1],p6[2],0.85,rr(0.08,0.2),-0.95); }
+  // spiny stellate cells in layer IV
+  var STM=tmat(R.th_stellate.color,{roughness:0.4,emissive:R.th_stellate.color,emissiveIntensity:0.15});
+  for(var si=0;si<9;si++){ var x=rr(-0.75,0.75), y=rr(0.08,0.15), z=rr(-0.42,0.42); cells.st.push([x,y,z]);
+    put('th_stellate','neocortex','c',mesh(new THREE.SphereGeometry(0.022,12,9),STM,[x,y,z]),{pri:3});
+    for(var d=0;d<7;d++){ var u=rr(-1,1), a=rnd()*6.28, q=Math.sqrt(1-u*u), L=rr(0.05,0.085);
+      put('th_stellate','neocortex','c',tube([[x,y,z],[x+q*Math.cos(a)*L*0.55,y+u*L*0.45,z+q*Math.sin(a)*L*0.55],[x+q*Math.cos(a)*L,y+u*L*0.75,z+q*Math.sin(a)*L]],0.004,STM),{pri:3}); } }
+  // inhibitory interneurons: basket cells and Martinotti cells
+  var INM=tmat(R.th_inter.color,{roughness:0.4,emissive:R.th_inter.color,emissiveIntensity:0.15});
+  [[-0.3,0.42,-0.1],[0.45,0.3,0.25],[-0.62,-0.05,-0.3],[0.05,-0.25,0.35],[0.4,-0.1,-0.3]].forEach(function(p){ cells.bk.push(p);
+    put('th_inter','neocortex','c',mesh(new THREE.SphereGeometry(0.02,12,9),INM,p),{pri:3});
+    for(var k=0;k<4;k++){ var a=k/4*6.28+rnd(), L=rr(0.14,0.24), e=[p[0]+Math.cos(a)*L,p[1]+rr(-0.05,0.05),p[2]+Math.sin(a)*L*0.7];
+      put('th_inter','neocortex','c',tube([p,[p[0]+Math.cos(a)*L*0.5,p[1]+rr(-0.04,0.04),p[2]+Math.sin(a+0.5)*L*0.35],e],0.0035,INM),{pri:3});
+      put('th_inter','neocortex','c',mesh(new THREE.SphereGeometry(0.009,8,6),INM,e),{pri:3}); } });
+  var mart=[[-0.2,-0.5,0.1],[0.62,-0.4,0.3],[0.15,-0.05,-0.38]];
+  mart.forEach(function(p){
+    put('th_inter','neocortex','c',mesh(new THREE.SphereGeometry(0.02,12,9),INM,p),{pri:3});
+    var top=[p[0]+0.03,0.82,p[2]];
+    put('th_inter','neocortex','c',tube([p,[p[0]+0.02,(p[1]+0.82)/2,p[2]+0.02],top],0.0035,INM),{pri:3});
+    [-1,1].forEach(function(d){ put('th_inter','neocortex','c',tube([top,[top[0]+d*0.12,0.85,top[2]+0.03],[top[0]+d*0.26,0.84,top[2]-0.04]],0.0035,INM),{pri:3}); });
+  });
+  // the canonical signal flow (animated)
+  var CC=R.th_circuit.color;
+  [[-0.55,-0.25],[-0.2,0.3],[0.1,-0.3],[0.4,0.15],[0.7,-0.2]].forEach(function(q){
+    var b=[q[0]+0.02,0.13,q[1]];
+    put('th_circuit','neocortex','p',pulseMesh([[q[0],-1.15,q[1]],[q[0]+0.03,-0.7,q[1]],[q[0]-0.02,-0.2,q[1]+0.02],b],0.009,CC),{kind:'path',pri:3});
+    [-1,1].forEach(function(d){ put('th_circuit','neocortex','p',pulseMesh([b,[b[0]+d*0.08,0.15,b[1]+0.04],[b[0]+d*0.15,0.11,b[1]+d*0.06]],0.006,CC),{kind:'path',pri:3}); });
+  });
+  cells.st.slice(0,4).forEach(function(s,i){ var t=cells.l23[i]; put('th_circuit','neocortex','p',pulseMesh([s,[(s[0]+t[0])/2,0.3,(s[2]+t[2])/2],t],0.006,CC),{kind:'path',pri:3}); });
+  cells.l23.slice(4,7).forEach(function(s,i){ var t=cells.l5[i]; put('th_circuit','neocortex','p',pulseMesh([s,[(s[0]+t[0])/2,0.1,(s[2]+t[2])/2],t],0.006,CC),{kind:'path',pri:3}); });
+  [cells.l23[7],cells.l23[8]].forEach(function(s,i){ put('th_circuit','neocortex','p',pulseMesh([s,[s[0],-0.3,s[2]],[s[0]+0.1,-0.85,s[2]],[XW-0.1,-0.85-0.08*i,s[2]],[XW+0.25,-0.8-0.08*i,s[2]]],0.007,CC),{kind:'path',pri:3}); });
+  cells.l5.slice(0,3).forEach(function(s){ put('th_circuit','neocortex','p',pulseMesh([s,[s[0],-0.6,s[2]],[s[0]+0.04,-1.15,s[2]],[s[0]+0.06,-1.32,s[2]]],0.008,CC),{kind:'path',pri:3}); });
+  cells.l6.slice(0,2).forEach(function(s){ put('th_circuit','neocortex','p',pulseMesh([s,[s[0]-0.03,-0.85,s[2]],[s[0]-0.06,-1.32,s[2]]],0.007,CC),{kind:'path',pri:3}); });
+  // a cortical column with its minicolumns (shown when chosen)
+  var COL=tmat(R.th_column.color,{transparent:true,opacity:0.16,depthWrite:false,side:THREE.DoubleSide});
+  treg('th_column',mesh(new THREE.CylinderGeometry(0.3,0.3,1.6,40,1,true),COL,[0,0.1,0]),'neocortex',{pri:2,vol:true,ro:2,kind:'col'});
+  var CR=tmat(R.th_column.color,{roughness:0.4});
+  [0.9,-0.7].forEach(function(y){ var t=mesh(new THREE.TorusGeometry(0.3,0.006,6,48),CR,[0,y,0]); t.rotation.x=Math.PI/2; put('th_column','neocortex','r',t,{pri:2,kind:'col'}); });
+  for(var mc=0;mc<7;mc++){ var a=mc/6*6.28, rr0=mc===6?0:0.17, mx=Math.cos(a)*rr0, mz=Math.sin(a)*rr0;
+    for(var yy=0.84;yy>-0.66;yy-=0.11) put('th_column','neocortex','r',mesh(new THREE.SphereGeometry(0.012,8,6),CR,[mx+rr(-0.012,0.012),yy,mz+rr(-0.012,0.012)]),{pri:2,kind:'col'}); }
+  flush();
+  anch('neocortex','th_pyramidal',[pyrL5[0],pyrL5[1],pyrL5[2]]);
+  anch('neocortex','th_stellate',cells.st[0]); anch('neocortex','th_inter',cells.bk[0]);
+  anch('neocortex','th_circuit',[-0.52,-0.9,-0.25]); anch('neocortex','th_column',[0,0.9,0.3]);
+  stations('th_pyramidal','neocortex',[['Apical dendrite',[pyrL5[0],0.35,pyrL5[2]]],['Dendrite tuft in layer I',[pyrL5[0],0.83,pyrL5[2]]],['Cell body',[pyrL5[0]+0.03,pyrL5[1],pyrL5[2]]],['Basal dendrites',[pyrL5[0]+0.1,pyrL5[1]-0.08,pyrL5[2]]],['Axon to white matter',[pyrL5[0],-0.62,pyrL5[2]]]]);
+  stations('th_inter','neocortex',[['Basket cell',cells.bk[1]],['Martinotti cell',mart[0]]]);
+  stations('th_stellate','neocortex',[['Spiny stellate cell',cells.st[3]]]);
+  stations('th_circuit','neocortex',[['From the thalamus',[0.4,-1.1,0.15]],['Layer IV to layers II/III',cells.st[1]],['To other cortical areas',[XW+0.2,-0.8,cells.l23[7][2]]],['To brainstem and spinal cord',[cells.l5[0][0]+0.06,-1.3,cells.l5[0][2]]],['Back to the thalamus',[cells.l6[0][0]-0.06,-1.3,cells.l6[0][2]]]]);
+  stations('th_column','neocortex',[['Minicolumn',[0.17,0.4,0]]]);
+  stations('th_wm',  'neocortex',[['Myelinated axons',[0.3,-0.92,0.3]]]);
+
+  /* ---------------- cerebellum: whole organ, deep nuclei, peduncles and an enlarged folium */
+  (function(){
+    var g=new THREE.SphereGeometry(1,320,200); g.rotateZ(Math.PI/2);
+    var p=g.attributes.position, n=p.count, zone=new Uint8Array(n);
+    for(var i=0;i<n;i++){
+      var dx=p.getX(i), dy=p.getY(i), dz=p.getZ(i), l=Math.hypot(dx,dy,dz)||1; dx/=l; dy/=l; dz/=l;
+      var q=cbShape(dx,dy,dz); p.setXYZ(i,q[0],q[1],q[2]); zone[i]=cbZone(dx,dy,dz);
+    }
+    g.computeVertexNormals();
+    g.setAttribute('color',new THREE.BufferAttribute(new Float32Array(n*3),3));
+    cbMesh=new THREE.Mesh(g,new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.55,metalness:0,transparent:true,opacity:1}));
+    treg('th_cerebellum',cbMesh,'cerebellum',{pri:3,kind:'cbcortex',ro:3});
+    cbMesh.userData.zone=zone;
+  })();
+  function cbP(d,lift){ var l=Math.hypot(d[0],d[1],d[2]), u=[d[0]/l,d[1]/l,d[2]/l], q=cbShape(u[0],u[1],u[2]); return [q[0]+u[0]*(lift||0.02),q[1]+u[1]*(lift||0.02),q[2]+u[2]*(lift||0.02)]; }
+  anch('cerebellum','th_cb_vermis',cbP([0,0.55,-0.83]),[0,0.6,-0.8]); anch('cerebellum','th_cb_para',cbP([0.24,0.75,-0.6]),[0.2,0.8,-0.55]);
+  anch('cerebellum','th_cb_lat',cbP([0.78,0.1,-0.6]),[0.8,0.1,-0.6]); anch('cerebellum','th_cb_floc',cbP([0.62,-0.55,0.55]),[0.5,-0.6,0.6]);
+  stations('th_cerebellum','cerebellum',[['Anterior lobe',cbP([0.3,0.62,0.73]),[0.2,0.7,0.6]],['Primary fissure',cbP([0.35,Math.sin(1.95),Math.cos(1.95)],0.03),[0.2,0.9,-0.3]],['Posterior lobe',cbP([0.45,0.2,-0.87]),[0.4,0.2,-0.9]],
+    ['Horizontal fissure',cbP([0.5,Math.sin(-2.75)*0.86,Math.cos(-2.75)*0.86],0.03),[0.4,-0.3,-0.9]],['Flocculonodular lobe',cbP([0.6,-0.6,0.52]),[0.5,-0.6,0.6]]]);
+  stations('th_cb_floc','cerebellum',[['Flocculus',cbP([-0.62,-0.55,0.55]),[-0.5,-0.6,0.6]],['Nodulus',cbP([0,Math.sin(-1.1),Math.cos(-1.1)]),[0,-0.9,0.4]]]);
+  // deep nuclei
+  var NUM=tmat(R.th_cb_nuclei.color,{roughness:0.35,emissive:R.th_cb_nuclei.color,emissiveIntensity:0.2});
+  var dg=new THREE.SphereGeometry(1,40,28), dp=dg.attributes.position;
+  for(var k=0;k<dp.count;k++){ var x=dp.getX(k), y=dp.getY(k), z=dp.getZ(k), f=1+0.13*Math.sin(9*Math.atan2(y,z))*Math.sqrt(Math.max(0,1-x*x)); dp.setXYZ(k,x*f,y*f,z*f); }
+  dg.computeVertexNormals();
+  var NUC={dentate:[0.38,-0.02,0.18],emboliform:[0.23,0.0,0.24],globose:[0.16,-0.03,0.2],fastigial:[0.06,0.06,0.28]};
+  both(function(s){
+    put('th_cb_nuclei','cerebellum','n',mesh(dg.clone(),NUM,[s*NUC.dentate[0],NUC.dentate[1],NUC.dentate[2]],[0.1,0.075,0.13]),{pri:2});
+    put('th_cb_nuclei','cerebellum','n',mesh(new THREE.SphereGeometry(1,16,12),NUM,[s*NUC.emboliform[0],NUC.emboliform[1],NUC.emboliform[2]],[0.03,0.035,0.07]),{pri:2});
+    put('th_cb_nuclei','cerebellum','n',mesh(new THREE.SphereGeometry(1,16,12),NUM,[s*NUC.globose[0],NUC.globose[1],NUC.globose[2]],[0.03,0.03,0.05]),{pri:2});
+    put('th_cb_nuclei','cerebellum','n',mesh(new THREE.SphereGeometry(1,16,12),NUM,[s*NUC.fastigial[0],NUC.fastigial[1],NUC.fastigial[2]],[0.035,0.035,0.05]),{pri:2});
+  });
+  dg.dispose();
+  anch('cerebellum','th_cb_nuclei',NUC.dentate);
+  stations('th_cb_nuclei','cerebellum',[['Dentate',[NUC.dentate[0]+0.04,NUC.dentate[1]-0.06,NUC.dentate[2]]],['Emboliform',NUC.emboliform],['Globose',[-NUC.globose[0],NUC.globose[1],NUC.globose[2]]],['Fastigial',[NUC.fastigial[0],NUC.fastigial[1]+0.04,NUC.fastigial[2]]]]);
+  // brainstem stub for context (not selectable)
+  var stemM=tmat('#c9b8a6',{transparent:true,opacity:0.3,depthWrite:false,roughness:0.7});
+  var stem=mesh(new THREE.CylinderGeometry(0.24,0.18,1.9,28,1,false),stemM,[0,-0.22,0.98]); stem.renderOrder=4; thCb.add(stem);
+  var pons=mesh(new THREE.SphereGeometry(1,28,18),stemM,[0,0.04,1.04],[0.36,0.3,0.28]); pons.renderOrder=4; thCb.add(pons);
+  // peduncles: input through the middle and inferior, output through the superior (animated)
+  var PC=R.th_cb_ped.color, PED={};
+  both(function(s){
+    var mcp=M(s,[[0.16,0.02,1.0],[0.34,0.0,0.8],[0.45,-0.03,0.5],[0.5,-0.04,0.22]]), icp=M(s,[[0.12,-0.62,0.95],[0.22,-0.42,0.74],[0.3,-0.22,0.48],[0.34,-0.12,0.25]]),
+        scp=M(s,[[0.36,-0.01,0.2],[0.27,0.18,0.5],[0.14,0.45,0.82],[0.05,0.62,0.96]]);
+    put('th_cb_ped','cerebellum','p',pulseMesh(mcp,0.07,PC,0.22),{kind:'path',pri:2});
+    put('th_cb_ped','cerebellum','p',pulseMesh(icp,0.045,PC,0.2),{kind:'path',pri:2});
+    put('th_cb_ped','cerebellum','p',pulseMesh(scp,0.045,PC,0.2),{kind:'path',pri:2});
+    if(s>0) PED={mcp:mcp[1],icp:icp[1],scp:scp[2]};
+  });
+  anch('cerebellum','th_cb_ped',PED.mcp);
+  stations('th_cb_ped','cerebellum',[['Middle peduncle: in from the pons',PED.mcp],['Inferior peduncle: in from cord and olive',PED.icp],['Superior peduncle: out to thalamus',PED.scp]]);
+  flush();
+
+  // one folium, enlarged, beside the cerebellum
+  var fol=new THREE.Group(); fol.position.set(2.25,-0.12,0.15); fol.rotation.y=0.32; thCb.add(fol);
+  var FX=0.5, FZ=0.32, FL=[[0.5,0.02,'#ffd6e7'],[0.02,-0.04,'#ff8fab'],[-0.04,-0.45,'#b2f2bb'],[-0.45,-0.7,'#dee2e6']];
+  FL.forEach(function(l){ var h=l[0]-l[1], g=new THREE.BoxGeometry(2*FX,h,2*FZ);
+    treg('th_cb_folium',mesh(g,tmat(l[2],{transparent:true,opacity:0.22,depthWrite:false,roughness:0.8}),[0,(l[0]+l[1])/2,0]),'cerebellum',{pri:1,vol:true,ro:1,parent:fol});
+    var e=new THREE.LineSegments(new THREE.EdgesGeometry(g),new THREE.LineBasicMaterial({color:'#c48aa5',transparent:true,opacity:0.55})); e.position.set(0,(l[0]+l[1])/2,0); fol.add(e); });
+  var PKM=tmat(R.th_cb_purkinje.color,{roughness:0.4,emissive:R.th_cb_purkinje.color,emissiveIntensity:0.15});
+  var pkX=[-0.3,0,0.3], trunks=[];
+  pkX.forEach(function(px){
+    put('th_cb_purkinje','cerebellum','c',mesh(new THREE.SphereGeometry(0.032,14,10),PKM,[px,-0.01,0]),{pri:3,parent:fol});
+    put('th_cb_purkinje','cerebellum','c',seg([px,0.0,0],[px,-0.7,0],0.006,PKM),{pri:3,parent:fol});
+    put('th_cb_purkinje','cerebellum','c',seg([px,0.02,0],[px,0.1,0],0.011,PKM),{pri:3,parent:fol});
+    var tr=[];
+    (function br(y,z,ang,len,d,r){
+      var y2=Math.min(0.47,y+Math.cos(ang)*len), z2=clamp(z+Math.sin(ang)*len,-FZ+0.03,FZ-0.03), xx=px+rr(-0.012,0.012);
+      put('th_cb_purkinje','cerebellum','c',seg([px,y,z],[xx,y2,z2],r,PKM),{pri:3,parent:fol});
+      if(d>=5) tr.push([xx,y2,z2]);
+      if(d>0 && y2<0.46){ br(y2,z2,clamp(ang-rr(0.35,0.6),-1.25,1.25),len*0.8,d-1,r*0.8); br(y2,z2,clamp(ang+rr(0.35,0.6),-1.25,1.25),len*0.8,d-1,r*0.8); }
+    })(0.1,0,0,0.11,6,0.009);
+    trunks.push(tr);
+  });
+  var GRM=tmat(R.th_cb_granule.color,{roughness:0.45,emissive:R.th_cb_granule.color,emissiveIntensity:0.12}), gcs=[];
+  for(var gi=0;gi<170;gi++){ var gp=[rr(-FX+0.03,FX-0.03),rr(-0.42,-0.08),rr(-FZ+0.03,FZ-0.03)]; gcs.push(gp); put('th_cb_granule','cerebellum','c',mesh(new THREE.SphereGeometry(0.013,8,6),GRM,gp),{pri:3,parent:fol}); }
+  for(var pf=0;pf<30;pf++){ var py=rr(0.06,0.46), pz=rr(-FZ+0.03,FZ-0.03);
+    put('th_cb_granule','cerebellum','c',seg([-FX,py,pz],[FX,py,pz],0.0035,GRM),{pri:3,parent:fol});
+    if(pf<10){ var gc=gcs[pf]; gc[2]=pz; put('th_cb_granule','cerebellum','c',seg([gc[0],gc[1],pz],[gc[0],py,pz],0.003,GRM),{pri:3,parent:fol}); } }
+  var MO=R.th_cb_mossy.color, MOM=tmat(MO,{roughness:0.4,emissive:MO,emissiveIntensity:0.25}), ros=[];
+  [[-0.38,-0.15],[-0.1,0.2],[0.18,-0.18],[0.4,0.12]].forEach(function(q){
+    var b=[q[0],-0.38,q[1]];
+    put('th_cb_mossy','cerebellum','p',pulseMesh([[q[0]+0.03,-0.72,q[1]],[q[0],-0.55,q[1]+0.02],b],0.008,MO,0.12),{kind:'path',pri:3,parent:fol});
+    for(var k=0;k<3;k++){ var e=[q[0]+rr(-0.14,0.14),rr(-0.32,-0.12),q[1]+rr(-0.1,0.1)]; ros.push(e);
+      put('th_cb_mossy','cerebellum','p',pulseMesh([b,[(b[0]+e[0])/2,(b[1]+e[1])/2+0.03,(b[2]+e[2])/2],e],0.006,MO,0.12),{kind:'path',pri:3,parent:fol});
+      put('th_cb_mossy','cerebellum','r',mesh(new THREE.SphereGeometry(0.026,10,8),MOM,e,[1,0.8,1]),{pri:3,parent:fol}); }
+  });
+  var CL=R.th_cb_climbing.color;
+  pkX.forEach(function(px,i){
+    var pts=[[px+0.06,-0.72,0.05],[px+0.05,-0.3,0.04],[px+0.035,-0.06,0.02]];
+    for(var t=0;t<=14;t++){ var y=0.0+t*0.022, a=t*1.25; pts.push([px+0.02*Math.cos(a),y,0.02*Math.sin(a)]); }
+    var tip=trunks[i][Math.floor(trunks[i].length*0.4)]||[px,0.4,0.1];
+    pts.push([px+0.015,0.36,tip[2]*0.5]); pts.push([tip[0]+0.012,tip[1]-0.02,tip[2]]);
+    put('th_cb_climbing','cerebellum','p',pulseMesh(pts,0.006,CL,0.1),{kind:'path',pri:3,parent:fol});
+  });
+  flush();
+  fol.updateMatrixWorld(true);
+  function F(a){ return fol.localToWorld(V(a)); }
+  anch('cerebellum','th_cb_folium',F([FX,0.35,FZ])); anch('cerebellum','th_cb_purkinje',F([0.3,-0.01,0])); anch('cerebellum','th_cb_granule',F([-0.2,-0.3,FZ]));
+  anch('cerebellum','th_cb_mossy',F(ros[0])); anch('cerebellum','th_cb_climbing',F([0.06,-0.4,0.05]));
+  stations('th_cb_folium','cerebellum',[['Molecular layer',F([-FX,0.3,FZ])],['Purkinje cell layer',F([-FX,-0.01,FZ])],['Granular layer',F([-FX,-0.25,FZ])],['White matter',F([-FX,-0.58,FZ])]]);
+  stations('th_cb_purkinje','cerebellum',[['Fan-shaped dendrites',F([0,0.38,0.12])],['Cell body',F([0,-0.01,0])],['Axon to deep nuclei',F([0,-0.6,0])]]);
+  stations('th_cb_granule','cerebellum',[['Parallel fibers',F([FX,0.3,0.1])],['Granule cells',F([0,-0.3,0])]]);
+  stations('th_cb_mossy','cerebellum',[['Mossy fiber rosettes',F(ros[4])],['From pons, cord and inner ear',F([0.18,-0.68,-0.18])]]);
+  stations('th_cb_climbing','cerebellum',[['Wraps the Purkinje dendrites',F([0,0.2,0.02])],['From the inferior olive',F([0.36,-0.68,0.05])]]);
+  // a magnifier linking a spot on the cerebellum to the enlarged folium
+  var spot=V(cbP([0.82,0.35,-0.45],0.01)), lm=new THREE.LineBasicMaterial({color:'#8fa3c8',transparent:true,opacity:0.55}), lp=[];
+  [[-FX,0.5,FZ],[-FX,0.5,-FZ],[-FX,-0.7,FZ],[-FX,-0.7,-FZ]].forEach(function(c){ var w=F(c); lp.push(spot.x,spot.y,spot.z,w.x,w.y,w.z); });
+  var lg=new THREE.BufferGeometry(); lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3)); thCb.add(new THREE.LineSegments(lg,lm));
+  var ring=mesh(new THREE.SphereGeometry(0.05,16,12),tmat('#f4a6c6',{emissive:'#f4a6c6',emissiveIntensity:0.5}),[spot.x,spot.y,spot.z]); thCb.add(ring);
+  setThinkAnchors();
+}
+function setThinkAnchors(){
+  TH_IDS.forEach(function(id){ var a=thAnch[tView][id]; if(a) anchors[id]={p:a.p,n:a.n}; else delete anchors[id]; });
+}
+function applyThinkVis(){
+  if(!thBuilt) return;
+  var on=mode==='think';
+  thCer.visible=on && tView==='cerebrum' && xrayT>0.02; thNeo.visible=on && tView==='neocortex'; thCb.visible=on && tView==='cerebellum';
+  R.th_column.meshes.forEach(function(m){ m.visible=selected==='th_column'; });
+}
+function thLabelOK(id){
+  if(!thBuilt || !anchors[id]) return false;
+  var r=R[id]; if(r.tv!==tView || TH_OVERS.indexOf(id)>=0) return false;
+  var s=thSel(); if(s && s!==id) return false;
+  if(tView==='cerebrum') return r.inner?xrayT>0.5:xrayT<0.5;
+  if(id==='th_column') return selected==='th_column';
+  if(id==='th_cb_nuclei') return cbClear();
+  return true;
+}
+function applyThinkColors(){
+  if(!thBuilt) return;
+  var sel=thSel(), hov=isThink(hovered)?hovered:null, NEU=[0.86,0.88,0.92], WH=[1,1,1], with_=(sel && TH[sel] && TH[sel].with)||[];
+  function litOf(id){ return !sel || sel===id || with_.indexOf(id)>=0; }
+  // cerebrum: color the real cortex by lobe
+  var st=CORTEX_IDS.map(function(cid){ var lobe=THINK_MAP[cid], c=hexArr(R[lobe].color), o;
+    if(!sel) o=mix(NEU,c,0.93); else if(sel===lobe) o=mix(c,WH,0.06); else o=mix(NEU,c,0.14);
+    if(hov===lobe) o=mix(o,WH,0.28); return [o[0]*0.84,o[1]*0.84,o[2]*0.84]; });
+  cortexMeshes.forEach(function(m,mi){
+    var col=m.geometry.attributes.color, fr=m.userData.faceReg, a=col.array, hc=null;
+    if(sel==='th_hemispheres' || (!sel && hov==='th_hemispheres')){ hc=hexArr(mi===0?'#5b8def':'#ff8fa3'); if(!sel) hc=mix(hc,WH,0.2); }
+    for(var f=0;f<fr.length;f++){ var c=hc||st[fr[f]], o=f*9; a[o]=a[o+3]=a[o+6]=c[0]; a[o+1]=a[o+4]=a[o+7]=c[1]; a[o+2]=a[o+5]=a[o+8]=c[2]; }
+    col.needsUpdate=true;
+  });
+  BRAIN_IDS.forEach(function(id){
+    var r=R[id]; if(r.kind==='cortex') return;
+    var t=THINK_MAP[id], c, k=0, op;
+    if(t){ var lit=litOf(t); c=mix(NEU,hexArr(R[t].color),lit?0.85:0.15); if(hov===t) c=mix(c,WH,0.28); k=sel===t?0.25:0; op=lit?0.9:0.12; }
+    else { var also=sel && TH_ALSO[sel] && TH_ALSO[sel].indexOf(id)>=0; c=also?[0.9,0.84,0.7]:[0.62,0.65,0.72]; op=also?0.7:(sel?0.1:0.3); }
+    var seen=[];
+    r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material);
+      m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); m.material.userData.seOp=op; });
+  });
+  // the model's own parts
+  TH_IDS.forEach(function(id){
+    var lit=litOf(id), h=hov===id;
+    R[id].meshes.forEach(function(m){
+      var u=m.userData; if(u.kind==='cbcortex') return;
+      var c=lit?u.base:mix(u.base,[0.62,0.65,0.72],0.75); if(h) c=mix(c,WH,0.28);
+      m.material.color.setRGB(c[0],c[1],c[2]);
+      var k=u.kind==='path'?((sel===id||h)?0.85:(lit?0.55:0.12)):(sel===id?0.22:(lit?0.08:0));
+      m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
+      if(u.op0<1){ var o=lit?u.op0*(sel===id?1.6:1):u.op0*(u.view==='cerebrum'?0.12:0.35); o=Math.min(o,0.95); if(u.view==='cerebrum') m.material.userData.thOp=o; else m.material.opacity=o; }
+    });
+  });
+  // cerebellum surface by functional zone; see-through when its inner parts are chosen
+  if(cbMesh){
+    var zc=CB_ZONES.map(function(z){ var c=hexArr(R[z].color), o=!sel?mix(NEU,c,0.92):(sel===z?c:mix(NEU,c,0.12)); if(hov===z || hov==='th_cerebellum') o=mix(o,WH,0.28); return o; });
+    var col=cbMesh.geometry.attributes.color, a=col.array, zn=cbMesh.userData.zone;
+    for(var i=0;i<zn.length;i++){ var c=zc[zn[i]]; a[i*3]=c[0]; a[i*3+1]=c[1]; a[i*3+2]=c[2]; }
+    col.needsUpdate=true;
+    var clear=cbClear(); cbMesh.material.opacity=clear?0.2:1; cbMesh.material.depthWrite=!clear; cbMesh.userData.vol=clear; cbMesh.userData.pri=clear?1:3;
+  }
+}
+function setTView(v,keep){
+  if(v===tView) return;
+  tView=v;
+  [['#tvCer','cerebrum'],['#tvNeo','neocortex'],['#tvCb','cerebellum']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  ['cerebrum','neocortex','cerebellum'].forEach(function(t){ app.classList.toggle('tv-'+t,t===v); });
+  setThinkAnchors();
+  if(!keep && isThink(selected) && R[selected].tv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
+  setHover(null); applyVisibility(); refreshUI(); layout();
+  if(keep) return;
+  if(sideLayout()) select(TH_OVER[v]); else resetView();
+}
+function thinkFocus(r){
+  var v=r.view||TH_DEF[r.tv], at=r.at?new THREE.Vector3(r.at[0],r.at[1],r.at[2]):TH_C[r.tv];
+  if(r.tv==='cerebellum' && /^th_cb_(folium|purkinje|granule|mossy|climbing)$/.test(r.id)){ at=thAnch.cerebellum.th_cb_purkinje.p.clone(); at.y+=0.02; }
+  tgt.az=tgt.az+wrap(v.az*Math.PI/180-tgt.az); tgt.el=v.el*Math.PI/180; tgt.zoom=r.zoom||1; CENTER_T.copy(at);
+}
+function thinkPickAt(){
+  var list=thPick[tView].filter(function(m){ return m.visible && m.userData.grp.visible; });
+  if(tView==='cerebrum') list=list.concat(pickables.filter(function(m){ return m.visible; }));
+  var hits=rc.intersectObjects(list,false), vol=null;
+  for(var i=0;i<hits.length;i++){
+    var x=hits[i], u=x.object.userData, id=null, pri=2, isVol=false;
+    if(u.cortex){ id=THINK_MAP[CORTEX_IDS[u.faceReg[x.faceIndex]]]; isVol=xrayT>0.5; pri=1; }
+    else if(u.think){ id=u.kind==='cbcortex'?CB_ZONES[u.zone[x.face.a]]:u.region; isVol=u.vol; pri=u.pri; }
+    else { id=THINK_MAP[u.region]||null; if(u.deep && (x.object.material.opacity<0.2)) id=null; }
+    if(!id) continue;
+    if(!isVol){ if(vol && vol.box && (u.box||0)!==vol.box) return vol.id; return id; }
+    if(!vol || pri>vol.pri) vol={id:id,pri:pri,box:u.box||0};
+  }
+  return vol?vol.id:null;
+}
+function updateThinkStations(taken){
+  if(!thStn.length) return;
+  var on=mode==='think' && showLabels && !!thSel();
+  thStn.forEach(function(st){
+    if(!on || st.id!==selected || st.view!==tView){ setLbl(st.el,false); return; }
+    if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
+    tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
+    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
+    taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
+  });
+}
+function thFrame(dt){
+  if(!thBuilt) return;
+  var cv=tView==='cerebrum' && xrayT>0.02; thCer.visible=cv;
+  if(cv) for(var i=0;i<thCerMats.length;i++){ var m=thCerMats[i]; m.opacity=xrayT*(m.userData.thOp!=null?m.userData.thOp:1); m.depthWrite=xrayT>0.95; }
+  if(signalsOn) for(var j=0;j<thPaths.length;j++){ var p=thPaths[j]; if(p.visible && p.userData.grp.visible) p.userData.tex.offset.x-=dt*0.8; }
+}
+function xrayTo(on){ xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false'); }
+function enterThink(){
+  buildThink(); thXrayBefore=xray; xrayTo(false);
+  ['cerebrum','neocortex','cerebellum'].forEach(function(t){ app.classList.toggle('tv-'+t,t===tView); });
+  setThinkAnchors();
+}
+function leaveThink(){ xrayTo(thXrayBefore); }
+function thChips(title,ids){
+  var tree=$('#pTree'); tree.appendChild(el('h3',null,title));
+  var kd=el('div','kids');
+  ids.forEach(function(id){ var b=el('button','chip'); b.style.setProperty('--c',R[id].color); b.innerHTML='<i class="dot"></i>'; b.appendChild(document.createTextNode(R[id].short)); b.addEventListener('click',function(){ select(id); }); kd.appendChild(b); });
+  tree.appendChild(kd);
+}
+function fillThink(r){
+  var d=TH[r.id]||{}, tree=$('#pTree');
+  tree.hidden=false;
+  if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
+  senseList('What it does',r.funcs);
+  if(d.how) senseList('How it works',d.how,TH_OVERS.indexOf(r.id)<0 && (r.id==='th_circuit'||r.id==='th_cb_folium'||r.id==='th_projection'||r.id==='th_cerebellum'));
+  if(d.deep) senseList('A deeper look',d.deep);
+  if(TH_OVERS.indexOf(r.id)>=0){
+    thChips('Explore its parts',TH_IDS.filter(function(id){ return R[id].tv===r.tv && id!==r.id; }));
+    thChips('The other thinking organs',d.rel||[]);
+    var vs=TH_VERSE[r.id]; if(vs){ var q=el('div','verse',vs[0]); q.appendChild(el('small',null,vs[1])); tree.appendChild(q); }
+  } else {
+    var rel=(d.rel||[]).slice(); if(rel.indexOf(TH_OVER[r.tv])<0) rel.push(TH_OVER[r.tv]);
+    thChips('Related parts',rel);
+  }
+}
+$('#tvCer').addEventListener('click',function(){ setTView('cerebrum'); });
+$('#tvNeo').addEventListener('click',function(){ setTView('neocortex'); });
+$('#tvCb').addEventListener('click',function(){ setTView('cerebellum'); });
+
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');
 function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:MEN_N[id]||null):null; }
@@ -3861,6 +4814,7 @@ function pickAt(cx,cy){
   var r=canvas.getBoundingClientRect();
   ndc.set(((cx-r.left)/r.width)*2-1,-((cy-r.top)/r.height)*2+1);
   rc.setFromCamera(ndc,camera);
+  if(mode==='think') return thinkPickAt();
   var list=(mode==='senses'?(seView==='head'?sensePickHead:sensePickBody):mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
   var hits=rc.intersectObjects(list,false).filter(function(x){ return !(x.object.material && x.object.material.userData && x.object.material.userData.faded); });
   if(!hits.length) return null;
@@ -3876,7 +4830,7 @@ function pickAt(cx,cy){
 
 function pick(cx,cy){
   var id=pickAt(cx,cy);
-  if(!id && (bodyView()||mode==='spine'||mode==='senses')){
+  if(!id && (bodyView()||mode==='spine'||mode==='senses'||mode==='think')){
     var rads=[8,16];
     for(var ri=0;ri<2 && !id;ri++) for(var a=0;a<8 && !id;a++){ var an=a/8*Math.PI*2; id=pickAt(cx+Math.cos(an)*rads[ri],cy+Math.sin(an)*rads[ri]); }
   }
@@ -3994,7 +4948,7 @@ function updateLabels(){
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
       if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || r.kind==='vessel' || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
-    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
+    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5;
@@ -4017,7 +4971,7 @@ function updateLabels(){
     }
     if(!show) setLbl(labelEls[r.id],false);
   });
-  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
+  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
   order.forEach(function(id){
     var it=items[id]; if(!it || it.done) return; it.done=true;
     var el=labelEls[id], w=(el._w||80)+6, hit=false;
@@ -4029,7 +4983,7 @@ function updateLabels(){
     taken.push({x:it.x,y:it.y,w:w});
     setLbl(el,true,it.x,it.y);
   });
-  updateStations(taken);
+  updateStations(taken); updateThinkStations(taken);
 }
 
 
@@ -4040,11 +4994,12 @@ function frame(now){
   cur.az+=(tgt.az-cur.az)*k; cur.el+=(tgt.el-cur.el)*k; cur.zoom+=(tgt.zoom-cur.zoom)*k;
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
-  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:0.86))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
+  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:0.86)))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
-  for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*(mode==='senses' && dm.userData.seOp!=null?dm.userData.seOp:1); }
+  for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
+  if(mode==='think') thFrame(dt);
   if(vesselsOn && mode==='brain'){
     hbT+=dt; var hb=heartbeat(hbT);
     for(var vi=0;vi<vesselMeshes.length;vi++){
@@ -4080,7 +5035,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || (mode==='senses' && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think') && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

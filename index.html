@@ -134,6 +134,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-think .sv.think-only{display:inline-flex!important}
 .mode-think.tv-cerebrum #bXray{display:flex!important}
 #pTree .facts{margin:12px 0 4px}
+.lobe{margin:16px 0 4px;padding:12px 14px;border-radius:14px;background:var(--soft);border-left:4px solid var(--lc)}
+.lobe>b{display:block;font:700 15px/1.2 var(--head)}
+.lobe>p{margin:5px 0 0;font-size:14.5px;line-height:1.5}
+.lobe .facts{margin:10px 0 6px}
+.lobe .facts div{background:var(--panel)}
+.lobe>small{display:block;margin:8px 0 6px;font-size:12.5px;color:var(--muted);font-weight:600}
 .label.stn{pointer-events:none!important;font-size:10.5px;font-weight:600;padding:2px 8px 2px 6px;box-shadow:0 1px 5px rgba(0,0,0,.18)}
 .label.stn .dot{width:6px;height:6px}
 .scroll ol.steps{margin:0;padding:0;list-style:none;counter-reset:st}
@@ -394,6 +400,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <p class="summary" id="pSummary"></p>
       <div id="pTree" hidden></div>
       <h3 id="hFuncs">What it does</h3><ul id="pFuncs"></ul>
+      <div id="pMore" hidden></div>
       <h3 id="hDamage">If it is damaged</h3><p class="dmg" id="pDamage"></p>
       <div class="fact"><b>Did you know?</b><p id="pFact"></p></div>
       <button class="jump" id="pJump" hidden>Explore its parts in Brain mode</button>
@@ -2746,6 +2753,7 @@ function fillPanel(r){
   else tree.hidden=true;
   var ul=$('#pFuncs'); ul.innerHTML='';
   r.funcs.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
+  fillLobe(r);
   $('#scroll').scrollTop=0;
 }
 function focusOn(r){
@@ -3365,6 +3373,7 @@ function legendHTML(){
 function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
 function fillDPanel(){
   if(!D) return;
+  $('#pMore').hidden=true;
   var dz=R[curDisease], si=Math.round(clamp(stageT,0,4)), stg=D.stages[si], tree=$('#pTree'), bd=$('#pBadge');
   tree.innerHTML=''; tree.hidden=false; $('#pJump').hidden=true;
   $('#bPrev').textContent='Earlier stage'; $('#bNext').textContent='Later stage';
@@ -4650,6 +4659,99 @@ function fillThink(r){
 $('#tvCer').addEventListener('click',function(){ setTView('cerebrum'); });
 $('#tvNeo').addEventListener('click',function(){ setTView('neocortex'); });
 $('#tvCb').addEventListener('click',function(){ setTView('cerebellum'); });
+
+/* ------------------------------------------------------------ lobe details (Brain mode) */
+var LOBES={
+ frontal:{name:'Frontal lobe',color:'#4f8df7',members:['prefrontal','premotor','motor','broca'],
+  about:'The largest lobe, about a third of the cortex. It lies in front of the central groove and above the lateral groove. It plans, decides, controls impulses, produces speech and sends the commands that move your body.',
+  stats:[['~⅓','of the cortex'],['4','main gyri on its outer side'],['~25','age by which it is fully mature']],
+  verse:['“A man’s heart deviseth his way: but the LORD directeth his steps.”','Proverbs 16:9 (KJV)']},
+ parietal:{name:'Parietal lobe',color:'#2fbf88',members:['sensory','parietal'],
+  about:'The lobe behind the central groove and above the temporal lobe. It feels touch and body position and combines the senses into a map of the space around you, so you can reach, point, read and count.',
+  stats:[['3','main parts'],['3, 1, 2','area numbers of the touch strip'],['39 & 40','angular and supramarginal areas']],
+  verse:['“Thou hast beset me behind and before, and laid thine hand upon me.”','Psalm 139:5 (KJV)']},
+ temporal:{name:'Temporal lobe',color:'#f2674b',members:['temporal','auditory','wernicke'],
+  about:'The lobe on each side below the lateral groove, beside the ears. It handles hearing, understanding language, recognizing faces and objects, and, through the hippocampus on its inner side, forming new memories.',
+  stats:[['3','gyri on its outer side'],['41 & 42','area numbers of the hearing cortex'],['2','key inner parts: hippocampus and amygdala']],
+  verse:['“So then faith cometh by hearing, and hearing by the word of God.”','Romans 10:17 (KJV)']},
+ occipital:{name:'Occipital lobe',color:'#c05cdb',members:['occipital'],
+  about:'The lobe at the back of the head, above the cerebellum. It is devoted almost entirely to vision, turning signals from the eyes into edges, colors, motion and shapes.',
+  stats:[['17','area number of the primary visual cortex'],['V1–V5','main visual areas'],['2','streams leaving it: “what” and “where”']],
+  verse:['“Open thou mine eyes, that I may behold wondrous things out of thy law.”','Psalm 119:18 (KJV)']},
+ insular:{name:'Insular lobe',color:'#ffa94d',members:['insula'],
+  about:'A hidden lobe folded deep inside the lateral groove and covered by flaps of the frontal, parietal and temporal lobes. It senses the body’s inner state and turns it into feelings.',
+  stats:[['3','short gyri at the front'],['2','long gyri at the back'],['Hidden','under the opercula']],
+  verse:['“Rejoice with them that do rejoice, and weep with them that weep.”','Romans 12:15 (KJV)']},
+ limbic:{name:'Limbic lobe',color:'#ff7eb6',members:['cingulate'],
+  about:'A ring of cortex on the inner surface of each hemisphere, curving around the corpus callosum and brainstem. With the hippocampus and amygdala, it links emotion, motivation and memory.',
+  stats:[['3','parts of the cingulate: front, middle, back'],['24','area number of the front cingulate'],['1937','year the Papez circuit was described']],
+  verse:['“And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.”','Philippians 4:7 (KJV)']}
+};
+var LOBE_INFO={
+ prefrontal:{lobe:'frontal',
+  marks:['Brodmann areas 9, 10, 11, 46 and 47, among others','Dorsolateral part (outer side): working memory and planning','Orbitofrontal part (above the eyes): weighing rewards and social behavior','Ventromedial part (inner side): linking emotion with decisions','Blood supply: the anterior and middle cerebral arteries'],
+  how:['It holds goals and rules in mind while other areas carry out the work.','It sends “top-down” signals that strengthen what matters and quiet distractions.','It receives information from every sense and from emotion and memory areas, so it can weigh the whole situation.','The chemical dopamine helps it hold information in mind. Too little or too much makes this harder.'],
+  more:['It is one of the last areas to mature. Myelin keeps being added into the mid-twenties.','Damage to the orbitofrontal part can leave test scores and intelligence normal but badly impair judgment in real life.','It is active when people weigh right and wrong, wait for a later reward, or consider how their actions affect others.']},
+ premotor:{lobe:'frontal',
+  marks:['Brodmann area 6, just in front of the motor strip','Supplementary motor area on the inner surface: sequences and starting movement','Frontal eye fields (area 8): moving the eyes on purpose'],
+  how:['It prepares movements before they happen, using what you see and hear.','The supplementary motor area organizes sequences, such as the steps of tying a shoe.','It sends signals to the motor cortex and also directly down to the spinal cord.'],
+  more:['Some cells here fire both when you perform an action and when you watch someone else do it, which may help in learning by watching.','Damage to the supplementary motor area can briefly leave a person unable to start moving or speaking, even though they are not paralyzed.']},
+ motor:{lobe:'frontal',
+  marks:['Precentral gyrus, Brodmann area 4','Giant Betz cells in layer V send fibers down to the spinal cord','The leg area lies on the inner surface near the midline. The face is low on the side.','Blood supply: the leg area from the anterior cerebral artery, the arm and face from the middle cerebral artery'],
+  how:['Commands travel down the corticospinal tract, through the internal capsule and the brainstem.','Most fibers (about 85 to 90 percent) cross to the other side at the bottom of the medulla.','They connect with motor neurons in the spinal cord, which make the muscles contract.','Each spot controls groups of muscles working together, not single muscles.'],
+  more:['Wilder Penfield mapped this body map, the motor homunculus, by gently stimulating the brain during surgery in the 1930s and 1940s.','Practice enlarges the areas you use. Skilled musicians have larger finger areas.','This is why a stroke can weaken the leg more than the arm, or the arm and face more than the leg, depending on which artery is blocked.']},
+ sensory:{lobe:'parietal',
+  marks:['Postcentral gyrus, Brodmann areas 3, 1 and 2','A second touch area sits lower, just above the lateral groove','The same body layout as the motor strip: leg on the inner surface, face low on the side'],
+  how:['Touch and position signals arrive from the thalamus: the body through one relay (VPL) and the face through another (VPM).','Area 3b handles basic touch, area 1 texture, and area 2 size, shape and position.','Signals then pass back into the parietal lobe so you can recognize objects by feel.'],
+  more:['The map can reorganize. After an amputation, nearby areas such as the face can take over the hand area, one cause of phantom sensations.','Recognizing an object by touch alone, such as a key in your pocket, is called stereognosis.']},
+ parietal:{lobe:'parietal',
+  marks:['Superior parietal lobule (areas 5 and 7): body awareness and reaching','Inferior parietal lobule: supramarginal gyrus (area 40) and angular gyrus (area 39)','Intraparietal sulcus between them: number sense and eye–hand control','Precuneus on the inner surface: mental imagery and memory'],
+  how:['It combines touch, body position, vision and hearing into maps of the space around you.','It forms the upper, “where and how,” stream of vision, which guides reaching and grasping.','It helps move your attention from one place to another.'],
+  more:['Damage to the left angular gyrus can cause Gerstmann syndrome: trouble writing, calculating, naming fingers and telling left from right.','The right parietal lobe watches both sides of space, while the left mainly watches the right side. This is why neglect usually follows right-sided damage.','The intraparietal sulcus is active whenever you compare amounts, even in young children.']},
+ occipital:{lobe:'occipital',
+  marks:['Calcarine sulcus on the inner surface, lined by the primary visual cortex (V1, area 17)','Visual association areas 18 and 19 around it','Cuneus above the calcarine sulcus, lingual gyrus below','Blood supply: mainly the posterior cerebral artery'],
+  how:['The optic radiations bring signals from the LGN of the thalamus.','V1 keeps a precise map of what you see, and the center of vision gets the most space.','Nearby areas extract contours, color (V4) and motion (V5).','A lower stream to the temporal lobe recognizes what things are. An upper stream to the parietal lobe tracks where they are.'],
+  more:['The upper half of what you see is mapped below the calcarine sulcus, and the lower half above it.','A stroke in one posterior cerebral artery removes the same half of vision in both eyes, often sparing the very center (macular sparing).','In people blind from birth, the occipital lobe helps with reading Braille and with hearing.']},
+ temporal:{lobe:'temporal',
+  marks:['Superior, middle and inferior temporal gyri on its outer side','Fusiform gyrus on the underside: faces and written words','Inner (medial) part: the hippocampus, amygdala and entorhinal cortex','Blood supply: mainly the middle cerebral artery, with the posterior cerebral artery underneath'],
+  how:['The lower visual stream ends here, recognizing objects, faces and places.','The upper temporal gyrus on the left helps you understand speech.','The hippocampus binds new experiences into memories, which are later stored across the cortex.','The front tip (temporal pole) links knowledge with names and feelings.'],
+  more:['Temporal lobe epilepsy is the most common focal epilepsy in adults. Seizures may begin with a rising feeling in the stomach or a sudden sense of déjà vu.','The left temporal lobe stores word meanings, while the right helps with voices, tone and melody.','Damage to both inner temporal lobes, as in the patient H.M., causes severe difficulty forming new memories.']},
+ auditory:{lobe:'temporal',
+  marks:['Heschl’s gyrus (the transverse temporal gyri), Brodmann areas 41 and 42','Planum temporale just behind it, often larger on the left','Belt and parabelt areas around it for more complex sounds'],
+  how:['Sound signals travel from the cochlea through the brainstem and the inferior colliculus to the MGN of the thalamus, then here.','Each ear sends signals to both sides of the brain.','Pitches are laid out in order across it (tonotopy).'],
+  more:['Tiny differences in timing and loudness between the two ears, worked out in the brainstem, tell the brain where a sound came from.','In rare “pure word deafness,” hearing works but speech sounds like meaningless noise.','Musical training strengthens and sharpens responses in the auditory cortex.']},
+ broca:{lobe:'frontal',
+  marks:['Inferior frontal gyrus: pars opercularis (area 44) and pars triangularis (area 45)','Just in front of the motor areas for the face, lips and tongue','Linked to Wernicke’s area by the arcuate fasciculus'],
+  how:['It plans the sequence of speech sounds and passes the plan to the motor cortex.','It builds sentence structure, or grammar.','It also helps you understand long or complex sentences.'],
+  more:['In people who use sign language, damage here disrupts signing in a similar way, showing that it handles language, not just mouth movements.','Paul Broca’s original patient’s brain is still preserved in Paris.','Language is controlled mainly by the left hemisphere in about 95 percent of right-handed people.']},
+ wernicke:{lobe:'temporal',
+  marks:['Back part of the superior temporal gyrus (area 22), often extending toward areas 39 and 40','Right next to the auditory cortex'],
+  how:['It matches speech sounds to words and their meanings.','It sends information to Broca’s area through the arcuate fasciculus.','Through links with the visual areas, it also supports reading.'],
+  more:['Damage to the arcuate fasciculus causes conduction aphasia: speech and understanding are fairly good, but repeating words is very hard.','People with Wernicke’s aphasia are often unaware that their speech does not make sense.']},
+ insula:{lobe:'insular',
+  marks:['Covered by the frontal, parietal and temporal opercula','Short gyri at the front and long gyri at the back, separated by the central sulcus of the insula','Blood supply: branches of the middle cerebral artery'],
+  how:['The back part receives signals about the body’s inner state (interoception) from the thalamus.','The front part combines these signals with emotion, producing feelings such as thirst, disgust or a racing heart.','The main taste cortex lies in the insula and the overlying frontal operculum.'],
+  more:['With the front of the cingulate cortex, it forms the salience network, which notices what matters right now and shifts attention to it.','It is active both when you feel pain and when you see someone you love in pain.','In a 2007 study, smokers who had damage to the insula were far more likely to quit easily, without cravings.']},
+ cingulate:{lobe:'limbic',
+  marks:['Cingulate gyrus, arching above the corpus callosum','Front (areas 24, 32 and 33), middle and back (areas 23 and 31) parts','The cingulum, a white-matter bundle, runs inside it'],
+  how:['The front part detects conflicts and mistakes and adds the unpleasant feeling to pain.','The back part takes part in memory and self-reflection.','It links emotion areas with the prefrontal cortex to guide what you do next.'],
+  more:['Within about a tenth of a second after a mistake, a brain wave called the error-related negativity appears, generated near the front of the cingulate.','In 1937, James Papez described a circuit linking the cingulate, hippocampus and thalamus that is central to emotion and memory.']}
+};
+function lobeList(box,title,items){ box.appendChild(el('h3',null,title)); var l=el('ul'); items.forEach(function(t){ l.appendChild(el('li',null,t)); }); box.appendChild(l); }
+function fillLobe(r){
+  var box=$('#pMore'), d=(!r.mode && mode==='brain')?LOBE_INFO[r.id]:null;
+  box.innerHTML=''; box.hidden=!d; if(!d) return;
+  var L=LOBES[d.lobe], card=el('div','lobe'); card.style.setProperty('--lc',L.color);
+  card.appendChild(el('b',null,'Part of the '+L.name.toLowerCase())); card.appendChild(el('p',null,L.about));
+  var fx=el('div','facts'); L.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); card.appendChild(fx);
+  var others=L.members.filter(function(id){ return id!==r.id; });
+  if(others.length){ card.appendChild(el('small',null,'Other areas in this lobe')); var kd=el('div','kids');
+    others.forEach(function(id){ var b=el('button','chip'); b.style.setProperty('--c',R[id].color); b.innerHTML='<i class="dot"></i>'; b.appendChild(document.createTextNode(R[id].short)); b.addEventListener('click',function(){ select(id); }); kd.appendChild(b); });
+    card.appendChild(kd); }
+  box.appendChild(card);
+  lobeList(box,'Landmarks',d.marks); lobeList(box,'How it works',d.how); lobeList(box,'A closer look',d.more);
+  var vs=el('div','verse',L.verse[0]); vs.appendChild(el('small',null,L.verse[1])); box.appendChild(vs);
+}
 
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');

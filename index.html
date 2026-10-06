@@ -1345,7 +1345,7 @@ var REGIONS = [
   fact:'Doctors test position sense by gently moving your big toe up or down while your eyes are closed and asking which way it moved.',
   view:{az:-140,el:22}, at:[-0.1,-0.3,-0.25], zoom:0.95,
   bview:{az:115,el:6}, bat:[-0.05,0,0], bzoom:1},
- {id:'se_intero',kind:'sense',mode:'senses',group:'Senses of the body',name:'Internal Senses (Interoception)',short:'Internal senses',color:'#f4a261',
+ {id:'se_intero',kind:'sense',mode:'senses',group:'Senses of the body',name:'Internal Senses (Interoception)',short:'Internal senses',color:'#c5e04a',
   where:'Sensors in the heart, blood vessels, lungs, gut and bladder',
   summary:'Interoception is the sense of the body’s inner state: heartbeat, breathing, hunger, fullness, thirst, the need to urinate and more. Sensors in organs and blood vessels send signals, mainly through the vagus nerve and the spinal cord, to the brainstem, hypothalamus and insula.',
   funcs:[],
@@ -3558,7 +3558,7 @@ function buildSenses(){
   [['se_touch',touchB],['se_temp',tempB],['se_pain',painB],['se_proprio',propB],['se_intero',intB]].forEach(function(e){ e[1].forEach(function(p){ path(e[0],p,'head',0.008); }); });
   // internal senses arrive from the neck: the vagus nerve (heart, lungs, gut) and the glossopharyngeal nerve from the carotid sinus
   bothSides(function(s){
-    organ('se_intero',sph(0.022,16,12),mat('#f4a261',{emissive:'#f4a261',emissiveIntensity:0.5}),[s*0.2,-1.3,0.14]);
+    organ('se_intero',sph(0.022,16,12),mat('#c5e04a',{emissive:'#c5e04a',emissiveIntensity:0.5}),[s*0.2,-1.3,0.14]);
     path('se_intero',[[s*0.22,-1.72,0.02],[s*0.22,-1.4,0.03],[s*0.23,-1.05,-0.05],[s*0.24,-0.86,-0.14],S(0.75,s*1.0,0.1)],'head',0.008);
     path('se_intero',[[s*0.2,-1.3,0.14],[s*0.21,-1.15,0.08],[s*0.23,-0.95,-0.04],[s*0.24,-0.83,-0.13],S(0.74,s*1.0,0.06)],'head',0.006);
   });
@@ -3609,8 +3609,8 @@ function buildSenses(){
   brainEnd('se_proprio',propB);
   stations('se_proprio','body',[['Joint and muscle sensors in the ankle and foot',foot],['Muscle spindles in the calf',calf],['Tibial and sciatic nerves',[-0.19,-0.6,-0.065]],['Muscle spindles in the thigh',thigh],['Femoral nerve',[-0.15,-0.12,0.08]],['Dorsal root ganglion',[-0.03,0.47,-0.12]],['Dorsal column and spinocerebellar tract',[-0.012,1.0,-0.15]],['Brain: cerebellum, thalamus, cortex',B2([-0.32,-0.42,-0.66])]]);
   // internal senses: stomach via the vagus nerve, bladder via sacral nerves into the cord
-  var stom=organ('se_intero',sph(1,24,16),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0.11,0.64,0.12],[0.09,0.07,0.05],'body');
-  var blad=organ('se_intero',sph(1,20,14),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.0,0.12],[0.06,0.05,0.05],'body');
+  var stom=organ('se_intero',sph(1,24,16),mat('#c5e04a',{transparent:true,opacity:0.45,depthWrite:false}),[0.11,0.64,0.12],[0.09,0.07,0.05],'body');
+  var blad=organ('se_intero',sph(1,20,14),mat('#c5e04a',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.0,0.12],[0.06,0.05,0.05],'body');
   marker('se_intero',[0.12,0.66,0.12],0.016); marker('se_intero',[0,0.03,0.12],0.016);
   path('se_intero',[[0.12,0.66,0.12],[0.08,0.65,0.08],[0.06,0.85,0.06],[0.05,1.05,0.06],[0.06,1.2,0.05],[0.07,1.38,0.03],[0.07,1.5,0.02],[0.06,1.62,0],[0.03,1.69,-0.03]],'body');
   path('se_intero',[[0,0.03,0.12],[0.03,0.06,0.03],[0.05,0.12,-0.08],[0.02,0.2,-0.12],[0.012,0.4,-0.12],[0.006,0.6,-0.12]].concat(up(0.004,0.68,1.6,0.004)).concat([[0.004,1.63,-0.04]]),'body');

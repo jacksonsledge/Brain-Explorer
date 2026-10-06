@@ -1380,20 +1380,7 @@ var REGIONS = [
 
 
 
- {id:'th_basal',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Basal Ganglia',short:'Basal ganglia',color:'#9b8cff',badge:'Deep inside the cerebrum, shown in X-ray view',
-  where:'Clusters of nerve cells deep in each hemisphere, beside the thalamus',
-  summary:'The basal ganglia are deep clusters of nerve cells, mainly the caudate, putamen and globus pallidus. They work like a selection system, letting wanted movements and thoughts go ahead while holding back unwanted ones.',
-  funcs:['Starting and smoothing voluntary movement','Holding back unwanted movements','Learning habits and routines','Reward, motivation and choosing between options'],
-  damage:'Losing dopamine signals to the basal ganglia causes Parkinson’s disease, with slowness, stiffness and tremor. Damage to the caudate in Huntington’s disease causes unwanted, dance-like movements.',
-  fact:'Habits you no longer think about, such as tying your shoes, rely heavily on the basal ganglia, which frees the cortex to think about other things.',
-  view:{az:35,el:25}, at:[0.15,0.1,0.05], zoom:0.8},
- {id:'th_ventricles',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: inside',name:'Ventricles',short:'Ventricles',color:'#5aa9e6',badge:'Fluid spaces, shown in X-ray view',
-  where:'Connected fluid-filled spaces inside the brain',
-  summary:'The ventricles are four connected spaces filled with cerebrospinal fluid. The two large lateral ventricles curve through the hemispheres. The fluid cushions the brain, keeps it buoyant and helps clear away waste.',
-  funcs:['Making cerebrospinal fluid (in the choroid plexus)','Cushioning the brain against bumps','Making the brain float, so it presses far less on its base','Carrying away waste and chemical signals'],
-  damage:'If the fluid cannot drain, the ventricles swell and press on the brain, a condition called hydrocephalus. It is often treated with a thin tube (shunt) that drains the extra fluid.',
-  fact:'The brain makes about half a liter of cerebrospinal fluid a day, but only about 150 milliliters is present at a time, so it is replaced several times daily.',
-  view:{az:30,el:25}, at:[0,0,-0.05], zoom:0.85},
+
 
  {id:'th_association',kind:'think',mode:'think',tv:'cerebrum',inner:true,group:'Cerebrum: white matter',name:'Association Fibers',short:'Association fibers',color:'#2ec4b6',badge:'White matter, shown in X-ray view',
   where:'White-matter cables inside each hemisphere, linking one area of cortex to another',
@@ -4088,20 +4075,13 @@ var TH={
   deep:['Handedness is linked to, but does not decide, which side handles language.',
    'The right hemisphere helps with the emotional tone of speech, humor and seeing the overall picture, while the left handles words and grammar.',
    'In young children, if one hemisphere is badly damaged, the other can often take over many of its abilities.'],
-  rel:['th_commissural','th_basal']},
+  rel:['th_commissural','th_projection']},
 
 
 
 
 
- th_basal:{how:['The cortex sends plans for many possible actions to the striatum (the caudate and putamen).',
-   'A “go” (direct) pathway releases the chosen action, and a “stop” (indirect) pathway holds back competing ones.',
-   'The result passes through the globus pallidus to the thalamus and back to the cortex, forming a loop.',
-   'Dopamine from the substantia nigra tunes the balance between “go” and “stop.”'],
-  deep:['Separate loops through the basal ganglia handle movement, eye movements, thinking and emotion.',
-   'Dopamine signals also teach the basal ganglia which actions lead to rewards, helping form habits.',
-   'Deep brain stimulation of parts of this circuit can ease the symptoms of Parkinson’s disease.'],
-  rel:['th_projection','th_ventricles']},
+
  th_association:{how:['Association fibers are axons wrapped in myelin, bundled into named tracts called fasciculi.',
    'The arcuate fasciculus curves around the side groove, linking Wernicke’s area with Broca’s area.',
    'The superior longitudinal fasciculus links the parietal and frontal lobes. The uncinate fasciculus hooks from the front of the temporal lobe to the lower frontal lobe.',
@@ -4122,14 +4102,8 @@ var TH={
    'Fibers travel both ways: down for commands, and up from the thalamus for sensations.'],
   deep:['Most movement fibers cross to the other side at the bottom of the brainstem, which is why each hemisphere controls the opposite side of the body.',
    'Within the internal capsule, the fibers for the face, arm and leg are arranged in an orderly sequence.'],
-  rel:['th_basal','th_association']},
- th_ventricles:{how:['The two lateral ventricles curve through the hemispheres in a C shape, with horns reaching into the frontal, occipital and temporal lobes.',
-   'They drain through small openings into the narrow third ventricle between the two halves of the thalamus.',
-   'A thin channel, the cerebral aqueduct, leads down through the midbrain to the fourth ventricle in front of the cerebellum.',
-   'From there, the fluid flows around the brain and spinal cord and is absorbed into the veins.'],
-  deep:['The choroid plexus, which makes the fluid, filters it from the blood and controls its chemistry.',
-   'The ventricles widen as brain tissue shrinks with age or disease, so doctors look at their size on scans.'],
-  rel:['th_basal','th_commissural']},
+  rel:['th_association','th_commissural']},
+
  th_neocortex:{stats:[['6','layers of cells'],['~80%','of its neurons excite others'],['~90%','of the cerebral cortex']],
   how:['The six layers are numbered I to VI from the surface inward. Each layer has its own mix of cells and connections.',
    'Input from the thalamus arrives mainly in layer IV. Layers II and III connect with other areas of the cortex. Layers V and VI send output.',
@@ -4205,9 +4179,9 @@ var TH_VERSE={th_cerebrum:['“For the LORD giveth wisdom: out of his mouth come
 var TH_IDS=REGIONS.filter(function(r){ return r.mode==='think'; }).map(function(r){ return r.id; });
 var TH_OVER={cerebrum:'th_cerebrum',neocortex:'th_neocortex',cerebellum:'th_cerebellum'}, TH_OVERS=['th_cerebrum','th_neocortex','th_cerebellum'];
 var PRIORITY_TH=TH_IDS.filter(function(id){ return TH_OVERS.indexOf(id)<0 || id==='th_cerebrum'; });
-var THINK_MAP={callosum:'th_commissural',basal:'th_basal',cerebellum:'th_cerebellum'};
+var THINK_MAP={callosum:'th_commissural',cerebellum:'th_cerebellum'};
 CORTEX_IDS.forEach(function(id){ THINK_MAP[id]='th_cerebrum'; });
-var TH_ALSO={th_projection:['thalamus'],th_ventricles:['thalamus']};
+var TH_ALSO={th_projection:['thalamus']};
 var CB_ZONES=['th_cb_vermis','th_cb_para','th_cb_lat','th_cb_floc'];
 var tView='cerebrum', thBuilt=false, thCer=new THREE.Group(), thNeo=new THREE.Group(), thCb=new THREE.Group(), TH_G={cerebrum:thCer,neocortex:thNeo,cerebellum:thCb};
 var thPick={cerebrum:[],neocortex:[],cerebellum:[]}, thPaths=[], thStn=[], thAnch={cerebrum:{},neocortex:{},cerebellum:{}}, thCerMats=[], cbMesh=null, thXrayBefore=false;
@@ -4314,30 +4288,20 @@ function buildThink(){
     put('th_commissural','cerebrum','p',pulseMesh([[-d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))],[-d*0.3,y+0.015,z],[0,y+0.01,z],[d*0.3,y+0.015,z],[d*w,y-0.13,z+(i===0?0.08:(i===6?-0.08:0))]],0.012,CM),{kind:'path',pri:2});
   });
   put('th_commissural','cerebrum','p',pulseMesh([[-0.46,-0.15,0.2],[-0.22,-0.03,0.25],[0,0.0,0.27],[0.22,-0.03,0.25],[0.46,-0.15,0.2]],0.013,CM),{kind:'path',pri:2});
-  var vm=tmat(R.th_ventricles.color,{transparent:true,opacity:0.8,roughness:0.25});
   both(function(s){
-    put('th_ventricles','cerebrum','v',tube(M(s,[[0.06,0.24,0.36],[0.09,0.33,0.15],[0.1,0.34,-0.1],[0.14,0.26,-0.33],[0.24,0.1,-0.38],[0.31,-0.06,-0.22],[0.33,-0.14,-0.02]]),0.04,vm,10));
-    put('th_ventricles','cerebrum','v',tube(M(s,[[0.14,0.26,-0.33],[0.15,0.2,-0.48],[0.13,0.14,-0.6]]),0.026,vm,10));
-    put('th_ventricles','cerebrum','v',tube(M(s,[[0.08,0.25,0.22],[0.04,0.18,0.12],[0.0,0.13,0.08]]),0.012,vm));
   });
-  put('th_ventricles','cerebrum','v',mesh(new THREE.SphereGeometry(1,20,14),vm,[0,0.06,0.02],[0.014,0.1,0.15]));
-  put('th_ventricles','cerebrum','v',tube([[0,-0.02,-0.1],[0,-0.14,-0.075],[0,-0.29,-0.13],[0,-0.37,-0.18]],0.009,vm));
-  put('th_ventricles','cerebrum','v',mesh(new THREE.SphereGeometry(1,20,14),vm,[0,-0.41,-0.2],[0.075,0.08,0.03]));
   flush();
   // label anchors and stations (cerebrum)
   function sp(d,s,l){ return surfacePoint(d,s||1,l==null?0.02:l); }
   function nd(d){ return new THREE.Vector3(d[0],d[1],d[2]).normalize(); }
   anch('cerebrum','th_cerebrum',sp(lat(0.25,0.3)),nd(lat(0.25,0.3)));
   anch('cerebrum','th_hemispheres',sp([0.25,0.95,0.15],-1),[-0.2,1,0.1]);
-  anch('cerebrum','th_basal',[0.3,0.12,0.18]);
-  anch('cerebrum','th_association',[0.56,0.2,-0.08]); anch('cerebrum','th_commissural',[0,0.5,0.12]); anch('cerebrum','th_projection',[0.42,0.45,0.05]); anch('cerebrum','th_ventricles',[0.1,0.34,-0.12]);
+  anch('cerebrum','th_association',[0.56,0.2,-0.08]); anch('cerebrum','th_commissural',[0,0.5,0.12]); anch('cerebrum','th_projection',[0.42,0.45,0.05]);
   function ca(id){ return [anchors[id].p,anchors[id].n]; }
   stations('th_hemispheres','cerebrum',[['Left hemisphere',sp(lat(-0.15,0.55),1),nd(lat(-0.15,0.55))],['Right hemisphere',sp(lat(-0.15,0.55),-1),[-0.8,0.55,-0.15]],['Longitudinal fissure',[0,0.72,0.3],[0,1,0.2]]]);
-  stations('th_basal','cerebrum',[['Caudate nucleus',[0.19,0.34,0.15]],['Putamen and globus pallidus',[0.3,0.08,0.12]],['Thalamus (relay)',[0.14,0.12,-0.05]]]);
   stations('th_association','cerebrum',[['Arcuate fasciculus',[0.56,0.2,-0.08]],['Superior longitudinal fasciculus',[0.45,0.42,0.22]],['Uncinate fasciculus',[0.45,-0.15,0.3]],['Cingulum',[0.11,0.54,-0.15]],['Inferior longitudinal fasciculus',[0.45,-0.1,-0.5]]]);
   stations('th_commissural','cerebrum',[['Corpus callosum',[0,0.5,0.0]],['Anterior commissure',[0.22,-0.03,0.25]]]);
   stations('th_projection','cerebrum',[['Corona radiata',[0.42,0.45,0.05]],['Internal capsule',[0.22,0.1,0.02]],['Cerebral peduncle',[0.07,-0.3,-0.05]]]);
-  stations('th_ventricles','cerebrum',[['Lateral ventricle',[0.1,0.34,-0.1]],['Third ventricle',[0,0.12,0.02]],['Cerebral aqueduct',[0,-0.2,-0.09]],['Fourth ventricle',[0,-0.41,-0.2]]]);
 
   /* ---------------- neocortex: an enlarged block of the six layers */
   var LY=[0.9,0.74,0.612,0.196,0.036,-0.348,-0.7], LIDS=['th_l1','th_l2','th_l3','th_l4','th_l5','th_l6'], XW=0.9, ZW=0.55;
@@ -4579,7 +4543,7 @@ function applyThinkColors(){
     var r=R[id]; if(r.kind==='cortex') return;
     var t=THINK_MAP[id], c, k=0, op;
     if(t){ var lit=litOf(t); c=mix(NEU,hexArr(R[t].color),lit?0.85:0.15); if(hov===t) c=mix(c,WH,0.28); k=sel===t?0.25:0; op=lit?0.9:0.12; }
-    else { var also=sel && TH_ALSO[sel] && TH_ALSO[sel].indexOf(id)>=0; c=also?[0.9,0.84,0.7]:[0.62,0.65,0.72]; op=also?0.7:(sel?0.1:0.3); }
+    else { var also=sel && TH_ALSO[sel] && TH_ALSO[sel].indexOf(id)>=0; c=also?[0.9,0.84,0.7]:[0.62,0.65,0.72]; op=also?0.7:0; }
     var seen=[];
     r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material);
       m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); m.material.userData.seOp=op; });

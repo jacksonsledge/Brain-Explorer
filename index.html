@@ -1344,7 +1344,7 @@ var REGIONS = [
   damage:'Damage to large sensory nerves or the dorsal columns causes sensory ataxia: clumsy, unsteady movement that gets worse with the eyes closed (a positive Romberg test).',
   fact:'Doctors test position sense by gently moving your big toe up or down while your eyes are closed and asking which way it moved.',
   view:{az:-140,el:22}, at:[-0.1,-0.3,-0.25], zoom:0.95,
-  bview:{az:115,el:6}, bat:[-0.1,0.55,0], bzoom:0.85},
+  bview:{az:115,el:6}, bat:[-0.05,0,0], bzoom:1},
  {id:'se_intero',kind:'sense',mode:'senses',group:'Senses of the body',name:'Internal Senses (Interoception)',short:'Internal senses',color:'#f4a261',
   where:'Sensors in the heart, blood vessels, lungs, gut and bladder',
   summary:'Interoception is the sense of the body’s inner state: heartbeat, breathing, hunger, fullness, thirst, the need to urinate and more. Sensors in organs and blood vessels send signals, mainly through the vagus nerve and the spinal cord, to the brainstem, hypothalamus and insula.',
@@ -3592,10 +3592,15 @@ function buildSenses(){
   var thigh=[-0.2,-0.5,0.1];
   marker('se_proprio',thigh);
   path('se_proprio',[thigh,[-0.17,-0.45,0.07],[-0.15,-0.12,0.08],[-0.1,0.06,0],[-0.05,0.25,-0.09],[-0.07,0.42,-0.11],[-0.03,0.47,-0.12],[-0.015,0.55,-0.12],[-0.012,0.68,-0.13]],'body');
+  // from the ankle and foot: tibial and sciatic nerves up the whole leg, S1 root through the cauda equina
+  var foot=[-0.2,-1.94,0.12], calf=[-0.205,-1.3,-0.06];
+  marker('se_proprio',foot); marker('se_proprio',calf,0.018);
+  path('se_proprio',[foot,[-0.19,-1.86,0.0],[-0.19,-1.75,-0.035],calf,[-0.2,-1.05,-0.055],[-0.2,-0.86,-0.05],[-0.19,-0.6,-0.065],[-0.18,-0.25,-0.09],[-0.12,-0.03,-0.13],[-0.06,0.12,-0.13],
+    [-0.02,0.24,-0.12],[-0.016,0.36,-0.12],[-0.014,0.5,-0.12],[-0.012,0.68,-0.13]],'body');
   path('se_proprio',[[-0.012,0.68,-0.13]].concat(up(-0.006,0.72,1.6,-0.013)).concat([[-0.005,1.63,-0.058]]),'body');
   path('se_proprio',[[-0.012,0.68,-0.13],[-0.012,0.8,-0.14]].concat(up(-0.018,0.88,1.6,-0.004)).concat([[-0.018,1.63,-0.05]]),'body');
   brainEnd('se_proprio',propB);
-  stations('se_proprio','body',[['Muscle spindles in the thigh',thigh],['Femoral nerve',[-0.15,-0.12,0.08]],['Dorsal root ganglion',[-0.03,0.47,-0.12]],['Dorsal column and spinocerebellar tract',[-0.012,1.0,-0.15]],['Brain: cerebellum, thalamus, cortex',B2([-0.32,-0.42,-0.66])]]);
+  stations('se_proprio','body',[['Joint and muscle sensors in the ankle and foot',foot],['Muscle spindles in the calf',calf],['Tibial and sciatic nerves',[-0.19,-0.6,-0.065]],['Muscle spindles in the thigh',thigh],['Femoral nerve',[-0.15,-0.12,0.08]],['Dorsal root ganglion',[-0.03,0.47,-0.12]],['Dorsal column and spinocerebellar tract',[-0.012,1.0,-0.15]],['Brain: cerebellum, thalamus, cortex',B2([-0.32,-0.42,-0.66])]]);
   // internal senses: stomach via the vagus nerve, bladder via sacral nerves into the cord
   var stom=organ('se_intero',sph(1,24,16),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0.11,0.64,0.12],[0.09,0.07,0.05],'body');
   var blad=organ('se_intero',sph(1,20,14),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.0,0.12],[0.06,0.05,0.05],'body');
@@ -3608,7 +3613,7 @@ function buildSenses(){
   // label anchors: sense organs in the head view, receptors in the body view; body senses show their brain end in the head view
   seAnch.head={se_vision:[0.4,-0.3,1.22],se_hearing:[0.99,-0.3,-0.06],se_balance:[0.62,-0.33,-0.15],se_smell:[0,-0.5,1.36],se_taste:[0,-0.85,1.12],
     se_touch:S1hand(-1),se_temp:InsP(1),se_pain:ACC(-1),se_proprio:[-0.32,-0.42,-0.66],se_intero:InsA(1)};
-  seAnch.body={se_touch:tip,se_temp:hb,se_pain:sole,se_proprio:thigh,se_intero:[0.11,0.72,0.14]};
+  seAnch.body={se_touch:tip,se_temp:hb,se_pain:sole,se_proprio:foot,se_intero:[0.11,0.72,0.14]};
   setSenseAnchors();
 }
 function setSenseAnchors(){

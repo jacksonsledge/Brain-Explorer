@@ -3556,11 +3556,17 @@ function buildSenses(){
   });
   intB.push([S(1.0,0.2,0.0),S(0.8,0.4,-0.2),PB(1)]);   // spinal route from the bladder joins in
   [['se_touch',touchB],['se_temp',tempB],['se_pain',painB],['se_proprio',propB],['se_intero',intB]].forEach(function(e){ e[1].forEach(function(p){ path(e[0],p,'head',0.008); }); });
+  // internal senses arrive from the neck: the vagus nerve (heart, lungs, gut) and the glossopharyngeal nerve from the carotid sinus
+  bothSides(function(s){
+    organ('se_intero',sph(0.022,16,12),mat('#f4a261',{emissive:'#f4a261',emissiveIntensity:0.5}),[s*0.2,-1.3,0.14]);
+    path('se_intero',[[s*0.22,-1.72,0.02],[s*0.22,-1.4,0.03],[s*0.23,-1.05,-0.05],[s*0.24,-0.86,-0.14],S(0.75,s*1.0,0.1)],'head',0.008);
+    path('se_intero',[[s*0.2,-1.3,0.14],[s*0.21,-1.15,0.08],[s*0.23,-0.95,-0.04],[s*0.24,-0.83,-0.13],S(0.74,s*1.0,0.06)],'head',0.006);
+  });
   stations('se_touch','head',[['From the spinal cord (dorsal column)',S(1.0,0.25,-0.55)],['Cuneate nucleus',S(0.9,0.3,-0.72)],['Crosses over (medial lemniscus)',S(0.8,0,-0.3)],['Thalamus (VPL)',VPL(-1)],['Touch cortex: hand area',S1hand(-1)]]);
   stations('se_temp','head',[['From the spinal cord (already crossed)',S(1.0,0.6,0.1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Thalamus',VPL(1)],['Posterior insula',InsP(1)],['Touch cortex',S1hand(1)]]);
   stations('se_pain','head',[['From the spinal cord (already crossed)',S(1.0,-0.6,0.1)],['Periaqueductal gray',S(0.1,0,-0.45)],['Thalamus',VPL(-1)],['Touch cortex: leg area',S1leg(-1)],['Insula',InsP(-1)],['Anterior cingulate cortex',ACC(-1)]]);
   stations('se_proprio','head',[['Gracile nucleus',S(0.92,-0.12,-0.8)],['Crosses over',S(0.8,0,-0.3)],['Thalamus',VPL(1)],['Touch cortex: leg area',S1leg(1)],['Parietal cortex',SPL(1)],['To the cerebellum (same side)',[-0.32,-0.42,-0.66]]]);
-  stations('se_intero','head',[['Vagus nerve',S(0.75,1.0,0.1)],['Nucleus of the solitary tract',NTS(1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Amygdala',AMY(1)],['Posterior insula',InsP(1)],['Anterior insula',InsA(1)],['Anterior cingulate cortex',ACC(1)]]);
+  stations('se_intero','head',[['Vagus nerve (from the heart, lungs and gut)',[0.22,-1.45,0.03]],['Carotid sinus (blood pressure)',[0.2,-1.3,0.14]],['Into the medulla',S(0.75,1.0,0.1)],['Nucleus of the solitary tract',NTS(1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Amygdala',AMY(1)],['Posterior insula',InsP(1)],['Anterior insula',InsA(1)],['Anterior cingulate cortex',ACC(1)]]);
 
   /* ---- body view: receptors and the full route up the spinal cord into the brain */
   function cz(y){ return y>=0.6?cordZ(y):-0.12; }

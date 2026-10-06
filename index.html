@@ -128,6 +128,14 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #chips .chip.sel{background:var(--soft);box-shadow:inset 3px 0 0 var(--c)}
 #chips .chip.sel::after{content:"\2713";margin-left:auto;padding:0;background:none;color:var(--accent);font-size:15px;font-weight:800}
 .nomatch{display:none!important}
+.senses-only{display:none!important}
+.mode-senses .sv.senses-only{display:inline-flex!important}
+.label.stn{pointer-events:none!important;font-size:10.5px;font-weight:600;padding:2px 8px 2px 6px;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+.label.stn .dot{width:6px;height:6px}
+.scroll ol.steps{margin:0;padding:0;list-style:none;counter-reset:st}
+.scroll ol.steps li{counter-increment:st;padding-left:28px}
+.scroll ol.steps li::before{content:counter(st);top:.05em;left:0;width:20px;height:20px;border-radius:50%;color:#fff;font:700 11.5px/20px var(--body);text-align:center}
+#pTree .verse{margin-top:18px}
 .spine-only{display:none!important}
 .mode-spine .spine-only{display:flex!important}
 .mode-spine .sv.spine-only{display:inline-flex!important}
@@ -313,8 +321,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <button class="mode" id="mSpine" role="tab" aria-selected="false"><span class="tl">Spinal cord</span><span class="ts">Cord</span></button>
       <button class="mode" id="mSections" role="tab" aria-selected="false">Sections</button>
       <button class="mode" id="mDiseases" role="tab" aria-selected="false">Diseases</button>
+      <button class="mode" id="mSenses" role="tab" aria-selected="false"><span class="tl">Senses of the mind</span><span class="ts">Senses</span></button>
     </div>
       <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true"><span class="tl">Cross-section</span><span class="ts">Cross</span></button><button id="svWhole" role="tab" aria-selected="false"><span class="tl">Whole cord</span><span class="ts">Whole</span></button></div>
+      <div class="sv senses-only" role="tablist" aria-label="Senses view"><button id="seHead" class="on" role="tab" aria-selected="true">Head</button><button id="seBody" role="tab" aria-selected="false">Body</button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -396,6 +406,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#9889;</span><span>Tap Nervous system to explore nerves through the whole body, or Sections to see how the system is organized.</span></li>
         <li><span class="ic">&#129460;</span><span>Open Spinal cord for a close-up of the cord’s inside, its pathways and its levels.</span></li>
         <li><span class="ic">&#129516;</span><span>Open Diseases to watch how Alzheimer’s, Parkinson’s and migraine affect the brain and nerves.</span></li>
+        <li><span class="ic">&#128066;</span><span>Open Senses of the mind to see how each sense is detected, how its signals reach the brain, and how the brain makes sense of them.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
       </ul>
       <div class="facts">
@@ -487,7 +498,7 @@ var REGIONS = [
   funcs:['Forming words and sentences','Grammar and sentence structure','Coordinating the muscles used for speech'],
   damage:'Causes Broca\u2019s aphasia: the person understands language well but speaks slowly and with effort, often in short phrases.',
   fact:'It is named for French physician Paul Broca. In 1861 he studied a patient who could understand speech but could only say one syllable, \u201ctan.\u201d',
-  view:{az:125,el:12}},
+  view:{az:55,el:12}},
  {id:'wernicke',kind:'cortex',name:'Wernicke\u2019s Area',short:'Wernicke\u2019s area',color:'#b8e04a',
   where:'Where the temporal and parietal lobes meet, on the left in most people',
   badge:'Usually on the left side. The view turns to show it.',
@@ -495,7 +506,7 @@ var REGIONS = [
   funcs:['Understanding spoken and written words','Choosing words with the right meaning','Linking comprehension to speech'],
   damage:'Causes Wernicke\u2019s aphasia: speech flows smoothly but the words may not make sense, and understanding others is difficult.',
   fact:'Karl Wernicke described it in 1874. It is nearly the opposite of Broca\u2019s problem: smooth, confident speech that does not make sense.',
-  view:{az:-125,el:15}},
+  view:{az:-55,el:15}},
  {id:'cerebellum',kind:'mesh',name:'Cerebellum',short:'Cerebellum',color:'#27bfcc',
   where:'Lower back of the brain, under the occipital lobes',
   summary:'Fine-tunes your movements, balance and coordination. The name means \u201clittle brain,\u201d and it holds most of the brain\u2019s nerve cells in a small space.',
@@ -1259,7 +1270,89 @@ var REGIONS = [
   view:{az:30,el:5},at:[0.17,0.1,-0.1],zoom:0.4},
  {id:'d_alz',kind:'disease',mode:'diseases',group:'Simulated diseases',name:'Alzheimer\u2019s Disease',short:'Alzheimer\u2019s disease',color:'#c77dff',where:'',summary:'',funcs:[],damage:'',fact:'',view:{az:20,el:14}},
  {id:'d_pd',kind:'disease',mode:'diseases',group:'Simulated diseases',name:'Parkinson\u2019s Disease',short:'Parkinson\u2019s disease',color:'#ff9f45',where:'',summary:'',funcs:[],damage:'',fact:'',view:{az:20,el:14}},
- {id:'d_mig',kind:'disease',mode:'diseases',group:'Simulated diseases',name:'Migraine',short:'Migraine',color:'#4cc9f0',where:'',summary:'',funcs:[],damage:'',fact:'',view:{az:20,el:14}}
+ {id:'d_mig',kind:'disease',mode:'diseases',group:'Simulated diseases',name:'Migraine',short:'Migraine',color:'#4cc9f0',where:'',summary:'',funcs:[],damage:'',fact:'',view:{az:20,el:14}},
+ {id:'se_all',kind:'sense',mode:'senses',group:'Overview',name:'How the Brain Puts the Senses Together',short:'Putting it together',color:'#7aa5ff',
+  where:'Every sense, from receptors to the thalamus and cortex',
+  summary:'The brain never receives a picture, a sound or a smell. It receives only patterns of electrical signals from millions of receptors. It turns them into one stable, meaningful experience of the world by sorting, combining and interpreting them.',
+  funcs:[], hDamage:'When the senses disagree',
+  damage:'When the senses send conflicting or missing information, the brain can be misled. Examples are motion sickness, phantom limb sensations after an amputation, and hallucinations that some people experience after long sensory deprivation.',
+  fact:'Light, sound and touch signals reach the brain at slightly different speeds, yet the brain lines them up so that a hand clap looks, sounds and feels like a single event.',
+  view:{az:50,el:15}, zoom:1},
+ {id:'se_vision',kind:'sense',mode:'senses',group:'Senses of the head',name:'Vision (Sight)',short:'Vision',color:'#4cc9f0',
+  where:'Eyes, with pathways to the back of the brain',
+  summary:'Vision detects light. The eye focuses light onto the retina, where photoreceptor cells turn it into electrical signals. These travel through the optic nerves to the thalamus and on to the visual cortex at the back of the brain, which builds the picture you see.',
+  funcs:[],
+  damage:'Damage anywhere along the pathway causes vision loss whose pattern shows where the damage is. A damaged optic nerve affects one eye. A pituitary tumor pressing on the optic chiasm often removes the outer side of vision in both eyes. Damage behind the chiasm, as in a stroke, removes the same half of vision in both eyes.',
+  fact:'Each eye has a blind spot where the optic nerve leaves, but you do not notice it, because the brain fills in the gap using the other eye and the surrounding scene.',
+  view:{az:62,el:30}, at:[0,-0.15,0.12], zoom:0.85},
+ {id:'se_hearing',kind:'sense',mode:'senses',group:'Senses of the head',name:'Hearing',short:'Hearing',color:'#ffd166',
+  where:'Ears, with pathways through the brainstem to the temporal lobes',
+  summary:'Hearing detects sound waves, tiny pressure changes in the air. The outer and middle ear collect and strengthen them, and the cochlea in the inner ear turns them into nerve signals. These travel through the brainstem and thalamus to the auditory cortex.',
+  funcs:[],
+  damage:'Damage to the hair cells or the nerve, often from loud noise or aging, causes permanent sensorineural hearing loss, sometimes with ringing in the ears (tinnitus). Damage to the auditory cortex on one side rarely causes deafness, because each ear sends signals to both sides of the brain.',
+  fact:'The stapes in the middle ear is the smallest bone in the human body, only about 3 millimeters long.',
+  view:{az:-55,el:32}, at:[0,-0.3,-0.12], zoom:0.82},
+ {id:'se_balance',kind:'sense',mode:'senses',group:'Senses of the head',name:'Balance (Vestibular Sense)',short:'Balance',color:'#80ed99',
+  where:'Inner ears, beside the cochlea, with pathways to the brainstem and cerebellum',
+  summary:'The vestibular system senses head movement and which way is down. It sits in the inner ear beside the cochlea and keeps your eyes steady, your body upright and your sense of where you are in space.',
+  funcs:[],
+  damage:'Problems cause dizziness or vertigo (a false feeling of spinning), unsteadiness, and blurred vision when moving. A common cause is benign paroxysmal positional vertigo, when tiny crystals drift into a semicircular canal.',
+  fact:'Astronauts often feel space sickness for the first few days, because in weightlessness the otolith organs no longer sense gravity, and their signals disagree with what the eyes see.',
+  view:{az:-45,el:28}, at:[0.1,-0.38,-0.2], zoom:0.75},
+ {id:'se_smell',kind:'sense',mode:'senses',group:'Senses of the head',name:'Smell (Olfaction)',short:'Smell',color:'#c77dff',
+  where:'Roof of the nasal cavity, with pathways along the underside of the frontal lobes',
+  summary:'Smell detects chemicals floating in the air. Receptor neurons high in the nose send signals to the olfactory bulb, and from there to emotion and memory areas. It is the only sense that reaches the cortex without first stopping in the thalamus.',
+  funcs:[],
+  damage:'Loss of smell (anosmia) can follow viral infections, nasal problems, or head injuries that tear the olfactory fibers at the cribriform plate. It reduces the enjoyment of food and the ability to notice smoke, gas leaks or spoiled food.',
+  fact:'The genes for smell receptors form the largest gene family in the human genome, with about 400 working genes.',
+  view:{az:55,el:-18}, at:[0.08,-0.25,0.45], zoom:0.7},
+ {id:'se_taste',kind:'sense',mode:'senses',group:'Senses of the head',name:'Taste (Gustation)',short:'Taste',color:'#ff8fa3',
+  where:'Tongue, palate and throat, with pathways to the brainstem and the insula',
+  summary:'Taste detects chemicals dissolved in saliva. Taste buds on the tongue and in the throat send signals through three cranial nerves to the brainstem, then to the thalamus and the taste cortex in the insula.',
+  funcs:[],
+  damage:'True loss of taste (ageusia) is much less common than smell loss. Damage to the chorda tympani, for example during ear surgery or in Bell’s palsy, can change taste on the front of the tongue on one side.',
+  fact:'Most people who say they have lost their sense of taste have actually lost their sense of smell, because flavor depends so much on smell.',
+  view:{az:55,el:8}, at:[0.12,-0.5,0.25], zoom:0.85},
+ {id:'se_touch',kind:'sense',mode:'senses',group:'Senses of the body',name:'Touch',short:'Touch',color:'#4f8df7',
+  where:'Receptors in the skin, with pathways up the spinal cord to the touch cortex',
+  summary:'Touch senses pressure, vibration, texture and stretching of the skin. Receptors in the skin send fast signals up the spinal cord to the brainstem, where they cross to the other side, then to the thalamus and the touch cortex.',
+  funcs:[],
+  damage:'Damage to a nerve causes numbness in the area it supplies. Damage to the dorsal columns, for example from vitamin B12 deficiency, impairs fine touch and vibration. A stroke in the touch cortex causes numbness on the opposite side of the body.',
+  fact:'A fingertip can tell two points apart when they are only 2 to 3 millimeters apart. On the back, they must be several centimeters apart.',
+  view:{az:150,el:25}, at:[-0.1,-0.25,-0.1], zoom:0.95,
+  bview:{az:60,el:8}, bat:[0.3,0.65,0], bzoom:0.75},
+ {id:'se_temp',kind:'sense',mode:'senses',group:'Senses of the body',name:'Temperature (Thermoception)',short:'Temperature',color:'#ff9f43',
+  where:'Nerve endings in the skin, with pathways that cross in the spinal cord',
+  summary:'Temperature sense tells warm from cold. Nerve endings in the skin contain ion channels that open at particular temperatures. Their signals cross in the spinal cord and travel to the thalamus, the insula and the touch cortex, and also to the hypothalamus, which controls body temperature.',
+  funcs:[],
+  damage:'Nerve damage, as in diabetes, can make it hard to feel temperature and raises the risk of burns. Damage to one side of the spinal cord removes temperature and pain sense on the opposite side of the body below the injury.',
+  fact:'Menthol does not make things colder. It opens TRPM8, the same cold receptor that cool temperatures open, so mint feels cool.',
+  view:{az:30,el:18}, at:[0.1,-0.25,0], zoom:0.95,
+  bview:{az:115,el:8}, bat:[-0.3,0.65,0], bzoom:0.75},
+ {id:'se_pain',kind:'sense',mode:'senses',group:'Senses of the body',name:'Pain (Nociception)',short:'Pain',color:'#ef476f',
+  where:'Nerve endings in skin, muscles, joints and organs',
+  summary:'Pain warns of damage. Nociceptors, nerve endings that respond to strong pressure, extreme heat or cold and harmful chemicals, send signals that cross in the spinal cord. Several brain areas then work out where it hurts and how bad it feels.',
+  funcs:[],
+  damage:'People born unable to feel pain (congenital insensitivity to pain) are often injured without noticing. Nerve damage can also cause neuropathic pain, a burning or shooting pain that happens without any injury.',
+  fact:'The brain itself has no pain receptors, so some brain surgery can be done while the patient is awake and talking.',
+  view:{az:150,el:22}, at:[-0.1,-0.15,0], zoom:0.95,
+  bview:{az:65,el:6}, bat:[0.05,0,0], bzoom:1},
+ {id:'se_proprio',kind:'sense',mode:'senses',group:'Senses of the body',name:'Body Position and Movement (Proprioception)',short:'Body position',color:'#06d6a0',
+  where:'Sensors in muscles, tendons and joints',
+  summary:'Proprioception tells you where your body parts are and how they are moving, even with your eyes closed. Sensors in muscles, tendons and joints send signals to the touch cortex and to the cerebellum, which uses them to coordinate movement.',
+  funcs:[],
+  damage:'Damage to large sensory nerves or the dorsal columns causes sensory ataxia: clumsy, unsteady movement that gets worse with the eyes closed (a positive Romberg test).',
+  fact:'Doctors test position sense by gently moving your big toe up or down while your eyes are closed and asking which way it moved.',
+  view:{az:-140,el:22}, at:[-0.1,-0.3,-0.25], zoom:0.95,
+  bview:{az:115,el:6}, bat:[-0.1,0.55,0], bzoom:0.85},
+ {id:'se_intero',kind:'sense',mode:'senses',group:'Senses of the body',name:'Internal Senses (Interoception)',short:'Internal senses',color:'#f4a261',
+  where:'Sensors in the heart, blood vessels, lungs, gut and bladder',
+  summary:'Interoception is the sense of the body’s inner state: heartbeat, breathing, hunger, fullness, thirst, the need to urinate and more. Sensors in organs and blood vessels send signals, mainly through the vagus nerve and the spinal cord, to the brainstem, hypothalamus and insula.',
+  funcs:[],
+  damage:'Damage to these nerves, as in diabetic autonomic neuropathy, can blunt warning signals. For example, a heart attack may cause little chest pain, and a person may not sense a full bladder.',
+  fact:'About 80 percent of the fibers in the vagus nerve carry signals from the organs to the brain, not commands from the brain to the organs.',
+  view:{az:40,el:12}, at:[0,-0.3,0], zoom:0.85,
+  bview:{az:55,el:8}, bat:[0.05,0.95,0], bzoom:0.6}
 ];
 var PERIPH=['n_cauda','n_spinal','n_cranial','n_vagus','n_phrenic','n_sympathetic','n_enteric','n_intercostal','n_brachial','n_axillary','n_musculo','n_median','n_ulnar','n_radial','n_lumbar','n_sacral','n_obturator','n_femoral','n_sciatic','n_tibial','n_fibular'];
 var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia'],sec_pns:PERIPH,
@@ -1296,13 +1389,13 @@ var CENTER=new THREE.Vector3(0,-0.05,-0.02), BRAIN_C=CENTER.clone(), BODY_C=new 
 /* ---- cortex: classify surface by direction (u=front/back, v=up/down) */
 function classify(u,v,xx,side){
   var vs=-0.12-0.15*u, uc=0.07-0.15*v, lateral=xx>0.3;
-  if(side<0 && lateral && u>-0.52 && u<-0.2 && v>vs-0.12 && v<vs+0.18) return 'wernicke';
+  if(side>0 && lateral && u>-0.52 && u<-0.2 && v>vs-0.12 && v<vs+0.18) return 'wernicke';
   if(v<vs && u<0.72 && u>-0.7){
     if(xx>0.1 && u>-0.3 && u<0.4 && v>vs-0.2) return 'auditory';
     return 'temporal';
   }
   if(u<-0.55) return 'occipital';
-  if(side<0 && lateral && u>0.35 && u<0.62 && v>vs+0.03 && v<vs+0.27) return 'broca';
+  if(side>0 && lateral && u>0.35 && u<0.62 && v>vs+0.03 && v<vs+0.27) return 'broca';
   if(u>=uc+0.15) return u>=0.5?'prefrontal':'premotor';
   if(u>=uc) return 'motor';
   if(u>=uc-0.15) return 'sensory';
@@ -1352,7 +1445,8 @@ function buildHemisphere(side){
   brain.add(mesh); cortexMeshes.push(mesh);
   return mesh;
 }
-var rightHemi=buildHemisphere(1), leftHemi=buildHemisphere(-1);
+// the model faces +z with +y up, so the person's left is +x (as in the body model)
+var leftHemi=buildHemisphere(1), rightHemi=buildHemisphere(-1);
 
 /* ---- other parts */
 function partMaterial(id,rough){
@@ -1573,7 +1667,7 @@ function cordZ(y){ if(y>=CY[0]) return CZ[0]; for(var i=1;i<CY.length;i++){ if(y
   // small brain inside the head, built from the Brain mode model
   var mini=new THREE.Group(); mini.position.set(0,1.8,0); mini.scale.setScalar(0.16); nerveGroup.add(mini);
   var bm=nmat('n_brain');
-  [rightHemi,leftHemi].concat(R.cerebellum.meshes,R.midbrain.meshes,R.pons.meshes,R.medulla.meshes).forEach(function(src){
+  [leftHemi,rightHemi].concat(R.cerebellum.meshes,R.midbrain.meshes,R.pons.meshes,R.medulla.meshes).forEach(function(src){
     var m=new THREE.Mesh(src.geometry,bm); m.position.copy(src.position); m.scale.copy(src.scale);
     addN('n_brain',m,mini);
   });
@@ -2111,7 +2205,7 @@ function buildWhole(){
   [1,-1].forEach(function(s){ var c=new THREE.CatmullRomCurve3([[s*0.06,1.76,0.0],[s*0.03,1.7,-0.02],[0,1.64,zOf(1.64)+0.026]].map(function(a){ return new THREE.Vector3(a[0],a[1],a[2]); }));
     addS('sc_wart',new THREE.Mesh(new THREE.TubeGeometry(c,16,0.005,6,false),am),wholeGroup); });
   var yA=exit[16];
-  var adk=new THREE.CatmullRomCurve3([[-0.16,yA-0.03,zOf(yA)+0.08],[-0.08,yA,zOf(yA)+0.06],[-0.025,yA+0.07,zOf(yA+0.07)+0.04],[0,yA+0.09,zOf(yA+0.09)+rAt(yA)+0.006],[0,yA+0.03,zOf(yA+0.03)+rAt(yA)+0.006]].map(function(a){ return new THREE.Vector3(a[0],a[1],a[2]); }),false,'centripetal');
+  var adk=new THREE.CatmullRomCurve3([[0.16,yA-0.03,zOf(yA)+0.08],[0.08,yA,zOf(yA)+0.06],[0.025,yA+0.07,zOf(yA+0.07)+0.04],[0,yA+0.09,zOf(yA+0.09)+rAt(yA)+0.006],[0,yA+0.03,zOf(yA+0.03)+rAt(yA)+0.006]].map(function(a){ return new THREE.Vector3(a[0],a[1],a[2]); }),false,'centripetal');
   addS('sc_wart',new THREE.Mesh(new THREE.TubeGeometry(adk,30,0.006,6,false),am),wholeGroup);
   // vertebral level labels
   [['C1',VY[0]],['C7',VY[6]],['T1',VY[7]],['T6',VY[12]],['T12',VY[18]],['L1',VY[19]],['L3',VY[21]],['L5',VY[23]],['Sacrum',0.18],['Coccyx',0.02]].forEach(function(a){
@@ -2182,8 +2276,7 @@ function surfAnchors(mesh,sign,ids){
     if(best>=0){ var o=best*6; anchors[id]={p:new THREE.Vector3(cents[o],cents[o+1],cents[o+2]),n:new THREE.Vector3(cents[o+3],cents[o+4],cents[o+5])}; }
   });
 }
-surfAnchors(rightHemi,1,['prefrontal','premotor','motor','sensory','parietal','occipital','temporal','auditory']);
-surfAnchors(leftHemi,-1,['broca','wernicke']);
+surfAnchors(leftHemi,1,['prefrontal','premotor','motor','sensory','parietal','occipital','temporal','auditory','broca','wernicke']);
 anchors.cerebellum={p:new THREE.Vector3(0.5,-0.43,-0.9),n:new THREE.Vector3(0.82,-0.17,-0.56)};
 [['midbrain',0.13],['pons',0.42],['medulla',0.8]].forEach(function(a){
   var c=stemCurve.getPointAt(a[1]); c.x+=0.12*stemTaper(a[1])+0.02;
@@ -2297,7 +2390,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
-  if(mode==='spine') applyVisibility();
+  if(mode==='spine' || mode==='senses') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
     chipEls[r.id].classList.toggle('sel',mode==='diseases'?(r.id===curDisease):(selected===r.id));
@@ -2316,7 +2409,7 @@ function updateViewTargets(){
   tgt.ox=W/2-cx; tgt.oy=H/2-cy;
   tgt.pm=open?(desktop?1.12:1.2):1;
 }
-var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
+var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
 function measureLabels(){ REGIONS.forEach(function(r){ labelEls[r.id]._w=labelEls[r.id].offsetWidth; }); }
 function layout(){
   if(typeof kick==='function') kick(1200);
@@ -2329,7 +2422,7 @@ function layout(){
   var availH=Math.max(120,H-topUI-8);
   fitDist=3.5*H/Math.min(W,availH);
   var fitBody=Math.max(4.4*H/(0.728*availH),2.0*H/(0.728*W));
-  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:fitDist);
+  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:(mode==='senses'?fitDist*1.35:fitDist));
   if(!fitInit){ cur.fit=tgt.fit; fitInit=true; }
   updateViewTargets();
 }
@@ -2359,23 +2452,28 @@ function applyModeChips(){
 function setMode(m){
   if(m===mode) return;
   if(mode==='diseases') leaveDiseases(); else select(null);
+  if(mode==='senses') leaveSenses();
   setHover(null); tip.style.opacity=0; dismissHint(); closeDD();
   mode=m;
-  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine');
-  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases']].forEach(function(t){
+  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses');
+  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses']].forEach(function(t){
     var e=$('#'+t[0]), on=(t[1]===m); e.classList.toggle('on',on); e.setAttribute('aria-selected',on?'true':'false');
+    if(on && e.scrollIntoView) e.scrollIntoView({block:'nearest',inline:'nearest'});
   });
   if(m!=='brain') layerCollapsed=true;
   if(m==='spine') buildSpine();
+  if(m==='senses') enterSenses();
   applyVisibility(); applyModeChips();
   if(m==='diseases') enterDiseases();
   refreshUI(); resetView(); layout();
+  if(m==='senses' && sideLayout()) select('se_all');
 }
 function setSpin(on){ autoSpin=on; $('#bSpin').setAttribute('aria-pressed',on?'true':'false'); }
 function setLabels(on){ showLabels=on; $('#bLabels').setAttribute('aria-pressed',on?'true':'false'); }
 
 function fillPanel(r){
   $('#hFuncs').textContent=r.hFuncs||'What it does'; $('#hDamage').textContent=r.hDamage||'If it is damaged';
+  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
   panel.style.setProperty('--rc',r.color);
   $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray view':''); bd.hidden=!bd.textContent;
@@ -2413,12 +2511,14 @@ function fillPanel(r){
     r.rel.forEach(function(cid){ var c=R[cid], kb=document.createElement('button'); kb.className='chip'; kb.style.setProperty('--c',c.color);
       kb.innerHTML='<i class="dot"></i>'; kb.appendChild(document.createTextNode(c.short)); kb.addEventListener('click',function(){ select(cid); }); kp.appendChild(kb); });
     tree.appendChild(kp);
-  } else tree.hidden=true;
+  } else if(r.kind==='sense') fillSense(r);
+  else tree.hidden=true;
   var ul=$('#pFuncs'); ul.innerHTML='';
   r.funcs.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
   $('#scroll').scrollTop=0;
 }
 function focusOn(r){
+  if(r.mode==='senses'){ senseFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
   if(r.mode==='nerves'||r.mode==='sections'||r.mode==='spine'){ var at=r.at||(r.mode==='spine'?(r.sv==='whole'?[0,0.82,-0.1]:[0.35,-0.08,0.05]):[0,0,0]); tgt.zoom=r.zoom||0.6; CENTER_T.set(at[0],at[1],at[2]); }
@@ -2428,6 +2528,7 @@ function select(id){
   var lyr=layerOf(id); if(lyr && !layerOn[lyr]){ layerOn[lyr]=true; applyVisibility(); }
   if(mode==='spine' && id && R[id] && R[id].sv && R[id].sv!==sView) setSView(R[id].sv);
   if(mode==='diseases'){ dSelect(id); return; }
+  if(mode==='senses' && isSense(id)){ var want=(id==='se_all' || SENSE[id].se==='head')?'head':'body'; if(id==='se_all' || want!==seView && !(seView==='head' && SENSE[id].se==='body' && selected===id)) setSeView(want,true); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
   if(id && R[id].kind==='cover' && !meningesOn) setMeninges(true);
@@ -2449,8 +2550,8 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
-  var dv=mode==='spine'?(sView==='whole'?DEF_W:DEF_X):(bodyView()?DEFN:DEF); tgt.az=cur.az+wrap(dv.az-cur.az); tgt.el=dv.el; tgt.zoom=1;
-  CENTER_T.copy(mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:BRAIN_C)); setSpin(false);
+  var dv=mode==='spine'?(sView==='whole'?DEF_W:DEF_X):(bodyView()?DEFN:((mode==='senses' && seView==='head')?DEF_SE:DEF)); tgt.az=cur.az+wrap(dv.az-cur.az); tgt.el=dv.el; tgt.zoom=1;
+  CENTER_T.copy(mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C))); setSpin(false);
   if(selected) select(null);
 }
 function dismissHint(){ hint.classList.add('gone'); }
@@ -2459,12 +2560,12 @@ function closeDetails(){
   if(mode==='diseases'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); refreshUI(); updateViewTargets(); }
   else select(null);
 }
-function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:0.35); }
+function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:(mode==='senses'?0.3:0.35)); }
 /* ---- zoom toward a point and pan (move the view centre in the screen plane) */
 var PV=new THREE.Vector3(), PU=new THREE.Vector3(), CV=new THREE.Vector3();
 function pxWorld(dist){ return 2*dist*Math.tan(camera.fov*Math.PI/360)/H; }
-function panBase(){ return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:BRAIN_C); }
-function panRadius(){ return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:1.3); }
+function panBase(){ return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C)); }
+function panRadius(){ return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:((mode==='senses' && seView==='head')?1.6:1.3)); }
 function clampV(v){ var b=panBase(), r=panRadius(); CV.copy(v).sub(b); if(CV.length()>r){ CV.setLength(r); v.copy(b).add(CV); } }
 function shiftCenter(dx,dy,s,both){
   camera.updateMatrixWorld();
@@ -2496,6 +2597,7 @@ $('#mNerves').addEventListener('click',function(){ setMode('nerves'); });
 $('#mSections').addEventListener('click',function(){ setMode('sections'); });
 $('#mDiseases').addEventListener('click',function(){ setMode('diseases'); });
 $('#mSpine').addEventListener('click',function(){ setMode('spine'); });
+$('#mSenses').addEventListener('click',function(){ setMode('senses'); });
 $('#svCross').addEventListener('click',function(){ setSView('cross'); });
 $('#svWhole').addEventListener('click',function(){ setSView('whole'); });
 $('#bPaths').addEventListener('click',function(){ setPaths(!showAllPaths); });
@@ -2711,7 +2813,7 @@ var CORT_C=new THREE.Vector3(0,0.2,0), dbar=$('#dbar');
 var BRAIN_IDS=REGIONS.filter(function(r){ return (r.mode||'brain')==='brain' && (r.kind==='cortex'||r.kind==='deep'||r.kind==='mesh'||r.kind==='cover'); }).map(function(r){ return r.id; });
 var NERVE_IDS=REGIONS.filter(function(r){ return r.mode==='nerves'; }).map(function(r){ return r.id; });
 var LIMBS=['n_brachial','n_median','n_ulnar','n_radial','n_axillary','n_musculo','n_femoral','n_sciatic','n_tibial','n_fibular','n_obturator','n_lumbar','n_sacral'];
-function bodyView(){ return mode==='nerves'||mode==='sections'||(mode==='diseases'&&dView==='body'); }
+function bodyView(){ return mode==='nerves'||mode==='sections'||(mode==='diseases'&&dView==='body')||(mode==='senses'&&seView==='body'); }
 function mix(a,b,t){ return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
 var HEAT=[[0,'#d6dbe4'],[0.25,'#ffd166'],[0.5,'#ff9f43'],[0.75,'#e63946'],[1,'#6a0f2a']].map(function(a){ return [a[0],hexArr(a[1])]; });
 function heat(d){ d=clamp(d,0,1); for(var i=1;i<HEAT.length;i++){ if(d<=HEAT[i][0]){ var a=HEAT[i-1],b=HEAT[i]; return mix(a[1],b[1],(d-a[0])/(b[0]-a[0])); } } return HEAT[HEAT.length-1][1]; }
@@ -2904,14 +3006,15 @@ function applyDiseaseColors(){
   });
 }
 function applyVisibility(){
-  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain')); nerveGroup.visible=bodyView();
+  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain') || (mode==='senses' && seView==='head')); nerveGroup.visible=bodyView();
   spineGroup.visible=(mode==='spine'); crossGroup.visible=(sView==='cross'); wholeGroup.visible=(sView==='whole');
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):vesselsOn; });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && vesselsOn); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
-  Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=layerOn[MEN_N[id]]; }); });
+  Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
+  applySenseVis();
   R.sc_csf.meshes.forEach(function(m){ m.visible=layerOn.arachnoid; });
   updateLayerCard();
 }
@@ -3083,6 +3186,549 @@ $('#dvBrain').addEventListener('click',function(){ setDView('brain'); });
 $('#dvBody').addEventListener('click',function(){ setDView('body'); });
 $('#dInfo').addEventListener('click',function(){ selected=null; showDPanel(); refreshUI(); });
 
+/* ------------------------------------------------------------ senses of the mind */
+// Panel content for each sense. Geometry is built lazily in buildSenses().
+var SENSE={
+ se_all:{se:'all',
+  count:'For centuries people have spoken of five senses. Scientists now recognize more, because each sense is defined by its own receptors and pathways to the brain. This model covers ten: vision, hearing, balance, smell, taste, touch, temperature, pain, body position and internal senses. Counting each receptor type separately, some scientists list twenty or more.',
+  steps:['Transduction: receptors turn light, sound, chemicals, pressure or temperature into electrical signals.',
+   'Coding: how strong a stimulus is shows in how fast neurons fire and how many fire. What kind of stimulus it is shows in which neurons fire.',
+   'Relay: almost every sense passes through the thalamus, which also filters what reaches awareness. Smell is the main exception.',
+   'Primary cortex: most senses have a primary area that keeps a map of its receptors, such as the map of the retina, the pitch map of the cochlea and the map of the body.',
+   'Association areas: later areas recognize objects, faces, words and places, and link them to memories and meaning.',
+   'Integration: multisensory areas, such as the superior colliculus, the posterior parietal cortex and the superior temporal sulcus, combine the senses into one experience.'],
+  proc:['Prediction: many scientists think the brain constantly predicts what it expects to sense and pays most attention to the difference. This makes perception fast, but it also explains many illusions.',
+   'Attention: the brain cannot process everything at once. Attention strengthens important signals and weakens the rest.',
+   'Adaptation: steady signals fade, like the feeling of your clothes, so that changes stand out.',
+   'Binding: signals that arrive at the same time and from the same place are linked, so a dog’s bark seems to come from its moving mouth.',
+   'Cross-talk: the senses influence each other. In the McGurk effect, seeing lips say “ga” while hearing “ba” makes many people hear “da.”'],
+  impact:['Sensory experience in childhood wires the sensory areas of the brain, with sensitive periods when input matters most.',
+   'The brain stays adaptable. When one sense is lost, other senses can use its cortex, and practice enlarges the brain’s sensory maps.',
+   'The senses do not switch off in sleep. The thalamus turns down most input, yet an alarm or the sound of your own name can still wake you.']},
+ se_vision:{se:'head',areas:['occipital','thalamus','midbrain'],main:['occipital'],
+  receptors:['The cornea and lens bend light to focus an upside-down image on the retina, the light-sensitive layer at the back of the eye.',
+   'Rods, about 90 to 120 million in each eye, work in dim light and see only shades of gray.',
+   'Cones, about 6 million in each eye, work in bright light and give color vision. Three types respond best to short (blue), medium (green) and long (red) wavelengths.',
+   'The fovea, a tiny pit in the center of the retina, is packed with cones and gives the sharpest vision.',
+   'Light changes a pigment inside each rod or cone, which changes the cell’s electrical signal. Layers of retinal neurons process it, and ganglion cells send it out of the eye.'],
+  steps:['Ganglion cell fibers leave each eye at the optic disc as the optic nerve (cranial nerve II). The disc has no photoreceptors, which creates a blind spot.',
+   'At the optic chiasm, fibers from the inner (nasal) half of each retina cross to the other side. Fibers from the outer half stay on the same side.',
+   'As a result, each optic tract carries the opposite half of what you see: the tract on the right carries the left half of the visual field.',
+   'Most fibers end in the lateral geniculate nucleus (LGN) of the thalamus. Some go to the midbrain (superior colliculus and pretectum) to guide eye movements and the pupil reflex.',
+   'From the LGN, the optic radiation fans back to the primary visual cortex (V1) in the occipital lobe. Its lower fibers loop forward through the temporal lobe first (Meyer’s loop).'],
+  proc:['V1 detects edges, angles, motion and color in small patches of the scene, laid out as a map of the retina.',
+   'Two main streams carry the information forward. The ventral “what” stream in the temporal lobe recognizes objects and faces. The dorsal “where and how” stream in the parietal lobe tracks position and motion and guides reaching.',
+   'The brain fills in the blind spot, combines the two eyes’ slightly different views into depth, and keeps colors looking stable under different lighting.',
+   'In humans, vision uses more of the cortex than any other sense.'],
+  impact:['Early visual experience wires the visual cortex. A child whose eye is blurred or misaligned can develop amblyopia (“lazy eye”) if it is not treated early.',
+   'Special retinal ganglion cells that contain melanopsin send light signals to the hypothalamus, which uses them to set the body clock.',
+   'In people born blind, the visual cortex is put to work for other tasks, such as reading Braille by touch.',
+   'What you see strongly steers attention and can override other senses, as in the ventriloquist effect.']},
+ se_hearing:{se:'head',areas:['auditory','temporal','wernicke','thalamus','midbrain','pons','medulla'],main:['auditory','temporal'],
+  receptors:['The outer ear funnels sound into the ear canal, and the eardrum vibrates.',
+   'Three tiny bones in the middle ear, the malleus, incus and stapes, pass the vibration to the inner ear and increase its pressure about 20 times, so it can move the fluid inside.',
+   'The stapes pushes on the oval window of the snail-shaped, fluid-filled cochlea and sets up a wave along the basilar membrane.',
+   'High pitches move the base of the membrane and low pitches move its tip, so the cochlea sorts sound by pitch.',
+   'About 3,500 inner hair cells send sound signals to the brain, and about 12,000 outer hair cells act as amplifiers. When their tiny hairs bend, ion channels open and the cell signals the nerve.'],
+  steps:['Signals travel along the cochlear part of the vestibulocochlear nerve (cranial nerve VIII) to the cochlear nuclei in the brainstem.',
+   'Many fibers then cross to the other side. The superior olivary nuclei compare the timing and loudness of sound at the two ears to work out where it came from.',
+   'Signals rise through the lateral lemniscus to the inferior colliculus in the midbrain.',
+   'They reach the medial geniculate nucleus (MGN) of the thalamus.',
+   'Finally they reach the primary auditory cortex on the upper surface of the temporal lobe (Heschl’s gyrus).'],
+  proc:['The auditory cortex keeps the pitch map from the cochlea, with low and high tones in different places.',
+   'Because the pathways cross at several levels, each ear sends signals to both sides of the brain.',
+   'Surrounding areas recognize patterns such as voices, music and everyday sounds. In most people, areas on the left side, including Wernicke’s area, specialize in understanding speech.',
+   'The brain can follow one voice in a noisy room (the “cocktail party effect”) by using location, pitch and attention.'],
+  impact:['Hearing in early childhood is essential for learning to speak, which is why newborns are screened for hearing loss.',
+   'A sudden loud sound triggers a fast startle reflex through the brainstem, and sounds also reach the amygdala, which gives them emotional power.',
+   'Music activates the brain’s reward areas and can trigger the release of dopamine.',
+   'Hearing loss in later life is linked to a higher risk of dementia, and hearing aids may help reduce that risk.']},
+ se_balance:{se:'head',areas:['parietal','insula','thalamus','cerebellum','pons','medulla','midbrain'],main:['cerebellum'],
+  receptors:['Three fluid-filled semicircular canals, set at right angles to each other, sense turning of the head in any direction.',
+   'When the head turns, the fluid in a canal lags behind and bends the hair cells in a jelly-like flap called the cupula.',
+   'Two sacs, the utricle and the saccule, sense gravity and straight-line movement, such as tilting your head or speeding up in a car or elevator.',
+   'In these sacs, tiny calcium carbonate crystals called otoconia rest on a jelly layer. Their weight pulls on the hair cells beneath when the head tilts or moves.'],
+  steps:['Signals travel along the vestibular part of cranial nerve VIII to the vestibular nuclei in the brainstem.',
+   'Some fibers go straight to the cerebellum, which fine-tunes balance and eye movements.',
+   'The vestibular nuclei connect to the nuclei that move the eyes, keeping your gaze steady as your head moves (the vestibulo-ocular reflex).',
+   'Pathways down the spinal cord adjust the posture muscles that keep you upright.',
+   'Signals also reach the thalamus and then vestibular areas of the cortex around the back of the insula and the parietal lobe.'],
+  proc:['The brain combines vestibular signals with vision and body position sense to work out how you are moving.',
+   'Unlike most senses, balance has no single primary cortex. Several areas share the work, mainly around the posterior insula and the parietal lobe.',
+   'When the senses disagree, for example when reading in a moving car, the conflict can cause motion sickness.'],
+  impact:['The vestibulo-ocular reflex is one of the fastest reflexes in the body, reacting in about 10 milliseconds.',
+   'Vestibular signals help the hippocampus build your mental map of places.',
+   'After an inner-ear injury, the brain can learn to compensate over weeks. Vestibular rehabilitation exercises are built on this ability.']},
+ se_smell:{se:'head',areas:['prefrontal','amygdala','hippocampus'],main:['amygdala','hippocampus'],
+  receptors:['A small patch of olfactory epithelium in the roof of the nasal cavity holds millions of olfactory receptor neurons.',
+   'Humans have about 400 kinds of working odor receptors, and each neuron makes just one kind.',
+   'Each odor activates a particular combination of receptor types, like a code, which lets people tell apart a huge number of smells.',
+   'Smells also reach the nose from the back of the mouth while you eat, which is why food tastes flat when your nose is blocked.',
+   'Olfactory receptor neurons are replaced throughout life, roughly every one to two months.'],
+  steps:['Fibers from the receptor neurons pass up through tiny holes in the cribriform plate of the skull. Together they form the olfactory nerve (cranial nerve I).',
+   'They connect in the olfactory bulb, where all fibers from neurons with the same receptor type meet in the same small clusters, called glomeruli.',
+   'The olfactory tract carries the signals back along the underside of the frontal lobe.',
+   'Signals reach the piriform cortex (the primary smell cortex), the amygdala, and the entorhinal cortex, which feeds the hippocampus.',
+   'From there, signals reach the orbitofrontal cortex, partly through the thalamus, where smell becomes conscious and is combined with taste into flavor.'],
+  proc:['Because smell connects directly to the amygdala and hippocampus, odors can trigger strong emotions and vivid memories.',
+   'The orbitofrontal cortex identifies smells, judges whether they are pleasant, and combines smell with taste into flavor.',
+   'The brain quickly adapts to steady smells, so you stop noticing the smell of your own home.'],
+  impact:['Smells that signal danger, like smoke or spoiled food, trigger quick protective reactions.',
+   'In some people, losing the sense of smell is one of the earliest signs of Parkinson’s or Alzheimer’s disease.',
+   'Newborn babies can recognize their mother by smell.']},
+ se_taste:{se:'head',areas:['insula','thalamus','prefrontal','medulla','pons','midbrain'],main:['insula'],
+  receptors:['Adults have roughly 2,000 to 8,000 taste buds. Most sit in bumps called papillae: fungiform papillae on the front of the tongue, foliate papillae on the sides, and a V-shaped row of large circumvallate papillae at the back.',
+   'Each taste bud holds about 50 to 150 taste receptor cells, which are replaced every one to two weeks.',
+   'Five basic tastes are recognized: sweet, salty, sour, bitter and umami (savory).',
+   'Sweet, umami and bitter are detected by receptor proteins that set off chemical signals inside the cell. Salty and sour are detected through ion channels that let sodium or hydrogen ions in.',
+   'Every area of the tongue can detect all five tastes. The old “tongue map” is a myth.'],
+  steps:['Front two-thirds of the tongue: the facial nerve (cranial nerve VII), through a branch called the chorda tympani, which passes through the middle ear.',
+   'Back third of the tongue: the glossopharyngeal nerve (IX).',
+   'Throat and epiglottis: the vagus nerve (X).',
+   'All three reach the nucleus of the solitary tract in the medulla.',
+   'Signals rise on the same side to the thalamus (ventral posteromedial nucleus), then to the primary taste cortex in the insula and the nearby frontal operculum.',
+   'The orbitofrontal cortex combines taste with smell, texture and temperature into flavor.'],
+  proc:['The insula identifies the taste and how strong it is. The orbitofrontal cortex judges how pleasant it is, which depends on hunger: a food tastes less rewarding once you have eaten your fill of it.',
+   'Most of what people call taste is really flavor, which depends heavily on smell.',
+   'The brainstem uses taste to trigger reflexes such as salivating, swallowing and gagging on bitter or spoiled food.'],
+  impact:['Sweet and umami tastes signal energy and protein, salty signals needed minerals, and bitter and sour tastes can warn of poisons or spoiled food.',
+   'Taste triggers the release of saliva and digestive juices even before food reaches the stomach.',
+   'People who taste certain bitter compounds strongly, sometimes called supertasters, often dislike bitter vegetables.']},
+ se_touch:{se:'body',areas:['sensory','parietal','thalamus','medulla','pons','midbrain'],main:['sensory'],
+  receptors:['Merkel cells sense steady pressure and fine detail, such as the dots of Braille.',
+   'Meissner corpuscles sense light touch and slipping, such as an object sliding in your grip.',
+   'Pacinian corpuscles, deeper in the skin, sense vibration.',
+   'Ruffini endings sense skin stretch, which helps you sense the position of your fingers and hand.',
+   'Receptors around hair follicles sense hairs moving. Slow C-tactile fibers in hairy skin respond to gentle stroking, the kind of touch people find comforting.',
+   'Pressing on a receptor stretches ion channels such as PIEZO2, which opens them and starts a nerve signal.'],
+  steps:['Fast, myelinated nerve fibers carry the signal through a peripheral nerve to a dorsal root ganglion beside the spinal cord.',
+   'The fibers enter the cord and rise on the same side in the dorsal column, without stopping.',
+   'In the medulla they connect in the gracile nucleus (from the legs) or the cuneate nucleus (from the arms).',
+   'The next fibers cross to the other side and rise as the medial lemniscus.',
+   'They reach the ventral posterolateral nucleus of the thalamus, which sends them to the primary touch cortex (postcentral gyrus). Touch from the face uses the trigeminal nerve and a neighboring nucleus of the thalamus.'],
+  proc:['The touch cortex holds a map of the body, often drawn as a “homunculus,” with huge areas for the fingertips, lips and tongue.',
+   'Nearby parietal areas combine touch with position sense, so you can recognize objects by feel alone.',
+   'The brain predicts the touch caused by your own movements and turns it down, which is why you cannot tickle yourself.'],
+  impact:['Gentle touch can lower stress and supports bonding. Skin-to-skin contact helps newborns stay warm and calm.',
+   'Practice reshapes the touch map. In skilled string players, the brain area for the fingers of the hand on the strings is larger than usual.',
+   'After an amputation, the touch map can reorganize, which is linked to phantom limb sensations.']},
+ se_temp:{se:'body',areas:['sensory','insula','thalamus','hypothalamus','medulla','pons','midbrain'],main:['hypothalamus'],
+  receptors:['Temperature is sensed by free nerve endings in the skin, not by special capsules.',
+   'Heat-sensing endings use channels such as TRPV1, which opens above about 43 °C. Capsaicin, the chemical in chili peppers, opens the same channel, so peppers taste hot.',
+   'Cold-sensing endings use TRPM8, which opens below about 25 °C and is also opened by menthol.',
+   'The skin has more cold spots than warm spots.',
+   'Temperature receptors respond most strongly to change, so a swimming pool feels cold at first and then comfortable.'],
+  steps:['Thin, slower nerve fibers (A-delta fibers for cold, C fibers for warmth) carry signals through a peripheral nerve to the dorsal root ganglion.',
+   'They connect with neurons in the dorsal horn of the spinal cord.',
+   'The next fibers cross to the other side of the cord and rise in the spinothalamic tract.',
+   'They reach the thalamus, which sends them to the posterior insula and the touch cortex.',
+   'A branch through the brainstem reaches the hypothalamus, the body’s thermostat.'],
+  proc:['The posterior insula forms a temperature map of the body and helps decide whether a temperature feels comfortable.',
+   'The hypothalamus combines skin temperature with sensors that measure the temperature of the blood. It triggers shivering, sweating, or changes in skin blood flow.',
+   'Whether warmth feels pleasant depends on your body’s state: a warm bath feels wonderful when you are cold but unpleasant when you are overheated.'],
+  impact:['Temperature sense drives behavior that protects the body, like putting on a coat or moving into the shade.',
+   'Very hot or very cold temperatures also switch on pain pathways, which protects the skin from burns and frostbite.']},
+ se_pain:{se:'body',areas:['sensory','insula','cingulate','thalamus','amygdala','midbrain','pons','medulla'],main:['cingulate'],
+  receptors:['Nociceptors are free nerve endings found in the skin, muscles, joints, bones and organs.',
+   'Fast, thin A-delta fibers carry sharp “first” pain. Slow C fibers carry dull, burning “second” pain.',
+   'Damaged tissue releases chemicals that make nociceptors more sensitive, which is why an injury stays tender.',
+   'Itch is a related sense. Itch-sensing nerve fibers respond to substances such as histamine and travel a similar route to the brain.'],
+  steps:['Signals travel through a peripheral nerve and dorsal root ganglion into the dorsal horn of the spinal cord.',
+   'In the dorsal horn, signals can be turned up or down before they rise. Touch signals and pathways from the brain can “close the gate” on pain.',
+   'The next fibers cross to the other side and rise in the spinothalamic tract (anterolateral system).',
+   'Branches reach the brainstem, including the periaqueductal gray, which can switch on the body’s own pain relief.',
+   'The thalamus sends signals to the touch cortex, which works out where it hurts and what kind of pain it is, and to the insula and anterior cingulate cortex, which make it feel unpleasant.'],
+  proc:['Pain is built by the brain, not simply measured. Attention, mood, expectation and past experience all change how much something hurts.',
+   'The brain can release its own painkillers, called endorphins, and send signals down to the dorsal horn to block pain.',
+   'Reflexes in the spinal cord pull your hand away from a hot stove even before you feel the pain.'],
+  impact:['Pain grabs attention powerfully and creates lasting memories that help people avoid danger in the future.',
+   'Long-lasting pain can make the nervous system oversensitive, which is part of chronic pain.',
+   'Pain from organs is often felt in areas of skin that share the same spinal segments, such as heart pain felt in the left arm.']},
+ se_proprio:{se:'body',areas:['sensory','parietal','cerebellum','thalamus','medulla','pons','midbrain'],main:['parietal','cerebellum'],
+  receptors:['Muscle spindles inside muscles sense how long a muscle is and how fast its length is changing.',
+   'Golgi tendon organs, where muscle joins tendon, sense how hard a muscle is pulling.',
+   'Receptors in joints and in stretched skin add information about joint angles, especially near the limits of movement.',
+   'The PIEZO2 channel is essential: people with rare genetic changes in it have very poor body position sense.'],
+  steps:['Large, very fast nerve fibers carry the signals through peripheral nerves into the spinal cord.',
+   'For conscious awareness, signals rise in the dorsal column, cross in the medulla, and reach the thalamus and then the touch and parietal cortex, like fine touch.',
+   'For automatic control, signals travel up the spinocerebellar tracts to the cerebellum on the same side, without reaching awareness.',
+   'In the spinal cord itself, muscle spindle signals drive reflexes such as the knee jerk.'],
+  proc:['The cerebellum compares the movement you planned with the movement that actually happened and corrects errors as you move.',
+   'The parietal lobe combines position sense with vision and touch to build a map of your body and the feeling that your body is your own.',
+   'The brain also predicts the results of your own movements, so it knows where your arm is going even before the signals arrive.'],
+  impact:['Without proprioception, moving smoothly needs constant watching, and in the dark a person may be unable to stand or walk.',
+   'Balance training, dance and sports sharpen position sense and help prevent repeat injuries to joints such as the ankle.',
+   'In the rubber hand illusion, seeing a fake hand stroked in time with your hidden real hand can make it feel like your own, which shows how the brain combines the senses.']},
+ se_intero:{se:'body',areas:['insula','cingulate','hypothalamus','amygdala','thalamus','medulla','pons'],main:['medulla','pons'],
+  receptors:['Stretch receptors (baroreceptors) in the carotid arteries and the aorta sense blood pressure with every heartbeat.',
+   'Chemoreceptors in the carotid bodies and the brainstem sense oxygen, carbon dioxide and acid in the blood.',
+   'Stretch receptors in the lungs, stomach and bladder sense how full they are.',
+   'Sensors in the gut wall detect nutrients, and hormones from the gut and fat tissue also report on hunger and fullness.',
+   'Sensors in and near the hypothalamus monitor blood temperature and salt concentration, which drives thirst.'],
+  steps:['Most signals from the heart, lungs and gut travel up the vagus nerve, and some up the glossopharyngeal nerve, to the nucleus of the solitary tract in the medulla.',
+   'Signals from the bladder, the lower gut and pain from organs travel through spinal nerves into the spinal cord.',
+   'The brainstem passes the signals to the parabrachial nucleus in the pons, the hypothalamus and the amygdala.',
+   'The thalamus relays them to the posterior insula, which maps the body’s inner state.',
+   'The anterior insula and the anterior cingulate cortex turn this into feelings and urges, such as hunger, thirst or noticing a racing heart.'],
+  proc:['Most internal signals are handled automatically. The brainstem and hypothalamus adjust heart rate, breathing, digestion and hormones without you noticing.',
+   'The insula combines inner signals with emotion and context, which helps explain why feelings like anxiety come with body sensations.',
+   'The brain predicts the body’s needs, for example raising your heart rate as you stand up so you do not feel faint.'],
+  impact:['Internal senses drive basic motivations such as eating, drinking, breathing and resting.',
+   'People differ in how accurately they can sense their own heartbeat. Differences in interoception are being studied in anxiety, depression and eating disorders.',
+   'Slow, deep breathing changes the signals from the lungs and heart and can calm the body’s stress response.']}
+};
+var SENSE_IDS=['se_vision','se_hearing','se_balance','se_smell','se_taste','se_touch','se_temp','se_pain','se_proprio','se_intero'];
+var PRIORITY_SE=SENSE_IDS.slice();
+var seView='head', senseBuilt=false, senseHead=new THREE.Group(), senseBody=new THREE.Group(), sensePaths=[], sensePickHead=[], sensePickBody=[], stnEls=[], seAnch={head:{},body:{}};
+var SENSE_C=new THREE.Vector3(0,-0.28,0.02), DEF_SE={az:50*Math.PI/180,el:12*Math.PI/180}, seXrayBefore=false, fadeMats=null;
+senseHead.visible=false; senseBody.visible=false; scene.add(senseHead); nerveGroup.add(senseBody);
+function isSense(id){ return !!(id && SENSE[id]); }
+function buildSenses(){
+  if(senseBuilt) return; senseBuilt=true;
+  function V(a){ return new THREE.Vector3(a[0],a[1],a[2]); }
+  // a point inside the brainstem: t runs from the top of the midbrain (0) to the bottom of the medulla (1);
+  // ax and az are fractions of the local radius (+z is the front, -z the back)
+  function S(t,ax,az){ var c=stemCurve.getPointAt(t), r=0.12*stemTaper(t); return [c.x+ax*r,c.y,c.z+az*r]; }
+  function cortex(dir,s,lift){ var p=surfacePoint(dir,s,lift==null?-0.04:lift); return [p.x,p.y,p.z]; }
+  function B2(p){ return [p[0]*0.16,1.8+p[1]*0.16,p[2]*0.16]; }   // brain coordinates -> the small brain in the body model
+  function reg(id,m,view,kind,parent){
+    m.userData={region:id,sense:true,view:view,kind:kind,tex:m.userData.tex,base:[m.material.color.r,m.material.color.g,m.material.color.b]};
+    if(kind==='path'){ sensePaths.push(m); m.renderOrder=6; }
+    R[id].meshes.push(m); (parent||(view==='head'?senseHead:senseBody)).add(m);
+    (view==='head'?sensePickHead:sensePickBody).push(m); return m;
+  }
+  function path(id,pts,view,rad){
+    var col=R[id].color, c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength();
+    var tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; tex.repeat.set(Math.max(1,Math.round(L/(view==='head'?0.14:0.2))),1);
+    var m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(10,Math.round(L*(view==='head'?60:40))),(rad||(view==='head'?0.011:0.008))*1.4,8,false),
+      new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:1,emissiveMap:tex,roughness:0.4}));
+    m.userData.tex=tex; return reg(id,m,view,'path');
+  }
+  function mat(c,o){ return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.5},o||{})); }
+  function organ(id,geo,m,pos,scl,view){ var o=new THREE.Mesh(geo,m); if(pos) o.position.set(pos[0],pos[1],pos[2]); if(scl) o.scale.set(scl[0],scl[1],scl[2]); return reg(id,o,view||'head','organ'); }
+  function sph(r,w,h){ return new THREE.SphereGeometry(r,w||24,h||16); }
+  function stations(id,view,list){ list.forEach(function(st){
+    var el=document.createElement('div'); el.className='label stn'; el.style.setProperty('--c',R[id].color); el.innerHTML='<i class="dot"></i>'; el.appendChild(document.createTextNode(st[0]));
+    labelsEl.appendChild(el); stnEls.push({el:el,p:V(st[1]),id:id,view:view}); }); }
+  function bothSides(fn){ [1,-1].forEach(fn); }
+
+  // shared landmarks (brain coordinates; +x is the person's left)
+  var VPL=function(s){ return [s*0.17,0.08,-0.1]; }, VPM=function(s){ return [s*0.12,0.08,-0.05]; };
+  var LGN=function(s){ return [s*0.23,0.03,-0.16]; }, MGN=function(s){ return [s*0.18,0.04,-0.2]; };
+  var InsA=function(s){ return [s*0.55,0.03,0.17]; }, InsP=function(s){ return [s*0.56,0.02,-0.04]; };
+  var ACC=function(s){ return [s*0.06,0.42,0.42]; }, HYP=function(s){ return [s*0.07,-0.04,0.2]; }, AMY=function(s){ return [s*0.33,-0.2,0.19]; };
+  var OFC=function(s){ return cortex([0.3,-0.5,0.81],s,-0.03); };
+  var S1hand=function(s){ return cortex([0.83,0.55,-0.09],s); }, S1leg=function(s){ return cortex([0.33,0.93,-0.15],s); };
+  var V1up=function(s){ return cortex([0.2,0.12,-0.97],s,-0.05); }, V1lo=function(s){ return cortex([0.2,-0.08,-0.97],s,-0.05); };
+  var A1=function(s){ return cortex([0.97,-0.2,0.05],s,-0.1); }, SPL=function(s){ return cortex([0.45,0.75,-0.48],s); };
+  var NTS=function(s){ return S(0.78,s*0.35,-0.6); }, PB=function(s){ return S(0.32,s*0.6,-0.6); };
+
+  /* ---- see-through head */
+  var skin=new THREE.MeshStandardMaterial({color:'#9fb3d1',transparent:true,opacity:0.1,roughness:0.8,depthWrite:false});
+  function shell(geo,p,sc){ var m=new THREE.Mesh(geo,skin); m.position.set(p[0],p[1],p[2]); if(sc) m.scale.set(sc[0],sc[1],sc[2]); m.renderOrder=9; senseHead.add(m); return m; }
+  shell(sph(1,40,28),[0,0.08,-0.03],[0.98,0.9,1.2]);
+  shell(sph(1,36,24),[0,-0.62,0.6],[0.66,0.72,0.62]);
+  shell(new THREE.CylinderGeometry(0.42,0.46,0.9,28,1,true),[0,-1.3,-0.2]);
+  shell(sph(1,20,14),[0,-0.53,1.24],[0.09,0.19,0.13]);   // nose
+
+  /* ---- vision: eyes, optic nerves, chiasm, tracts, LGN, radiations, V1 */
+  bothSides(function(s){
+    var E=[s*0.4,-0.32,1.05];
+    organ('se_vision',sph(0.15,32,24),mat('#f4f1ec',{transparent:true,opacity:0.55,depthWrite:false}),E);              // sclera
+    var ret=organ('se_vision',new THREE.SphereGeometry(0.146,32,16,0,Math.PI*2,0,Math.PI*0.5),mat('#e8743b',{side:THREE.DoubleSide}),E);
+    ret.rotation.x=-Math.PI/2;                                                                                              // retina lines the back half
+    organ('se_vision',sph(0.012),mat('#ffd166'),[E[0],E[1],E[2]-0.143]);                                                 // fovea
+    organ('se_vision',sph(0.014),mat('#fff3d6'),[s*0.37,E[1]+0.01,E[2]-0.14]);                                          // optic disc, toward the nose
+    organ('se_vision',new THREE.RingGeometry(0.028,0.062,36),mat('#5b7fa6',{side:THREE.DoubleSide}),[E[0],E[1],E[2]+0.138]);
+    organ('se_vision',new THREE.CircleGeometry(0.028,28),mat('#111318',{side:THREE.DoubleSide}),[E[0],E[1],E[2]+0.139]);
+    organ('se_vision',sph(1),mat('#d8ecff',{transparent:true,opacity:0.6}),[E[0],E[1],E[2]+0.112],[0.045,0.045,0.022]); // lens
+    organ('se_vision',sph(0.08,24,16),mat('#bfe3ff',{transparent:true,opacity:0.25,depthWrite:false}),[E[0],E[1],E[2]+0.085]); // cornea
+    var into=[s*0.04,-0.24,0.33];
+    path('se_vision',[[s*0.37,-0.31,0.9],[s*0.3,-0.29,0.72],[s*0.17,-0.26,0.48],into]);                                  // optic nerve
+    path('se_vision',[into,[s*0.06,-0.237,0.26],[s*0.13,-0.2,0.15],[s*0.2,-0.13,0.0],[s*0.235,-0.05,-0.1],LGN(s)],'head',0.008);   // outer (temporal) fibers stay
+    path('se_vision',[into,[0,-0.233,0.29],[-s*0.055,-0.233,0.255],[-s*0.125,-0.205,0.155],[-s*0.195,-0.135,0.01],[-s*0.228,-0.055,-0.095],LGN(-s)],'head',0.008); // inner (nasal) fibers cross
+    path('se_vision',[LGN(s),[s*0.3,0.1,-0.3],[s*0.29,0.13,-0.6],V1up(s)],'head',0.009);                                 // optic radiation
+    path('se_vision',[LGN(s),[s*0.3,-0.06,-0.06],[s*0.36,-0.1,0.06],[s*0.38,-0.08,-0.15],[s*0.33,-0.02,-0.5],V1lo(s)],'head',0.009); // Meyer's loop
+    path('se_vision',[[s*0.2,-0.13,0.0],[s*0.1,-0.07,-0.06],S(0.04,s*0.35,-0.85)],'head',0.006);                         // to superior colliculus
+  });
+  stations('se_vision','head',[['Retina',[0.4,-0.32,0.9]],['Optic nerve (II)',[0.3,-0.29,0.72]],['Optic chiasm: inner fibers cross',[0,-0.24,0.3]],
+    ['Optic tract',[0.2,-0.13,0.0]],['LGN of the thalamus',LGN(1)],['Superior colliculus',S(0.04,0.35,-0.85)],['Optic radiation',[0.3,0.1,-0.32]],['Meyer’s loop',[0.36,-0.1,0.06]],['Primary visual cortex (V1)',V1up(1)]]);
+
+  /* ---- hearing and balance: outer, middle and inner ear */
+  bothSides(function(s){
+    var skinM=mat('#e7b9a0',{transparent:true,opacity:0.8});
+    var pin=organ('se_hearing',new THREE.TorusGeometry(0.1,0.022,10,28,Math.PI*1.6),skinM,[s*0.97,-0.36,-0.07],[1,1.35,0.9]);
+    pin.rotation.set(0,s*Math.PI/2,Math.PI*0.75);                                                                       // the helix of the outer ear
+    organ('se_hearing',sph(0.035),skinM,[s*0.97,-0.5,-0.05],[0.6,1,0.8]);                                              // ear lobe
+    var canal=new THREE.CatmullRomCurve3([[s*0.97,-0.42,-0.04],[s*0.82,-0.425,-0.035],[s*0.68,-0.43,-0.04]].map(V));
+    organ('se_hearing',new THREE.TubeGeometry(canal,16,0.022,10,false),mat('#c98f7a',{transparent:true,opacity:0.6,side:THREE.DoubleSide}));
+    var drum=organ('se_hearing',new THREE.CircleGeometry(0.032,24),mat('#d9c6a5',{side:THREE.DoubleSide}),[s*0.675,-0.43,-0.04]); drum.rotation.y=Math.PI/2;
+    var bone=mat('#efe2c4');
+    [[[s*0.668,-0.415,-0.04],[s*0.645,-0.39,-0.045]],[[s*0.645,-0.39,-0.045],[s*0.625,-0.405,-0.055]],[[s*0.625,-0.405,-0.055],[s*0.6,-0.425,-0.05]]].forEach(function(b){
+      organ('se_hearing',new THREE.TubeGeometry(new THREE.LineCurve3(V(b[0]),V(b[1])),2,0.006,6,false),bone); });    // malleus, incus, stapes
+    // cochlea: about 2.5 turns, apex pointing forward and outward
+    var C=V([s*0.52,-0.47,0.0]), ax=new THREE.Vector3(s*0.45,-0.2,0.87).normalize(), u=new THREE.Vector3().crossVectors(ax,new THREE.Vector3(0,1,0)).normalize(), w=new THREE.Vector3().crossVectors(ax,u), sp=[];
+    for(var i=0;i<=60;i++){ var t=i/60, a=t*2.5*Math.PI*2, r=0.055*(1-0.72*t); sp.push(C.clone().addScaledVector(ax,0.05*t-0.02).addScaledVector(u,r*Math.cos(a)).addScaledVector(w,r*Math.sin(a))); }
+    organ('se_hearing',new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sp),140,0.011,8,false),mat('#f6c453',{roughness:0.35}));
+    // vestibule (utricle and saccule) and three semicircular canals at right angles
+    var bal=mat('#7fdc9a',{roughness:0.35});
+    organ('se_balance',sph(1),bal,[s*0.565,-0.44,-0.07],[0.03,0.024,0.026]);
+    organ('se_balance',sph(1),bal,[s*0.56,-0.47,-0.055],[0.022,0.018,0.02]);
+    var lat_=organ('se_balance',new THREE.TorusGeometry(0.04,0.007,8,32,Math.PI*1.6),bal,[s*0.61,-0.43,-0.11]); lat_.rotation.x=Math.PI/2;
+    var ant=organ('se_balance',new THREE.TorusGeometry(0.042,0.007,8,32,Math.PI*1.6),bal,[s*0.575,-0.37,-0.07]); ant.rotation.y=s*Math.PI/4;
+    var pos=organ('se_balance',new THREE.TorusGeometry(0.042,0.007,8,32,Math.PI*1.6),bal,[s*0.585,-0.38,-0.15]); pos.rotation.y=-s*Math.PI/4;
+    // auditory pathway
+    var CN=S(0.6,s*0.85,-0.5), SO=function(k){ return S(0.52,k*0.4,0.15); }, IC=S(0.12,s*0.35,-0.85);
+    path('se_hearing',[[s*0.47,-0.465,-0.03],[s*0.33,-0.5,-0.07],[s*0.2,-0.54,-0.1],CN]);
+    path('se_hearing',[CN,S(0.56,s*0.65,-0.1),SO(s)],'head',0.007);
+    path('se_hearing',[CN,S(0.56,s*0.3,0.3),S(0.54,0,0.38),SO(-s)],'head',0.007);                                        // trapezoid body: crosses
+    path('se_hearing',[SO(s),S(0.42,s*0.78,-0.1),S(0.25,s*0.72,-0.5),IC],'head',0.008);                                   // lateral lemniscus
+    path('se_hearing',[IC,[s*0.1,0.0,-0.24],MGN(s)],'head',0.008);
+    path('se_hearing',[MGN(s),[s*0.3,0.02,-0.12],[s*0.42,-0.04,-0.02],A1(s)],'head',0.009);                              // auditory radiation
+    // vestibular pathway
+    var VN=S(0.6,s*0.6,-0.65);
+    path('se_balance',[[s*0.55,-0.43,-0.09],[s*0.35,-0.48,-0.12],[s*0.2,-0.53,-0.14],VN]);
+    path('se_balance',[VN,[s*0.16,-0.49,-0.27],[s*0.22,-0.45,-0.38]],'head',0.008);                                      // to the cerebellum
+    path('se_balance',[VN,S(0.45,s*0.15,-0.55),S(0.25,s*0.12,-0.45),S(0.08,s*0.08,-0.3)],'head',0.007);                  // to eye movement nuclei
+    path('se_balance',[VN,S(0.8,s*0.5,-0.2),S(1.0,s*0.5,0.0)],'head',0.007);                                             // down the spinal cord
+    path('se_balance',[VN,S(0.4,s*0.6,-0.3),S(0.15,s*0.5,-0.2),[s*0.18,0.07,-0.12],[s*0.35,0.06,-0.1],InsP(s)],'head',0.007); // thalamus to vestibular cortex
+  });
+  stations('se_hearing','head',[['Outer ear',[0.98,-0.3,-0.07]],['Eardrum and middle ear bones',[0.66,-0.4,-0.04]],['Cochlea',[0.53,-0.47,0.02]],['Cochlear nerve (VIII)',[0.33,-0.5,-0.07]],
+    ['Cochlear nuclei',S(0.6,0.85,-0.5)],['Superior olive: signals cross',S(0.54,0,0.38)],['Inferior colliculus',S(0.12,0.35,-0.85)],['MGN of the thalamus',MGN(1)],['Auditory cortex',A1(1)]]);
+  stations('se_balance','head',[['Semicircular canals',[0.6,-0.36,-0.12]],['Utricle and saccule',[0.565,-0.46,-0.06]],['Vestibular nerve (VIII)',[0.35,-0.48,-0.12]],['Vestibular nuclei',S(0.6,0.6,-0.65)],
+    ['Cerebellum',[0.22,-0.45,-0.38]],['Eye movement nuclei',S(0.08,0.08,-0.3)],['To the spinal cord',S(1.0,0.5,0.0)],['Thalamus',[0.18,0.07,-0.12]],['Vestibular cortex',InsP(1)]]);
+
+  /* ---- smell: olfactory epithelium, cribriform plate, bulbs, tracts */
+  organ('se_smell',new THREE.BoxGeometry(0.22,0.42,0.55),mat('#9fc7e8',{transparent:true,opacity:0.14,depthWrite:false}),[0,-0.56,0.95]);   // nasal cavity
+  organ('se_smell',new THREE.BoxGeometry(0.12,0.008,0.3),mat('#efe7d6',{transparent:true,opacity:0.7}),[0,-0.29,0.8]);                     // cribriform plate
+  bothSides(function(s){
+    var olf=mat('#c77dff');
+    organ('se_smell',sph(1),olf,[s*0.035,-0.37,0.86],[0.028,0.012,0.09]);                                               // olfactory epithelium
+    organ('se_smell',sph(1),olf,[s*0.055,-0.235,0.71],[0.022,0.018,0.07]);                                              // olfactory bulb
+    [0.8,0.86,0.92].forEach(function(z,k){ path('se_smell',[[s*0.035,-0.36,z],[s*0.045,-0.3,z-0.04],[s*0.055,-0.245,0.66+0.04*k]],'head',0.004); }); // olfactory nerve fibers
+    var PIR=[s*0.25,-0.2,0.27];
+    path('se_smell',[[s*0.055,-0.235,0.65],[s*0.08,-0.235,0.5],[s*0.12,-0.235,0.38],[s*0.2,-0.22,0.32],PIR],'head',0.009);  // olfactory tract, lateral stria
+    path('se_smell',[PIR,AMY(s),[s*0.33,-0.24,0.1],[s*0.32,-0.27,0.03]],'head',0.007);                                    // amygdala, entorhinal cortex
+    path('se_smell',[PIR,[s*0.24,-0.16,0.45],OFC(s)],'head',0.007);                                                      // orbitofrontal cortex
+  });
+  stations('se_smell','head',[['Olfactory epithelium',[0.035,-0.38,0.86]],['Cribriform plate',[0,-0.29,0.93]],['Olfactory bulb',[0.055,-0.235,0.71]],['Olfactory tract',[0.1,-0.235,0.45]],
+    ['Piriform cortex',[0.25,-0.2,0.27]],['Amygdala',AMY(1)],['Entorhinal cortex',[0.32,-0.27,0.03]],['Orbitofrontal cortex',OFC(1)]]);
+
+  /* ---- taste: tongue and papillae, cranial nerves VII, IX and X */
+  var TC=[0,-0.92,0.72], TR=[0.24,0.075,0.42];
+  organ('se_taste',sph(1,40,24),mat('#e8838f',{roughness:0.6}),TC,TR);
+  function topY(x,z){ var q=1-Math.pow(x/TR[0],2)-Math.pow((z-TC[2])/TR[2],2); return TC[1]+TR[1]*Math.sqrt(Math.max(0,q)); }
+  var pap=[], pm=mat('#ffb3c1');
+  for(var k=0;k<34;k++){ var zz=0.8+Math.random()*0.32, xx=(Math.random()*2-1)*0.17*Math.sqrt(Math.max(0.05,1-Math.pow((zz-0.72)/0.42,2))); var m0=new THREE.Mesh(sph(0.008,8,6)); m0.position.set(xx,topY(xx,zz),zz); pap.push(m0); }
+  organ('se_taste',mergeMeshes(pap),pm); pap.forEach(function(q){ q.geometry.dispose(); });                             // fungiform papillae
+  for(var v=0;v<9;v++){ var f=(v-4)/4, vz=0.42+0.09*Math.abs(f), vx=0.15*f; organ('se_taste',sph(0.016,12,8),mat('#ff8fa3'),[vx,topY(vx,vz),vz]); }  // circumvallate V
+  bothSides(function(s){ for(var r=0;r<4;r++) organ('se_taste',new THREE.BoxGeometry(0.008,0.03,0.012),pm,[s*0.215,-0.915,0.5+r*0.025]); }); // foliate folds
+  var epi=organ('se_taste',sph(1),mat('#e8838f'),[0,-0.98,0.22],[0.07,0.05,0.015]); epi.rotation.x=-0.6;                   // epiglottis
+  bothSides(function(s){
+    path('se_taste',[[s*0.1,-0.86,0.95],[s*0.18,-0.87,0.7],[s*0.28,-0.8,0.45],[s*0.42,-0.62,0.18],[s*0.6,-0.45,0.0],[s*0.5,-0.42,-0.01],[s*0.32,-0.5,-0.05],S(0.58,s*0.9,0.0),NTS(s)],'head',0.008); // VII, chorda tympani
+    path('se_taste',[[s*0.1,-0.86,0.48],[s*0.2,-0.9,0.3],[s*0.25,-0.85,0.05],[s*0.25,-0.75,-0.12],S(0.72,s*0.95,-0.1),NTS(s)],'head',0.008);  // IX
+    path('se_taste',[[s*0.03,-0.96,0.24],[s*0.12,-1.0,0.12],[s*0.24,-0.9,-0.05],[s*0.26,-0.77,-0.16],S(0.78,s*0.95,-0.15),S(0.82,s*0.35,-0.6)],'head',0.008); // X
+    path('se_taste',[NTS(s),S(0.55,s*0.4,-0.3),S(0.3,s*0.35,-0.1),S(0.08,s*0.3,0.0),VPM(s)],'head',0.008);                // central tegmental tract, same side
+    path('se_taste',[VPM(s),[s*0.3,0.08,0.05],[s*0.45,0.06,0.12],InsA(s)],'head',0.009);
+    path('se_taste',[InsA(s),[s*0.42,-0.02,0.4],OFC(s)],'head',0.007);
+  });
+  stations('se_taste','head',[['Taste buds (front two-thirds)',[0.1,-0.86,0.95]],['Circumvallate papillae',[0.1,-0.86,0.46]],['Chorda tympani (VII)',[0.42,-0.62,0.18]],['Glossopharyngeal nerve (IX)',[0.25,-0.85,0.05]],
+    ['Vagus nerve (X)',[0.2,-0.95,0.0]],['Nucleus of the solitary tract',NTS(1)],['Thalamus (VPM)',VPM(1)],['Taste cortex (insula)',InsA(1)],['Orbitofrontal cortex',OFC(1)]]);
+
+  /* ---- body senses: the brain end of each pathway (head view) */
+  // touch: from a hand on the +x side; dorsal column, cuneate nucleus, crosses in the medulla
+  var touchB=[[S(1.0,0.25,-0.55),S(0.9,0.3,-0.72),S(0.8,0,-0.3),S(0.7,-0.15,0.05),S(0.45,-0.3,0.0),S(0.2,-0.45,-0.1),VPL(-1)],[VPL(-1),[-0.3,0.3,-0.08],S1hand(-1)]];
+  // temperature: from a hand on the -x side; already crossed in the cord, so it arrives on the +x side
+  var tempB=[[S(1.0,0.6,0.1),S(0.75,0.8,0.0),S(0.45,0.75,-0.05),S(0.2,0.55,-0.1),VPL(1)],[VPL(1),[0.32,0.28,-0.08],S1hand(1)],[VPL(1),[0.36,0.06,-0.06],InsP(1)],
+    [S(0.75,0.8,0.0),PB(1),S(0.1,0.3,0.25),HYP(1)]];
+  // pain: from a foot on the +x side; arrives on the -x side
+  var painB=[[S(1.0,-0.6,0.1),S(0.75,-0.8,0.0),S(0.45,-0.75,-0.05),S(0.2,-0.55,-0.1),VPL(-1)],[VPL(-1),[-0.22,0.35,-0.1],S1leg(-1)],[VPL(-1),[-0.38,0.06,-0.02],InsP(-1)],
+    [S(0.2,-0.55,-0.1),[-0.06,0.1,-0.02],[-0.06,0.3,0.25],ACC(-1)],[S(0.45,-0.75,-0.05),S(0.15,-0.2,-0.5),S(0.1,0,-0.45)]];
+  // body position: from a leg on the -x side; gracile nucleus crosses to +x, spinocerebellar stays on -x
+  var propB=[[S(1.0,-0.12,-0.6),S(0.92,-0.12,-0.8),S(0.8,0,-0.3),S(0.7,0.15,0.05),S(0.45,0.3,0.0),S(0.2,0.45,-0.1),VPL(1)],[VPL(1),[0.2,0.35,-0.1],S1leg(1)],[S1leg(1),[0.3,0.62,-0.32],SPL(1)],
+    [S(1.0,-0.75,-0.4),S(0.78,-0.95,-0.7),S(0.65,-1.05,-0.95),[-0.2,-0.48,-0.5],[-0.32,-0.42,-0.66]]];
+  // internal senses: vagus to the solitary nucleus on both sides, then parabrachial, hypothalamus, amygdala, thalamus, insula, cingulate
+  var intB=[];
+  bothSides(function(s){
+    intB.push([S(0.75,s*1.0,0.1),S(0.77,s*0.7,-0.3),NTS(s)],[NTS(s),S(0.55,s*0.55,-0.55),PB(s)],[PB(s),S(0.1,s*0.3,0.25),HYP(s)],[PB(s),[s*0.2,-0.2,-0.05],AMY(s)],
+      [PB(s),S(0.12,s*0.4,-0.2),[s*0.1,0.06,-0.06],[s*0.35,0.05,-0.03],InsP(s)],[InsP(s),[s*0.565,0.03,0.07],InsA(s)],[InsA(s),[s*0.3,0.25,0.35],ACC(s)]);
+  });
+  intB.push([S(1.0,0.2,0.0),S(0.8,0.4,-0.2),PB(1)]);   // spinal route from the bladder joins in
+  [['se_touch',touchB],['se_temp',tempB],['se_pain',painB],['se_proprio',propB],['se_intero',intB]].forEach(function(e){ e[1].forEach(function(p){ path(e[0],p,'head',0.008); }); });
+  stations('se_touch','head',[['From the spinal cord (dorsal column)',S(1.0,0.25,-0.55)],['Cuneate nucleus',S(0.9,0.3,-0.72)],['Crosses over (medial lemniscus)',S(0.8,0,-0.3)],['Thalamus (VPL)',VPL(-1)],['Touch cortex: hand area',S1hand(-1)]]);
+  stations('se_temp','head',[['From the spinal cord (already crossed)',S(1.0,0.6,0.1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Thalamus',VPL(1)],['Posterior insula',InsP(1)],['Touch cortex',S1hand(1)]]);
+  stations('se_pain','head',[['From the spinal cord (already crossed)',S(1.0,-0.6,0.1)],['Periaqueductal gray',S(0.1,0,-0.45)],['Thalamus',VPL(-1)],['Touch cortex: leg area',S1leg(-1)],['Insula',InsP(-1)],['Anterior cingulate cortex',ACC(-1)]]);
+  stations('se_proprio','head',[['Gracile nucleus',S(0.92,-0.12,-0.8)],['Crosses over',S(0.8,0,-0.3)],['Thalamus',VPL(1)],['Touch cortex: leg area',S1leg(1)],['Parietal cortex',SPL(1)],['To the cerebellum (same side)',[-0.32,-0.42,-0.66]]]);
+  stations('se_intero','head',[['Vagus nerve',S(0.75,1.0,0.1)],['Nucleus of the solitary tract',NTS(1)],['Parabrachial nucleus',PB(1)],['Hypothalamus',HYP(1)],['Amygdala',AMY(1)],['Posterior insula',InsP(1)],['Anterior insula',InsA(1)],['Anterior cingulate cortex',ACC(1)]]);
+
+  /* ---- body view: receptors and the full route up the spinal cord into the brain */
+  function cz(y){ return y>=0.6?cordZ(y):-0.12; }
+  function up(x,y0,y1,dz){ var o=[]; for(var y=y0;y<=y1+1e-6;y+=0.08) o.push([x,y,cz(y)+dz]); if(o[o.length-1][1]<y1) o.push([x,y1,cz(y1)+dz]); return o; }
+  function marker(id,p,r,c){ var m=new THREE.Mesh(sph(r||0.022,16,12),new THREE.MeshStandardMaterial({color:c||R[id].color,emissive:c||R[id].color,emissiveIntensity:0.5,roughness:0.4})); m.position.set(p[0],p[1],p[2]); return reg(id,m,'body','marker'); }
+  function brainEnd(id,list){ list.forEach(function(p){ path(id,p.map(B2),'body',0.0035); }); }
+  // touch: fingertip, median nerve, C7 root, dorsal column (same side), then into the brain
+  var tip=[0.682,-0.355,0.065];
+  marker('se_touch',tip);
+  path('se_touch',[tip,[0.68,-0.3,0.065],[0.67,-0.2,0.08],[0.645,0.03,0.06],[0.6,0.32,0.05],[0.545,0.64,0.045],[0.47,0.97,0.04],[0.38,1.24,0.01],[0.22,1.33,-0.02],[0.085,1.39,-0.065],[0.045,1.402,-0.085],[0.012,1.41,-0.1]],'body');
+  path('se_touch',[[0.012,1.41,-0.1]].concat(up(0.007,1.45,1.6,-0.013)).concat([[0.006,1.63,-0.058]]),'body');
+  brainEnd('se_touch',touchB);
+  stations('se_touch','body',[['Touch receptors in the fingertip',tip],['Median nerve',[0.6,0.32,0.05]],['Dorsal root ganglion',[0.045,1.402,-0.085]],['Dorsal column (same side)',[0.007,1.52,-0.1]],['Brain: crosses over, then thalamus and cortex',B2(VPL(-1))]]);
+  // temperature: back of the hand on the -x side, radial nerve, C6 root, crosses in the cord
+  var hb=[-0.69,-0.2,0.11];
+  marker('se_temp',hb);
+  path('se_temp',[hb,[-0.7,-0.15,0.06],[-0.69,-0.1,0],[-0.675,0.04,0.02],[-0.625,0.33,0],[-0.585,0.66,0.02],[-0.55,0.84,-0.045],[-0.48,1.03,-0.06],[-0.39,1.23,-0.02],[-0.22,1.33,-0.02],[-0.085,1.43,-0.06],[-0.045,1.438,-0.078],[-0.01,1.442,-0.09]],'body');
+  path('se_temp',[[-0.01,1.442,-0.09],[0,1.448,-0.08],[0.011,1.46,-0.07]].concat(up(0.011,1.52,1.6,0.006)).concat([[0.012,1.63,-0.04]]),'body');
+  brainEnd('se_temp',tempB);
+  stations('se_temp','body',[['Temperature endings in the skin',hb],['Radial nerve',[-0.625,0.33,0]],['Dorsal root ganglion',[-0.045,1.438,-0.078]],['Crosses in the spinal cord',[0,1.448,-0.08]],['Spinothalamic tract',[0.011,1.55,-0.06]],['Brain: thalamus, insula, hypothalamus',B2(VPL(1))]]);
+  // pain: sole of the foot on the +x side, tibial and sciatic nerves, S1 root, crosses in the cord
+  var sole=[0.21,-1.99,0.15];
+  marker('se_pain',sole);
+  path('se_pain',[sole,[0.19,-1.96,0.05],[0.19,-1.82,-0.03],[0.205,-1.4,-0.045],[0.2,-1.05,-0.055],[0.2,-0.86,-0.05],[0.19,-0.6,-0.065],[0.18,-0.25,-0.09],[0.12,-0.03,-0.13],[0.06,0.12,-0.13],
+    [0.02,0.24,-0.12],[0.015,0.35,-0.12],[0.012,0.5,-0.12],[0.008,0.62,-0.122]],'body');
+  path('se_pain',[[0.008,0.62,-0.122],[0,0.64,-0.115],[-0.01,0.66,-0.108]].concat(up(-0.011,0.72,1.6,0.006)).concat([[-0.012,1.63,-0.04]]),'body');
+  brainEnd('se_pain',painB);
+  stations('se_pain','body',[['Nociceptors in the sole',sole],['Tibial and sciatic nerves',[0.19,-0.6,-0.065]],['Root in the cauda equina',[0.015,0.35,-0.12]],['Crosses in the spinal cord',[0,0.64,-0.115]],['Spinothalamic tract',[-0.011,1.0,-0.14]],['Brain: thalamus, cortex, insula, cingulate',B2(VPL(-1))]]);
+  // body position: thigh muscle on the -x side, femoral nerve, L3 root; dorsal column and spinocerebellar tract
+  var thigh=[-0.2,-0.5,0.1];
+  marker('se_proprio',thigh);
+  path('se_proprio',[thigh,[-0.17,-0.45,0.07],[-0.15,-0.12,0.08],[-0.1,0.06,0],[-0.05,0.25,-0.09],[-0.07,0.42,-0.11],[-0.03,0.47,-0.12],[-0.015,0.55,-0.12],[-0.012,0.68,-0.13]],'body');
+  path('se_proprio',[[-0.012,0.68,-0.13]].concat(up(-0.006,0.72,1.6,-0.013)).concat([[-0.005,1.63,-0.058]]),'body');
+  path('se_proprio',[[-0.012,0.68,-0.13],[-0.012,0.8,-0.14]].concat(up(-0.018,0.88,1.6,-0.004)).concat([[-0.018,1.63,-0.05]]),'body');
+  brainEnd('se_proprio',propB);
+  stations('se_proprio','body',[['Muscle spindles in the thigh',thigh],['Femoral nerve',[-0.15,-0.12,0.08]],['Dorsal root ganglion',[-0.03,0.47,-0.12]],['Dorsal column and spinocerebellar tract',[-0.012,1.0,-0.15]],['Brain: cerebellum, thalamus, cortex',B2([-0.32,-0.42,-0.66])]]);
+  // internal senses: stomach via the vagus nerve, bladder via sacral nerves into the cord
+  var stom=organ('se_intero',sph(1,24,16),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0.11,0.64,0.12],[0.09,0.07,0.05],'body');
+  var blad=organ('se_intero',sph(1,20,14),mat('#f4a261',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.0,0.12],[0.06,0.05,0.05],'body');
+  marker('se_intero',[0.12,0.66,0.12],0.016); marker('se_intero',[0,0.03,0.12],0.016);
+  path('se_intero',[[0.12,0.66,0.12],[0.08,0.65,0.08],[0.06,0.85,0.06],[0.05,1.05,0.06],[0.06,1.2,0.05],[0.07,1.38,0.03],[0.07,1.5,0.02],[0.06,1.62,0],[0.03,1.69,-0.03]],'body');
+  path('se_intero',[[0,0.03,0.12],[0.03,0.06,0.03],[0.05,0.12,-0.08],[0.02,0.2,-0.12],[0.012,0.4,-0.12],[0.006,0.6,-0.12]].concat(up(0.004,0.68,1.6,0.004)).concat([[0.004,1.63,-0.04]]),'body');
+  brainEnd('se_intero',intB);
+  stations('se_intero','body',[['Stretch sensors in the stomach',[0.12,0.66,0.12]],['Vagus nerve',[0.06,1.05,0.06]],['Bladder sensors',[0,0.03,0.12]],['Sacral nerves into the cord',[0.02,0.2,-0.12]],['Brainstem, hypothalamus, insula',B2(NTS(1))]]);
+
+  // label anchors: sense organs in the head view, receptors in the body view; body senses show their brain end in the head view
+  seAnch.head={se_vision:[0.4,-0.3,1.22],se_hearing:[0.99,-0.3,-0.06],se_balance:[0.62,-0.33,-0.15],se_smell:[0,-0.5,1.36],se_taste:[0,-0.85,1.12],
+    se_touch:S1hand(-1),se_temp:InsP(1),se_pain:ACC(-1),se_proprio:[-0.32,-0.42,-0.66],se_intero:InsA(1)};
+  seAnch.body={se_touch:tip,se_temp:hb,se_pain:sole,se_proprio:thigh,se_intero:[0.11,0.72,0.14]};
+  setSenseAnchors();
+}
+function setSenseAnchors(){
+  SENSE_IDS.forEach(function(id){ var a=seAnch[seView][id]; if(a) anchors[id]={p:new THREE.Vector3(a[0],a[1],a[2]),n:null}; else delete anchors[id]; });
+}
+function sensePathOn(id){
+  var sel=isSense(selected)?selected:null, home=SENSE[id].se;
+  if(!sel) return home===seView;
+  return sel==='se_all'?(seView==='head' || home==='body'):sel===id;
+}
+function applySenseVis(){
+  if(!senseBuilt) return;
+  var on=mode==='senses';
+  senseHead.visible=on && seView==='head'; senseBody.visible=on && seView==='body';
+  SENSE_IDS.forEach(function(id){ R[id].meshes.forEach(function(m){ var u=m.userData; m.visible=(u.kind==='path')?sensePathOn(id):true; }); });
+}
+function seLabelOK(id){ if(!senseBuilt || !anchors[id] || id==='se_all') return false; if(isSense(selected) && selected!=='se_all') return selected===id; return SENSE[id].se===seView || selected==='se_all'; }
+function applySenseColors(){
+  if(!senseBuilt) return;
+  var sel=isSense(selected)?selected:null, hl={}, NEU=[0.86,0.88,0.92];
+  (sel==='se_all'?SENSE_IDS:(sel?[sel]:[])).forEach(function(id){ var c=hexArr(R[id].color); (sel==='se_all'?SENSE[id].main:SENSE[id].areas).forEach(function(a){ if(!hl[a]) hl[a]=c; }); });
+  var st=CORTEX_IDS.map(function(id){ return hl[id]?mix(NEU,hl[id],0.55):(sel?NEU:mix(NEU,hexArr(R[id].color),0.2)); });
+  cortexMeshes.forEach(function(m){
+    var col=m.geometry.attributes.color, fr=m.userData.faceReg, a=col.array;
+    for(var f=0;f<fr.length;f++){ var c=st[fr[f]], o=f*9; a[o]=a[o+3]=a[o+6]=c[0]; a[o+1]=a[o+4]=a[o+7]=c[1]; a[o+2]=a[o+5]=a[o+8]=c[2]; }
+    col.needsUpdate=true;
+  });
+  BRAIN_IDS.forEach(function(id){
+    var r=R[id]; if(r.kind==='cortex') return;
+    var c=hl[id]?mix(NEU,hl[id],0.45):mix(NEU,hexArr(r.color),sel?0.1:0.3), k=hl[id]?0.15:0, seen=[];
+    r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material); m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
+      m.material.userData.seOp=hl[id]?0.85:(sel?0.12:0.3); });   // deep parts not used by this sense fade away
+    if(id==='cerebellum') r.meshes.forEach(function(m){ if(!m.material.transparent){ m.material.transparent=true; m.material.depthWrite=false; m.material.needsUpdate=true; } m.material.opacity=hl[id]?0.7:0.3; });
+  });
+  NERVE_IDS.forEach(function(id){ R[id].meshes.forEach(function(m){ m.material.color.setRGB(0.8,0.82,0.87); m.material.emissive.setRGB(0,0,0); }); });
+  SENSE_IDS.forEach(function(id){
+    var lit=!sel || sel==='se_all' || sel===id, hov=hovered===id;
+    R[id].meshes.forEach(function(m){
+      var u=m.userData, c=lit?u.base:mix(u.base,[0.6,0.62,0.68],0.7);
+      if(hov) c=mix(c,[1,1,1],0.25);
+      m.material.color.setRGB(c[0],c[1],c[2]);
+      if(u.kind==='path'){ var k=(sel===id||hov)?0.75:0.45; m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); }
+      else if(u.kind==='marker'){ var km=lit?0.5:0.1; m.material.emissive.setRGB(c[0]*km,c[1]*km,c[2]*km); }
+    });
+  });
+}
+// fade the body model so pathways inside the cord and brain show through
+function setNerveFade(on){
+  if(!fadeMats){ fadeMats=[];
+    nerveGroup.traverse(function(o){ if(!o.isMesh || !o.material || o.material.userData.layer) return; var rid=o.userData.region; if(!rid || isSense(rid) || MEN_N[rid]) return; if(fadeMats.indexOf(o.material)<0) fadeMats.push(o.material); }); }
+  fadeMats.forEach(function(m){
+    if(on){ if(!m.userData.f0) m.userData.f0={t:m.transparent,o:m.opacity,d:m.depthWrite}; m.transparent=true; m.opacity=0.3; m.depthWrite=false; }
+    else if(m.userData.f0){ m.transparent=m.userData.f0.t; m.opacity=m.userData.f0.o; m.depthWrite=m.userData.f0.d; }
+    m.needsUpdate=true;
+  });
+}
+function setSeView(v,keep){
+  if(v===seView) return;
+  seView=v;
+  $('#seHead').classList.toggle('on',v==='head'); $('#seBody').classList.toggle('on',v==='body');
+  $('#seHead').setAttribute('aria-selected',v==='head'?'true':'false'); $('#seBody').setAttribute('aria-selected',v==='body'?'true':'false');
+  if(mode==='senses') setNerveFade(v==='body');
+  setSenseAnchors();
+  if(!keep && isSense(selected) && v==='body' && SENSE[selected].se==='head'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
+  setHover(null); applyVisibility(); refreshUI(); layout();
+  if(keep) return;
+  if(isSense(selected)){ fillPanel(R[selected]); focusOn(R[selected]); } else resetView();
+}
+function senseFocus(r){
+  var b=seView==='body', v=(b?r.bview:r.view)||{az:50,el:12}, at=b?(r.bat||[0,0,0]):(r.at||[SENSE_C.x,SENSE_C.y,SENSE_C.z]);
+  tgt.az=tgt.az+wrap(v.az*Math.PI/180-tgt.az); tgt.el=v.el*Math.PI/180; tgt.zoom=(b?r.bzoom:r.zoom)||1; CENTER_T.set(at[0],at[1],at[2]);
+}
+function enterSenses(){
+  buildSenses(); seXrayBefore=xray; setXray(true);
+  if(seView==='body') setNerveFade(true);
+  setSenseAnchors();
+}
+function leaveSenses(){ setXray(seXrayBefore); setNerveFade(false); R.cerebellum.meshes.forEach(function(m){ m.material.transparent=false; m.material.depthWrite=true; m.material.opacity=1; m.material.needsUpdate=true; }); }
+function updateStations(taken){
+  if(!stnEls.length) return;
+  var on=mode==='senses' && showLabels && isSense(selected) && selected!=='se_all';
+  stnEls.forEach(function(st){
+    if(!on || st.id!==selected || st.view!==seView){ setLbl(st.el,false); return; }
+    tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
+    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
+    taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
+  });
+}
+function senseList(title,items,ordered){
+  var tree=$('#pTree'); tree.appendChild(el('h3',null,title));
+  var l=el(ordered?'ol':'ul',ordered?'steps':null); items.forEach(function(t){ l.appendChild(el('li',null,t)); }); tree.appendChild(l);
+}
+function fillSense(r){
+  var d=SENSE[r.id], tree=$('#pTree');
+  tree.hidden=false;
+  if(r.id==='se_all'){
+    tree.appendChild(el('h3',null,'How many senses?')); tree.appendChild(el('p','dmg',d.count));
+    senseList('From signal to perception',d.steps,true);
+    senseList('How the brain makes sense of it',d.proc);
+    senseList('How the senses shape the brain',d.impact);
+    tree.appendChild(el('h3',null,'Explore each sense'));
+    var kd=el('div','kids');
+    SENSE_IDS.forEach(function(id){ var b=el('button','chip'); b.style.setProperty('--c',R[id].color); b.innerHTML='<i class="dot"></i>'; b.appendChild(document.createTextNode(R[id].short)); b.addEventListener('click',function(){ select(id); }); kd.appendChild(b); });
+    tree.appendChild(kd);
+    var vs=el('div','verse','“The hearing ear, and the seeing eye, the LORD hath made even both of them.”'); vs.appendChild(el('small',null,'Proverbs 20:12 (KJV)')); tree.appendChild(vs);
+    return;
+  }
+  senseList('The sense organ and its receptors',d.receptors);
+  senseList('How it reaches the brain',d.steps,true);
+  senseList('How the brain makes sense of it',d.proc);
+  senseList('How it shapes the brain',d.impact);
+  if(d.se==='body'){
+    var other=seView==='body'?'head':'body', jb=el('button','dd-clear',other==='head'?'Zoom in on the brain end of this pathway':'Show the whole route through the body');
+    jb.addEventListener('click',function(){ setSeView(other,true); fillPanel(R[r.id]); focusOn(R[r.id]); updateViewTargets(); }); tree.appendChild(jb);
+  }
+}
+$('#seHead').addEventListener('click',function(){ setSeView('head'); });
+$('#seBody').addEventListener('click',function(){ setSeView('body'); });
+
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');
 function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:MEN_N[id]||null):null; }
@@ -3092,7 +3738,7 @@ function setLayer(l,on){
   applyVisibility();
 }
 function updateLayerCard(){
-  var show=(mode==='brain' && meningesOn) || bodyView() || (mode==='diseases' && menVisible()) || (mode==='spine' && sView==='cross');
+  var show=(mode==='brain' && meningesOn) || (bodyView() && mode!=='senses') || (mode==='diseases' && menVisible()) || (mode==='spine' && sView==='cross');
   lyCard.hidden=!show; if(!show) return;
   $('#lyBody').hidden=layerCollapsed; $('#lyHead').setAttribute('aria-expanded',layerCollapsed?'false':'true');
   var sl=layerOf(selected), allOff=!layerOn.dura && !layerOn.arachnoid && !layerOn.pia;
@@ -3123,7 +3769,7 @@ function pickAt(cx,cy){
   var r=canvas.getBoundingClientRect();
   ndc.set(((cx-r.left)/r.width)*2-1,-((cy-r.top)/r.height)*2+1);
   rc.setFromCamera(ndc,camera);
-  var list=(mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
+  var list=(mode==='senses'?(seView==='head'?sensePickHead:sensePickBody):mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
   var hits=rc.intersectObjects(list,false).filter(function(x){ return !(x.object.material && x.object.material.userData && x.object.material.userData.faded); });
   if(!hits.length) return null;
   var h=null;
@@ -3138,7 +3784,7 @@ function pickAt(cx,cy){
 
 function pick(cx,cy){
   var id=pickAt(cx,cy);
-  if(!id && (bodyView()||mode==='spine')){
+  if(!id && (bodyView()||mode==='spine'||mode==='senses')){
     var rads=[8,16];
     for(var ri=0;ri<2 && !id;ri++) for(var a=0;a<8 && !id;a++){ var an=a/8*Math.PI*2; id=pickAt(cx+Math.cos(an)*rads[ri],cy+Math.sin(an)*rads[ri]); }
   }
@@ -3256,7 +3902,7 @@ function updateLabels(){
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
       if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || r.kind==='vessel' || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
-    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id))))){ setLbl(labelEls[r.id],false); return; }
+    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5;
@@ -3279,7 +3925,7 @@ function updateLabels(){
     }
     if(!show) setLbl(labelEls[r.id],false);
   });
-  var pri=mode==='diseases'?dPri:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
+  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
   order.forEach(function(id){
     var it=items[id]; if(!it || it.done) return; it.done=true;
     var el=labelEls[id], w=(el._w||80)+6, hit=false;
@@ -3291,6 +3937,7 @@ function updateLabels(){
     taken.push({x:it.x,y:it.y,w:w});
     setLbl(el,true,it.x,it.y);
   });
+  updateStations(taken);
 }
 
 
@@ -3301,9 +3948,9 @@ function frame(now){
   cur.az+=(tgt.az-cur.az)*k; cur.el+=(tgt.el-cur.el)*k; cur.zoom+=(tgt.zoom-cur.zoom)*k;
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
-  cortexMat.opacity=1-(mode==='diseases'?0.5:0.86)*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
+  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:0.86))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
-  for(var i=0;i<deepMeshes.length;i++){ deepMeshes[i].visible=vis; deepMeshes[i].material.opacity=xrayT; }
+  for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*(mode==='senses' && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
   if(vesselsOn && mode==='brain'){
@@ -3318,7 +3965,8 @@ function frame(now){
   if(bodyView()){
     for(var ni=0;ni<nerveTubes.length;ni++){
       var nm=nerveTubes[ni], nu=nm.userData, nk=0;
-      if(mode==='diseases'){ var rate=(nu.dRate==null)?1:nu.dRate; if(signalsOn && rate>0.02){ nk=Math.min(1.8,0.8*rate); nu.tex.offset.x-=dt*0.8*rate*(nu.dDir||1)*(nu.dJit?(0.5+0.5*Math.sin(tT*2.2+(nu.ph||0))):1); } }
+      if(mode==='senses'){ nk=0; }
+      else if(mode==='diseases'){ var rate=(nu.dRate==null)?1:nu.dRate; if(signalsOn && rate>0.02){ nk=Math.min(1.8,0.8*rate); nu.tex.offset.x-=dt*0.8*rate*(nu.dDir||1)*(nu.dJit?(0.5+0.5*Math.sin(tT*2.2+(nu.ph||0))):1); } }
       else if(mode==='sections'){
         var sk=(nu.sk==null)?0.7:nu.sk;
         if(signalsOn && sk>0){ nk=0.8*sk; nu.tex.offset.x-=dt*0.8*(nu.dir||1); }
@@ -3331,6 +3979,7 @@ function frame(now){
       nm.material.emissive.copy(NGLOW).multiplyScalar(nk);
     }
   }
+  if(mode==='senses' && signalsOn){ for(var si=0;si<sensePaths.length;si++){ var sm=sensePaths[si]; if(sm.visible && sm.parent.visible) sm.userData.tex.offset.x-=dt*0.8; } }
   cur.fit+=(tgt.fit-cur.fit)*k; CENTER.lerp(CENTER_T,k);
   var dist=cur.fit*cur.zoom*cur.pm, ce=Math.cos(cur.el);
   camera.position.set(CENTER.x+dist*ce*Math.cos(cur.az),CENTER.y+dist*Math.sin(cur.el),CENTER.z+dist*ce*Math.sin(cur.az));
@@ -3339,7 +3988,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || (mode==='senses' && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

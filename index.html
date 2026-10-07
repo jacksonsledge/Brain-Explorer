@@ -3362,6 +3362,7 @@ function showDPanel(){ fillDPanel(); panel.classList.add('open'); app.classList.
 function dSelect(id){
   if(id && R[id].kind==='disease'){ setDisease(id); showDPanel(); return; }
   if(id){ var isBody=R[id].mode==='nerves'; if(isBody && dView!=='body') setDView('body'); else if(!isBody && dView!=='brain') setDView('brain'); }
+  if(id && R[id].kind==='deep' && !xray) setXray(true);
   selected=id||null;
   if(id) focusOn(R[id]);
   showDPanel(); refreshUI();
@@ -4962,7 +4963,7 @@ function updateLabels(){
   var items={};
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
-      if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || (r.kind==='vessel' && r.id!==selected) || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
+      if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || (r.kind==='vessel' && r.id!==selected) || (r.kind==='deep' && xrayT<0.6) || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
     } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){

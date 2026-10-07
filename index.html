@@ -1819,6 +1819,34 @@ var REGIONS = [
   damage:'Cutting the corpus callosum, once done for severe epilepsy, leaves two hemispheres that can no longer share what they know. Diffuse axonal injury after a severe head injury damages long tracts throughout the brain.',
   fact:'Doctors can map these tracts in a living person with diffusion MRI, which tracks how water moves along the fibers.',
   view:{az:60,el:30}, zoom:0.9},
+ {id:'hw_dmn',kind:'hw',mode:'hw',hv:'network',net:'dmn',group:'Communication across the brain: networks',name:'Default Mode Network',short:'Default mode network',color:'#ffd166',
+  where:'Midline hubs, the angular gyrus, lateral temporal cortex and hippocampus',
+  summary:'The default mode network is most active when you rest, daydream, remember the past, imagine the future or think about other people. It links the medial prefrontal cortex, the posterior cingulate and precuneus, the angular gyrus, the lateral temporal lobe and the hippocampus. It quiets down when you focus on a demanding task.',
+  funcs:['Remembering and imagining','Thinking about yourself and about what others are thinking','Letting the mind wander and plan','Consolidating memories'],
+  damage:'Alzheimer’s disease strikes this network early, which is why forgetting recent events is often the first sign. Its activity is also changed in depression, where self-focused rumination can run on this network.',
+  fact:'It was discovered almost by accident. In the 1990s, brain scans kept showing the same regions switching off whenever people started a task, and Marcus Raichle named the pattern the default mode in 2001.',
+  view:{az:-110,el:28}, zoom:0.9},
+ {id:'hw_fpn',kind:'hw',mode:'hw',hv:'network',net:'fpn',group:'Communication across the brain: networks',name:'Frontoparietal (Attention) Network',short:'Attention network',color:'#4cc9f0',
+  where:'The dorsolateral prefrontal cortex, the intraparietal sulcus and the frontal eye fields',
+  summary:'This network takes charge when you concentrate. The dorsolateral prefrontal cortex holds goals and rules in mind, the intraparietal sulcus directs attention in space, and the frontal eye fields steer the eyes. It works as a flexible control system that other networks follow.',
+  funcs:['Working memory and problem solving','Directing attention to what matters and ignoring the rest','Switching between tasks','Steering the eyes'],
+  damage:'Damage to this network, or weak connections within it, causes trouble with attention, planning and working memory. It is implicated in attention deficit disorder and in the thinking problems that follow some strokes and head injuries.',
+  fact:'This network and the default mode network tend to take turns: when one is active, the other is quiet. Good switching between them goes with better focus.',
+  view:{az:40,el:30}, zoom:0.9},
+ {id:'hw_sal',kind:'hw',mode:'hw',hv:'network',net:'sal',group:'Communication across the brain: networks',name:'Salience Network',short:'Salience network',color:'#ff6b6b',
+  where:'The anterior insula and the anterior cingulate cortex',
+  summary:'The salience network notices what matters right now: a sudden sound, a pain, a face, a feeling from inside the body. Centered on the anterior insula and anterior cingulate, it then switches the brain between resting mode and focused mode so the right network can respond.',
+  funcs:['Detecting important or surprising events','Switching between the default mode and attention networks','Linking body feelings with emotion','Noticing mistakes and conflicts'],
+  damage:'Changes in this network are found in anxiety, where ordinary events feel alarming, and in frontotemporal dementia, where its neurons are lost early and social judgment fails.',
+  fact:'In 2008, Vinod Menon and colleagues showed that the anterior insula fires a fraction of a second before the brain switches networks, acting as the switchboard.',
+  view:{az:20,el:10}, zoom:0.9},
+ {id:'hw_smn',kind:'hw',mode:'hw',hv:'network',net:'smn',group:'Communication across the brain: networks',name:'Sensory and Motor Networks',short:'Sensory & motor networks',color:'#80ed99',
+  where:'The motor and sensory strips, the auditory cortex and the visual areas',
+  summary:'These networks handle the traffic with the outside world. The motor and sensory strips on each side are tightly linked to each other and to their twins across the corpus callosum. The visual network at the back and the auditory areas on the sides each form their own tight clusters, which then feed the hub networks.',
+  funcs:['Receiving touch, sound and sight','Sending movement commands','Coordinating the two sides of the body','Feeding processed sensations to the hub networks'],
+  damage:'A stroke here causes a clear, local loss: weakness, numbness, blindness in part of the visual field or trouble recognizing sounds. Because these networks are so local, the loss is easier to predict than damage to a hub.',
+  fact:'The sensory and motor networks are among the first to mature. Their long-range connections are already well formed at birth, while the hub networks keep developing for two decades.',
+  view:{az:60,el:40}, zoom:0.9},
  {id:'hw_sync',kind:'hw',mode:'hw',hv:'network',group:'Communication across the brain: parts',name:'Rhythms and Synchrony',short:'Brain rhythms',color:'#e879f9',
   where:'Across the whole network',
   summary:'Fast wiring is not enough: regions must also be in step. Groups of neurons fire in rhythms, from slow delta waves in deep sleep to fast gamma waves during focused attention. When distant regions lock into the same rhythm, their signals arrive at the right moment to be heard, so rhythms act like a shared clock for communication.',
@@ -5139,11 +5167,19 @@ var HW={
    'The model shows the main hubs and a selection of long-range links on a see-through brain. Real connections number in the billions.'],
   rel:['hw_matter','hw_network']},
  hw_hubs:{how:['Hubs receive fibers from many regions and send fibers to many more.','They sit mainly along the midline and in the parietal and frontal association cortex, where many kinds of information meet.','The thalamus is a hub deep inside: almost every signal to the cortex passes through it.'],
-  deep:['Hubs communicate strongly with each other, a “rich club” that carries a large share of all long-range traffic.'], rel:['hw_arcs','hw_sync']},
- hw_arcs:{how:['Association fibers (blue) link regions on the same side.','Commissural fibers (gold) cross to the matching region on the other side through the corpus callosum.','Projection fibers (pink) connect the thalamus with the cortex.'],
-  deep:['A signal travels about 10 centimeters across the brain in roughly 10 to 20 milliseconds along a myelinated tract.'], rel:['hw_white','hw_hubs']},
+  deep:['Hubs communicate strongly with each other, a “rich club” that carries a large share of all long-range traffic.','The hubs here are colored by the network they belong to, and sized by how many links they carry.'], rel:['hw_dmn','hw_fpn','hw_sal','hw_smn']},
+ hw_arcs:{how:['Association fibers link regions on the same side. Here they take the color of the network they serve, or grey when they join two different networks.','Commissural fibers (gold) cross to the matching region on the other side through the corpus callosum.','Projection fibers (pink) connect the thalamus with the cortex.','The faint grey web on the surface shows the far more numerous short, local connections between neighbors.'],
+  deep:['A signal travels about 10 centimeters across the brain in roughly 10 to 20 milliseconds along a myelinated tract.','The long links run beneath the surface, through the white matter, which is why the model draws them inside the see-through brain.'], rel:['hw_white','hw_hubs']},
+ hw_dmn:{how:['Its hubs are among the most richly connected in the brain and sit along the midline, where many kinds of information meet.','It rises when attention turns inward and falls when attention turns outward.','The hippocampus feeds it memories, which it reassembles into recollections and plans.'],
+  deep:['Tap the network to see only its hubs and links. The posterior cingulate is its busiest hub and one of the most energy-hungry spots in the brain.'], rel:['hw_hubs','hw_fpn']},
+ hw_fpn:{how:['Frontal and parietal hubs exchange signals through the superior longitudinal fasciculus.','It holds a goal in working memory and biases sensory areas toward what fits the goal.','It adapts moment by moment, which is why it is sometimes called the central executive.'],
+  deep:['A related dorsal attention network, with the frontal eye fields and intraparietal sulcus, aims attention in space, while a ventral network interrupts it when something unexpected appears.'], rel:['hw_dmn','hw_sal']},
+ hw_sal:{how:['The anterior insula receives signals about the body’s inner state and about sights and sounds.','With the anterior cingulate, it rates how important they are.','When something matters, it signals the attention network to engage and the default mode network to stand down.'],
+  deep:['The salience network contains large spindle-shaped von Economo neurons, found in only a few brain regions, which may speed its long-range signals.'], rel:['hw_fpn','hw_dmn']},
+ hw_smn:{how:['Sensory signals arrive through the thalamus and are processed in primary areas first.','Motor commands leave the motor cortex for the brainstem and spinal cord.','Left and right strips stay coordinated through the corpus callosum, which is why the two hands can work together.'],
+  deep:['Visual information leaves V1 in two streams: a lower one toward the temporal lobe for recognizing things, and an upper one toward the parietal lobe for acting on them.'], rel:['hw_dmn','hw_arcs']},
  hw_sync:{how:['Inhibitory interneurons pace local groups of neurons, producing rhythms.','When two regions share a rhythm, each sends its signals in the brief window when the other is most receptive.','Slower rhythms coordinate large networks; faster rhythms coordinate local groups.'],
-  deep:['Rhythms are named by frequency: delta (under 4 Hz) in deep sleep, theta (4–8 Hz) in memory tasks, alpha (8–12 Hz) in relaxed wakefulness, beta (12–30 Hz) in active thinking, and gamma (over 30 Hz) in focused attention.'],
+  deep:['When this part is selected, the hubs pulse together to show regions locked into one rhythm.','Rhythms are named by frequency: delta (under 4 Hz) in deep sleep, theta (4–8 Hz) in memory tasks, alpha (8–12 Hz) in relaxed wakefulness, beta (12–30 Hz) in active thinking, and gamma (over 30 Hz) in focused attention.'],
   with:['hw_hubs','hw_arcs'], rel:['hw_hubs','hw_arcs']}
 };
 var HW_VERSE={hw_neuron:['“My substance was not hid from thee, when I was made in secret, and curiously wrought in the lowest parts of the earth.”','Psalm 139:15 (KJV)'],
@@ -5153,7 +5189,7 @@ var HW_VERSE={hw_neuron:['“My substance was not hid from thee, when I was made
 var HW_IDS=REGIONS.filter(function(r){ return r.mode==='hw'; }).map(function(r){ return r.id; });
 var HW_OVER={neuron:'hw_neuron',dendrites:'hw_network',matter:'hw_matter',network:'hw_connectome'}, HW_OVERS=['hw_neuron','hw_network','hw_matter','hw_connectome'];
 var PRIORITY_HW=HW_IDS.filter(function(id){ return HW_OVERS.indexOf(id)<0; }).concat(HW_OVERS);
-var hView='neuron', hwBuilt=false, hwNeu=new THREE.Group(), hwDen=new THREE.Group(), hwMat=new THREE.Group(), hwNet=new THREE.Group(), HW_G={neuron:hwNeu,dendrites:hwDen,matter:hwMat,network:hwNet};
+var hwHubMats=null, hwT=0, hView='neuron', hwBuilt=false, hwNeu=new THREE.Group(), hwDen=new THREE.Group(), hwMat=new THREE.Group(), hwNet=new THREE.Group(), HW_G={neuron:hwNeu,dendrites:hwDen,matter:hwMat,network:hwNet};
 var hwPick={neuron:[],dendrites:[],matter:[],network:[]}, hwPaths=[], hwStn=[], hwAnch={neuron:{},dendrites:{},matter:{},network:{}}, hwXrayBefore=false;
 var HW_C={neuron:new THREE.Vector3(-0.45,0.2,0),dendrites:new THREE.Vector3(0.8,0,0),matter:new THREE.Vector3(0.5,-0.05,0),network:BRAIN_C};
 var HW_DEF={neuron:{az:90*Math.PI/180,el:12*Math.PI/180},dendrites:{az:90*Math.PI/180,el:15*Math.PI/180},matter:{az:90*Math.PI/180,el:10*Math.PI/180},network:{az:40*Math.PI/180,el:22*Math.PI/180}};
@@ -5169,7 +5205,7 @@ function buildHW(){
   function tmat(c,o){ return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.5,metalness:0},o||{})); }
   function hreg(id,m,view,o){
     o=o||{};
-    m.userData={region:id,hw:true,view:view,kind:o.kind||'part',pri:o.pri||2,vol:!!o.vol,box:o.parent?1:0,tex:m.userData.tex||null,spd:m.userData.spd||0.8,grp:HW_G[view],
+    m.userData={region:id,hw:true,view:view,net:o.net||null,kind:o.kind||'part',pri:o.pri||2,vol:!!o.vol,box:o.parent?1:0,tex:m.userData.tex||null,spd:m.userData.spd||0.8,grp:HW_G[view],
       base:[m.material.color.r,m.material.color.g,m.material.color.b],op0:m.material.opacity,glow:(m.material.emissive.r+m.material.emissive.g+m.material.emissive.b>0)?m.material.emissiveIntensity:0};
     m.material.emissiveIntensity=1;
     if(o.kind==='path') hwPaths.push(m);
@@ -5187,6 +5223,7 @@ function buildHW(){
         var mat=first.material, tex=null;
         if(first.userData.tex){ tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; mat=mat.clone(); mat.emissiveMap=tex; }
         m=new THREE.Mesh(mergeMeshes(L),mat); m.userData.tex=tex; m.userData.spd=first.userData.spd; m.renderOrder=first.renderOrder;
+        if(first.userData.spd==null) m.userData.spd=0.8;
         L.forEach(function(o){ o.geometry.dispose(); });
       }
       hreg(b.id,m,b.view,b.o);
@@ -5398,29 +5435,62 @@ function buildHW(){
   stations('hw_mind','matter',[['Grey matter: computing power',[-0.62,0.55,0.08]],['White matter: speed and coordination',[0.35,0.3,0.08]],['Frontal and parietal areas work together',[0,0.9,0.08]]]);
 
   /* ---------------- 4. communication across the brain */
-  var GHOST=tmat('#9fb3d1',{transparent:true,opacity:0.13,roughness:0.8,depthWrite:false});
+  var GHOST=tmat('#9fb3d1',{transparent:true,opacity:0.17,roughness:0.8,depthWrite:false});
   [leftHemi,rightHemi].forEach(function(h){ hreg('hw_connectome',new THREE.Mesh(h.geometry,GHOST),'network',{pri:1,vol:true,ro:9,nopick:true}); });
   R.cerebellum.meshes.concat(R.midbrain.meshes,R.pons.meshes,R.medulla.meshes).forEach(function(m){ var g=new THREE.Mesh(m.geometry,GHOST); g.position.copy(m.position); g.scale.copy(m.scale); hreg('hw_connectome',g,'network',{pri:1,vol:true,ro:9,nopick:true}); });
   function sp(d,s){ return surfacePoint(d,s,0.0); }
-  var HUB={}; [1,-1].forEach(function(s){ HUB['mpfc'+s]=[s*0.07,0.3,0.78]; HUB['pcc'+s]=[s*0.07,0.48,-0.32]; HUB['prec'+s]=[s*0.07,0.62,-0.5];
-    HUB['dlpfc'+s]=sp([0.7,0.5,0.6],s); HUB['ipl'+s]=sp([0.8,0.5,-0.5],s); HUB['temp'+s]=sp([0.95,-0.3,-0.1],s); HUB['v1'+s]=sp([0.2,0.05,-1],s); HUB['motor'+s]=sp([0.6,0.85,0.05],s);
-    HUB['ins'+s]=[s*0.56,0.0,0.08]; HUB['thal'+s]=[s*0.14,0.12,-0.05]; HUB['hip'+s]=[s*0.33,-0.15,-0.2]; });
-  var HUBM=tmat(R.hw_hubs.color,{roughness:0.35,emissive:R.hw_hubs.color,emissiveIntensity:0.45}), THM=tmat('#ff8fa3',{roughness:0.35,emissive:'#ff8fa3',emissiveIntensity:0.45});
-  Object.keys(HUB).forEach(function(k){ var p=HUB[k], big=/^(pcc|prec|mpfc|ipl|thal)/.test(k); put('hw_hubs','network','h',mesh(new THREE.SphereGeometry(big?0.065:0.048,16,12),/^thal/.test(k)?THM:HUBM,V(p).toArray()),{pri:3}); });
-  function arc(a,b,col,lift,step){ var A=V(a), B=V(b), M=A.clone().lerp(B,0.5), d=M.clone().sub(BRAIN_C).normalize(); M.add(d.multiplyScalar(lift)); put('hw_arcs','network','a'+col,pulseMesh([A,M,B],0.014,col,step||0.18,0.9),{kind:'path',pri:2}); }
-  var ASC='#4cc9f0', COM='#f2c14e', PRJ='#ff8fa3';
+  // hubs: position, network, label
+  var NETC={dmn:R.hw_dmn.color,fpn:R.hw_fpn.color,sal:R.hw_sal.color,smn:R.hw_smn.color,thal:'#ff8fa3'};
+  var HDEF={mpfc:{p:function(s){ return [s*0.07,0.3,0.78]; },net:'dmn',name:'Medial prefrontal cortex'},pcc:{p:function(s){ return [s*0.07,0.48,-0.32]; },net:'dmn',name:'Posterior cingulate'},
+    prec:{p:function(s){ return [s*0.07,0.62,-0.5]; },net:'dmn',name:'Precuneus'},ipl:{p:function(s){ return sp([0.8,0.5,-0.5],s); },net:'dmn',name:'Angular gyrus (inferior parietal)'},
+    temp:{p:function(s){ return sp([0.95,-0.3,-0.1],s); },net:'dmn',name:'Lateral temporal cortex'},hip:{p:function(s){ return [s*0.33,-0.15,-0.2]; },net:'dmn',name:'Hippocampus'},
+    dlpfc:{p:function(s){ return sp([0.7,0.5,0.6],s); },net:'fpn',name:'Dorsolateral prefrontal cortex'},ips:{p:function(s){ return sp([0.6,0.75,-0.45],s); },net:'fpn',name:'Intraparietal sulcus'},
+    fef:{p:function(s){ return sp([0.5,0.75,0.35],s); },net:'fpn',name:'Frontal eye field'},
+    ins:{p:function(s){ return [s*0.56,0.0,0.08]; },net:'sal',name:'Anterior insula'},acc:{p:function(s){ return [s*0.07,0.42,0.42]; },net:'sal',name:'Anterior cingulate'},
+    motor:{p:function(s){ return sp([0.6,0.85,0.05],s); },net:'smn',name:'Motor cortex'},sens:{p:function(s){ return sp([0.6,0.85,-0.14],s); },net:'smn',name:'Sensory cortex'},
+    aud:{p:function(s){ return sp([0.97,-0.2,0.05],s); },net:'smn',name:'Auditory cortex'},v1:{p:function(s){ return sp([0.2,0.05,-1],s); },net:'smn',name:'Primary visual cortex'},
+    v4:{p:function(s){ return sp([0.45,-0.55,-0.75],s); },net:'smn',name:'Visual area V4'},thal:{p:function(s){ return [s*0.14,0.12,-0.05]; },net:'thal',name:'Thalamus'}};
+  var HUB={}, DEG={};
+  [1,-1].forEach(function(s){ Object.keys(HDEF).forEach(function(k){ HUB[k+s]=HDEF[k].p(s); DEG[k+s]=0; }); });
+  var WITHIN={dmn:[['mpfc','pcc'],['pcc','ipl'],['pcc','prec'],['pcc','hip'],['ipl','temp'],['mpfc','temp'],['prec','ipl']],
+    fpn:[['dlpfc','ips'],['dlpfc','ipl'],['ips','fef'],['fef','dlpfc'],['ips','ipl']],
+    sal:[['ins','acc'],['acc','mpfc'],['ins','temp']],
+    smn:[['motor','sens'],['sens','aud'],['v1','v4'],['v4','temp'],['sens','ips'],['motor','fef']]};
+  var BETWEEN=[['ins','dlpfc'],['acc','dlpfc'],['v4','ips'],['hip','temp'],['aud','temp'],['ips','prec'],['dlpfc','mpfc']];
+  var CALL=['dlpfc','ipl','v1','motor','sens','pcc','mpfc','ips'], THAL=['motor','sens','v1','aud','dlpfc','pcc','acc','ins','ips'];
+  Object.keys(WITHIN).forEach(function(n){ WITHIN[n].forEach(function(e){ [1,-1].forEach(function(s){ DEG[e[0]+s]++; DEG[e[1]+s]++; }); }); });
+  BETWEEN.forEach(function(e){ [1,-1].forEach(function(s){ DEG[e[0]+s]++; DEG[e[1]+s]++; }); }); CALL.forEach(function(k){ DEG[k+1]++; DEG[k+'-1']++; }); THAL.forEach(function(k){ [1,-1].forEach(function(s){ DEG[k+s]++; DEG['thal'+s]++; }); });
+  var hubMats={}; Object.keys(NETC).forEach(function(n){ hubMats[n]=tmat(NETC[n],{roughness:0.35,emissive:NETC[n],emissiveIntensity:0.45}); });
+  Object.keys(HUB).forEach(function(k){ var base=k.replace(/-?1$/,''), n=HDEF[base].net, p=HUB[k], r=0.03+0.007*Math.min(8,DEG[k]);
+    put('hw_hubs','network','h'+n,mesh(new THREE.SphereGeometry(r,16,12),hubMats[n],V(p).toArray()),{pri:3,net:n});
+    put('hw_hubs','network','r'+n,mesh(new THREE.SphereGeometry(r*1.6,16,12),tmat(NETC[n],{transparent:true,opacity:0.18,depthWrite:false}),V(p).toArray()),{pri:3,net:n,nopick:true,ro:8}); });
+  // long links run inside the brain, through the white matter
+  function arc(a,b,col,key,net,r,step,spd){ var A=V(a), B=V(b), M=A.clone().lerp(B,0.5), d=M.clone().sub(BRAIN_C), L=A.distanceTo(B); M.sub(d.normalize().multiplyScalar(Math.min(0.35,0.12+0.18*L)));
+    put('hw_arcs','network',key,pulseMesh([A,M,B],r||0.012,col,step||0.18,spd||0.9),{kind:'path',pri:2,net:net}); }
   [1,-1].forEach(function(s){
-    [['mpfc','pcc',0.3],['pcc','ipl',0.18],['pcc','hip',0.1],['pcc','prec',0.05],['dlpfc','ipl',0.22],['temp','dlpfc',0.25],['ins','mpfc',0.15],['v1','ipl',0.15],['motor','dlpfc',0.1],['temp','hip',0.05],['prec','v1',0.12]].forEach(function(e){ arc(HUB[e[0]+s],HUB[e[1]+s],ASC,e[2]); });
-    ['dlpfc','ipl','v1','motor','mpfc','pcc'].forEach(function(k){ var p=HUB[k+s]; arc(HUB['thal'+s],p,PRJ,0.04,0.14); });
+    Object.keys(WITHIN).forEach(function(n){ WITHIN[n].forEach(function(e){ arc(HUB[e[0]+s],HUB[e[1]+s],NETC[n],'w'+n,n,0.013); }); });
+    BETWEEN.forEach(function(e){ arc(HUB[e[0]+s],HUB[e[1]+s],'#8fa3c8','bt','between',0.009,0.2,0.6); });
+    THAL.forEach(function(k){ put('hw_arcs','network','th','thal'===k?null:pulseMesh([V(HUB['thal'+s]),V(HUB['thal'+s]).lerp(V(HUB[k+s]),0.5),V(HUB[k+s])],0.01,NETC.thal,0.14,0.9),{kind:'path',pri:2,net:'thal'}); });
   });
-  ['dlpfc','ipl','v1','motor','temp'].forEach(function(k){ var A=V(HUB[k+1]), B=V(HUB[k+'-1']), M=new THREE.Vector3(0,Math.max(0.5,(A.y+B.y)/2+0.15),(A.z+B.z)/2*0.9); put('hw_arcs','network','ac',pulseMesh([A,M,B],0.014,COM,0.18,0.9),{kind:'path',pri:2}); });
-  put('hw_arcs','network','ac',pulseMesh([HUB['thal1'],[0,0.1,-0.05],HUB['thal-1']],0.012,PRJ,0.14,0.9),{kind:'path',pri:2});
+  CALL.forEach(function(k){ var A=V(HUB[k+1]), B=V(HUB[k+'-1']), M=new THREE.Vector3(0,Math.min(0.47,Math.max(0.3,(A.y+B.y)/2)),(A.z+B.z)/2*0.85); put('hw_arcs','network','cc',pulseMesh([A,M,B],0.015,'#f2c14e',0.18,0.9),{kind:'path',pri:2,net:'call'}); });
+  put('hw_arcs','network','th',pulseMesh([HUB['thal1'],[0,0.1,-0.05],HUB['thal-1']],0.012,NETC.thal,0.14,0.9),{kind:'path',pri:2,net:'thal'});
+  // the small-world layer: many short local links on the cortex
+  var LOCM=tmat('#8fa3c8',{transparent:true,opacity:0.55,roughness:0.6}), locs=[];
+  for(var li=0;li<110;li++){ var s=li%2?1:-1, dz=rr(-1,1), dy=rr(-0.7,1), dx=rr(0.15,1); var q=sp([dx,dy,dz],s); if(q.y<-0.45 && q.z<-0.3) continue; locs.push(q); put('hw_connectome','network','ln',mesh(new THREE.SphereGeometry(0.014,6,5),LOCM,q.toArray()),{pri:1,nopick:true,net:'local'}); }
+  locs.forEach(function(q,i){ var near=locs.map(function(o,j){ return [q.distanceTo(o),j]; }).filter(function(d){ return d[1]!==i && d[0]<0.42; }).sort(function(a,b){ return a[0]-b[0]; }).slice(0,2);
+    near.forEach(function(d){ if(d[1]<i) return; var o=locs[d[1]], m=q.clone().lerp(o,0.5), out=m.clone().sub(BRAIN_C).normalize().multiplyScalar(0.025); m.add(out); put('hw_connectome','network','ll',tube([q,m,o],0.004,LOCM,5),{pri:1,nopick:true,net:'local'}); }); });
   flush();
   anch('network','hw_connectome',[0,0.9,0.1],[0,1,0.1]); anch('network','hw_hubs',HUB['ipl1']); anch('network','hw_arcs',[0.35,0.65,0.2]); anch('network','hw_sync',[0.3,-0.4,0.75]);
-  stations('hw_connectome','network',[['Medial prefrontal hub',HUB['mpfc1']],['Posterior cingulate and precuneus hub',HUB['pcc1']],['Parietal hub',HUB['ipl1']],['Thalamus: central relay',HUB['thal1']],['Corpus callosum: left–right link',[0,0.55,0]]]);
-  stations('hw_hubs','network',[['Medial prefrontal cortex',HUB['mpfc1']],['Posterior cingulate',HUB['pcc1']],['Precuneus',HUB['prec1']],['Inferior parietal lobule',HUB['ipl1']],['Lateral prefrontal cortex',HUB['dlpfc1']],['Lateral temporal cortex',HUB['temp1']],['Thalamus',HUB['thal1']],['Hippocampus',HUB['hip1']]]);
-  stations('hw_arcs','network',[['Association fibers (blue)',V(HUB['mpfc1']).lerp(V(HUB['pcc1']),0.5).add(new THREE.Vector3(0,0.3,0))],['Commissural fibers (gold)',[0,0.72,0.12]],['Projection fibers to the thalamus (pink)',V(HUB['thal1']).lerp(V(HUB['ipl1']),0.5)]]);
-  stations('hw_sync','network',[['Shared rhythm keeps regions in step',[0.25,0.75,0.0]],['Gamma: focused attention',HUB['dlpfc1']],['Theta: memory',HUB['hip1']],['Delta: deep sleep',HUB['v1-1']]]);
+  anch('network','hw_dmn',HUB['pcc1']); anch('network','hw_fpn',HUB['dlpfc1']); anch('network','hw_sal',HUB['ins1']); anch('network','hw_smn',HUB['motor1']);
+  stations('hw_connectome','network',[['Default mode hubs (gold)',HUB['pcc1']],['Attention hubs (blue)',HUB['dlpfc1']],['Salience hubs (red)',HUB['ins1']],['Sensory and motor hubs (green)',HUB['motor1']],['Thalamus: central relay (pink)',HUB['thal1']],['Local links: the small-world web',locs[4]]]);
+  stations('hw_hubs','network',Object.keys(HDEF).map(function(k){ return [HDEF[k].name,HUB[k+1]]; }));
+  stations('hw_arcs','network',[['Within a network: its own color',V(HUB['mpfc1']).lerp(V(HUB['pcc1']),0.5).add(new THREE.Vector3(0,-0.1,0))],['Between networks (grey)',V(HUB['ins1']).lerp(V(HUB['dlpfc1']),0.5)],['Commissural, through the corpus callosum (gold)',[0,0.45,0.1]],['Projection fibers to the thalamus (pink)',V(HUB['thal1']).lerp(V(HUB['motor1']),0.5)]]);
+  stations('hw_sync','network',[['Hubs pulse in step',[0.25,0.75,0.0]],['Gamma: focused attention',HUB['dlpfc1']],['Theta: memory',HUB['hip1']],['Alpha: relaxed wakefulness',HUB['v1-1']]]);
+  stations('hw_dmn','network',[['Medial prefrontal cortex',HUB['mpfc1']],['Posterior cingulate and precuneus',HUB['pcc1']],['Angular gyrus',HUB['ipl1']],['Lateral temporal cortex',HUB['temp1']],['Hippocampus',HUB['hip1']]]);
+  stations('hw_fpn','network',[['Dorsolateral prefrontal cortex',HUB['dlpfc1']],['Intraparietal sulcus',HUB['ips1']],['Frontal eye field',HUB['fef1']]]);
+  stations('hw_sal','network',[['Anterior insula',HUB['ins1']],['Anterior cingulate cortex',HUB['acc1']]]);
+  stations('hw_smn','network',[['Motor cortex',HUB['motor1']],['Sensory cortex',HUB['sens1']],['Auditory cortex',HUB['aud1']],['Primary visual cortex',HUB['v1-1']],['V4: color and form',HUB['v41']]]);
+  hwHubMats=hubMats;
   setHWAnchors();
 }
 function setHWAnchors(){ HW_IDS.forEach(function(id){ var a=hwAnch[hView][id]; if(a) anchors[id]={p:a.p,n:a.n}; else delete anchors[id]; }); }
@@ -5438,15 +5508,15 @@ function hwLabelOK(id){
 }
 function applyHWColors(){
   if(!hwBuilt) return;
-  var sel=hwSel(), hov=isHW(hovered)?hovered:null, WH=[1,1,1], with_=(sel && HW[sel] && HW[sel].with)||[];
+  var sel=hwSel(), hov=isHW(hovered)?hovered:null, WH=[1,1,1], with_=(sel && HW[sel] && HW[sel].with)||[], selNet=sel&&R[sel].net;
   HW_IDS.forEach(function(id){
-    var lit=!sel || sel===id || with_.indexOf(id)>=0, h=hov===id;
+    var lit0=!sel || sel===id || with_.indexOf(id)>=0, h=hov===id;
     R[id].meshes.forEach(function(m){
-      var u=m.userData, c=lit?u.base:mix(u.base,[0.6,0.63,0.7],0.75); if(h) c=mix(c,WH,0.28);
+      var u=m.userData, lit=selNet?(u.net===selNet):lit0, c=lit?u.base:(hView==='network'?mix(u.base,[0.22,0.25,0.34],0.88):mix(u.base,[0.6,0.63,0.7],0.75)); if(h) c=mix(c,WH,0.28);
       m.material.color.setRGB(c[0],c[1],c[2]);
       var k=u.kind==='path'?((sel===id||h)?0.9:(lit?0.6:0.1)):(sel===id?Math.max(0.25,u.glow):(lit?u.glow:0));
       m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
-      if(u.op0<1){ var o=lit?Math.min(0.95,u.op0*(sel===id?1.5:1)):u.op0*0.3; m.material.opacity=o; }
+      if(u.op0<1){ var o=lit?Math.min(0.95,u.op0*(sel===id?1.5:1)):u.op0*(hView==='network'?0.12:0.3); m.material.opacity=o; }
     });
   });
 }
@@ -5489,7 +5559,10 @@ function updateHWStations(taken){
 }
 function hwFrame(dt){
   if(!hwBuilt || !signalsOn) return;
-  for(var j=0;j<hwPaths.length;j++){ var p=hwPaths[j]; if(p.visible && p.userData.grp.visible) p.userData.tex.offset.x-=dt*p.userData.spd; }
+  var selNet=isHW(selected)&&R[selected].net;
+  for(var j=0;j<hwPaths.length;j++){ var p=hwPaths[j]; if(p.visible && p.userData.grp.visible) p.userData.tex.offset.x-=dt*p.userData.spd*(selNet && p.userData.net===selNet?1.8:1); }
+  if(hView==='network' && hwHubMats){ hwT+=dt; var sync=selected==='hw_sync', k=sync?0.55+0.45*Math.sin(hwT*2*Math.PI*1.1):1;
+    Object.keys(hwHubMats).forEach(function(n,i){ hwHubMats[n].emissiveIntensity=sync?k:0.9+0.1*Math.sin(hwT*2*Math.PI*0.4+i*1.3); }); }
 }
 function enterHW(){ buildHW(); hwXrayBefore=xray; xrayTo(false); setHWAnchors(); }
 function leaveHW(){ xrayTo(hwXrayBefore); }

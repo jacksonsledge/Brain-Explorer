@@ -132,6 +132,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-senses .sv.senses-only{display:inline-flex!important}
 .think-only{display:none!important}
 .mode-think .sv.think-only{display:inline-flex!important}
+.hw-only{display:none!important}
+.mode-hw .sv.hw-only{display:inline-flex!important}
 .mode-think.tv-cerebrum #bXray{display:flex!important}
 #pTree .facts{margin:12px 0 4px}
 .lobe{margin:16px 0 4px;padding:12px 14px;border-radius:14px;background:var(--soft);border-left:4px solid var(--lc)}
@@ -334,10 +336,12 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <button class="mode" id="mDiseases" role="tab" aria-selected="false">Diseases</button>
       <button class="mode" id="mSenses" role="tab" aria-selected="false"><span class="tl">Senses of the mind</span><span class="ts">Senses</span></button>
       <button class="mode" id="mThink" role="tab" aria-selected="false"><span class="tl">Thinking organs of the mind</span><span class="ts">Thinking</span></button>
+      <button class="mode" id="mHW" role="tab" aria-selected="false"><span class="tl">The hardware of the mind</span><span class="ts">Hardware</span></button>
     </div>
       <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true"><span class="tl">Cross-section</span><span class="ts">Cross</span></button><button id="svWhole" role="tab" aria-selected="false"><span class="tl">Whole cord</span><span class="ts">Whole</span></button></div>
       <div class="sv senses-only" role="tablist" aria-label="Senses view"><button id="seHead" class="on" role="tab" aria-selected="true">Head</button><button id="seBody" role="tab" aria-selected="false">Body</button></div>
       <div class="sv think-only" role="tablist" aria-label="Thinking organ"><button id="tvCer" class="on" role="tab" aria-selected="true">Cerebrum</button><button id="tvNeo" role="tab" aria-selected="false">Neocortex</button><button id="tvCb" role="tab" aria-selected="false">Cerebellum</button></div>
+      <div class="sv hw-only" role="tablist" aria-label="Hardware view"><button id="hvNeu" class="on" role="tab" aria-selected="true">Neuron</button><button id="hvDen" role="tab" aria-selected="false">Dendrites</button><button id="hvMat" role="tab" aria-selected="false"><span class="tl">Grey &amp; white</span><span class="ts">Matter</span></button><button id="hvNet" role="tab" aria-selected="false">Network</button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -422,6 +426,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#129516;</span><span>Open Diseases to watch how Alzheimer’s, Parkinson’s and migraine affect the brain and nerves.</span></li>
         <li><span class="ic">&#128066;</span><span>Open Senses of the mind to see how each sense is detected, how its signals reach the brain, and how the brain makes sense of them.</span></li>
         <li><span class="ic">&#128161;</span><span>Open Thinking organs of the mind to look closely at the cerebrum, the six layers of the neocortex and the cerebellum, and see how they work.</span></li>
+        <li><span class="ic">&#128268;</span><span>Open The hardware of the mind to see a neuron up close, dendrites at work in a network, grey and white matter, and how the whole brain communicates.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
       </ul>
       <div class="facts">
@@ -1593,7 +1598,234 @@ var REGIONS = [
   funcs:['Send “error” signals when a movement misses its target','Trigger a strong burst in the Purkinje cell (a complex spike)','Teach the cerebellum by weakening the parallel fiber connections that caused the error'],
   damage:'Damage to the inferior olive or its fibers impairs motor learning and can cause a rhythmic tremor of the palate.',
   fact:'This error-driven learning, proposed by David Marr, James Albus and Masao Ito, helps explain how practice makes movements smooth and automatic.',
-  view:{az:-55,el:15}, zoom:0.5}
+  view:{az:-55,el:15}, zoom:0.5},
+ {id:'hw_neuron',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron',name:'The Neuron',short:'Neuron',color:'#4cc9f0',
+  where:'About 86 billion of them, in the brain, spinal cord and nerves',
+  summary:'A neuron is a nerve cell built to receive, combine and send signals. Dendrites gather input, the cell body keeps the cell alive and adds the signals up, and a single axon carries the result, as an electrical pulse, to other cells. This model shows one typical neuron, greatly enlarged.',
+  funcs:['Receiving signals from thousands of other neurons','Deciding, by adding signals up, whether to fire','Sending electrical pulses along the axon, sometimes a meter or more','Passing the message on with chemical messengers at synapses','Changing its connections as you learn'],
+  damage:'Most neurons in the brain are not replaced when they die, so damage from a stroke, injury or a disease such as Alzheimer’s is usually permanent. The brain can partly compensate by re-routing signals and strengthening other connections.',
+  fact:'The brain has about 86 billion neurons, and about as many glial cells that support them. Each neuron connects to roughly a thousand others on average, making more than 100 trillion connections.',
+  view:{az:90,el:12}, zoom:1},
+ {id:'hw_soma',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Cell Body (Soma)',short:'Cell body',color:'#ff8fa3',
+  where:'The rounded center of the neuron, 5 to 100 micrometers across',
+  summary:'The cell body holds the nucleus and the machinery that keeps the neuron alive: it makes proteins, produces energy and recycles worn-out parts. Signals from the dendrites meet here and are added together.',
+  funcs:['Making the proteins and chemical messengers the cell needs','Producing energy in mitochondria','Adding up the signals arriving from the dendrites','Maintaining the long axon, which cannot make proteins itself'],
+  damage:'If the cell body dies, the whole neuron, including its axon, dies with it. Many diseases of the nervous system begin with damage inside cell bodies, such as the protein clumps of Parkinson’s and Alzheimer’s disease.',
+  fact:'A neuron’s cell body may be only a tenth of a millimeter across, yet it has to supply an axon that can be ten thousand times longer.',
+  view:{az:75,el:15}, at:[1.1,0,0], zoom:0.5},
+ {id:'hw_nucleus',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Nucleus',short:'Nucleus',color:'#9b8cff',
+  where:'Inside the cell body',
+  summary:'The nucleus holds the cell’s DNA, the instructions for building every protein the neuron uses. Unlike most cells, mature neurons almost never divide, so one nucleus must serve the cell for a lifetime.',
+  funcs:['Storing the DNA instructions','Switching genes on and off as the neuron is used, which helps form lasting memories','Making the RNA copies that are sent out to build proteins'],
+  damage:'Damage to DNA builds up slowly over a lifetime and is one factor in the aging of the brain. Some inherited diseases of the nervous system come from a single misspelled gene.',
+  fact:'Making a long-term memory needs the nucleus: when protein-making is blocked, animals can learn for a few hours but cannot keep the memory.',
+  view:{az:75,el:15}, at:[1.1,0,0], zoom:0.4},
+ {id:'hw_dendrite',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Dendrites',short:'Dendrites',color:'#7bd88f',
+  where:'Branching fibers reaching out from the cell body',
+  summary:'Dendrites are the neuron’s receiving branches. They carry thousands of small signals from other neurons toward the cell body, and their shape decides how those signals combine. The word means “tree-like.”',
+  funcs:['Collecting signals from other neurons','Carrying signals toward the cell body','Weighing signals by where they arrive and when','Growing and reshaping as you learn'],
+  damage:'Dendrites shrink and lose branches under long-term stress and in dementia. Loss of dendrites reduces the inputs a neuron can receive long before the cell dies.',
+  fact:'A single pyramidal neuron in the cortex may have a total dendrite length of several millimeters and carry around 10,000 connections.',
+  view:{az:100,el:18}, at:[1.3,0.1,0], zoom:0.62},
+ {id:'hw_spine',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Dendritic Spines',short:'Spines',color:'#ffd166',
+  where:'Tiny knobs along the dendrites, about 1 micrometer long',
+  summary:'Spines are tiny thorn-like knobs on the dendrites. Almost every excitatory connection in the cortex lands on a spine. Each spine is a little compartment of its own, so one connection can be strengthened without changing its neighbors.',
+  funcs:['Receiving most excitatory signals','Keeping each connection chemically separate','Growing larger when a connection is strengthened','Appearing and disappearing as the brain learns'],
+  damage:'Spine loss is one of the earliest changes in Alzheimer’s disease and tracks memory loss closely. Several forms of intellectual disability involve spines of the wrong shape or number.',
+  fact:'Spines can grow or shrink within minutes. Imaging studies have watched new spines appear while an animal learns a new skill.',
+  view:{az:100,el:18}, at:[1.75,0.35,0], zoom:0.35},
+ {id:'hw_hillock',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Axon Hillock and Initial Segment',short:'Axon hillock',color:'#ff9f1c',
+  where:'The cone where the axon leaves the cell body',
+  summary:'The axon hillock and the initial segment beyond it are the neuron’s trigger zone. They are packed with sodium channels, so this is where the added-up signals first cross the threshold and the pulse begins.',
+  funcs:['Deciding whether the neuron fires','Starting the action potential','Setting the firing threshold, which the cell can adjust'],
+  damage:'Some seizure medicines act on the sodium channels concentrated here, calming neurons that fire too readily.',
+  fact:'The initial segment can shift its position along the axon by several micrometers over days, tuning how easily the neuron fires.',
+  view:{az:90,el:15}, at:[0.72,0,0], zoom:0.4},
+ {id:'hw_axon',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Axon',short:'Axon',color:'#f4a261',
+  where:'The single long fiber leaving the cell body',
+  summary:'The axon is the neuron’s output cable. It carries the action potential, a brief electrical pulse, away from the cell body without fading, and branches at its end to reach other cells. Most axons in the brain are shorter than a millimeter; some reach from the brain to the base of the spine.',
+  funcs:['Carrying action potentials at a steady strength','Transporting proteins and vesicles along internal tracks (axonal transport)','Branching to reach many target cells'],
+  damage:'A cut axon in a nerve of the arm or leg can regrow about a millimeter a day. Axons inside the brain and spinal cord usually do not regrow, which is why spinal cord injuries are so serious.',
+  fact:'The longest axons in the body run from the base of the spine to the toes, about a meter long, yet only about 10 micrometers wide.',
+  view:{az:90,el:12}, at:[-0.6,0,0], zoom:0.75},
+ {id:'hw_myelin',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Myelin Sheath',short:'Myelin',color:'#f3ecd8',
+  where:'Fatty wrapping around the axon, in segments',
+  summary:'Myelin is a fatty insulation wrapped around the axon in segments, like beads on a string. It is made by oligodendrocytes in the brain and spinal cord and by Schwann cells in the nerves of the body. It lets signals travel up to 100 times faster.',
+  funcs:['Speeding up signals from about 1 m/s to as much as 120 m/s','Saving energy, because only the gaps need to be recharged','Feeding and protecting the axon'],
+  damage:'In multiple sclerosis the immune system attacks myelin in the brain and spinal cord, slowing or blocking signals. Symptoms depend on where the damage is: blurred vision, numbness, weakness or unsteadiness.',
+  fact:'Myelin is white, which is what gives white matter its color. It is about 70 percent fat.',
+  view:{az:90,el:15}, at:[-0.3,0,0], zoom:0.5},
+ {id:'hw_node',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Nodes of Ranvier',short:'Nodes',color:'#ef476f',
+  where:'The bare gaps between myelin segments, about every millimeter',
+  summary:'The nodes are tiny bare gaps in the myelin, roughly a micrometer wide. Sodium channels crowd into them, so the action potential is renewed at each node and appears to jump from one to the next. This is called saltatory conduction, from the Latin for “leaping.”',
+  funcs:['Regenerating the signal at each gap','Letting the pulse leap from node to node','Keeping the signal strong over long distances'],
+  damage:'When myelin is lost, the sodium channels at the nodes are no longer enough to carry the signal across the bare stretch, and the pulse can fail.',
+  fact:'The nodes were described by French doctor Louis-Antoine Ranvier in 1878.',
+  view:{az:90,el:15}, at:[-0.55,0,0], zoom:0.38},
+ {id:'hw_glia',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Oligodendrocyte (Glial Cell)',short:'Oligodendrocyte',color:'#c77dff',
+  where:'A support cell beside the axon',
+  summary:'Neurons do not work alone. Glial cells support them, and this one, an oligodendrocyte, wraps its arms around nearby axons to make myelin. Other glia, astrocytes and microglia, feed neurons, clean up waste and defend against infection.',
+  funcs:['Making myelin for up to 50 axon segments at once','Supplying the axon with energy','Astrocytes (not shown) control blood flow and recycle chemical messengers','Microglia (not shown) are the brain’s immune cells'],
+  damage:'Oligodendrocytes are the main target in multiple sclerosis. They are also very sensitive to a lack of oxygen, which is one reason white matter can be injured around premature birth.',
+  fact:'Glial cells are about as numerous as neurons: roughly 85 billion in the human brain.',
+  view:{az:90,el:20}, at:[-0.45,0.3,0], zoom:0.45},
+ {id:'hw_terminal',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Axon Terminals',short:'Terminals',color:'#2ec4b6',
+  where:'The branched endings of the axon',
+  summary:'At its end the axon splits into branches, each ending in a small swelling called a bouton. Boutons sit on the dendrites, spines or cell bodies of other neurons and release chemical messengers across a tiny gap.',
+  funcs:['Delivering the signal to many target cells','Storing chemical messengers in vesicles','Releasing them when the action potential arrives'],
+  damage:'Toxins such as botulinum toxin block release at the terminals, which paralyzes muscles. In small doses it is used medically to relax overactive muscles.',
+  fact:'A single axon may end in thousands of boutons, so one neuron can speak to thousands of others.',
+  view:{az:90,el:12}, at:[-2.25,-0.05,0], zoom:0.45},
+ {id:'hw_synapse',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: synapse (enlarged)',name:'The Synapse',short:'Synapse',color:'#e879f9',
+  where:'The junction between one neuron and the next, enlarged about 10,000 times',
+  summary:'A synapse is where one neuron passes its message to the next. The electrical pulse cannot cross the gap, so the sending terminal releases chemical messengers (neurotransmitters). They float across a gap only 20 to 40 nanometers wide and bind to receptors on the receiving cell.',
+  funcs:['Turning an electrical signal into a chemical one and back','Exciting or quieting the next cell, depending on the messenger','Adjusting its strength, which is how memories are stored'],
+  damage:'Many medicines act at synapses: antidepressants slow the removal of serotonin, and anesthetics strengthen the quieting effect of GABA. Myasthenia gravis attacks receptors at the synapse between nerve and muscle, causing weakness.',
+  fact:'The whole process, from the pulse arriving to the next cell responding, takes about half a millisecond.',
+  view:{az:90,el:10}, at:[-1.55,1.15,0], zoom:0.55},
+ {id:'hw_vesicles',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: synapse (enlarged)',name:'Vesicles and Neurotransmitters',short:'Vesicles',color:'#ffd166',
+  where:'Inside the sending terminal',
+  summary:'Vesicles are tiny bubbles, about 40 nanometers across, each holding several thousand molecules of a chemical messenger. When the action potential arrives, calcium flows into the terminal and makes vesicles fuse with the membrane and empty into the gap.',
+  funcs:['Storing neurotransmitter ready for release','Releasing it in precise packets when calcium enters','Being recycled and refilled within seconds'],
+  damage:'Tetanus toxin cuts the proteins that let vesicles fuse, so inhibitory signals cannot be released and muscles lock in spasm.',
+  fact:'Common messengers include glutamate (excites), GABA (quiets), dopamine, serotonin, acetylcholine and noradrenaline. More than a hundred are known.',
+  view:{az:90,el:10}, at:[-1.75,1.2,0], zoom:0.42},
+ {id:'hw_receptors',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: synapse (enlarged)',name:'Receptors',short:'Receptors',color:'#06d6a0',
+  where:'On the receiving cell’s membrane, facing the gap',
+  summary:'Receptors are proteins in the receiving membrane that catch the messenger. Some open a channel and let charged particles in at once; others start slower chemical changes inside the cell. The messenger is then broken down or pumped back for reuse.',
+  funcs:['Detecting the messenger','Opening channels that excite or quiet the cell','Triggering slower changes that can last hours or days','Increasing or decreasing in number as a synapse strengthens or weakens'],
+  damage:'Some autoimmune diseases attack receptors. Anti-NMDA receptor encephalitis, for example, causes confusion, seizures and psychiatric symptoms until the antibodies are removed.',
+  fact:'Adding more AMPA receptors to a spine is one of the main ways a synapse becomes stronger during learning.',
+  view:{az:90,el:10}, at:[-1.35,1.08,0], zoom:0.42},
+ {id:'hw_potential',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: in action',name:'The Action Potential',short:'Action potential',color:'#ff6b6b',
+  where:'Starts at the axon hillock and travels down the axon',
+  summary:'The action potential is the neuron’s signal: a brief electrical pulse about a millisecond long. At rest the inside of the cell is about −70 millivolts. If inputs push it to about −55 mV, sodium channels snap open, the inside swings positive, and potassium flowing out resets it. The pulse is all-or-none: it either happens fully or not at all.',
+  funcs:['Carrying information along the axon without fading','Coding strength as how often pulses fire, not how big they are','Travelling at 1 to 120 meters per second depending on myelin'],
+  damage:'Local anesthetics such as lidocaine block the sodium channels, so pain signals cannot start. Some poisons, such as tetrodotoxin from pufferfish, block them permanently and are deadly.',
+  fact:'Alan Hodgkin and Andrew Huxley worked out how the action potential works using the giant axon of a squid. They won a Nobel Prize in 1963.',
+  view:{az:90,el:12}, at:[-0.4,0,0], zoom:0.85},
+
+ {id:'hw_network',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work',name:'Dendrites at Work: a Small Network',short:'Network',color:'#7bd88f',
+  where:'A few neurons wired together, greatly enlarged',
+  summary:'No neuron works alone. Here a handful of neurons are wired into a small network. Axons from several cells end on the dendrites of the central neuron, which adds their signals together and passes its decision down its own axon to the next cell. Every thought and movement runs on networks like this, repeated billions of times.',
+  funcs:['Letting many neurons influence one','Passing signals from cell to cell in chains and loops','Combining excitation and inhibition into a decision','Rewiring itself as the brain learns'],
+  damage:'When a disease removes neurons from a network, the others can often fill in for a while. Symptoms appear once too many are lost: in Parkinson’s disease, movement problems begin after about half the dopamine neurons are gone.',
+  fact:'The connections in the brain outnumber the stars in the Milky Way by a factor of several hundred.',
+  view:{az:90,el:15}, zoom:1},
+ {id:'hw_tree',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: parts',name:'The Dendritic Tree',short:'Dendritic tree',color:'#80ed99',
+  where:'All the dendrites of one neuron',
+  summary:'A neuron’s dendrites together form its dendritic tree, or arbor. Its shape sets which other cells can reach it and how their signals combine. A pyramidal cell has one tall apical dendrite and a skirt of basal dendrites; a Purkinje cell has a huge flat fan. Form fits function.',
+  funcs:['Gathering input from many cells at once','Spreading connections over different branches so they can be weighed separately','Giving each type of neuron its characteristic shape'],
+  damage:'In Down syndrome and some other conditions, dendritic trees are smaller and simpler, which limits the inputs each neuron can receive.',
+  fact:'Santiago Ramón y Cajal drew dendritic trees by hand in the 1880s and 1890s, and his drawings are still used in textbooks today.',
+  view:{az:90,el:15}, at:[0,0.15,0], zoom:0.6},
+ {id:'hw_inputs',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: parts',name:'Excitatory and Inhibitory Inputs',short:'Inputs',color:'#ffd166',
+  where:'The boutons from other neurons landing on the dendrites',
+  summary:'Each input nudges the receiving neuron one way or the other. Excitatory synapses (green here), mostly using glutamate, push it toward firing. Inhibitory synapses (red), using GABA, pull it away. About four in five synapses in the cortex are excitatory, but inhibition is powerful and precisely placed.',
+  funcs:['Excitation: pushing the cell toward threshold','Inhibition: holding it back, sharpening timing and preventing runaway activity','Placing inhibition near the cell body gives it a strong veto'],
+  damage:'Too little inhibition causes seizures; many anti-seizure medicines boost GABA. Too much inhibition slows thinking and causes drowsiness, as alcohol and sedatives do.',
+  fact:'A single inhibitory synapse near the cell body can cancel the effect of many excitatory synapses far out on the dendrites.',
+  view:{az:90,el:15}, at:[0,0.15,0], zoom:0.55},
+ {id:'hw_sum',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: parts',name:'Summation: Adding It All Up',short:'Summation',color:'#ff9f1c',
+  where:'Across the dendrites and at the cell body',
+  summary:'A neuron fires only if enough excitation arrives close together in time and space. Signals arriving at the same moment add up (temporal summation), and signals from neighboring branches add up as they flow toward the cell body (spatial summation). The sum is read at the axon hillock.',
+  funcs:['Combining hundreds of small signals into one decision','Weighing timing: signals arriving together count for more','Weighing position: inputs near the cell body count for more','Dendrites can also produce their own local spikes, adding a layer of computation'],
+  damage:'Drugs that change ion channels in dendrites change how signals add up. This is one way some epilepsy and migraine medicines work.',
+  fact:'A single excitatory input moves the cell body by less than a millivolt. Reaching threshold typically needs dozens of inputs within a few milliseconds.',
+  view:{az:90,el:15}, at:[0,0,0], zoom:0.7},
+ {id:'hw_ltp',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: learning',name:'Strengthening Synapses (Plasticity)',short:'Plasticity',color:'#ff6f91',
+  where:'At individual spines, shown enlarged',
+  summary:'Connections are not fixed. When a sending cell repeatedly helps fire the receiving cell, the synapse between them grows stronger: the spine enlarges, more receptors are added, and the terminal releases more messenger. This is long-term potentiation, and it is the best-understood basis of memory. Connections that go unused weaken.',
+  funcs:['Making frequently used connections stronger and faster','Weakening unused connections (long-term depression)','Storing memories as patterns of strong and weak synapses','Continuing throughout life'],
+  damage:'Plasticity is reduced by chronic stress, poor sleep and aging. Many memory problems involve failing plasticity rather than loss of neurons.',
+  fact:'Donald Hebb proposed in 1949 that cells that fire together wire together. It was first demonstrated in the hippocampus of rabbits by Bliss and Lømo in 1973.',
+  view:{az:90,el:12}, at:[2.0,0.95,0], zoom:0.45},
+ {id:'hw_grow',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: learning',name:'How Dendrites Form and Are Pruned',short:'Growth and pruning',color:'#4cc9f0',
+  where:'Three neurons at different ages, shown side by side',
+  summary:'Dendrites grow in response to activity. A newborn’s neurons have few branches and few synapses. By age two or three, branching and synapse formation peak, with around 15,000 synapses per cortical neuron. Then unused connections are pruned through childhood and the teenage years, leaving fewer but stronger, well-chosen ones.',
+  funcs:['Growing new branches toward active inputs','Forming synapses at an astonishing rate in early childhood','Pruning unused synapses so networks become efficient','Finishing in the prefrontal cortex in the mid-twenties'],
+  damage:'Too little pruning has been linked to some forms of autism, and too much to schizophrenia, though both are still being studied. Severe neglect in infancy reduces dendritic growth, which is why early care matters so much.',
+  fact:'A toddler’s brain forms new synapses at a rate of hundreds of thousands per second.',
+  view:{az:90,el:12}, at:[2.05,-0.75,0], zoom:0.55},
+
+ {id:'hw_matter',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter',name:'Grey and White Matter',short:'Grey & white',color:'#b06f6a',
+  where:'Seen on a slice through the brain',
+  summary:'Cut the brain open and you see two kinds of tissue. Grey matter, a few millimeters thick on the surface and in clusters deep inside, holds the cell bodies, dendrites and synapses: it is where computing happens. White matter beneath it is made of myelinated axons: the wiring that carries the results from place to place. The slice here is a coronal section, cut from ear to ear.',
+  funcs:['Grey matter: processing and storing information','White matter: fast communication between regions','Together: the thinking and the wiring that joins it up'],
+  damage:'Strokes in grey matter remove a function, such as speech or the use of a hand. Strokes in white matter cut the connections between healthy areas, with similar results. Small white-matter strokes build up over years and are a common cause of slowed thinking in old age.',
+  fact:'Grey matter is actually pinkish-grey in life; it only turns grey after death or preservation. White matter is white because of myelin’s fat.',
+  view:{az:90,el:10}, zoom:1},
+ {id:'hw_grey',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: parts',name:'Grey Matter',short:'Grey matter',color:'#b06f6a',
+  where:'The outer ribbon of the cortex and the deep nuclei',
+  summary:'Grey matter contains the neuron cell bodies, their dendrites, the start of their axons, enormous numbers of synapses and supporting glia, all richly supplied with blood. Nearly all of the brain’s computing happens here. The cortex ribbon is 2 to 4 mm thick; more grey matter sits in clusters deep inside.',
+  funcs:['Processing sensory information and planning movement','Thinking, language, memory and emotion','Using most of the brain’s energy: grey matter is metabolically expensive','Deep grey nuclei relay signals and select actions'],
+  damage:'Loss of grey matter is seen in dementia, where the cortex thins and the grooves widen. Lack of oxygen, as in cardiac arrest, damages grey matter first because of its high energy use.',
+  fact:'The grey matter of the cortex contains about 16 billion neurons, and the cerebellum’s grey matter about 69 billion, mostly tiny granule cells.',
+  view:{az:90,el:10}, at:[0,0.1,0], zoom:0.8},
+ {id:'hw_white',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: parts',name:'White Matter',short:'White matter',color:'#f3ecd8',
+  where:'Beneath the cortex and between the deep nuclei',
+  summary:'White matter is made of millions of myelinated axons bundled into tracts, with the oligodendrocytes that wrap them. It carries no cell bodies of its own: it is pure wiring. Three kinds of tracts run through it: association fibers within a hemisphere, commissural fibers between the hemispheres and projection fibers to and from the body.',
+  funcs:['Carrying signals quickly between distant regions','Linking the two hemispheres through the corpus callosum','Connecting the cortex with the thalamus, brainstem and spinal cord','Timing signals so distant areas can work together'],
+  damage:'Multiple sclerosis, small-vessel disease and traumatic brain injury all damage white matter. The result is slowed processing, poor coordination between regions and, when severe, dementia.',
+  fact:'White matter keeps maturing into the forties. Its volume peaks later than grey matter, and this is one reason judgment often improves with age.',
+  view:{az:90,el:10}, at:[0,0.15,0], zoom:0.8},
+ {id:'hw_deep',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: parts',name:'Deep Grey Nuclei',short:'Deep nuclei',color:'#9b8cff',
+  where:'Clusters of grey matter inside the white matter',
+  summary:'Not all grey matter is on the surface. Deep inside sit clusters of cell bodies called nuclei: the thalamus, the main relay to the cortex, and the basal ganglia (caudate, putamen and globus pallidus), which help select movements and habits. The white matter squeezed between them is the internal capsule.',
+  funcs:['Thalamus: relaying nearly all sensory information to the cortex','Basal ganglia: selecting and smoothing movements, forming habits','Working in loops with the cortex'],
+  damage:'Loss of dopamine input to the basal ganglia causes Parkinson’s disease. Small strokes in the thalamus can cause numbness or severe pain on one side of the body.',
+  fact:'The caudate and putamen are striped by bundles of white matter passing through them, which is why together they are called the striatum.',
+  view:{az:90,el:10}, at:[0,0.15,0], zoom:0.6},
+ {id:'hw_block',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: up close',name:'Up Close: What They Are Made Of',short:'Up close',color:'#ffd166',
+  where:'A tiny block at the border of grey and white matter, enlarged',
+  summary:'Under the microscope the difference is clear. In grey matter, cell bodies, dendrites and thin unmyelinated axons are packed together with countless synapses and many small blood vessels. In white matter, myelinated axons run in parallel bundles, like cables in a conduit, with glial cells between them.',
+  funcs:['Grey matter: about 100,000 neurons and a billion synapses per cubic millimeter of cortex','White matter: hundreds of thousands of axons per square millimeter in a tract','Both: supported by glia and fed by a dense web of capillaries'],
+  damage:'Concussion stretches and tears axons at the junction of grey and white matter, because the two tissues have different densities and move differently when the head is jolted.',
+  fact:'A cubic millimeter of cortex, the size of a grain of sand, contains about 4 kilometers of axons and about a billion synapses.',
+  view:{az:90,el:12}, at:[1.62,0.42,0], zoom:0.5},
+ {id:'hw_speed',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: up close',name:'Conduction Speed',short:'Speed',color:'#ff6b6b',
+  where:'Two axons compared, one bare and one myelinated',
+  summary:'Myelin is the brain’s main trick for speed. In a bare axon the pulse must be rebuilt along every bit of membrane and crawls along at about 1 meter per second. In a myelinated axon it leaps from node to node at up to 120 meters per second. The animation is slowed down enormously, but the contrast is real.',
+  funcs:['Bare axons: slow, used for signals where speed matters little, such as dull pain','Myelinated axons: fast, used for touch, movement and thought','Myelin thickness is tuned so that signals arrive at the right time'],
+  damage:'When myelin is damaged, signals slow and fall out of step. In multiple sclerosis, doctors measure this directly by timing the signal from the eye to the visual cortex.',
+  fact:'Without myelin, a signal from your brain to your foot would take about a second instead of a few hundredths of a second.',
+  view:{az:90,el:10}, at:[1.62,-0.72,0], zoom:0.5},
+ {id:'hw_mind',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: the mind',name:'Grey, White and Intelligence',short:'Intelligence',color:'#2ec4b6',
+  where:'Across the whole brain',
+  summary:'Thinking well needs both tissues. Grey matter provides the computing power, and people with a thicker or larger cortex in frontal and parietal areas tend to score somewhat higher on reasoning tests. White matter provides the speed and coordination: better organized tracts go with faster processing and better memory. Neither works without the other, and the relationships are modest. Intelligence is not a single number stored in one place.',
+  funcs:['Grey matter volume in frontal and parietal areas relates to reasoning','White matter organization relates to processing speed and working memory','Efficient brains often use less energy for the same task, not more','Learning changes both: practice grows grey matter in the areas used and strengthens the tracts that connect them'],
+  damage:'Normal aging thins the cortex a little and, more importantly, wears white matter, which slows processing. Keeping active, physically and mentally, protects both.',
+  fact:'Learning to juggle for three months measurably increased grey matter in visual motion areas and changed the white matter beneath them. When practice stopped, the changes partly faded.',
+  view:{az:90,el:10}, at:[0.5,0,0], zoom:1},
+
+ {id:'hw_connectome',kind:'hw',mode:'hw',hv:'network',group:'Communication across the brain',name:'Communication Across the Brain',short:'Brain-wide network',color:'#4cc9f0',
+  where:'The whole brain, with its main hubs and long-range links',
+  summary:'Grey matter computes and white matter connects, and together they make the brain one network. Long tracts link distant regions, and a few highly connected hubs tie the network together, so that any area can reach any other in just a few steps. Signals cross the whole brain in a few hundredths of a second.',
+  funcs:['Linking vision, hearing, touch, memory and planning into one experience','Letting the two hemispheres work as one through the corpus callosum','Routing most sensory traffic through the thalamus','Coordinating distant regions with shared rhythms'],
+  damage:'Damage to a hub, or to the tracts feeding it, has effects far beyond its own location. Strokes that disconnect regions can cause problems like neglect or aphasia even when the regions themselves are intact.',
+  fact:'The brain’s wiring has a “small-world” layout: mostly local connections plus a few long shortcuts, so any two regions are only a few steps apart, like a well-designed road network.',
+  view:{az:40,el:22}, zoom:1},
+ {id:'hw_hubs',kind:'hw',mode:'hw',hv:'network',group:'Communication across the brain: parts',name:'Hubs',short:'Hubs',color:'#ffd166',
+  where:'Highly connected regions in the frontal, parietal and midline cortex, plus the thalamus',
+  summary:'A few regions are connected far more richly than the rest. These hubs include the posterior cingulate and precuneus on the inner surface, the medial prefrontal cortex, the inferior parietal lobules, parts of the lateral prefrontal and temporal cortex, and the thalamus deep inside. Hubs are also strongly connected to each other, forming a “rich club” at the heart of the network.',
+  funcs:['Gathering and redistributing information from many regions','Supporting attention, memory recall and self-reflection','Keeping the whole network in step'],
+  damage:'Hubs are vulnerable because they are so busy. Alzheimer’s disease strikes the posterior cingulate and precuneus early, and these are among the hubs that use the most energy.',
+  fact:'The posterior cingulate and precuneus are among the most active regions when you rest and let your mind wander, as part of the default mode network.',
+  view:{az:40,el:22}, zoom:0.9},
+ {id:'hw_arcs',kind:'hw',mode:'hw',hv:'network',group:'Communication across the brain: parts',name:'Long-Range Connections',short:'Long-range links',color:'#4cc9f0',
+  where:'White-matter tracts linking distant regions and the two hemispheres',
+  summary:'The long links shown here are white-matter tracts: association fibers between regions on the same side, commissural fibers crossing between the hemispheres through the corpus callosum, and projection fibers to and from the thalamus. They are the shortcuts that make brain-wide communication fast.',
+  funcs:['Carrying signals between regions many centimeters apart in a few milliseconds','Joining the left and right halves of what you see, feel and do','Relaying sensory input through the thalamus to the cortex'],
+  damage:'Cutting the corpus callosum, once done for severe epilepsy, leaves two hemispheres that can no longer share what they know. Diffuse axonal injury after a severe head injury damages long tracts throughout the brain.',
+  fact:'Doctors can map these tracts in a living person with diffusion MRI, which tracks how water moves along the fibers.',
+  view:{az:60,el:30}, zoom:0.9},
+ {id:'hw_sync',kind:'hw',mode:'hw',hv:'network',group:'Communication across the brain: parts',name:'Rhythms and Synchrony',short:'Brain rhythms',color:'#e879f9',
+  where:'Across the whole network',
+  summary:'Fast wiring is not enough: regions must also be in step. Groups of neurons fire in rhythms, from slow delta waves in deep sleep to fast gamma waves during focused attention. When distant regions lock into the same rhythm, their signals arrive at the right moment to be heard, so rhythms act like a shared clock for communication.',
+  funcs:['Keeping distant regions in time with each other','Binding features into one perception','Replaying memories during sleep to store them','Shifting attention by changing which regions are in step'],
+  damage:'An EEG records these rhythms through the scalp. Seizures appear as abnormally synchronized waves, and the loss of normal rhythms helps diagnose coma and sleep disorders.',
+  fact:'The hippocampus “replays” the day’s experiences in fast bursts during deep sleep, which helps move memories into the cortex. This is one reason sleep matters for learning.',
+  view:{az:40,el:22}, zoom:1}
 ];
 var PERIPH=['n_cauda','n_spinal','n_cranial','n_vagus','n_phrenic','n_sympathetic','n_enteric','n_intercostal','n_brachial','n_axillary','n_musculo','n_median','n_ulnar','n_radial','n_lumbar','n_sacral','n_obturator','n_femoral','n_sciatic','n_tibial','n_fibular'];
 var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia'],sec_pns:PERIPH,
@@ -2631,7 +2863,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
-  if(mode==='spine' || mode==='senses' || mode==='think') applyVisibility();
+  if(mode==='spine' || mode==='senses' || mode==='think' || mode==='hw') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
     chipEls[r.id].classList.toggle('sel',mode==='diseases'?(r.id===curDisease):(selected===r.id));
@@ -2650,7 +2882,7 @@ function updateViewTargets(){
   tgt.ox=W/2-cx; tgt.oy=H/2-cy;
   tgt.pm=open?(desktop?1.12:1.2):1;
 }
-var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } if(mode==='think'){ applyThinkColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
+var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } if(mode==='think'){ applyThinkColors(); return; } if(mode==='hw'){ applyHWColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
 function measureLabels(){ REGIONS.forEach(function(r){ labelEls[r.id]._w=labelEls[r.id].offsetWidth; }); }
 function layout(){
   if(typeof kick==='function') kick(1200);
@@ -2663,7 +2895,7 @@ function layout(){
   var availH=Math.max(120,H-topUI-8);
   fitDist=3.5*H/Math.min(W,availH);
   var fitBody=Math.max(4.4*H/(0.728*availH),2.0*H/(0.728*W));
-  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:(mode==='senses'?fitDist*1.35:(mode==='think'?Math.max(fitDist*TH_FIT[tView],(tView==='cerebellum'?5.8:2.2)*H/(0.728*W)):fitDist)));
+  tgt.fit=mode==='spine'?spineFit(availH):(bodyView()?fitBody:(mode==='senses'?fitDist*1.35:(mode==='think'?Math.max(fitDist*TH_FIT[tView],(tView==='cerebellum'?5.8:2.2)*H/(0.728*W)):(mode==='hw'?Math.max(fitDist*HW_FIT[hView],HW_PW[hView]*H/(0.728*W)):fitDist))));
   if(!fitInit){ cur.fit=tgt.fit; fitInit=true; }
   updateViewTargets();
   if(ddMenu && !ddMenu.hidden) placeDD();
@@ -2697,10 +2929,11 @@ function setMode(m){
   if(mode==='diseases') leaveDiseases(); else select(null);
   if(mode==='senses') leaveSenses();
   if(mode==='think') leaveThink();
+  if(mode==='hw') leaveHW();
   setHover(null); tip.style.opacity=0; dismissHint(); closeDD();
   mode=m;
-  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses'); app.classList.toggle('mode-think',m==='think');
-  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses'],['mThink','think']].forEach(function(t){
+  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses'); app.classList.toggle('mode-think',m==='think'); app.classList.toggle('mode-hw',m==='hw');
+  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses'],['mThink','think'],['mHW','hw']].forEach(function(t){
     var e=$('#'+t[0]), on=(t[1]===m); e.classList.toggle('on',on); e.setAttribute('aria-selected',on?'true':'false');
     if(on && e.scrollIntoView) e.scrollIntoView({block:'nearest',inline:'nearest'});
   });
@@ -2708,18 +2941,20 @@ function setMode(m){
   if(m==='spine') buildSpine();
   if(m==='senses') enterSenses();
   if(m==='think') enterThink();
+  if(m==='hw') enterHW();
   applyVisibility(); applyModeChips();
   if(m==='diseases') enterDiseases();
   refreshUI(); resetView(); layout();
   if(m==='senses' && sideLayout()) select('se_all');
   if(m==='think' && sideLayout()) select(TH_OVER[tView]);
+  if(m==='hw' && sideLayout()) select(HW_OVER[hView]);
 }
 function setSpin(on){ autoSpin=on; $('#bSpin').setAttribute('aria-pressed',on?'true':'false'); }
 function setLabels(on){ showLabels=on; $('#bLabels').setAttribute('aria-pressed',on?'true':'false'); }
 
 function fillPanel(r){
   $('#hFuncs').textContent=r.hFuncs||'What it does'; $('#hDamage').textContent=r.hDamage||'If it is damaged';
-  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think');
+  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think'||r.kind==='hw');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
   panel.style.setProperty('--rc',r.color);
   $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray view':''); bd.hidden=!bd.textContent;
@@ -2759,6 +2994,7 @@ function fillPanel(r){
     tree.appendChild(kp);
   } else if(r.kind==='sense') fillSense(r);
   else if(r.kind==='think') fillThink(r);
+  else if(r.kind==='hw') fillHW(r);
   else tree.hidden=true;
   var ul=$('#pFuncs'); ul.innerHTML='';
   r.funcs.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
@@ -2768,6 +3004,7 @@ function fillPanel(r){
 function focusOn(r){
   if(r.mode==='senses'){ senseFocus(r); return; }
   if(r.mode==='think'){ thinkFocus(r); return; }
+  if(r.mode==='hw'){ hwFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
   if(r.mode==='nerves'||r.mode==='sections'||r.mode==='spine'){ var at=r.at||(r.mode==='spine'?(r.sv==='whole'?[0,0.82,-0.1]:[0.35,-0.08,0.05]):[0,0,0]); tgt.zoom=r.zoom||0.6; CENTER_T.set(at[0],at[1],at[2]); }
@@ -2778,6 +3015,7 @@ function select(id){
   if(mode==='spine' && id && R[id] && R[id].sv && R[id].sv!==sView) setSView(R[id].sv);
   if(mode==='diseases'){ dSelect(id); return; }
   if(mode==='senses' && isSense(id)){ var want=(id==='se_all' || SENSE[id].se==='head')?'head':'body'; if(id==='se_all' || want!==seView && !(seView==='head' && SENSE[id].se==='body' && selected===id)) setSeView(want,true); }
+  if(mode==='hw' && isHW(id) && R[id].hv!==hView) setHView(R[id].hv,true);
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
@@ -2800,6 +3038,7 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
+  if(mode==='hw'){ var hd=HW_DEF[hView]; tgt.az=cur.az+wrap(hd.az-cur.az); tgt.el=hd.el; tgt.zoom=1; CENTER_T.copy(HW_C[hView]); setSpin(false); if(selected) select(null); return; }
   if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
   var dv=mode==='spine'?(sView==='whole'?DEF_W:DEF_X):(bodyView()?DEFN:((mode==='senses' && seView==='head')?DEF_SE:DEF)); tgt.az=cur.az+wrap(dv.az-cur.az); tgt.el=dv.el; tgt.zoom=1;
   CENTER_T.copy(mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C))); setSpin(false);
@@ -2811,12 +3050,12 @@ function closeDetails(){
   if(mode==='diseases'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); refreshUI(); updateViewTargets(); }
   else select(null);
 }
-function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:((mode==='senses'||mode==='think')?0.3:0.35)); }
+function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:((mode==='senses'||mode==='think'||mode==='hw')?0.3:0.35)); }
 /* ---- zoom toward a point and pan (move the view centre in the screen plane) */
 var PV=new THREE.Vector3(), PU=new THREE.Vector3(), CV=new THREE.Vector3();
 function pxWorld(dist){ return 2*dist*Math.tan(camera.fov*Math.PI/360)/H; }
-function panBase(){ if(mode==='think') return TH_C[tView]; return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C)); }
-function panRadius(){ if(mode==='think') return tView==='cerebellum'?2.2:1.6; return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:((mode==='senses' && seView==='head')?1.6:1.3)); }
+function panBase(){ if(mode==='hw') return HW_C[hView]; if(mode==='think') return TH_C[tView]; return mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C)); }
+function panRadius(){ if(mode==='hw') return hView==='network'?1.4:2.8; if(mode==='think') return tView==='cerebellum'?2.2:1.6; return mode==='spine'?(sView==='whole'?1.0:1.8):(bodyView()?2.3:((mode==='senses' && seView==='head')?1.6:1.3)); }
 function clampV(v){ var b=panBase(), r=panRadius(); CV.copy(v).sub(b); if(CV.length()>r){ CV.setLength(r); v.copy(b).add(CV); } }
 function shiftCenter(dx,dy,s,both){
   camera.updateMatrixWorld();
@@ -2850,6 +3089,7 @@ $('#mDiseases').addEventListener('click',function(){ setMode('diseases'); });
 $('#mSpine').addEventListener('click',function(){ setMode('spine'); });
 $('#mSenses').addEventListener('click',function(){ setMode('senses'); });
 $('#mThink').addEventListener('click',function(){ setMode('think'); });
+$('#mHW').addEventListener('click',function(){ setMode('hw'); });
 $('#svCross').addEventListener('click',function(){ setSView('cross'); });
 $('#svWhole').addEventListener('click',function(){ setSView('whole'); });
 $('#bPaths').addEventListener('click',function(){ setPaths(!showAllPaths); });
@@ -3267,10 +3507,10 @@ function applyVisibility(){
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && vesselsOn); });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && vesselsOn); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
   Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
-  applySenseVis(); applyThinkVis();
+  applySenseVis(); applyThinkVis(); applyHWVis();
   R.sc_csf.meshes.forEach(function(m){ m.visible=layerOn.arachnoid; });
   updateLayerCard();
 }
@@ -4792,6 +5032,488 @@ function fillLobe(r){
   var vs=el('div','verse',L.verse[0]); vs.appendChild(el('small',null,L.verse[1])); box.appendChild(vs);
 }
 
+/* ------------------------------------------------------------ the hardware of the mind */
+var HW={
+ hw_neuron:{stats:[['86 billion','neurons in the brain'],['~1 ms','length of one pulse'],['up to 1 m','longest axons']],
+  how:['Dendrites receive chemical signals from other neurons and turn them into small electrical changes.',
+   'These changes spread to the cell body and add up. If they reach a threshold at the axon hillock, the neuron fires.',
+   'The action potential, a brief pulse, races down the axon. Myelin lets it leap from node to node.',
+   'At the terminals, the pulse triggers the release of chemical messengers across synapses onto the next cells.',
+   'The whole cycle takes a few thousandths of a second, and a neuron can repeat it hundreds of times a second.'],
+  deep:['Neurons come in many shapes. Pyramidal cells, stellate cells, Purkinje cells and motor neurons all follow this same plan but with very different dendrites and axons.',
+   'The electrical signal is not a current of electrons as in a wire. It is a wave of charged atoms (sodium and potassium ions) moving through channels in the cell membrane.',
+   'A neuron uses most of its energy pumping ions back out after each pulse, which is why the brain needs about a fifth of the body’s energy.',
+   'Neurons are born mostly before birth. A few new ones may appear in the hippocampus of adults, but the vast majority last a lifetime.'],
+  rel:['hw_network','hw_matter','hw_connectome']},
+ hw_soma:{how:['Rough endoplasmic reticulum, dense in neurons (once called Nissl bodies), builds proteins.','Mitochondria burn glucose and oxygen for energy.','Motor proteins carry finished proteins and vesicles out along the axon at up to 40 centimeters a day.'],
+  deep:['The cell body is also where signals from all the dendrites finally meet and are summed before the axon decides whether to fire.'], with:['hw_nucleus'], rel:['hw_nucleus','hw_hillock']},
+ hw_nucleus:{how:['Genes are copied into RNA, which leaves the nucleus and is translated into proteins.','Strong or repeated activity sends signals back to the nucleus that switch on genes needed for lasting change.'],
+  deep:['Some RNA is shipped all the way out to dendrites and translated on the spot, so a single spine can build what it needs locally.'], rel:['hw_soma']},
+ hw_dendrite:{how:['Chemical messengers open channels in the dendrite membrane, letting charged ions flow in or out.','The resulting voltage change spreads passively toward the cell body, fading with distance.','Dendrites also contain active channels that can boost or shape signals on the way.'],
+  deep:['Thicker and shorter dendrites pass signals with less loss, so the geometry of the tree is part of the computation.','Dendrites can carry signals backward too: a pulse from the cell body spreads back into the tree and tells synapses that the neuron fired.'],
+  with:['hw_spine'], rel:['hw_spine','hw_tree']},
+ hw_spine:{how:['A spine has a bulbous head on a thin neck. The synapse sits on the head.','The thin neck limits how much calcium and other signals spill into the main dendrite, keeping each spine independent.','When a connection strengthens, the head grows and gains receptors.'],
+  deep:['Spines come in shapes called thin, stubby and mushroom. Mushroom spines are the strongest and most stable, and are thought to hold long-term memories.'], rel:['hw_dendrite','hw_ltp']},
+ hw_hillock:{how:['The initial segment has the highest density of voltage-gated sodium channels in the neuron.','When the voltage here reaches about −55 mV, the channels open and the action potential begins.'],
+  deep:['Because the pulse starts here, inhibitory synapses placed close to the hillock have the final say over whether the neuron fires.'], with:['hw_axon'], rel:['hw_potential','hw_axon']},
+ hw_axon:{how:['The pulse travels as a wave: sodium entering at one point depolarizes the next stretch of membrane, which fires in turn.','Behind the pulse the membrane is briefly unresponsive (refractory), so the signal travels only forward.','Inside, microtubule tracks carry cargo to and from the terminals.'],
+  deep:['Axon diameter affects speed too: thicker axons conduct faster, which is why the squid’s giant axon, nearly a millimeter wide, was so useful to early researchers.'], with:['hw_myelin','hw_node'], rel:['hw_myelin','hw_node','hw_terminal']},
+ hw_myelin:{how:['An oligodendrocyte process wraps the axon dozens of times, squeezing out the cytoplasm to leave tight layers of membrane.','The wrapping insulates the axon so that current flows down the inside to the next node instead of leaking out.'],
+  deep:['Myelination follows a schedule: sensory and motor pathways are myelinated in infancy, while the prefrontal cortex finishes in the mid-twenties.','Learning a demanding skill, such as a musical instrument, can increase myelin in the tracts involved.'],
+  with:['hw_glia'], rel:['hw_node','hw_glia','hw_speed']},
+ hw_node:{how:['Each node is about 1 micrometer long and packed with sodium channels.','Current from one node flows rapidly through the insulated internode and triggers the next node.','Potassium channels cluster just under the myelin beside each node to reset the membrane.'],
+  deep:['Jumping from node to node (saltatory conduction) uses far less energy than renewing the pulse along the whole axon.'], rel:['hw_myelin','hw_potential']},
+ hw_glia:{how:['Each oligodendrocyte sends out many arms, each wrapping a segment of a nearby axon.','Astrocytes wrap blood vessels and synapses, controlling blood flow and mopping up spilled messengers.','Microglia patrol constantly, removing debris and pruning unused synapses.'],
+  deep:['Glia also help decide which synapses survive: astrocytes and microglia both take part in pruning during development.'], rel:['hw_myelin','hw_white']},
+ hw_terminal:{how:['The action potential opens calcium channels in the bouton.','Calcium makes vesicles fuse with the membrane and release their messenger into the synaptic gap.'],
+  deep:['Boutons can also sit along the length of an axon, not only at its ends, so one axon makes contacts all along its path.'], rel:['hw_synapse','hw_vesicles']},
+ hw_synapse:{stats:[['20–40 nm','width of the gap'],['~0.5 ms','from pulse to response'],['100+ trillion','synapses in the brain']],
+  how:['The pulse arrives at the sending terminal and opens calcium channels.','Calcium makes vesicles fuse with the membrane and release neurotransmitter.','The messenger diffuses across the cleft in a fraction of a millisecond.','It binds receptors on the receiving cell, opening channels that excite or quiet it.','Transporters pump the messenger back or enzymes break it down, ending the signal.'],
+  deep:['Some synapses are electrical rather than chemical: the cells touch through tiny pores and share current directly, with no delay.','Dendritic spines, axon terminals and even glial cells can all be part of one synapse; the astrocyte arm wrapping it is sometimes called the third partner.'],
+  with:['hw_vesicles','hw_receptors'], rel:['hw_vesicles','hw_receptors','hw_terminal']},
+ hw_vesicles:{how:['Vesicles are filled with messenger by pumps in their membrane.','A set of proteins called SNAREs docks them at the active zone, ready to go.','Calcium triggers fusion, and the empty vesicle is pulled back inside and refilled.'],
+  deep:['Each terminal holds a few hundred vesicles, but only a handful are released per pulse. Strong synapses release more.'], rel:['hw_synapse','hw_receptors']},
+ hw_receptors:{how:['Ionotropic receptors are channels: the messenger opens them and ions flow in within a millisecond.','Metabotropic receptors start chemical cascades inside the cell that last much longer.','Glutamate receptors (AMPA and NMDA) excite; GABA receptors quiet.'],
+  deep:['The NMDA receptor acts as a coincidence detector: it opens only when the messenger arrives and the receiving cell is already active. This is the key step in strengthening a synapse.'], rel:['hw_synapse','hw_ltp']},
+ hw_potential:{how:['At rest, pumps keep sodium outside and potassium inside, so the inside sits at about −70 mV.','Inputs push the voltage up. At about −55 mV, sodium channels open and sodium floods in, swinging the inside to about +40 mV.','Sodium channels shut and potassium channels open. Potassium flows out and the voltage falls back, briefly undershooting.','The pulse regenerates at each node of Ranvier and leaps down the axon.','Pumps restore the balance, ready for the next pulse within a few milliseconds.'],
+  deep:['Because every pulse is the same size, the neuron codes information in timing and rate: a stronger stimulus means more pulses per second.','The pulses in the model show this: watch them appear at each node as they travel.'],
+  with:['hw_hillock','hw_axon','hw_node','hw_terminal'], rel:['hw_hillock','hw_node','hw_speed']},
+
+ hw_network:{stats:[['~1,000','connections per neuron, on average'],['4 : 1','excitatory to inhibitory synapses'],['billions','of such circuits']],
+  how:['Axons from other cells end in boutons on the central neuron’s dendrites.','Excitatory inputs (green) push the cell toward firing. Inhibitory inputs (red) hold it back.','The dendrites carry all these small signals toward the cell body, where they add up.','If the sum crosses the threshold, the neuron fires and its axon carries the pulse to the next cell in the chain.'],
+  deep:['Networks in the cortex are mostly local: most of a neuron’s connections come from cells within a millimeter. A smaller number of long axons link distant regions.',
+   'Feedback is everywhere. Signals loop back onto earlier cells, which lets networks hold activity, compare predictions with reality and keep time.',
+   'Cell assemblies, groups of neurons that tend to fire together, are thought to be how the brain represents an object, a word or a memory.'],
+  rel:['hw_neuron','hw_connectome']},
+ hw_tree:{how:['Primary dendrites leave the cell body and branch repeatedly, with thinner branches at each step.','Inputs from different sources tend to land on different parts of the tree: feedback from higher areas at the tips, local inputs near the body.'],
+  deep:['Some neurons, such as cerebellar Purkinje cells, receive more than 100,000 inputs across their tree.'], rel:['hw_dendrite','hw_inputs']},
+ hw_inputs:{how:['Excitatory boutons release glutamate, which lets positive ions in and raises the voltage.','Inhibitory boutons release GABA, which lets chloride in or potassium out and lowers the voltage.','Inhibitory cells often target the cell body and the start of the axon, where they can veto firing.'],
+  deep:['Inhibition is not just a brake. By timing when groups of cells can fire, inhibitory interneurons create the brain’s rhythms.'], rel:['hw_sum','hw_tree']},
+ hw_sum:{how:['Several inputs arriving within a few milliseconds add together (temporal summation).','Inputs on nearby branches merge as they flow toward the cell body (spatial summation).','Inhibitory inputs subtract. The net result is read at the axon hillock.','If it crosses threshold, the neuron fires. If not, the signals fade away.'],
+  deep:['Dendrites can also fire local spikes when a cluster of nearby spines is active together, so a branch can act as a small computing unit of its own.'],
+  with:['hw_tree','hw_inputs'], rel:['hw_inputs','hw_potential']},
+ hw_ltp:{how:['When the sending cell fires just before the receiving cell, calcium enters the spine through NMDA receptors.','Calcium switches on enzymes that insert more AMPA receptors and enlarge the spine.','Over hours, new proteins make the change permanent. The spine grows a mushroom head and the bouton enlarges too.','Synapses that fire out of step, or rarely, lose receptors and shrink.'],
+  deep:['The model shows a weak synapse on the left and a strengthened one on the right: a larger spine, more receptors and a larger bouton.',
+   'Sleep helps sort synapses: strong ones are kept and many weak ones are trimmed, which may be why a good night’s sleep aids memory.'],
+  rel:['hw_spine','hw_receptors']},
+ hw_grow:{how:['Growth cones at the tips of young dendrites feel their way toward chemical signals and active axons.','Thin filopodia reach out, touch passing axons, and mature into spines if a connection forms.','Connections that carry useful activity are kept and strengthened.','Unused connections are tagged and removed by microglia.'],
+  deep:['The model shows three ages: a newborn’s neuron with few branches, a toddler’s at the peak of branching, and an adult’s pruned, refined tree.',
+   'Pruning removes roughly half of all synapses between early childhood and adulthood. The result is not a weaker brain but a more efficient one.'],
+  rel:['hw_tree','hw_ltp']},
+
+ hw_matter:{stats:[['2–4 mm','thick cortex ribbon'],['~40%','of brain volume is white matter'],['~150,000 km','of myelinated fibers']],
+  how:['Grey matter holds cell bodies, dendrites and synapses, where signals are received, combined and stored.',
+   'Axons leaving the grey matter gather into bundles, pick up myelin and run through the white matter to their targets.',
+   'At the far end they enter grey matter again and end on dendrites and cell bodies.',
+   'Deep grey nuclei sit inside the white matter and act as relays and selectors.'],
+  deep:['The slice shows a coronal section through the middle of the brain: cortex ribbon, white matter, the corpus callosum bridging the hemispheres, the fluid-filled ventricles and the deep nuclei.',
+   'Grey matter is folded into gyri and sulci so that a large sheet fits inside the skull; the folds also shorten the wiring between neighboring areas.',
+   'In the spinal cord the arrangement is reversed: grey matter forms a butterfly shape in the middle, and white matter surrounds it.',
+   'The two tissues mature on different schedules. Grey matter volume peaks in childhood and then thins as synapses are pruned, while white matter keeps growing into middle age.'],
+  rel:['hw_neuron','hw_connectome']},
+ hw_grey:{how:['Cell bodies, dendrites, unmyelinated axon segments and synapses are packed together with glia and capillaries.','The cortex ribbon is arranged in six layers and in vertical columns.','Deep nuclei are grey matter too: clusters of cell bodies inside the white matter.'],
+  deep:['Grey matter has a rich blood supply because synapses are costly: most of the brain’s energy is spent in grey matter restoring ion balances after signals.'],
+  with:['hw_deep'], rel:['hw_deep','hw_block']},
+ hw_white:{how:['Axons are wrapped in myelin by oligodendrocytes and bundled into tracts.','Association tracts link regions within one hemisphere. Commissural tracts, mainly the corpus callosum, cross between hemispheres. Projection tracts run to and from the thalamus, brainstem and spinal cord.','The corona radiata fans out under the cortex and funnels into the internal capsule between the deep nuclei.'],
+  deep:['Myelin thickness and axon diameter are tuned so that signals from different distances arrive in step, which matters for timing-sensitive tasks like hearing.'],
+  rel:['hw_myelin','hw_arcs']},
+ hw_deep:{how:['The thalamus receives sensory and motor signals and relays them to the cortex, which sends signals back.','The caudate and putamen receive input from the whole cortex. The globus pallidus sends the result to the thalamus.','The internal capsule, a thick band of white matter, passes between the thalamus and the basal ganglia.'],
+  deep:['Because so many fibers squeeze through the internal capsule, a small stroke there can weaken the whole opposite side of the body.'], rel:['hw_grey','hw_white']},
+ hw_block:{how:['The grey side (left) shows cell bodies with dendrites, thin unmyelinated axons and a capillary.','The white side (right) shows myelinated axons running in parallel.','The border between them is where the cortex gives way to the wiring beneath.'],
+  deep:['Real tissue is far denser than any model can show: in the cortex, the space between cells is only about 20 nanometers wide.'], rel:['hw_grey','hw_white']},
+ hw_speed:{how:['In the bare axon (top), the pulse is rebuilt along every stretch of membrane and moves slowly.','In the myelinated axon (bottom), current flows quickly through the insulated segments and the pulse is rebuilt only at the nodes.','The result is a signal that reaches its target up to 100 times sooner.'],
+  deep:['Thick, heavily myelinated fibers carry touch and limb position at up to 120 m/s. Thin bare fibers carry dull aching pain at about 1 m/s, which is why a stubbed toe hurts twice: a sharp pain first, then a slow ache.'],
+  rel:['hw_myelin','hw_node']},
+ hw_mind:{stats:[['~0.3','link between cortex size and reasoning scores'],['faster','processing with better white matter'],['both','needed for thinking']],
+  how:['Reasoning draws on a network of frontal and parietal grey matter working together.','White-matter tracts set how fast and how reliably those areas can exchange signals.','Working memory, attention and processing speed all depend on this coordination.','Practice reshapes both tissues: grey matter grows in the areas used, and the tracts between them become better organized.'],
+  deep:['Brain size alone says little about a person. The link between total brain volume and intelligence scores is real but modest, and differences in how efficiently networks are organized matter more.',
+   'In healthy aging, processing speed slows mainly because white matter wears, while knowledge and vocabulary, stored in grey matter, often keep growing.',
+   'Children’s thinking skills develop as white-matter tracts mature, especially those linking the frontal and parietal lobes.',
+   'Reading, music, exercise and sleep all have measurable effects on grey and white matter. The brain you have is shaped by how you use it.'],
+  with:['hw_grey','hw_white'], rel:['hw_grey','hw_white','hw_connectome']},
+
+ hw_connectome:{stats:[['~200 million','fibers in the corpus callosum'],['a few steps','between any two regions'],['tens of ms','to cross the brain']],
+  how:['Each region computes locally in its grey matter.','Long white-matter tracts carry the results to other regions, often many centimeters away.','Hubs collect signals from many regions and pass them on, so information does not have to travel region by region.','The thalamus relays sensory input and helps coordinate the cortex. The corpus callosum keeps the two hemispheres in step.','Shared rhythms line up the timing so that signals from distant regions arrive when they can be used.'],
+  deep:['The complete wiring map of a brain is called its connectome. The Human Connectome Project, begun in 2009, has mapped the major tracts and networks in more than a thousand people.',
+   'Large-scale networks have been identified by watching which regions rise and fall together: a default mode network active at rest, a frontoparietal network for focused tasks, a salience network that notices what matters, and sensory and motor networks.',
+   'The model shows the main hubs and a selection of long-range links on a see-through brain. Real connections number in the billions.'],
+  rel:['hw_matter','hw_network']},
+ hw_hubs:{how:['Hubs receive fibers from many regions and send fibers to many more.','They sit mainly along the midline and in the parietal and frontal association cortex, where many kinds of information meet.','The thalamus is a hub deep inside: almost every signal to the cortex passes through it.'],
+  deep:['Hubs communicate strongly with each other, a “rich club” that carries a large share of all long-range traffic.'], rel:['hw_arcs','hw_sync']},
+ hw_arcs:{how:['Association fibers (blue) link regions on the same side.','Commissural fibers (gold) cross to the matching region on the other side through the corpus callosum.','Projection fibers (pink) connect the thalamus with the cortex.'],
+  deep:['A signal travels about 10 centimeters across the brain in roughly 10 to 20 milliseconds along a myelinated tract.'], rel:['hw_white','hw_hubs']},
+ hw_sync:{how:['Inhibitory interneurons pace local groups of neurons, producing rhythms.','When two regions share a rhythm, each sends its signals in the brief window when the other is most receptive.','Slower rhythms coordinate large networks; faster rhythms coordinate local groups.'],
+  deep:['Rhythms are named by frequency: delta (under 4 Hz) in deep sleep, theta (4–8 Hz) in memory tasks, alpha (8–12 Hz) in relaxed wakefulness, beta (12–30 Hz) in active thinking, and gamma (over 30 Hz) in focused attention.'],
+  with:['hw_hubs','hw_arcs'], rel:['hw_hubs','hw_arcs']}
+};
+var HW_VERSE={hw_neuron:['“My substance was not hid from thee, when I was made in secret, and curiously wrought in the lowest parts of the earth.”','Psalm 139:15 (KJV)'],
+ hw_network:['“For as the body is one, and hath many members, and all the members of that one body, being many, are one body: so also is Christ.”','1 Corinthians 12:12 (KJV)'],
+ hw_matter:['“And he is before all things, and by him all things consist.”','Colossians 1:17 (KJV)'],
+ hw_connectome:['“How precious also are thy thoughts unto me, O God! how great is the sum of them!”','Psalm 139:17 (KJV)']};
+var HW_IDS=REGIONS.filter(function(r){ return r.mode==='hw'; }).map(function(r){ return r.id; });
+var HW_OVER={neuron:'hw_neuron',dendrites:'hw_network',matter:'hw_matter',network:'hw_connectome'}, HW_OVERS=['hw_neuron','hw_network','hw_matter','hw_connectome'];
+var PRIORITY_HW=HW_IDS.filter(function(id){ return HW_OVERS.indexOf(id)<0; }).concat(HW_OVERS);
+var hView='neuron', hwBuilt=false, hwNeu=new THREE.Group(), hwDen=new THREE.Group(), hwMat=new THREE.Group(), hwNet=new THREE.Group(), HW_G={neuron:hwNeu,dendrites:hwDen,matter:hwMat,network:hwNet};
+var hwPick={neuron:[],dendrites:[],matter:[],network:[]}, hwPaths=[], hwStn=[], hwAnch={neuron:{},dendrites:{},matter:{},network:{}}, hwXrayBefore=false;
+var HW_C={neuron:new THREE.Vector3(-0.45,0.2,0),dendrites:new THREE.Vector3(0.8,0,0),matter:new THREE.Vector3(0.5,-0.05,0),network:BRAIN_C};
+var HW_DEF={neuron:{az:90*Math.PI/180,el:12*Math.PI/180},dendrites:{az:90*Math.PI/180,el:15*Math.PI/180},matter:{az:90*Math.PI/180,el:10*Math.PI/180},network:{az:40*Math.PI/180,el:22*Math.PI/180}};
+var HW_FIT={neuron:1.75,dendrites:1.55,matter:1.28,network:1.05}, HW_PW={neuron:6.6,dendrites:5.6,matter:4.8,network:2.2};
+hwNeu.visible=hwDen.visible=hwMat.visible=hwNet.visible=false; scene.add(hwNeu); scene.add(hwDen); scene.add(hwMat); scene.add(hwNet);
+function isHW(id){ return !!(id && R[id] && R[id].mode==='hw'); }
+function hwSel(){ return (isHW(selected) && HW_OVERS.indexOf(selected)<0)?selected:null; }
+function buildHW(){
+  if(hwBuilt) return; hwBuilt=true;
+  function V(a){ return a.isVector3?a.clone():new THREE.Vector3(a[0],a[1],a[2]); }
+  var rnd=(function(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; })(7731);
+  function rr(a,b){ return a+(b-a)*rnd(); }
+  function tmat(c,o){ return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.5,metalness:0},o||{})); }
+  function hreg(id,m,view,o){
+    o=o||{};
+    m.userData={region:id,hw:true,view:view,kind:o.kind||'part',pri:o.pri||2,vol:!!o.vol,box:o.parent?1:0,tex:m.userData.tex||null,spd:m.userData.spd||0.8,grp:HW_G[view],
+      base:[m.material.color.r,m.material.color.g,m.material.color.b],op0:m.material.opacity,glow:(m.material.emissive.r+m.material.emissive.g+m.material.emissive.b>0)?m.material.emissiveIntensity:0};
+    m.material.emissiveIntensity=1;
+    if(o.kind==='path') hwPaths.push(m);
+    if(o.ro) m.renderOrder=o.ro;
+    R[id].meshes.push(m); (o.parent||HW_G[view]).add(m);
+    if(!o.nopick) hwPick[view].push(m);
+    return m;
+  }
+  var buckets={}, order=[];
+  function put(id,view,key,mesh,o){ var k=id+'|'+view+'|'+key; if(!buckets[k]){ buckets[k]={id:id,view:view,list:[],o:o||{}}; order.push(k); } buckets[k].list.push(mesh); return mesh; }
+  function flush(){
+    order.forEach(function(k){
+      var b=buckets[k], L=b.list, first=L[0], m=first;
+      if(L.length>1){
+        var mat=first.material, tex=null;
+        if(first.userData.tex){ tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; mat=mat.clone(); mat.emissiveMap=tex; }
+        m=new THREE.Mesh(mergeMeshes(L),mat); m.userData.tex=tex; m.userData.spd=first.userData.spd; m.renderOrder=first.renderOrder;
+        L.forEach(function(o){ o.geometry.dispose(); });
+      }
+      hreg(b.id,m,b.view,b.o);
+    });
+    buckets={}; order=[];
+  }
+  function mesh(geo,mat,p,s){ var m=new THREE.Mesh(geo,mat); if(p) m.position.set(p[0],p[1],p[2]); if(s) m.scale.set(s[0],s[1],s[2]); return m; }
+  function curveOf(pts){ return new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'); }
+  function tube(pts,r,mat,rad){ var c=curveOf(pts); return new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(6,Math.round(c.getLength()*40)),r,rad||7,false),mat); }
+  var UP=new THREE.Vector3(0,1,0);
+  function cyl(a,b,r1,r2,mat,rad){ var A=V(a), B=V(b), d=B.clone().sub(A), L=d.length(); var m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,L,rad||7,1),mat); m.position.copy(A).add(B).multiplyScalar(0.5); m.quaternion.setFromUnitVectors(UP,d.normalize()); return m; }
+  function pulseMesh(pts,r,col,step,spd){
+    var c=curveOf(pts), L=c.getLength(), tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping;
+    tex.repeat.set(Math.max(1,Math.round(L/(step||0.16))),1); tex.offset.x=rnd();
+    var m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(10,Math.round(L*55)),r,7,false),tmat(col,{emissive:col,emissiveMap:tex,roughness:0.4}));
+    m.userData.tex=tex; m.userData.spd=spd||0.8; return m;
+  }
+  function stations(id,view,list){ list.forEach(function(st){
+    var el=document.createElement('div'); el.className='label stn'; el.style.setProperty('--c',R[id].color); el.innerHTML='<i class="dot"></i>'; el.appendChild(document.createTextNode(st[0]));
+    labelsEl.appendChild(el); hwStn.push({el:el,p:V(st[1]),n:st[2]?V(st[2]).normalize():null,id:id,view:view}); }); }
+  function anch(view,id,p,n){ hwAnch[view][id]={p:V(p),n:n?V(n).normalize():null}; }
+  function edges(geo,col,p,parent,op){ var e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:col,transparent:true,opacity:op||0.55})); e.position.set(p[0],p[1],p[2]); (parent||hwNeu).add(e); return e; }
+  function sphereBumps(r,seg,fn){ var g=new THREE.SphereGeometry(r,seg,Math.round(seg*0.7)), p=g.attributes.position, v=new THREE.Vector3(); for(var i=0;i<p.count;i++){ v.set(p.getX(i),p.getY(i),p.getZ(i)); var k=fn(v.clone().normalize()); p.setXYZ(i,v.x*k,v.y*k,v.z*k); } g.computeVertexNormals(); return g; }
+  // a branching tree of tapered cylinders; calls onSeg(a,b,r,depth) for every segment
+  function tree(root,dirs,len,r0,depth,mat,id,view,key,parent,spines,spineMat,spineId,bend){
+    bend=bend||0.45;
+    dirs.forEach(function(d0){
+      (function br(p,d,L,r,dep){
+        var dir=V(d).normalize(), e=V(p).add(dir.clone().multiplyScalar(L)), r2=r*0.78;
+        put(id,view,key,cyl(p,e,r,r2,mat),{pri:3,parent:parent});
+        if(spines && dep<=spines.maxDepth){ var n=Math.round(L*spines.per); for(var s=0;s<n;s++){ var t=rr(0.1,0.9), q=V(p).lerp(e,t), a=rnd()*6.283, side=new THREE.Vector3(Math.cos(a),0,Math.sin(a)); if(Math.abs(dir.y)<0.7){ side.crossVectors(dir,UP).normalize().applyAxisAngle(dir,a); } var L2=spines.len*rr(0.8,1.3), q2=q.clone().add(side.clone().multiplyScalar(L2));
+          put(spineId,view,key+'s',cyl(q,q2,spines.r,spines.r,spineMat,5),{pri:3,parent:parent}); put(spineId,view,key+'s',mesh(new THREE.SphereGeometry(spines.head*rr(0.8,1.25),7,5),spineMat,[q2.x,q2.y,q2.z]),{pri:3,parent:parent}); } }
+        if(dep<=0) return;
+        var ax=new THREE.Vector3(rr(-1,1),rr(-1,1),rr(-1,1)).normalize(), kids=dep===depth?2:(rnd()<0.8?2:1);
+        for(var k=0;k<kids;k++){ var nd=dir.clone().applyAxisAngle(ax,(k===0?1:-1)*rr(bend*0.6,bend)); br(e,nd,L*rr(0.68,0.85),r2,dep-1); }
+      })(root,d0,len*rr(0.85,1.15),r0,depth);
+    });
+  }
+
+  /* ---------------- 1. the neuron */
+  var SOMA=[1.1,0,0], DD=[[0.6,0.75,0.2],[0.85,0.3,0.55],[0.9,-0.2,-0.6],[0.5,-0.85,0.25],[0.8,0.45,-0.55],[0.3,0.3,0.9]];
+  var somaM=tmat(R.hw_soma.color,{transparent:true,opacity:0.86,roughness:0.45}), nucM=tmat(R.hw_nucleus.color,{roughness:0.35,emissive:R.hw_nucleus.color,emissiveIntensity:0.15});
+  var somaG=sphereBumps(0.3,56,function(n){ var k=1; DD.forEach(function(d){ var dd=V(d).normalize(); k+=0.16*Math.exp(-Math.pow(Math.acos(Math.max(-1,Math.min(1,n.dot(dd))))/0.42,2)); }); k+=0.11*Math.exp(-Math.pow(Math.acos(Math.max(-1,Math.min(1,n.dot(new THREE.Vector3(-1,0,0)))))/0.4,2)); return k; });
+  hreg('hw_soma',mesh(somaG,somaM,SOMA),'neuron',{pri:1,vol:true,ro:2});
+  hreg('hw_nucleus',mesh(new THREE.SphereGeometry(0.14,28,20),nucM,[1.12,0.02,0.02]),'neuron',{pri:2});
+  hreg('hw_nucleus',mesh(new THREE.SphereGeometry(0.045,14,10),tmat('#5b4bd6'),[1.16,0.05,0.07]),'neuron',{pri:2});
+  var DM=tmat(R.hw_dendrite.color,{roughness:0.45}), SPM=tmat(R.hw_spine.color,{roughness:0.4,emissive:R.hw_spine.color,emissiveIntensity:0.12});
+  DD.forEach(function(d){ var dd=V(d).normalize(), root=V(SOMA).add(dd.clone().multiplyScalar(0.3)); tree(root,[dd],0.42,0.06,4,DM,'hw_dendrite','neuron','d',null,{maxDepth:2,per:9,len:0.045,r:0.009,head:0.02},SPM,'hw_spine',0.5); });
+  // dendrite input pulses (decorative, animate with signals)
+  [[0.6,0.75,0.2],[0.9,-0.2,-0.6],[0.3,0.3,0.9]].forEach(function(d){ var dd=V(d).normalize(), a=V(SOMA).add(dd.clone().multiplyScalar(1.05)), b=V(SOMA).add(dd.clone().multiplyScalar(0.3)); put('hw_dendrite','neuron','p',pulseMesh([a,V(a).lerp(b,0.5),b],0.012,'#b8f2c4',0.2),{kind:'path',pri:2}); });
+  // hillock and axon
+  var HM=tmat(R.hw_hillock.color,{roughness:0.4,emissive:R.hw_hillock.color,emissiveIntensity:0.1});
+  hreg('hw_hillock',cyl([0.84,0,0],[0.56,0,0],0.13,0.035,HM,14),'neuron',{pri:3});
+  var AXP=[[0.56,0,0],[0.1,0.02,0.02],[-0.4,-0.02,0.03],[-0.9,0.0,0.0],[-1.4,-0.03,-0.02],[-1.85,-0.04,0.0],[-2.1,-0.05,0]];
+  var axC=curveOf(AXP), axL=axC.getLength();
+  function up(v,d){ return [v.x,v.y+d,v.z]; }
+  var axon=pulseMesh(AXP,0.03,R.hw_axon.color,0.3,1.2); hreg('hw_axon',axon,'neuron',{kind:'path',pri:2});
+  var MYM=tmat(R.hw_myelin.color,{roughness:0.55}), NDM=tmat(R.hw_node.color,{roughness:0.4,emissive:R.hw_node.color,emissiveIntensity:0.25}), nodes=[];
+  var nSeg=6, gap=0.05/axL, t0=0.12;
+  for(var i=0;i<nSeg;i++){
+    var a=t0+i*(1-t0)/nSeg, b=a+(1-t0)/nSeg-gap; if(i===nSeg-1) b-=0.07;
+    var sub=new THREE.Curve(); sub.getPoint=function(t,o){ return axC.getPointAt(this.a+(this.b-this.a)*t,o); }; sub.a=a; sub.b=b;
+    var g=new THREE.TubeGeometry(sub,24,0.075,14,false); put('hw_myelin','neuron','m',new THREE.Mesh(g,MYM),{pri:2});
+    [a,b].forEach(function(t){ var c=axC.getPointAt(t), e=mesh(new THREE.SphereGeometry(0.078,14,10),MYM,[c.x,c.y,c.z],[0.35,1,1]); put('hw_myelin','neuron','m',e,{pri:2}); });
+    if(i<nSeg-1){ var cn=axC.getPointAt(b+gap/2); nodes.push(cn); var ring=mesh(new THREE.TorusGeometry(0.04,0.012,8,24),NDM,[cn.x,cn.y,cn.z]); ring.rotation.y=Math.PI/2; put('hw_node','neuron','n',ring,{pri:3}); }
+  }
+  // oligodendrocyte
+  var GM=tmat(R.hw_glia.color,{roughness:0.45,emissive:R.hw_glia.color,emissiveIntensity:0.1}), GB=[-0.45,0.42,0.18];
+  hreg('hw_glia',mesh(sphereBumps(0.09,24,function(n){ return 1+0.1*Math.sin(5*n.x+3*n.y); }),GM,GB),'neuron',{pri:3});
+  [1,2].forEach(function(si){ var tm=axC.getPointAt(t0+(si+0.5)*(1-t0)/nSeg), top=[tm.x,tm.y+0.07,tm.z]; put('hw_glia','neuron','g',tube([GB,[(GB[0]+top[0])/2,GB[1]-0.05,(GB[2]+top[2])/2+0.08],top],0.02,GM),{pri:3}); put('hw_glia','neuron','g',tube([top,[top[0]+0.12,top[1]-0.01,top[2]],[top[0]+0.2,top[1]-0.02,top[2]]],0.016,GM),{pri:3}); });
+  [[0.1,0.1,0.05],[-0.12,0.08,-0.06],[0.02,-0.05,0.1]].forEach(function(o){ put('hw_glia','neuron','g',tube([GB,[GB[0]+o[0]*1.5,GB[1]+o[1]*1.5,GB[2]+o[2]*1.5],[GB[0]+o[0]*3,GB[1]+o[1]*3,GB[2]+o[2]*3]],0.012,GM),{pri:3}); });
+  // terminals and a target dendrite
+  var TM=tmat(R.hw_terminal.color,{roughness:0.4,emissive:R.hw_terminal.color,emissiveIntensity:0.2}), END=axC.getPointAt(1), TGT=tmat('#aab4c8',{roughness:0.6});
+  hwNeu.add(tube([[-2.48,-0.75,0.05],[-2.46,-0.3,0.0],[-2.45,0.1,-0.03],[-2.47,0.5,0.02],[-2.5,0.8,0.05]],0.055,TGT,10));
+  var BOUT=[[-2.4,0.42,0.0],[-2.39,0.15,0.06],[-2.4,-0.12,-0.03],[-2.41,-0.4,0.04],[-2.38,-0.6,-0.02]];
+  BOUT.forEach(function(bp){ put('hw_terminal','neuron','t',pulseMesh([[END.x,END.y,END.z],[END.x-0.12,(END.y+bp[1])/2,bp[2]*0.5],bp],0.016,R.hw_terminal.color,0.14),{kind:'path',pri:3}); put('hw_terminal','neuron','b',mesh(new THREE.SphereGeometry(0.05,14,10),TM,bp),{pri:3}); });
+  // the synapse, enlarged
+  var SC=[-1.55,1.15,0], SYB=new THREE.BoxGeometry(1.0,0.8,0.5);
+  hreg('hw_synapse',mesh(SYB,tmat(R.hw_synapse.color,{transparent:true,opacity:0.07,depthWrite:false}),SC),'neuron',{pri:1,vol:true,ro:1}); edges(SYB,R.hw_synapse.color,SC,hwNeu);
+  var PRE=tmat('#2ec4b6',{transparent:true,opacity:0.5,roughness:0.4,depthWrite:false}), POST=tmat('#7bd88f',{transparent:true,opacity:0.6,roughness:0.4,depthWrite:false});
+  var preC=[SC[0]-0.2,SC[1]+0.08,SC[2]], postC=[SC[0]+0.24,SC[1]-0.08,SC[2]];
+  hreg('hw_synapse',mesh(new THREE.SphereGeometry(1,32,22),PRE,preC,[0.3,0.25,0.25]),'neuron',{pri:1,vol:true,ro:3});
+  hreg('hw_synapse',tube([[SC[0]-0.5,SC[1]+0.4,SC[2]],[SC[0]-0.38,SC[1]+0.25,SC[2]],preC],0.05,tmat('#2ec4b6',{roughness:0.45})),'neuron',{pri:2});
+  hreg('hw_synapse',mesh(new THREE.SphereGeometry(1,32,22),POST,postC,[0.2,0.2,0.2]),'neuron',{pri:1,vol:true,ro:3});
+  hreg('hw_synapse',tube([postC,[SC[0]+0.3,SC[1]-0.22,SC[2]],[SC[0]+0.36,SC[1]-0.4,SC[2]]],0.035,tmat('#7bd88f',{roughness:0.45})),'neuron',{pri:2});
+  hreg('hw_synapse',tube([[SC[0]+0.15,SC[1]-0.4,SC[2]-0.2],[SC[0]+0.36,SC[1]-0.4,SC[2]],[SC[0]+0.5,SC[1]-0.42,SC[2]+0.1]],0.045,tmat('#7bd88f',{roughness:0.45})),'neuron',{pri:2});
+  var mito=mesh(THREE.CapsuleGeometry?new THREE.CapsuleGeometry(0.03,0.08,4,10):new THREE.SphereGeometry(1,12,9).scale(0.035,0.07,0.035),tmat('#e03131',{roughness:0.4}),[preC[0]-0.12,preC[1]+0.08,preC[2]+0.05]); mito.rotation.z=0.6; hreg('hw_synapse',mito,'neuron',{pri:2});
+  var VM=tmat(R.hw_vesicles.color,{roughness:0.35,emissive:R.hw_vesicles.color,emissiveIntensity:0.2});
+  for(var vi=0;vi<16;vi++){ var u=rr(-1,1), a2=rnd()*6.283, q=Math.sqrt(1-u*u)*rr(0.2,0.75); var vp=[preC[0]+q*Math.cos(a2)*0.3*0.9+0.06,preC[1]+u*0.25*0.7,preC[2]+q*Math.sin(a2)*0.25*0.8]; put('hw_vesicles','neuron','v',mesh(new THREE.SphereGeometry(0.024,10,8),VM,vp),{pri:3}); }
+  [[0.26,0.04,0.02],[0.27,-0.04,-0.03],[0.265,0.0,0.07]].forEach(function(o){ put('hw_vesicles','neuron','v',mesh(new THREE.SphereGeometry(0.024,10,8),VM,[preC[0]+o[0],preC[1]+o[1],preC[2]+o[2]]),{pri:3}); });
+  for(var ti=0;ti<14;ti++) put('hw_vesicles','neuron','v',mesh(new THREE.SphereGeometry(0.008,6,5),VM,[preC[0]+0.3+rr(0.0,0.07),preC[1]+rr(-0.12,0.1),preC[2]+rr(-0.1,0.1)]),{pri:3});
+  var RM=tmat(R.hw_receptors.color,{roughness:0.35,emissive:R.hw_receptors.color,emissiveIntensity:0.2});
+  for(var ri=0;ri<8;ri++){ var ang=rr(-0.9,0.9), ph=rr(-0.9,0.9), nx=-Math.cos(ang)*Math.cos(ph), ny=Math.sin(ph), nz=Math.sin(ang)*Math.cos(ph); var base=[postC[0]+nx*0.2,postC[1]+ny*0.2,postC[2]+nz*0.2]; put('hw_receptors','neuron','r',cyl(base,[base[0]+nx*0.05,base[1]+ny*0.05,base[2]+nz*0.05],0.014,0.014,RM,6),{pri:3}); }
+  hreg('hw_receptors',mesh(new THREE.SphereGeometry(1,20,14),tmat('#1b9c85',{roughness:0.4}),[postC[0]-0.17,postC[1]-0.03,postC[2]],[0.03,0.11,0.11]),'neuron',{pri:2});   // postsynaptic density
+  // magnifier line from the real terminal to the inset
+  (function(){ var sp=V(BOUT[1]), lm=new THREE.LineBasicMaterial({color:'#8fa3c8',transparent:true,opacity:0.5}), lp=[];
+    [[-0.5,0.4,0.25],[-0.5,-0.4,0.25]].forEach(function(c){ lp.push(sp.x,sp.y,sp.z,SC[0]+c[0],SC[1]+c[1],SC[2]+c[2]); });
+    var lg=new THREE.BufferGeometry(); lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3)); hwNeu.add(new THREE.LineSegments(lg,lm)); })();
+  flush();
+  anch('neuron','hw_neuron',[1.1,0.32,0]); anch('neuron','hw_soma',[1.12,-0.3,0.12]); anch('neuron','hw_nucleus',[1.12,0.02,0.16]);
+  anch('neuron','hw_dendrite',V(SOMA).add(V(DD[1]).normalize().multiplyScalar(0.9))); anch('neuron','hw_spine',V(SOMA).add(V(DD[0]).normalize().multiplyScalar(1.1)));
+  anch('neuron','hw_hillock',[0.7,0.08,0]); anch('neuron','hw_axon',up(axC.getPointAt(0.06),0.12)); anch('neuron','hw_myelin',up(axC.getPointAt(0.5),-0.1)); anch('neuron','hw_node',up(nodes[1],0.1));
+  anch('neuron','hw_glia',GB); anch('neuron','hw_terminal',BOUT[0]); anch('neuron','hw_synapse',[SC[0],SC[1]+0.4,SC[2]]); anch('neuron','hw_vesicles',[preC[0],preC[1]+0.26,preC[2]]); anch('neuron','hw_receptors',[postC[0],postC[1]-0.22,postC[2]]);
+  anch('neuron','hw_potential',[nodes[2].x,nodes[2].y+0.52,nodes[2].z]);
+  stations('hw_soma','neuron',[['Nucleus',[1.12,0.02,0.14]],['Protein-making machinery',[1.0,-0.2,0.2]],['Mitochondria: energy',[1.25,-0.15,-0.15]]]);
+  stations('hw_dendrite','neuron',[['Primary dendrite',V(SOMA).add(V(DD[3]).normalize().multiplyScalar(0.45))],['Branches',V(SOMA).add(V(DD[2]).normalize().multiplyScalar(0.95))],['Signals flow toward the cell body',V(SOMA).add(V(DD[0]).normalize().multiplyScalar(0.6))]]);
+  stations('hw_axon','neuron',[['Initial segment',[0.5,0.14,0]],['Myelinated axon',up(axC.getPointAt(0.45),-0.15)],['Branches at the end',[END.x-0.1,END.y+0.1,END.z]]]);
+  stations('hw_myelin','neuron',[['Myelin segment (internode)',up(axC.getPointAt(0.3),-0.15)],['Node of Ranvier',up(nodes[0],0.14)],['Made by an oligodendrocyte',[GB[0],GB[1]+0.1,GB[2]]]]);
+  stations('hw_node','neuron',nodes.map(function(n,i){ return [i===0?'Bare gap, 1 µm wide':(i===2?'Sodium channels renew the pulse':'Node'),[n.x,n.y+(i%2?-0.14:0.14),n.z]]; }));
+  stations('hw_glia','neuron',[['Oligodendrocyte body',[GB[0],GB[1]+0.1,GB[2]]],['Arms wrap the axon',[GB[0]-0.2,GB[1]-0.25,GB[2]]]]);
+  stations('hw_terminal','neuron',[['Bouton',BOUT[0]],['Target dendrite (another neuron)',[-2.47,0.7,0.05]],['Axon branches',[END.x-0.12,END.y-0.3,END.z]]]);
+  stations('hw_synapse','neuron',[['Sending terminal (presynaptic)',[preC[0],preC[1]+0.28,preC[2]]],['Synaptic cleft: 20–40 nm',[SC[0]+0.05,SC[1]-0.2,SC[2]]],['Receiving spine (postsynaptic)',[postC[0],postC[1]-0.24,postC[2]]],['Mitochondrion',[preC[0]-0.2,preC[1]+0.14,preC[2]]]]);
+  stations('hw_vesicles','neuron',[['Vesicles full of messenger',[preC[0]-0.05,preC[1]+0.1,preC[2]]],['Docked at the active zone',[preC[0]+0.27,preC[1]+0.08,preC[2]]],['Messenger crossing the gap',[preC[0]+0.34,preC[1]-0.12,preC[2]]]]);
+  stations('hw_receptors','neuron',[['Receptors catch the messenger',[postC[0]-0.2,postC[1]+0.1,postC[2]]],['Postsynaptic density',[postC[0]-0.17,postC[1]-0.14,postC[2]]]]);
+  stations('hw_potential','neuron',[['1. Inputs add up at the hillock',[0.7,0.16,0]],['2. Threshold −55 mV: sodium rushes in',[0.25,-0.16,0]],['3. Peak about +40 mV',up(nodes[0],0.34)],['4. Potassium flows out: reset',up(nodes[1],-0.34)],['5. Leaps from node to node',up(nodes[3],0.16)],['6. Reaches the terminals',[END.x,END.y-0.16,END.z]]]);
+
+  /* ---------------- 2. dendrites at work: a small network */
+  var NETM=tmat('#9fb3d1',{roughness:0.5}), NETAX=R.hw_network.color, TREEM=tmat(R.hw_tree.color,{roughness:0.45}), EXM=tmat('#2ec4b6',{roughness:0.4,emissive:'#2ec4b6',emissiveIntensity:0.3}), INM=tmat('#ef476f',{roughness:0.4,emissive:'#ef476f',emissiveIntensity:0.3});
+  var HERO=[0,0,0], heroDirs=[[0,1,0],[0.8,0.5,0.3],[-0.8,0.45,-0.3],[0.6,-0.5,0.5],[-0.65,-0.55,-0.4],[0.1,-0.3,-0.9]];
+  hreg('hw_tree',mesh(sphereBumps(0.17,40,function(n){ var k=1; heroDirs.forEach(function(d){ k+=0.15*Math.exp(-Math.pow(Math.acos(Math.max(-1,Math.min(1,n.dot(V(d).normalize()))))/0.4,2)); }); return k; }),TREEM,HERO),'dendrites',{pri:3});
+  heroDirs.forEach(function(d,i){ var dd=V(d).normalize(), root=V(HERO).add(dd.clone().multiplyScalar(0.17)); tree(root,[dd],i===0?0.42:0.3,0.04,i===0?4:3,TREEM,'hw_tree','dendrites','t',null,{maxDepth:2,per:5,len:0.03,r:0.006,head:0.014},tmat('#b8f2c4'),'hw_tree',0.5); });
+  var heroAx=[[0,-0.17,0],[0.05,-0.6,0.05],[0.3,-1.0,0.1],[0.9,-1.25,0.1],[1.45,-1.3,0.05]];
+  put('hw_tree','dendrites','ax',pulseMesh(heroAx,0.02,R.hw_tree.color,0.22,1.0),{kind:'path',pri:2});
+  [[1.5,-1.22,0.1],[1.52,-1.38,0.0]].forEach(function(bp){ put('hw_tree','dendrites','ax',mesh(new THREE.SphereGeometry(0.035,10,8),TREEM,bp),{pri:2}); });
+  var OTH=[[-1.3,0.7,-0.3],[-1.1,-0.6,0.4],[0.9,0.95,0.4],[1.2,0.1,-0.5],[-0.3,1.35,0.3]], inputs=[];
+  OTH.forEach(function(c,i){
+    hreg('hw_network',mesh(sphereBumps(0.11,24,function(n){ return 1+0.08*Math.sin(4*n.x+5*n.z); }),NETM,c),'dendrites',{pri:3});
+    var away=V(c).sub(V(HERO)).normalize(), dirs=[]; for(var k=0;k<3;k++){ dirs.push(away.clone().applyAxisAngle(new THREE.Vector3(rr(-1,1),rr(-1,1),rr(-1,1)).normalize(),rr(0.4,1.1))); }
+    tree(V(c).add(away.clone().multiplyScalar(0.1)),dirs,0.22,0.025,2,NETM,'hw_network','dendrites','n'+i,null,null,null,null,0.5);
+    var inh=(i===1||i===3), tgtDir=V(heroDirs[(i*2+1)%heroDirs.length]).normalize(), tgt=V(HERO).add(tgtDir.multiplyScalar(inh?0.22:rr(0.45,0.7)));
+    var mid=V(c).lerp(tgt,0.5); mid.y+=rr(-0.15,0.15); mid.z+=rr(-0.2,0.2);
+    put('hw_network','dendrites','p',pulseMesh([V(c).add(V(HERO).sub(V(c)).normalize().multiplyScalar(0.1)),mid,tgt],0.016,inh?'#ef476f':NETAX,0.2,inh?0.7:0.9),{kind:'path',pri:2});
+    put('hw_inputs','dendrites','b',mesh(new THREE.SphereGeometry(0.04,12,9),inh?INM:EXM,[tgt.x,tgt.y,tgt.z]),{pri:3}); inputs.push({p:tgt,inh:inh});
+  });
+  // plasticity inset: a weak and a strengthened synapse
+  var LC=[2.0,0.95,0], LB=new THREE.BoxGeometry(1.1,0.7,0.45);
+  hreg('hw_ltp',mesh(LB,tmat(R.hw_ltp.color,{transparent:true,opacity:0.06,depthWrite:false}),LC),'dendrites',{pri:1,vol:true,ro:1}); edges(LB,R.hw_ltp.color,LC,hwDen);
+  hreg('hw_ltp',tube([[LC[0]-0.55,LC[1]-0.22,0],[LC[0],LC[1]-0.24,0],[LC[0]+0.55,LC[1]-0.22,0]],0.05,tmat('#7bd88f',{roughness:0.45}),10),'dendrites',{pri:2});
+  [[-0.28,0.6],[0.28,1.6]].forEach(function(q){ var s=q[1], x=LC[0]+q[0], neck=[x,LC[1]-0.18,0], head=[x,LC[1]+0.02+0.05*s,0];
+    put('hw_ltp','dendrites','sp',cyl(neck,head,0.012*s,0.012*s,tmat('#7bd88f'),6),{pri:3}); put('hw_ltp','dendrites','sp',mesh(new THREE.SphereGeometry(0.05*s,16,12),tmat('#80ed99',{roughness:0.4}),head),{pri:3});
+    var n=Math.round(2+3*s); for(var k=0;k<n;k++){ var a=-0.9+1.8*(k+0.5)/n, bx=head[0]+Math.sin(a)*0.05*s, by=head[1]+Math.cos(a)*0.05*s; put('hw_ltp','dendrites','sp',cyl([bx,by,0],[bx+Math.sin(a)*0.03,by+Math.cos(a)*0.03,0],0.008,0.008,RM,5),{pri:3}); }
+    var bout=[head[0],head[1]+0.05*s+0.03+0.07*s,0]; put('hw_ltp','dendrites','sp',mesh(new THREE.SphereGeometry(0.07*s,16,12),tmat(q[0]<0?'#9fb3d1':'#2ec4b6',{roughness:0.4,emissive:q[0]<0?'#000000':'#2ec4b6',emissiveIntensity:0.25}),bout),{pri:3});
+    put('hw_ltp','dendrites','p',pulseMesh([[bout[0]+0.25,LC[1]+0.33,0],[bout[0]+0.1,bout[1]+0.08,0],bout],0.012+0.006*s,q[0]<0?'#9fb3d1':'#2ec4b6',0.15,q[0]<0?0.4:1.3),{kind:'path',pri:3});
+    var m=Math.round(3*s); for(var v=0;v<m;v++) put('hw_ltp','dendrites','sp',mesh(new THREE.SphereGeometry(0.012,6,5),VM,[bout[0]+rr(-0.04,0.04)*s,bout[1]-0.02-rr(0,0.03)*s,rr(-0.03,0.03)]),{pri:3});
+  });
+  // growth and pruning inset: three ages
+  var GRM=tmat(R.hw_grow.color,{roughness:0.45}), GRS=tmat('#bde0fe');
+  [[1.45,2,3,0.22,2],[2.05,6,4,0.26,7],[2.65,5,3,0.3,3]].forEach(function(g,i){ var c=[g[0],-0.75,0], dirs=[]; for(var k=0;k<g[1];k++){ var a=k/g[1]*6.283+0.4; dirs.push([Math.cos(a)*0.8,Math.sin(a),Math.sin(a*2)*0.4]); }
+    put('hw_grow','dendrites','gc',mesh(new THREE.SphereGeometry(0.07+0.01*i,16,12),GRM,c),{pri:3});
+    tree(c,dirs,g[3]*0.5,0.02+0.004*i,g[2],GRM,'hw_grow','dendrites','g'+i,null,{maxDepth:1,per:g[4],len:0.02,r:0.004,head:0.009},GRS,'hw_grow',0.55); });
+  flush();
+  anch('dendrites','hw_network',[-1.3,0.95,-0.3]); anch('dendrites','hw_tree',[0.15,0.75,0]); anch('dendrites','hw_inputs',inputs[2].p); anch('dendrites','hw_sum',[0.2,-0.1,0]);
+  anch('dendrites','hw_ltp',[LC[0],LC[1]+0.35,0]); anch('dendrites','hw_grow',[2.05,-0.3,0]);
+  stations('hw_network','dendrites',[['Sending neurons',[-1.3,0.9,-0.3]],['Receiving neuron',[0.2,0.45,0]],['Output to the next cell',[1.5,-1.1,0.1]]]);
+  stations('hw_tree','dendrites',[['Apical dendrite',[0.05,0.9,0]],['Basal dendrites',[0.75,-0.45,0.45]],['Axon',[0.4,-1.05,0.1]]]);
+  stations('hw_inputs','dendrites',inputs.map(function(q,i){ return [q.inh?'Inhibitory (−)':'Excitatory (+)',q.p]; }));
+  stations('hw_sum','dendrites',[['Inputs arrive on the branches',[0.6,0.5,0.3]],['Signals add up on the way in',[0.3,0.3,0.1]],['Sum read at the axon hillock',[0.02,-0.2,0]],['Fires if the sum crosses threshold',[0.2,-0.9,0.1]]]);
+  stations('hw_ltp','dendrites',[['Weak synapse: thin spine, few receptors',[LC[0]-0.28,LC[1]+0.3,0]],['Strong synapse: large spine, more receptors',[LC[0]+0.28,LC[1]+0.38,0]],['Shared dendrite',[LC[0],LC[1]-0.3,0]]]);
+  stations('hw_grow','dendrites',[['Newborn: few branches',[1.45,-1.1,0]],['Age 2–3: densest',[2.05,-1.15,0]],['Adult: pruned and refined',[2.65,-1.1,0]]]);
+
+  /* ---------------- 3. grey and white matter: a coronal slice, a micro block and a speed demo */
+  function outline(s,inset){ var pts=[], N=200, cx=s*0.34, cy=0.15, rx=0.5, ry=0.62;
+    for(var i=0;i<N;i++){ var th=Math.PI/2-i/N*2*Math.PI, r=1-0.13*Math.pow(0.5+0.5*Math.sin(7*th+0.6),3)*(0.6+0.4*Math.cos(th));
+      r+=0.07*Math.exp(-Math.pow((th+0.75)/0.3,2)); r-=0.2*Math.exp(-Math.pow((th+0.22)/0.07,2)); r-=inset;
+      var x=cx+s*rx*r*Math.cos(th), y=cy+ry*r*Math.sin(th)*(Math.sin(th)<0?0.72:1);
+      if(s*x<0.04+inset*0.6) x=s*(0.04+inset*0.6); pts.push(new THREE.Vector2(x,y)); }
+    return pts; }
+  function extrude(shape,depth,mat,ro){ var g=new THREE.ExtrudeGeometry(shape,{depth:depth,bevelEnabled:false}); g.translate(0,0,-depth/2); var m=new THREE.Mesh(g,mat); if(ro) m.renderOrder=ro; return m; }
+  function ell(cx,cy,rx,ry,rot){ var sh=new THREE.Shape(); sh.absellipse(cx,cy,rx,ry,0,Math.PI*2,false,rot||0); return sh; }
+  var GREY=tmat('#b06f6a',{roughness:0.8}), WHITE=tmat('#f4ecdf',{roughness:0.6}), DEEP=tmat('#8f7ad8',{roughness:0.55}), CSF=tmat('#5aa9e6',{roughness:0.3,emissive:'#1d4e89',emissiveIntensity:0.2});
+  [1,-1].forEach(function(s){
+    var outer=new THREE.Shape(outline(s,0)), inner=new THREE.Path(outline(s,0.11)); outer.holes.push(inner);
+    hreg('hw_grey',extrude(outer,0.14,GREY),'matter',{pri:2});
+    hreg('hw_white',extrude(new THREE.Shape(outline(s,0.11)),0.14,WHITE),'matter',{pri:2});
+    hreg('hw_matter',extrude(ell(s*0.15,0.33,0.085,0.045,s*-0.35),0.165,CSF),'matter',{pri:2,nopick:true});       // lateral ventricle
+    [[0.2,0.37,0.055,0.045],[0.31,0.1,0.065,0.14],[0.235,0.08,0.04,0.09],[0.13,0.12,0.1,0.1]].forEach(function(e){ hreg('hw_deep',extrude(ell(s*e[0],e[1],e[2],e[3],0),0.16,DEEP),'matter',{pri:3}); });
+  });
+  (function(){ var cc=new THREE.Shape(); cc.moveTo(-0.3,0.43); cc.quadraticCurveTo(0,0.47,0.3,0.43); cc.lineTo(0.3,0.5); cc.quadraticCurveTo(0,0.55,-0.3,0.5); cc.closePath(); hreg('hw_white',extrude(cc,0.15,WHITE),'matter',{pri:3}); })();
+  hreg('hw_matter',extrude(ell(0,0.1,0.02,0.09,0),0.165,CSF),'matter',{pri:2,nopick:true});                                   // third ventricle
+  hreg('hw_deep',extrude(ell(0,-0.06,0.08,0.05,0),0.15,tmat('#c9a0dc',{roughness:0.6})),'matter',{pri:3});                  // hypothalamus
+  (function(){ var st=new THREE.Shape(); st.moveTo(-0.15,-0.08); st.lineTo(0.15,-0.08); st.lineTo(0.11,-0.75); st.lineTo(-0.11,-0.75); st.closePath(); var m=extrude(st,0.12,tmat('#c9b8a6',{roughness:0.65})); m.position.z=-0.01; hwMat.add(m); })();
+  // micro block: grey (left) and white (right)
+  var BC=[1.62,0.42,0], BG=new THREE.BoxGeometry(0.9,0.9,0.6);
+  hreg('hw_block',mesh(BG,tmat(R.hw_block.color,{transparent:true,opacity:0.06,depthWrite:false}),BC),'matter',{pri:1,vol:true,ro:1}); edges(BG,R.hw_block.color,BC,hwMat);
+  hreg('hw_block',mesh(new THREE.BoxGeometry(0.45,0.9,0.6),tmat(R.hw_grey.color,{transparent:true,opacity:0.18,depthWrite:false}),[BC[0]-0.225,BC[1],BC[2]]),'matter',{pri:1,vol:true,ro:1,nopick:true});
+  var CB=tmat('#e8b4b8',{roughness:0.5}), CAP=tmat('#e03131',{roughness:0.4});
+  for(var ci=0;ci<14;ci++){ var cp=[BC[0]-0.45+rr(0.08,0.37),BC[1]+rr(-0.4,0.4),BC[2]+rr(-0.25,0.25)]; put('hw_block','matter','cb',mesh(new THREE.SphereGeometry(0.032,10,8),CB,cp),{pri:3});
+    for(var dk=0;dk<3;dk++){ var a=rnd()*6.283, u=rr(-0.8,0.8), L=rr(0.08,0.16); put('hw_block','matter','cb',cyl(cp,[cp[0]+Math.cos(a)*L*0.6,cp[1]+u*L,cp[2]+Math.sin(a)*L*0.6],0.007,0.004,CB,5),{pri:3}); } }
+  for(var ui=0;ui<10;ui++){ var y=rr(-0.4,0.4), z=rr(-0.25,0.25); put('hw_block','matter','ua',tube([[BC[0]-0.45,BC[1]+y,BC[2]+z],[BC[0]-0.3,BC[1]+y+rr(-0.1,0.1),BC[2]+z+rr(-0.08,0.08)],[BC[0]-0.1,BC[1]+y+rr(-0.1,0.1),BC[2]+z]],0.005,tmat('#f1d3d6'),5),{pri:3}); }
+  put('hw_block','matter','cap',tube([[BC[0]-0.4,BC[1]-0.45,BC[2]+0.2],[BC[0]-0.3,BC[1]-0.1,BC[2]+0.1],[BC[0]-0.2,BC[1]+0.2,BC[2]-0.05],[BC[0]-0.05,BC[1]+0.45,BC[2]-0.1]],0.02,CAP,8),{pri:3});
+  for(var wi=0;wi<12;wi++){ var yy=BC[1]-0.38+0.076*wi, zz=BC[2]+(wi%2?0.14:-0.14)+rr(-0.06,0.06);
+    put('hw_block','matter','wa',tube([[BC[0]+0.02,yy,zz],[BC[0]+0.25,yy+rr(-0.02,0.02),zz],[BC[0]+0.45,yy,zz]],0.028,WHITE,8),{pri:3});
+    put('hw_block','matter','wc',tube([[BC[0]+0.02,yy,zz],[BC[0]+0.45,yy,zz]],0.01,tmat(R.hw_axon.color),5),{pri:3}); }
+  // speed demo
+  var SD=[1.62,-0.72,0];
+  put('hw_speed','matter','slow',pulseMesh([[SD[0]-0.7,SD[1]+0.18,0],[SD[0],SD[1]+0.18,0],[SD[0]+0.7,SD[1]+0.18,0]],0.018,'#ff9f43',0.35,0.3),{kind:'path',pri:3});
+  var fast=pulseMesh([[SD[0]-0.7,SD[1]-0.18,0],[SD[0],SD[1]-0.18,0],[SD[0]+0.7,SD[1]-0.18,0]],0.022,R.hw_axon.color,0.47,2.6); put('hw_speed','matter','fast',fast,{kind:'path',pri:3});
+  for(var mi=0;mi<4;mi++){ var x0=SD[0]-0.66+mi*0.35; put('hw_speed','matter','my',tube([[x0,SD[1]-0.18,0],[x0+0.27,SD[1]-0.18,0]],0.05,MYM,12),{pri:3}); if(mi<3) put('hw_speed','matter','nd',mesh(new THREE.TorusGeometry(0.03,0.009,6,20),NDM,[x0+0.31,SD[1]-0.18,0]),{pri:3}); }
+  flush();
+  R.hw_speed.meshes.forEach(function(m){ if(m.userData.tex && m.material.emissiveMap) m.material.emissiveMap.repeat.x=Math.max(1,Math.round(1.4/(m.userData.spd>1?0.47:0.35))); });
+  anch('matter','hw_matter',[0,0.86,0.08]); anch('matter','hw_grey',[-0.62,0.35,0.08]); anch('matter','hw_white',[0.3,0.25,0.08]); anch('matter','hw_deep',[0.3,0.1,0.09]);
+  anch('matter','hw_block',[BC[0],BC[1]+0.46,BC[2]+0.3]); anch('matter','hw_speed',[SD[0],SD[1]+0.4,0]); anch('matter','hw_mind',[0,-0.45,0.08]);
+  stations('hw_matter','matter',[['Grey matter: cortex ribbon',[-0.7,0.4,0.08]],['White matter',[0.3,0.3,0.08]],['Corpus callosum',[0,0.5,0.09]],['Lateral ventricle',[-0.15,0.33,0.1]],['Deep grey nuclei',[0.3,0.1,0.09]],['Brainstem',[0,-0.5,0.07]]]);
+  stations('hw_grey','matter',[['Gyrus (ridge)',[-0.5,0.72,0.08]],['Sulcus (groove)',[-0.78,0.1,0.08]],['Thalamus and basal ganglia: deep grey',[0.3,0.12,0.09]],['Temporal lobe cortex',[0.7,-0.3,0.08]]]);
+  stations('hw_white','matter',[['Corpus callosum: links the hemispheres',[0,0.52,0.09]],['Corona radiata',[-0.4,0.42,0.08]],['Internal capsule',[0.21,0.2,0.09]],['Association fibers',[0.45,-0.05,0.08]]]);
+  stations('hw_deep','matter',[['Caudate',[0.2,0.4,0.1]],['Putamen',[0.31,0.1,0.1]],['Globus pallidus',[0.235,0.0,0.1]],['Thalamus',[-0.13,0.12,0.1]],['Third ventricle',[0,0.2,0.1]],['Hypothalamus',[0,-0.1,0.09]]]);
+  stations('hw_block','matter',[['Grey matter: cell bodies and dendrites',[BC[0]-0.22,BC[1]+0.5,BC[2]]],['White matter: myelinated axons',[BC[0]+0.22,BC[1]+0.5,BC[2]]],['Capillary',[BC[0]-0.05,BC[1]+0.3,BC[2]-0.1]]]);
+  stations('hw_speed','matter',[['Bare axon: about 1 m/s',[SD[0],SD[1]+0.3,0]],['Myelinated axon: up to 120 m/s',[SD[0],SD[1]-0.32,0]]]);
+  stations('hw_mind','matter',[['Grey matter: computing power',[-0.62,0.55,0.08]],['White matter: speed and coordination',[0.35,0.3,0.08]],['Frontal and parietal areas work together',[0,0.9,0.08]]]);
+
+  /* ---------------- 4. communication across the brain */
+  var GHOST=tmat('#9fb3d1',{transparent:true,opacity:0.13,roughness:0.8,depthWrite:false});
+  [leftHemi,rightHemi].forEach(function(h){ hreg('hw_connectome',new THREE.Mesh(h.geometry,GHOST),'network',{pri:1,vol:true,ro:9,nopick:true}); });
+  R.cerebellum.meshes.concat(R.midbrain.meshes,R.pons.meshes,R.medulla.meshes).forEach(function(m){ var g=new THREE.Mesh(m.geometry,GHOST); g.position.copy(m.position); g.scale.copy(m.scale); hreg('hw_connectome',g,'network',{pri:1,vol:true,ro:9,nopick:true}); });
+  function sp(d,s){ return surfacePoint(d,s,0.0); }
+  var HUB={}; [1,-1].forEach(function(s){ HUB['mpfc'+s]=[s*0.07,0.3,0.78]; HUB['pcc'+s]=[s*0.07,0.48,-0.32]; HUB['prec'+s]=[s*0.07,0.62,-0.5];
+    HUB['dlpfc'+s]=sp([0.7,0.5,0.6],s); HUB['ipl'+s]=sp([0.8,0.5,-0.5],s); HUB['temp'+s]=sp([0.95,-0.3,-0.1],s); HUB['v1'+s]=sp([0.2,0.05,-1],s); HUB['motor'+s]=sp([0.6,0.85,0.05],s);
+    HUB['ins'+s]=[s*0.56,0.0,0.08]; HUB['thal'+s]=[s*0.14,0.12,-0.05]; HUB['hip'+s]=[s*0.33,-0.15,-0.2]; });
+  var HUBM=tmat(R.hw_hubs.color,{roughness:0.35,emissive:R.hw_hubs.color,emissiveIntensity:0.45}), THM=tmat('#ff8fa3',{roughness:0.35,emissive:'#ff8fa3',emissiveIntensity:0.45});
+  Object.keys(HUB).forEach(function(k){ var p=HUB[k], big=/^(pcc|prec|mpfc|ipl|thal)/.test(k); put('hw_hubs','network','h',mesh(new THREE.SphereGeometry(big?0.065:0.048,16,12),/^thal/.test(k)?THM:HUBM,V(p).toArray()),{pri:3}); });
+  function arc(a,b,col,lift,step){ var A=V(a), B=V(b), M=A.clone().lerp(B,0.5), d=M.clone().sub(BRAIN_C).normalize(); M.add(d.multiplyScalar(lift)); put('hw_arcs','network','a'+col,pulseMesh([A,M,B],0.014,col,step||0.18,0.9),{kind:'path',pri:2}); }
+  var ASC='#4cc9f0', COM='#f2c14e', PRJ='#ff8fa3';
+  [1,-1].forEach(function(s){
+    [['mpfc','pcc',0.3],['pcc','ipl',0.18],['pcc','hip',0.1],['pcc','prec',0.05],['dlpfc','ipl',0.22],['temp','dlpfc',0.25],['ins','mpfc',0.15],['v1','ipl',0.15],['motor','dlpfc',0.1],['temp','hip',0.05],['prec','v1',0.12]].forEach(function(e){ arc(HUB[e[0]+s],HUB[e[1]+s],ASC,e[2]); });
+    ['dlpfc','ipl','v1','motor','mpfc','pcc'].forEach(function(k){ var p=HUB[k+s]; arc(HUB['thal'+s],p,PRJ,0.04,0.14); });
+  });
+  ['dlpfc','ipl','v1','motor','temp'].forEach(function(k){ var A=V(HUB[k+1]), B=V(HUB[k+'-1']), M=new THREE.Vector3(0,Math.max(0.5,(A.y+B.y)/2+0.15),(A.z+B.z)/2*0.9); put('hw_arcs','network','ac',pulseMesh([A,M,B],0.014,COM,0.18,0.9),{kind:'path',pri:2}); });
+  put('hw_arcs','network','ac',pulseMesh([HUB['thal1'],[0,0.1,-0.05],HUB['thal-1']],0.012,PRJ,0.14,0.9),{kind:'path',pri:2});
+  flush();
+  anch('network','hw_connectome',[0,0.9,0.1],[0,1,0.1]); anch('network','hw_hubs',HUB['ipl1']); anch('network','hw_arcs',[0.35,0.65,0.2]); anch('network','hw_sync',[0.3,-0.4,0.75]);
+  stations('hw_connectome','network',[['Medial prefrontal hub',HUB['mpfc1']],['Posterior cingulate and precuneus hub',HUB['pcc1']],['Parietal hub',HUB['ipl1']],['Thalamus: central relay',HUB['thal1']],['Corpus callosum: left–right link',[0,0.55,0]]]);
+  stations('hw_hubs','network',[['Medial prefrontal cortex',HUB['mpfc1']],['Posterior cingulate',HUB['pcc1']],['Precuneus',HUB['prec1']],['Inferior parietal lobule',HUB['ipl1']],['Lateral prefrontal cortex',HUB['dlpfc1']],['Lateral temporal cortex',HUB['temp1']],['Thalamus',HUB['thal1']],['Hippocampus',HUB['hip1']]]);
+  stations('hw_arcs','network',[['Association fibers (blue)',V(HUB['mpfc1']).lerp(V(HUB['pcc1']),0.5).add(new THREE.Vector3(0,0.3,0))],['Commissural fibers (gold)',[0,0.72,0.12]],['Projection fibers to the thalamus (pink)',V(HUB['thal1']).lerp(V(HUB['ipl1']),0.5)]]);
+  stations('hw_sync','network',[['Shared rhythm keeps regions in step',[0.25,0.75,0.0]],['Gamma: focused attention',HUB['dlpfc1']],['Theta: memory',HUB['hip1']],['Delta: deep sleep',HUB['v1-1']]]);
+  setHWAnchors();
+}
+function setHWAnchors(){ HW_IDS.forEach(function(id){ var a=hwAnch[hView][id]; if(a) anchors[id]={p:a.p,n:a.n}; else delete anchors[id]; }); }
+function applyHWVis(){
+  if(!hwBuilt) return;
+  var on=mode==='hw';
+  ['neuron','dendrites','matter','network'].forEach(function(v){ HW_G[v].visible=on && hView===v; });
+}
+function hwLabelOK(id){
+  if(!hwBuilt || !anchors[id]) return false;
+  var r=R[id]; if(r.hv!==hView) return false;
+  var s=hwSel(); if(s) return s===id;
+  if(HW_OVERS.indexOf(id)>=0) return !selected;
+  return true;
+}
+function applyHWColors(){
+  if(!hwBuilt) return;
+  var sel=hwSel(), hov=isHW(hovered)?hovered:null, WH=[1,1,1], with_=(sel && HW[sel] && HW[sel].with)||[];
+  HW_IDS.forEach(function(id){
+    var lit=!sel || sel===id || with_.indexOf(id)>=0, h=hov===id;
+    R[id].meshes.forEach(function(m){
+      var u=m.userData, c=lit?u.base:mix(u.base,[0.6,0.63,0.7],0.75); if(h) c=mix(c,WH,0.28);
+      m.material.color.setRGB(c[0],c[1],c[2]);
+      var k=u.kind==='path'?((sel===id||h)?0.9:(lit?0.6:0.1)):(sel===id?Math.max(0.25,u.glow):(lit?u.glow:0));
+      m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
+      if(u.op0<1){ var o=lit?Math.min(0.95,u.op0*(sel===id?1.5:1)):u.op0*0.3; m.material.opacity=o; }
+    });
+  });
+}
+function setHView(v,keep){
+  if(v===hView) return;
+  hView=v;
+  [['#hvNeu','neuron'],['#hvDen','dendrites'],['#hvMat','matter'],['#hvNet','network']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  setHWAnchors();
+  if(!keep && isHW(selected) && R[selected].hv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
+  setHover(null); applyVisibility(); refreshUI(); layout();
+  if(keep) return;
+  if(sideLayout()) select(HW_OVER[v]); else resetView();
+}
+function hwFocus(r){
+  var v=r.view||HW_DEF[r.hv], at=r.at?new THREE.Vector3(r.at[0],r.at[1],r.at[2]):HW_C[r.hv];
+  tgt.az=tgt.az+wrap(v.az*Math.PI/180-tgt.az); tgt.el=v.el*Math.PI/180; tgt.zoom=r.zoom||1; CENTER_T.copy(at);
+}
+function hwPickAt(){
+  var list=hwPick[hView].filter(function(m){ return m.visible; });
+  var hits=rc.intersectObjects(list,false), vol=null;
+  for(var i=0;i<hits.length;i++){
+    var u=hits[i].object.userData, id=u.region;
+    if(!u.vol){ if(vol && vol.box && (u.box||0)!==vol.box) return vol.id; return id; }
+    if(!vol || u.pri>vol.pri) vol={id:id,pri:u.pri,box:u.box||0};
+  }
+  return vol?vol.id:null;
+}
+function updateHWStations(taken){
+  if(!hwStn.length) return;
+  var on=mode==='hw' && showLabels && isHW(selected);
+  hwStn.forEach(function(st){
+    if(!on || st.id!==selected || st.view!==hView){ setLbl(st.el,false); return; }
+    if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
+    tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
+    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
+    for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
+    taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
+  });
+}
+function hwFrame(dt){
+  if(!hwBuilt || !signalsOn) return;
+  for(var j=0;j<hwPaths.length;j++){ var p=hwPaths[j]; if(p.visible && p.userData.grp.visible) p.userData.tex.offset.x-=dt*p.userData.spd; }
+}
+function enterHW(){ buildHW(); hwXrayBefore=xray; xrayTo(false); setHWAnchors(); }
+function leaveHW(){ xrayTo(hwXrayBefore); }
+function fillHW(r){
+  var d=HW[r.id]||{}, tree=$('#pTree');
+  tree.hidden=false;
+  if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
+  senseList('What it does',r.funcs);
+  if(d.how) senseList('How it works',d.how,/^hw_(neuron|synapse|potential|network|sum|ltp|grow|matter|speed|connectome)$/.test(r.id));
+  if(d.deep) senseList('A deeper look',d.deep);
+  if(HW_OVERS.indexOf(r.id)>=0){
+    thChips('Explore its parts',HW_IDS.filter(function(id){ return R[id].hv===r.hv && id!==r.id; }));
+    thChips('More of the hardware',d.rel||[]);
+    var vs=HW_VERSE[r.id]; if(vs){ var q=el('div','verse',vs[0]); q.appendChild(el('small',null,vs[1])); tree.appendChild(q); }
+  } else {
+    var rel=(d.rel||[]).slice(); if(rel.indexOf(HW_OVER[r.hv])<0) rel.push(HW_OVER[r.hv]);
+    thChips('Related parts',rel);
+  }
+}
+$('#hvNeu').addEventListener('click',function(){ setHView('neuron'); });
+$('#hvDen').addEventListener('click',function(){ setHView('dendrites'); });
+$('#hvMat').addEventListener('click',function(){ setHView('matter'); });
+$('#hvNet').addEventListener('click',function(){ setHView('network'); });
+
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');
 function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:MEN_N[id]||null):null; }
@@ -4833,6 +5555,7 @@ function pickAt(cx,cy){
   ndc.set(((cx-r.left)/r.width)*2-1,-((cy-r.top)/r.height)*2+1);
   rc.setFromCamera(ndc,camera);
   if(mode==='think') return thinkPickAt();
+  if(mode==='hw') return hwPickAt();
   var list=(mode==='senses'?(seView==='head'?sensePickHead:sensePickBody):mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
   var hits=rc.intersectObjects(list,false).filter(function(x){ return !(x.object.material && x.object.material.userData && x.object.material.userData.faded); });
   if(!hits.length) return null;
@@ -4848,7 +5571,7 @@ function pickAt(cx,cy){
 
 function pick(cx,cy){
   var id=pickAt(cx,cy);
-  if(!id && (bodyView()||mode==='spine'||mode==='senses'||mode==='think')){
+  if(!id && (bodyView()||mode==='spine'||mode==='senses'||mode==='think'||mode==='hw')){
     var rads=[8,16];
     for(var ri=0;ri<2 && !id;ri++) for(var a=0;a<8 && !id;a++){ var an=a/8*Math.PI*2; id=pickAt(cx+Math.cos(an)*rads[ri],cy+Math.sin(an)*rads[ri]); }
   }
@@ -4970,7 +5693,7 @@ function updateLabels(){
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
       if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || (r.kind==='vessel' && r.id!==selected) || (r.kind==='deep' && xrayT<0.6) || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
-    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
+    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id)) || (mode==='hw' && !hwLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
@@ -4993,7 +5716,7 @@ function updateLabels(){
     }
     if(!show) setLbl(labelEls[r.id],false);
   });
-  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
+  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='hw'?PRIORITY_HW:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
   order.forEach(function(id){
     var it=items[id]; if(!it || it.done) return; it.done=true;
     var el=labelEls[id], w=(el._w||80)+6, hit=false;
@@ -5005,7 +5728,7 @@ function updateLabels(){
     taken.push({x:it.x,y:it.y,w:w});
     setLbl(el,true,it.x,it.y);
   });
-  updateLevelLabels(taken); updateStations(taken); updateThinkStations(taken);
+  updateLevelLabels(taken); updateStations(taken); updateThinkStations(taken); updateHWStations(taken);
 }
 
 
@@ -5022,6 +5745,7 @@ function frame(now){
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
   if(mode==='think') thFrame(dt);
+  if(mode==='hw') hwFrame(dt);
   if(vesselsOn && mode==='brain'){
     hbT+=dt; var hb=heartbeat(hbT);
     for(var vi=0;vi<vesselMeshes.length;vi++){
@@ -5057,7 +5781,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think') && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

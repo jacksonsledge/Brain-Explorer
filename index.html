@@ -4347,7 +4347,7 @@ function buildThink(){
     treg(id,m,'neocortex',{pri:1,vol:true,ro:1});
     var e=new THREE.LineSegments(new THREE.EdgesGeometry(g),new THREE.LineBasicMaterial({color:R[id].color,transparent:true,opacity:0.7}));
     e.position.set(0,y,0); thNeo.add(e);
-    anch('neocortex',id,[XW,y,-ZW]);
+    anch('neocortex',id,[XW,y,ZW]);
   });
   (function(){
     var g=new THREE.BoxGeometry(2*XW,0.45,2*ZW), m=mesh(g,tmat(R.th_wm.color,{transparent:true,opacity:0.22,depthWrite:false,roughness:0.8}),[0,-0.925,0]);
@@ -4355,7 +4355,7 @@ function buildThink(){
     var e=new THREE.LineSegments(new THREE.EdgesGeometry(g),new THREE.LineBasicMaterial({color:'#8d99ae',transparent:true,opacity:0.6})); e.position.set(0,-0.925,0); thNeo.add(e);
     var wmm=tmat('#dfe5ee',{roughness:0.35});
     for(var i=0;i<16;i++){ var y=rr(-1.1,-0.75), z=rr(-0.5,0.5); put('th_wm','neocortex','f',tube([[-XW,y,z],[-0.3,y+rr(-0.04,0.04),z+rr(-0.05,0.05)],[0.3,y+rr(-0.04,0.04),z+rr(-0.05,0.05)],[XW,y,z]],0.014,wmm),{pri:2}); }
-    anch('neocortex','th_wm',[XW,-0.925,-ZW]);
+    anch('neocortex','th_wm',[XW,-0.925,ZW]);
   })();
   // pia mater and a small artery diving into the cortex (decoration)
   var pia=mesh(new THREE.BoxGeometry(2*XW,0.012,2*ZW),tmat('#f4a6ad',{transparent:true,opacity:0.45,depthWrite:false}),[0,0.906,0]); thNeo.add(pia);
@@ -4629,8 +4629,8 @@ function thinkPickAt(){
   for(var i=0;i<hits.length;i++){
     var x=hits[i], u=x.object.userData, id=null, pri=2, isVol=false;
     if(u.cortex){ id=THINK_MAP[CORTEX_IDS[u.faceReg[x.faceIndex]]]; isVol=xrayT>0.5; pri=1; }
-    else if(u.think){ id=u.kind==='cbcortex'?CB_ZONES[u.zone[x.face.a]]:u.region; isVol=u.vol; pri=u.pri; }
-    else { id=THINK_MAP[u.region]||null; if(u.deep && (x.object.material.opacity<0.2)) id=null; }
+    else if(u.think){ id=u.kind==='cbcortex'?CB_ZONES[u.zone[x.face.a]]:u.region; isVol=u.vol; pri=u.pri; if(u.view==='cerebrum' && x.object.material.userData.thOp<0.2) id=null; }
+    else { id=THINK_MAP[u.region]||null; if(u.deep && (x.object.material.opacity<0.2)) id=null; if(u.region==='cerebellum' && thSel()==='th_loop'){ isVol=true; pri=1; } }
     if(!id) continue;
     if(!isVol){ if(vol && vol.box && (u.box||0)!==vol.box) return vol.id; return id; }
     if(!vol || pri>vol.pri) vol={id:id,pri:pri,box:u.box||0};
@@ -4639,7 +4639,7 @@ function thinkPickAt(){
 }
 function updateThinkStations(taken){
   if(!thStn.length) return;
-  var on=mode==='think' && showLabels && !!thSel();
+  var on=mode==='think' && showLabels && isThink(selected);
   thStn.forEach(function(st){
     if(!on || st.id!==selected || st.view!==tView){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }

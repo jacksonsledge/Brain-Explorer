@@ -643,7 +643,7 @@ var REGIONS = [
   damage:'It is usually affected together with the arachnoid, for example in meningitis, an infection that causes fever, severe headache and a stiff neck.',
   badge:'Innermost layer. The layers above it fade so you can see it.',
   fact:'Pia mater means \u201ctender mother\u201d in Latin, a contrast to the tough dura mater above it.',
-  view:{az:40,el:15}},
+  view:{az:-40,el:15}},
  {id:'carotid',kind:'vessel',name:'Internal Carotid Arteries',short:'Carotid arteries',color:'#e63946',
   where:'Two large arteries rising through the neck, one on each side, entering the skull at the base of the brain',
   badge:'Arteries, shown in red, carry oxygen-rich blood from the heart.',
@@ -739,7 +739,7 @@ var REGIONS = [
   funcs:['Covers every fold of the brain and cord','Carries tiny blood vessels into nerve tissue','Anchors the spinal cord at its lower end'],
   damage:'It is usually affected together with the arachnoid, as in meningitis.',
   fact:'The filum terminale is a thin strand of pia that runs from the end of the spinal cord down to the tailbone.',
-  view:{az:-120,el:5}, at:[0,0.5,-0.1], zoom:0.45, jump:true},
+  view:{az:-120,el:5}, at:[0,0.8,-0.1], zoom:0.45, jump:true},
  {id:'n_cranial',kind:'nerve',mode:'nerves',group:'Head and trunk',name:'Cranial Nerves',short:'Cranial nerves',color:'#b388ff',
   where:'Twelve pairs that leave the brain directly, most from the brainstem',
   summary:'They connect the brain to the head and neck for sight, smell, hearing, taste, facial movement and feeling, eye movement and swallowing. The model shows the main paths for smell, vision, eye movement, the face, hearing, the throat, the tongue and the neck.',
@@ -3380,7 +3380,7 @@ function legendHTML(){
 function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
 function fillDPanel(){
   if(!D) return;
-  $('#pMore').hidden=true;
+  $('#pMore').hidden=true; $('#hFuncs').hidden=$('#pFuncs').hidden=false;
   var dz=R[curDisease], si=Math.round(clamp(stageT,0,4)), stg=D.stages[si], tree=$('#pTree'), bd=$('#pBadge');
   tree.innerHTML=''; tree.hidden=false; $('#pJump').hidden=true;
   $('#bPrev').textContent='Earlier stage'; $('#bNext').textContent='Later stage';
@@ -4805,7 +4805,7 @@ Array.prototype.forEach.call(lyCard.querySelectorAll('.ly-row'),function(row){
   row.querySelector('.ly-sw').addEventListener('click',function(){ setLayer(l,!layerOn[l]); });
   row.querySelector('.ly-name').addEventListener('click',function(){
     if(!layerOn[l]) setLayer(l,true);
-    select(mode==='spine'?'sc_'+l:(bodyView()?'n_'+l:l));
+    select(mode==='spine'?'sc_'+l:(mode==='sections'?SECTION_OF['n_'+l]:(bodyView()?'n_'+l:l)));
   });
 });
 $('#lyHead').addEventListener('click',function(){ layerCollapsed=!layerCollapsed; updateLayerCard(); });
@@ -4828,8 +4828,8 @@ function pickAt(cx,cy){
   var h=null;
   if((mode==='brain' || mode==='diseases') && xrayT>0.5) h=hits.filter(function(x){ return x.object.userData.deep; })[0];
   if(!h) h=hits.filter(function(x){ return !x.object.userData.deep; })[0];
-  var thin=function(x){ var rg=x.object.userData.region; return MEN_N[rg] || rg==='sc_csf' || rg==='sc_sac'; };
-  if(h && (bodyView()||mode==='spine') && thin(h)){ var alt=hits.filter(function(x){ return !thin(x); })[0]; if(alt) h=alt; }
+  var thin=function(x){ var rg=x.object.userData.region; return MEN_N[rg] || rg==='sc_csf' || rg==='sc_sac' || (mode==='diseases' && MEN_LAYERS.indexOf(rg)>=0); };
+  if(h && (bodyView()||mode==='spine'||mode==='diseases') && thin(h)){ var alt=hits.filter(function(x){ return !thin(x); })[0]; if(alt) h=alt; }
   if(!h) return null;
   var ud=h.object.userData;
   return ud.cortex?CORTEX_IDS[ud.faceReg[h.faceIndex]]:ud.region;
@@ -4944,21 +4944,23 @@ function setLbl(el,on,x,y){
   if(on && (el._x==null || Math.abs(el._x-x)>0.4 || Math.abs(el._y-y)>0.4)){ el._x=x; el._y=y; el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) translate(-50%,-50%)'; }
   if(el._on!==on){ el._on=on; el.classList.toggle('on',on); if(el.tagName==='BUTTON') el.tabIndex=on?0:-1; }
 }
-function updateLevelLabels(){
+function updateLevelLabels(taken){
   if(!lvlEls.length) return;
   var on=(mode==='spine' && sView==='whole' && showLabels);
-  lvlEls.forEach(function(e){ if(!on){ setLbl(e.el,false); return; } tmpV.copy(e.p).project(camera); if(tmpV.z>1){ setLbl(e.el,false); return; } setLbl(e.el,true,(tmpV.x*0.5+0.5)*W,(-tmpV.y*0.5+0.5)*H); });
+  lvlEls.forEach(function(e){ if(!on){ setLbl(e.el,false); return; } tmpV.copy(e.p).project(camera); if(tmpV.z>1){ setLbl(e.el,false); return; }
+    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(e.el._w||(e.el._w=e.el.offsetWidth)||30)+6;
+    if(taken.some(function(t){ return Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22; })){ setLbl(e.el,false); return; }
+    setLbl(e.el,true,x,y); });
 }
 function updateLabels(){
-  updateLevelLabels();
   var items={};
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
-      if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || r.kind==='vessel' || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
+      if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || (r.kind==='vessel' && r.id!==selected) || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
     } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
-      if(r.kind==='cortex') show=xrayT<0.5;
+      if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
       else if(r.kind==='deep') show=xrayT>0.6;
       else if(r.kind==='vessel') show=vesselsOn;
       else if(r.kind==='cover') show=menVisible() && layerOn[r.id];
@@ -4990,7 +4992,7 @@ function updateLabels(){
     taken.push({x:it.x,y:it.y,w:w});
     setLbl(el,true,it.x,it.y);
   });
-  updateStations(taken); updateThinkStations(taken);
+  updateLevelLabels(taken); updateStations(taken); updateThinkStations(taken);
 }
 
 

@@ -4029,6 +4029,8 @@ function setSeView(v,keep){
 }
 function senseFocus(r){
   var b=seView==='body', v=(b?r.bview:r.view)||{az:50,el:12}, at=b?(r.bat||[0,0,0]):(r.at||[SENSE_C.x,SENSE_C.y,SENSE_C.z]);
+  // phones: the bottom sheet leaves only a strip above it, so center on where the sense is felt
+  if(b && !sideLayout() && seAnch.body[r.id]) at=seAnch.body[r.id];
   tgt.az=tgt.az+wrap(v.az*Math.PI/180-tgt.az); tgt.el=v.el*Math.PI/180; tgt.zoom=(b?r.bzoom:r.zoom)||1; CENTER_T.set(at[0],at[1],at[2]);
 }
 function enterSenses(){
@@ -4044,6 +4046,7 @@ function updateStations(taken){
     if(!on || st.id!==selected || st.view!==seView){ setLbl(st.el,false); return; }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
     var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
   });
@@ -4652,6 +4655,7 @@ function updateThinkStations(taken){
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
     var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
   });
@@ -4959,7 +4963,9 @@ function updateLevelLabels(taken){
     if(taken.some(function(t){ return Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22; })){ setLbl(e.el,false); return; }
     setLbl(e.el,true,x,y); });
 }
+var labTop=0, labBot=1e9;
 function updateLabels(){
+  labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?H-panel.offsetHeight:1e9;
   var items={};
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
@@ -4983,7 +4989,7 @@ function updateLabels(){
     if(show){
       tmpV.project(camera);
       if(tmpV.z>1) show=false;
-      else { var off=LABEL_OFFSET[r.id]||[0,0]; items[r.id]={x:(tmpV.x*0.5+0.5)*W+off[0], y:(-tmpV.y*0.5+0.5)*H+off[1]}; }
+      else { var off=LABEL_OFFSET[r.id]||[0,0]; items[r.id]={x:(tmpV.x*0.5+0.5)*W+off[0], y:(-tmpV.y*0.5+0.5)*H+off[1]}; if(items[r.id].y<labTop || items[r.id].y>labBot){ delete items[r.id]; show=false; } }
     }
     if(!show) setLbl(labelEls[r.id],false);
   });

@@ -412,13 +412,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   <div id="slbar" hidden>
     <div class="sl-cyc">
       <div class="db-top"><button id="slPlay" class="db-play" aria-label="Play the night"></button><div class="db-stage"><b id="slStage">Awake</b><span id="slSub"></span></div><button id="slInfo" class="db-info" aria-label="About this stage">i</button></div>
-      <canvas id="slHyp" aria-label="Hypnogram: sleep stages through the night. Tap or drag to move through the night."></canvas>
+      <canvas id="slHyp" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="480" aria-valuenow="5" aria-label="Hypnogram: sleep stages through the night. Tap, drag or use the arrow keys to move through the night."></canvas>
       <canvas id="slEEG" aria-hidden="true"></canvas>
       <div class="sl-meters" id="slMeters"></div>
       <div class="sl-heat" title="Brain activity: less to more"></div><div class="lg-ends sl-meters"><span>Less active</span><span>More active</span></div>
     </div>
     <div class="sl-cir">
-      <div class="db-top"><div class="db-view" role="tablist" aria-label="Time of day"><button id="slDay" class="on" role="tab">&#9728; Day</button><button id="slNight" role="tab">&#9790; Night</button></div><div class="db-stage"><b id="slCirT"></b><span id="slCirS"></span></div></div>
+      <div class="db-top"><div class="db-view" role="tablist" aria-label="Time of day"><button id="slDay" class="on" role="tab" aria-selected="true">&#9728; Day</button><button id="slNight" role="tab" aria-selected="false">&#9790; Night</button></div><div class="db-stage"><b id="slCirT"></b><span id="slCirS"></span></div></div>
     </div>
   </div>
   <div id="zoom" role="group" aria-label="Zoom">
@@ -3066,7 +3066,7 @@ function layout(){
   camera.aspect=W/H;
   topUI=topEl.offsetHeight; measureLabels();
   if(dbar && !dbar.hidden) app.style.setProperty('--dbh',dbar.offsetHeight+'px');
-  if(slbar && !slbar.hidden){ app.style.setProperty('--dbh',slbar.offsetHeight+'px'); if(slBuilt) slDrawHyp(); }
+  if(slbar && !slbar.hidden){ app.style.setProperty('--dbh',slbar.offsetHeight+'px'); if(slBuilt){ slDrawHyp(); slEegKey=''; } }
   app.style.setProperty('--topui',topUI+'px');
   var availH=Math.max(120,H-topUI-8);
   fitDist=3.5*H/Math.min(W,availH);
@@ -3197,7 +3197,7 @@ function select(id){
   if(mode==='diseases'){ dSelect(id); return; }
   if(mode==='senses' && isSense(id)){ var want=(id==='se_all' || SENSE[id].se==='head')?'head':'body'; if(id==='se_all' || want!==seView && !(seView==='head' && SENSE[id].se==='body' && selected===id)) setSeView(want,true); }
   if(mode==='hw' && isHW(id) && R[id].hv!==hView) setHView(R[id].hv,true);
-  if(mode==='sleep' && isSL(id)){ if(R[id].lv!==slv) setSlView(R[id].lv,true); if(R[id].stage){ slSetTime(SL_JUMP[id]); slStage=R[id].stage; } }
+  if(mode==='sleep' && isSL(id)){ var slSw=R[id].lv!==slv; if(slSw) setSlView(R[id].lv,true); if(R[id].stage){ if(slStageAt(slT)!==R[id].stage) slSetTime(SL_JUMP[id]); if(slSw) sleepFocus(R.sl_night); } }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
@@ -3285,6 +3285,8 @@ $('#goBtn').addEventListener('click',function(){ intro.classList.add('hidden'); 
 $('#infoBtn').addEventListener('click',function(){ intro.classList.remove('hidden'); $('#goBtn').focus(); });
 window.addEventListener('keydown',function(e){
   if(e.target && e.target.tagName==='INPUT' && e.key!=='Escape') return;
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  if(/^Arrow/.test(e.key) && e.target && e.target.closest && e.target.closest('[role=tab],[role=slider]')) return;
   if(e.key==='Escape'){ if(!ddMenu.hidden) closeDD(); else if(!intro.classList.contains('hidden')) $('#goBtn').click(); else closeDetails(); }
   else if(e.key==='+' || e.key==='='){ zoomAt(1/1.25); }
   else if(e.key==='-' || e.key==='_'){ zoomAt(1.25); }
@@ -5830,7 +5832,7 @@ var SL_IDS=REGIONS.filter(function(r){ return r.mode==='sleep'; }).map(function(
 var SL_OVER={cycle:'sl_night',circuits:'sl_switch'}, SL_OVERS=['sl_night','sl_switch'];
 var PRIORITY_SL=SL_IDS.filter(function(id){ return SL_OVERS.indexOf(id)<0; }).concat(SL_OVERS);
 var slv='cycle', slBuilt=false, slG=new THREE.Group(), slPick=[], slPaths=[], slStn=[], slStageStn=[], slAnch={}, slXrayBefore=false;
-var slT=5, slPlaying=false, slDay=true, slStage='W', slAct={}, slColT=0, slEegT=0, slLastTxt='', slbar=$('#slbar');
+var slSigWas=null, slMoving=true, slColDirty=true, slEegKey='', slHypKey='', slT=5, slPlaying=false, slDay=true, slStage='W', slAct={}, slColT=0, slEegT=0, slLastTxt='', slbar=$('#slbar');
 slG.visible=false; scene.add(slG);
 function isSL(id){ return !!(id && R[id] && R[id].mode==='sleep'); }
 function slSel(){ return (isSL(selected) && SL_OVERS.indexOf(selected)<0)?selected:null; }
@@ -5953,7 +5955,7 @@ function applySleepColors(){
   var NEU=[0.72,0.76,0.84], sel=slSel(), hov=isSL(hovered)?hovered:null;
   if(slv==='cycle'){
     var tn=performance.now()/1000, n3=slAct._n3||0;
-    var st=CORTEX_IDS.map(function(id){ var v=slAct[id]!=null?slAct[id]:0.5; if(n3>0.05) v+=0.22*n3*Math.sin(2*Math.PI*0.8*tn-(0.9-SL_FRONT[id])*2.2); return slHeat(v); });
+    var st=CORTEX_IDS.map(function(id){ var v=slAct[id]!=null?slAct[id]:0.5; if(signalsOn && n3>0.05) v+=0.22*n3*Math.sin(2*Math.PI*0.8*tn-(0.9-SL_FRONT[id])*2.2); return slHeat(v); });
     cortexMeshes.forEach(function(m){ var col=m.geometry.attributes.color, fr=m.userData.faceReg, a=col.array; for(var f=0;f<fr.length;f++){ var c=st[fr[f]], o=f*9; a[o]=a[o+3]=a[o+6]=c[0]; a[o+1]=a[o+4]=a[o+7]=c[1]; a[o+2]=a[o+5]=a[o+8]=c[2]; } col.needsUpdate=true; });
     BRAIN_IDS.forEach(function(id){ var r=R[id]; if(r.kind==='cortex' || r.kind==='cover') return; var v=slAct[id]; var c=v==null?NEU:slHeat(v), k=v==null?0:0.25, seen=[];
       r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material); m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); m.material.userData.seOp=v==null?0.15:0.9; }); });
@@ -5981,13 +5983,14 @@ function slSetPlayIcon(){ var b=$('#slPlay'); b.innerHTML=slPlaying?'<svg viewBo
 function slUpdateBarText(){
   var I=SL_INFO[slStage], txt=I.name+'|'+slClock(slT);
   if(txt===slLastTxt) return; slLastTxt=txt;
-  $('#slStage').textContent=I.name; $('#slSub').textContent=slClock(slT)+' · '+Math.floor(slT/60)+' h '+Math.round(slT%60)+' min into the night';
+  $('#slStage').textContent=I.name; $('#slSub').textContent=slClock(slT)+' · '+Math.floor(Math.round(slT)/60)+' h '+(Math.round(slT)%60)+' min into the night';
+  var hc=$('#slHyp'); hc.setAttribute('aria-valuenow',String(Math.round(slT))); hc.setAttribute('aria-valuetext',slClock(slT)+', '+I.name);
   $('#slMeters').innerHTML=''; [['Brain waves',I.wave],['Muscles',I.muscle],['Eyes',I.eyes]].forEach(function(x){ var sp=el('span'); sp.appendChild(el('b',null,x[0]+': ')); sp.appendChild(document.createTextNode(x[1])); $('#slMeters').appendChild(sp); });
 }
 var SL_LV={W:0,REM:1,N1:2,N2:3,N3:4}, SL_SCOL={W:'#ffd166',N1:'#9be7a5',N2:'#4cc9f0',N3:'#4361ee',REM:'#ef476f'};
 function slFitCanvas(c){ var d=Math.min(2,window.devicePixelRatio||1), w=Math.max(10,c.clientWidth), h=Math.max(10,c.clientHeight); if(c.width!==Math.round(w*d) || c.height!==Math.round(h*d)){ c.width=Math.round(w*d); c.height=Math.round(h*d); } var g=c.getContext('2d'); if(g.setTransform) g.setTransform(d,0,0,d,0,0); return {g:g,w:w,h:h}; }
 function slDrawHyp(){
-  var c=$('#slHyp'); if(!c || !c.getContext) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, L=50, top=4, bot=h-16, ph=(bot-top)/4;
+  var c=$('#slHyp'); if(!c || !c.getContext || !c.clientWidth) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, L=50, top=4, bot=h-16, ph=(bot-top)/4;
   var cs=getComputedStyle(app), ink=cs.getPropertyValue('--muted')||'#888', line=cs.getPropertyValue('--line')||'#ccc';
   g.clearRect(0,0,w,h); g.font='600 10px system-ui, sans-serif'; g.textBaseline='middle';
   ['Wake','REM','N1','N2','N3'].forEach(function(t,i){ var y=top+i*ph; g.fillStyle=ink; g.fillText(t,2,y); g.strokeStyle=line; g.lineWidth=1; g.beginPath(); g.moveTo(L,y); g.lineTo(w-4,y); g.stroke(); });
@@ -6009,7 +6012,7 @@ function slEeg(t,s){
   var saw=(t%4)<1.3?0.3*(((t*3)%1)*2-1):0; return 0.16*Math.sin(P*7*t)+0.1*Math.sin(P*18*t)+saw+0.12*n;
 }
 function slDrawEeg(){
-  var c=$('#slEEG'); if(!c || !c.getContext) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, mid=h/2, span=3;
+  var c=$('#slEEG'); if(!c || !c.getContext || !c.clientWidth) return; slEegKey=slStage; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, mid=h/2, span=3;
   var cs=getComputedStyle(app); g.clearRect(0,0,w,h);
   g.fillStyle=cs.getPropertyValue('--muted')||'#888'; g.font='600 10px system-ui, sans-serif'; g.textBaseline='top'; g.fillText('EEG',2,2);
   g.strokeStyle=SL_SCOL[slStage]; g.lineWidth=1.5; g.beginPath();
@@ -6021,11 +6024,14 @@ function slFrame(dt){
   if(slv==='cycle'){
     if(slPlaying){ slT+=dt*10; if(slT>=480){ slT=480; slPlaying=false; slSetPlayIcon(); } slSetTime(slT,true); }
     if(signalsOn) slEegT+=dt;
-    var tgtA=SL_ACT[slStage], k=1-Math.exp(-dt*3);
-    CORTEX_IDS.concat(BRAIN_IDS).forEach(function(id){ var v=tgtA[id]!=null?tgtA[id]:(CORTEX_IDS.indexOf(id)>=0?SL_ACT.base[slStage]:null); if(v==null) return; slAct[id]=slAct[id]==null?v:slAct[id]+(v-slAct[id])*k; });
-    slAct._n3=(slAct._n3||0)+((slStage==='N3'?1:0)-(slAct._n3||0))*k;
-    slColT+=dt; if(slColT>0.07){ slColT=0; applySleepColors(); }
-    slDrawEeg(); slDrawHyp();
+    if(slSigWas!==signalsOn){ slSigWas=signalsOn; slColDirty=true; }
+    var tgtA=SL_ACT[slStage], k=1-Math.exp(-dt*3), md=0;
+    for(var bi=0;bi<BRAIN_IDS.length;bi++){ var id=BRAIN_IDS[bi], v=tgtA[id]!=null?tgtA[id]:(R[id].kind==='cortex'?SL_ACT.base[slStage]:null); if(v==null) continue; var o=slAct[id]; slAct[id]=o==null?v:o+(v-o)*k; md=Math.max(md,Math.abs(v-slAct[id])); }
+    var n3=slAct._n3||0, n3t=slStage==='N3'?1:0; slAct._n3=n3+(n3t-n3)*k; md=Math.max(md,Math.abs(n3t-slAct._n3));
+    slMoving=md>0.002 || (signalsOn && slAct._n3>0.05);
+    slColT+=dt; if(slColT>0.07 && (slMoving || slColDirty)){ slColT=0; slColDirty=false; applySleepColors(); }
+    if(signalsOn || slEegKey!==slStage){ slEegKey=slStage; slDrawEeg(); }
+    var hk=Math.round(slT*4)+slStage; if(hk!==slHypKey){ slHypKey=hk; slDrawHyp(); }
   } else if(signalsOn){
     for(var j=0;j<slPaths.length;j++){ var p=slPaths[j]; if(p.userData.on && p.userData.tex) p.userData.tex.offset.x-=dt*p.userData.spd; }
   }
@@ -6052,11 +6058,11 @@ function setSlView(v,keep){
   app.classList.toggle('slv-cycle',v==='cycle'); app.classList.toggle('slv-circuits',v==='circuits');
   setSLAnchors();
   if(!keep && isSL(selected) && R[selected].lv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
-  setHover(null); applyVisibility(); refreshUI(); layout(); slDrawHyp();
+  setHover(null); applyVisibility(); refreshUI(); layout(); slDrawHyp(); slEegKey=''; slColDirty=true;
   if(keep) return;
   if(sideLayout()) select(SL_OVER[v]); else resetView();
 }
-function slSetDay(d){ slDay=d; $('#slDay').classList.toggle('on',d); $('#slNight').classList.toggle('on',!d);
+function slSetDay(d){ slDay=d; $('#slDay').classList.toggle('on',d); $('#slNight').classList.toggle('on',!d); $('#slDay').setAttribute('aria-selected',d?'true':'false'); $('#slNight').setAttribute('aria-selected',d?'false':'true');
   $('#slCirT').textContent=d?'Day: the wake circuits are on':'Night: the sleep switch is on';
   $('#slCirS').textContent=d?'Arousal system and orexin keep the cortex awake; light sets the body clock; sleep pressure builds.':'The VLPO turns the arousal system off; melatonin rises; memories replay; waste may be cleared; REM comes in cycles.';
   applyColors(); }
@@ -6095,7 +6101,8 @@ $('#slNight').addEventListener('click',function(){ slSetDay(false); });
   function at(e){ var r=c.getBoundingClientRect(), L=50; slSetTime((e.clientX-r.left-L)/Math.max(1,r.width-4-L)*480); slDrawHyp(); kick(); }
   c.addEventListener('pointerdown',function(e){ drag=true; if(c.setPointerCapture) c.setPointerCapture(e.pointerId); at(e); });
   c.addEventListener('pointermove',function(e){ if(drag) at(e); });
-  ['pointerup','pointercancel'].forEach(function(t){ c.addEventListener(t,function(){ drag=false; }); });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(function(t){ c.addEventListener(t,function(){ drag=false; }); });
+  c.addEventListener('keydown',function(e){ var d={ArrowRight:10,ArrowUp:10,ArrowLeft:-10,ArrowDown:-10,PageUp:60,PageDown:-60}[e.key]; if(e.key==='Home') d=-slT; if(e.key==='End') d=480-slT; if(d==null) return; e.preventDefault(); e.stopPropagation(); slSetTime(slT+d); slDrawHyp(); kick(); });
 })();
 
 /* ------------------------------------------------------------ meninges layer switches */
@@ -6367,7 +6374,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle' || signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle'?(slPlaying || slMoving || signalsOn):signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

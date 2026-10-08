@@ -5503,7 +5503,7 @@ function hwLabelOK(id){
   if(!hwBuilt || !anchors[id]) return false;
   var r=R[id]; if(r.hv!==hView) return false;
   var s=hwSel(); if(s) return s===id;
-  if(HW_OVERS.indexOf(id)>=0) return !selected;
+  if(HW_OVERS.indexOf(id)>=0) return !selected || selected===id;
   return true;
 }
 function applyHWColors(){

@@ -241,6 +241,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   .mode-diseases #panel:not(.open),.bar-sl #panel:not(.open){transform:translateY(calc(100% + var(--dbh,150px) + 40px))}
   .mode-diseases #panel,.bar-sl #panel{bottom:calc(var(--dbh,150px) + 20px + var(--sab));left:8px;right:8px;border-radius:18px;max-height:min(42%,380px)}
   .bar-sl #panel{max-height:min(42%,380px,calc(100% - var(--topui,100px) - var(--dbh,150px) - 34px - var(--sab)))}
+  .slv-circuits.panel-open #slbar{display:none}
+  .bar-sl.panel-open #slEEG,.bar-sl.panel-open .sl-heat,.bar-sl.panel-open .lg-ends.sl-meters,.bar-sl.panel-open #slMeters{display:none}
   .bar-sl #tools{flex-wrap:wrap-reverse;align-content:flex-end;overflow:visible;max-height:calc(100% - var(--topui,100px) - var(--dbh,150px) - 92px - var(--sab))}
   .bar-sl #zoom{flex-direction:row} .bar-sl #zoom button{width:50px;height:44px} .bar-sl #zoom button+button{border-top:0;border-left:1px solid var(--line)}
   #slHyp{height:64px;margin-top:6px} #slEEG{height:32px} .sl-meters{font-size:11.5px;gap:2px 10px;margin-top:2px} .sl-heat{margin-top:4px}
@@ -1915,7 +1917,7 @@ var REGIONS = [
   where:'Mostly in the first third of the night',
   summary:'N3 is deep, slow-wave sleep. Huge, slow delta waves, 0.5 to 2 per second, sweep across the cortex as millions of neurons fire and rest together. Brain energy use drops, growth hormone is released, and the hippocampus replays the day’s events to the cortex. It is the hardest stage to wake from.',
   funcs:['Restoring the brain and body; the biggest pulse of growth hormone comes now','Moving new memories from the hippocampus into the cortex','Likely helping to clear waste from the brain','Strengthening the immune system'],
-  damage:'Deep sleep decreases with age. Alcohol may deepen sleep early in the night, but it breaks up sleep and suppresses REM later on. Sleepwalking and night terrors arise from N3, usually in the first part of the night. Too little deep sleep is linked to poorer memory and, over years, to a higher risk of dementia.',
+  damage:'Deep sleep decreases with age. Alcohol may deepen sleep early in the night, but it suppresses REM in the first half of the night and breaks up sleep in the second half. Sleepwalking and night terrors arise from N3, usually in the first part of the night. Too little deep sleep is linked to poorer memory and, over years, to a higher risk of dementia.',
   fact:'Slow waves usually begin in the frontal lobes and travel toward the back of the brain, like waves rolling across a lake.'},
  {id:'sl_rem',kind:'sleep',mode:'sleep',lv:'cycle',stage:'REM',group:'A night of sleep: stages',name:'REM Sleep: Dreaming',short:'REM: dreaming',color:'#ef476f',
   where:'Every 90 minutes or so, longer toward morning',
@@ -1936,7 +1938,7 @@ var REGIONS = [
   summary:'The suprachiasmatic nucleus (SCN) is the body’s master clock: tens of thousands of neurons that keep a rhythm of roughly 24 hours even in constant darkness. Each morning, light reaching special cells in the eyes resets it, keeping your body’s rhythms in step with the sun.',
   funcs:['Keeping a daily rhythm of about 24 hours','Being reset by morning light through the eyes','Timing sleep, hormone release, body temperature and digestion','Driving melatonin release at night through the pineal gland'],
   damage:'Damage to the SCN scatters sleep across the day and night. Jet lag and shift work put the clock out of step with the day, causing poor sleep, poor focus and digestive problems.',
-  fact:'The clock is driven by genes that switch each other on and off in a loop lasting about a day. Its discoverers, Jeffrey Hall, Michael Rosbash and Michael Young, won the Nobel Prize in 2017.',
+  fact:'The clock is driven by genes that switch each other on and off in a loop lasting about a day. The scientists who uncovered this gene loop (in fruit flies), Jeffrey Hall, Michael Rosbash and Michael Young, won the Nobel Prize in 2017.',
   view:{az:40,el:-10}, at:[0,-0.2,0.25], zoom:0.45},
  {id:'sl_pineal',kind:'sleep',mode:'sleep',lv:'circuits',group:'Sleep circuits: the body clock',name:'Pineal Gland and Melatonin',short:'Pineal gland',color:'#c77dff',
   where:'A small gland at the back of the third ventricle',
@@ -5777,7 +5779,7 @@ var SL={
   rel:['sl_memory','sl_glymph']},
  sl_rem:{stats:[['~25%','of the night'],['70–90 min','until the first REM'],['~0','muscle tone']],
   how:['REM-on neurons in the pons switch on and activate the cortex through the thalamus.','Brain waves become low and fast, similar to waking, with sawtooth waves.','A pathway from the pons to the medulla and spinal cord paralyzes the muscles.','The eyes move rapidly, and heart rate and breathing become irregular.','The amygdala and visual areas are very active; the dorsolateral prefrontal cortex is quieter.'],
-  deep:['Body temperature control is largely switched off during REM, which is one reason a too-warm or too-cold room disturbs it.','Most medicines for depression reduce REM sleep, and alcohol suppresses it early in the night.','Dreams also occur in NREM sleep, but they tend to be shorter and more thought-like.'],
+  deep:['Body temperature control is largely switched off during REM, which is one reason a too-warm or too-cold room disturbs it.','Many medicines for depression reduce REM sleep, and alcohol suppresses it early in the night.','Dreams also occur in NREM sleep, but they tend to be shorter and more thought-like.'],
   rel:['sl_remsw','sl_memory']},
  sl_switch:{stats:[['2','forces: sleep pressure and the clock'],['~24 h','body-clock cycle'],['seconds','to flip between states']],
   how:['During the day, the arousal system (orange) keeps the cortex awake, and orexin (green) holds it steady.','Through the day, adenosine builds up and the body clock signals that night is coming.','At night, the VLPO (purple) switches on and turns the arousal system off. Melatonin rises.','Inside sleep, a REM switch in the pons alternates NREM and REM about every 90 minutes.'],
@@ -5824,7 +5826,7 @@ var SL_ACT=(function(){
   set(['occipital'],[0.75,0.5,0.42,0.25,0.72]); set(['temporal','auditory','wernicke'],[0.7,0.55,0.45,0.25,0.75]); set(['broca'],[0.72,0.55,0.42,0.2,0.45]);
   set(['thalamus'],[0.8,0.6,0.5,0.25,0.78]); set(['hippocampus'],[0.65,0.55,0.55,0.55,0.75]); set(['amygdala'],[0.6,0.5,0.4,0.3,0.92]);
   set(['cingulate'],[0.72,0.55,0.45,0.25,0.82]); set(['insula'],[0.65,0.5,0.42,0.28,0.6]); set(['basal'],[0.7,0.55,0.45,0.28,0.6]);
-  set(['hypothalamus'],[0.6,0.6,0.62,0.68,0.55]); set(['pituitary'],[0.5,0.5,0.6,0.85,0.5]); set(['pons'],[0.6,0.5,0.45,0.35,0.95]); set(['midbrain'],[0.65,0.5,0.42,0.32,0.75]);
+  set(['hypothalamus'],[0.62,0.55,0.5,0.42,0.55]); set(['pituitary'],[0.5,0.5,0.6,0.85,0.5]); set(['pons'],[0.6,0.5,0.45,0.35,0.95]); set(['midbrain'],[0.65,0.5,0.42,0.32,0.75]);
   set(['medulla'],[0.6,0.55,0.55,0.55,0.6]); set(['cerebellum'],[0.68,0.5,0.4,0.25,0.5]); set(['snigra'],[0.6,0.5,0.45,0.35,0.6]); set(['callosum'],[0.5,0.45,0.4,0.3,0.5]);
   a.base=base; return a;
 })();
@@ -5832,7 +5834,7 @@ var SL_IDS=REGIONS.filter(function(r){ return r.mode==='sleep'; }).map(function(
 var SL_OVER={cycle:'sl_night',circuits:'sl_switch'}, SL_OVERS=['sl_night','sl_switch'];
 var PRIORITY_SL=SL_IDS.filter(function(id){ return SL_OVERS.indexOf(id)<0; }).concat(SL_OVERS);
 var slv='cycle', slBuilt=false, slG=new THREE.Group(), slPick=[], slPaths=[], slStn=[], slStageStn=[], slAnch={}, slXrayBefore=false;
-var slSigWas=null, slMoving=true, slColDirty=true, slEegKey='', slHypKey='', slT=5, slPlaying=false, slDay=true, slStage='W', slAct={}, slColT=0, slEegT=0, slLastTxt='', slbar=$('#slbar');
+var slSigWas=null, slMoving=true, slColDirty=true, slEegKey='', slHypKey='', slT=5, slPlaying=false, slDay=true, slStage='W', slAct={}, slColT=0, slEegT=17.5, slLastTxt='', slbar=$('#slbar');
 slG.visible=false; scene.add(slG);
 function isSL(id){ return !!(id && R[id] && R[id].mode==='sleep'); }
 function slSel(){ return (isSL(selected) && SL_OVERS.indexOf(selected)<0)?selected:null; }
@@ -5919,14 +5921,14 @@ function buildSleep(){
   flush();
   // label points and stations
   function A(id,p,n){ slAnch[id]={p:V(p),n:n?V(n).normalize():null}; }
-  A('sl_scn',[0.03,-0.21,0.29]); A('sl_pineal',[0.02,0.03,-0.26]); A('sl_vlpo',VLPO(1)); A('sl_orexin',OX(1)); A('sl_arousal',LC(1)); A('sl_remsw',SLD(-1));
+  A('sl_scn',[0.03,-0.21,0.29]); A('sl_pineal',[0.02,0.03,-0.26]); A('sl_vlpo',VLPO(1)); A('sl_orexin',OX(1)); A('sl_arousal',(function(){ var a=LC(1), b=TMN(1); return [(a[0]+b[0])/2,(a[1]+b[1])/2+0.06,(a[2]+b[2])/2]; })()); A('sl_remsw',SLD(-1));
   A('sl_thal',[0.15,0.24,-0.05]); A('sl_adeno',[0.2,-0.02,0.32]); A('sl_glymph',surfacePoint(lat(-0.15,0.1),1,0.04),lat(-0.15,0.1)); A('sl_memory',HIP(1)); A('sl_switch',[0,-0.1,0.2]);
   stations('sl_scn',[['Light from the eyes',[0.1,-0.25,0.38]],['Optic chiasm',[0,-0.25,0.3]],['SCN: master clock',SCN(1)]]);
   stations('sl_pineal',[['SCN',SCN(-1)],['Down the spinal cord',S(0.8,0.5,0.2)],['Back up via a neck ganglion',[0.25,-0.5,-0.2]],['Pineal gland: melatonin',PIN]]);
   stations('sl_vlpo',[['VLPO (sleep-on)',VLPO(1)],['Turns off histamine (TMN)',TMN(-1)],['Turns off orexin',OX(-1)],['Turns off the brainstem arousal centers',LC(1)]]);
   stations('sl_orexin',[['Orexin neurons',OX(1)],['To the locus coeruleus',LC(-1)],['To the cortex',cx.pf(1)]]);
   stations('sl_arousal',[['Locus coeruleus: noradrenaline',LC(1)],['Raphe nuclei: serotonin',RAPHE[1]],['Brainstem: acetylcholine',PPT(-1)],['Tuberomammillary: histamine',TMN(1)],['Basal forebrain',BF(1)],['Thalamus: gate open',THAL(-1)],['Cortex kept awake',cx.pa(1)]]);
-  stations('sl_remsw',[['REM-on neurons (pons)',SLD(1)],['To the medulla',VMED],['Motor neurons switched off',[0,-1.2,-0.34]],['Cortex activated for dreams',THAL(-1)]]);
+  stations('sl_remsw',[['REM-on neurons (pons)',SLD(1)],['To the medulla',VMED],['Motor neurons switched off',[0,-1.2,-0.34]],['Thalamus: wakes the cortex for dreams',THAL(-1)]]);
   stations('sl_thal',[['Thalamic reticular nucleus',[0.24,0.18,-0.05]],['Spindles to the cortex',cx.mo(1)],['Sensory gate',THAL(-1)]]);
   stations('sl_adeno',[['Densest in the basal forebrain',BF(1)],['Builds up through the day',cx.pa(-1)]]);
   stations('sl_glymph',[['In along arteries',surfacePoint(lat(0.3,-0.2),1,0.04)],['Through the tissue',[0.3,0.15,-0.1]],['Out along veins',[0,0.78,-0.1]]]);
@@ -5987,7 +5989,9 @@ function slUpdateBarText(){
   var hc=$('#slHyp'); hc.setAttribute('aria-valuenow',String(Math.round(slT))); hc.setAttribute('aria-valuetext',slClock(slT)+', '+I.name);
   $('#slMeters').innerHTML=''; [['Brain waves',I.wave],['Muscles',I.muscle],['Eyes',I.eyes]].forEach(function(x){ var sp=el('span'); sp.appendChild(el('b',null,x[0]+': ')); sp.appendChild(document.createTextNode(x[1])); $('#slMeters').appendChild(sp); });
 }
-var SL_LV={W:0,REM:1,N1:2,N2:3,N3:4}, SL_SCOL={W:'#ffd166',N1:'#9be7a5',N2:'#4cc9f0',N3:'#4361ee',REM:'#ef476f'};
+var SL_LV={W:0,REM:1,N1:2,N2:3,N3:4}, SL_SCOL={W:'#ffd166',N1:'#9be7a5',N2:'#4cc9f0',N3:'#4361ee',REM:'#ef476f'}, SL_SCOL_L={W:'#b07d00',N1:'#2f9e4f',N2:'#0b86b5',N3:'#3451d1',REM:'#d43a5f'};
+function slDark(){ var t=document.documentElement.getAttribute('data-theme'); return t?t==='dark':!!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+function slCol(s){ return (slDark()?SL_SCOL:SL_SCOL_L)[s]; }
 function slFitCanvas(c){ var d=Math.min(2,window.devicePixelRatio||1), w=Math.max(10,c.clientWidth), h=Math.max(10,c.clientHeight); if(c.width!==Math.round(w*d) || c.height!==Math.round(h*d)){ c.width=Math.round(w*d); c.height=Math.round(h*d); } var g=c.getContext('2d'); if(g.setTransform) g.setTransform(d,0,0,d,0,0); return {g:g,w:w,h:h}; }
 function slDrawHyp(){
   var c=$('#slHyp'); if(!c || !c.getContext || !c.clientWidth) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, L=50, top=4, bot=h-16, ph=(bot-top)/4;
@@ -5996,13 +6000,14 @@ function slDrawHyp(){
   ['Wake','REM','N1','N2','N3'].forEach(function(t,i){ var y=top+i*ph; g.fillStyle=ink; g.fillText(t,2,y); g.strokeStyle=line; g.lineWidth=1; g.beginPath(); g.moveTo(L,y); g.lineTo(w-4,y); g.stroke(); });
   var X=function(t){ return L+(w-4-L)*t/480; };
   for(var i=0;i<SL_NIGHT.length;i++){ var s=SL_NIGHT[i][0], a=SL_NIGHT[i][1], b=i+1<SL_NIGHT.length?SL_NIGHT[i+1][1]:480, y=top+SL_LV[s]*ph;
-    g.strokeStyle=SL_SCOL[s]; g.lineWidth=s==='REM'?5:3; g.beginPath(); g.moveTo(X(a),y); g.lineTo(X(b),y); g.stroke();
+    g.strokeStyle=slCol(s); g.lineWidth=s==='REM'?5:3; g.beginPath(); g.moveTo(X(a),y); g.lineTo(X(b),y); g.stroke();
     if(i+1<SL_NIGHT.length){ var y2=top+SL_LV[SL_NIGHT[i+1][0]]*ph; g.strokeStyle=ink; g.lineWidth=1; g.beginPath(); g.moveTo(X(b),y); g.lineTo(X(b),y2); g.stroke(); } }
   g.fillStyle=ink; g.textBaseline='alphabetic'; [0,120,240,360,480].forEach(function(t,i){ var lab=['11 pm','1 am','3 am','5 am','7 am'][i]; g.textAlign=i===0?'left':(i===4?'right':'center'); g.fillText(lab,X(t),h-3); }); g.textAlign='left';
   var cx=X(slT); g.strokeStyle=cs.getPropertyValue('--ink')||'#fff'; g.lineWidth=2; g.beginPath(); g.moveTo(cx,top-3); g.lineTo(cx,bot+3); g.stroke();
-  g.fillStyle=SL_SCOL[slStage]; g.beginPath(); g.arc(cx,top+SL_LV[slStage]*ph,5,0,Math.PI*2); g.fill();
+  g.fillStyle=slCol(slStage); g.beginPath(); g.arc(cx,top+SL_LV[slStage]*ph,5,0,Math.PI*2); g.fill();
 }
 function slEeg(t,s){
+  t=Math.abs(t);
   var n=0.5*Math.sin(t*91.3)*Math.sin(t*37.1)+0.5*Math.sin(t*53.7+Math.sin(t*7.3)), P=2*Math.PI;
   if(s==='W') return 0.12*Math.sin(P*20*t)+0.1*Math.sin(P*27*t+1)+0.22*Math.sin(P*10*t)*(0.5+0.5*Math.sin(P*0.2*t))+0.12*n;
   if(s==='N1') return 0.34*Math.sin(P*5*t)+0.18*Math.sin(P*3.1*t+1)+0.08*Math.sin(P*9*t)+0.1*n;
@@ -6015,8 +6020,8 @@ function slDrawEeg(){
   var c=$('#slEEG'); if(!c || !c.getContext || !c.clientWidth) return; slEegKey=slStage; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, mid=h/2, span=3;
   var cs=getComputedStyle(app); g.clearRect(0,0,w,h);
   g.fillStyle=cs.getPropertyValue('--muted')||'#888'; g.font='600 10px system-ui, sans-serif'; g.textBaseline='top'; g.fillText('EEG',2,2);
-  g.strokeStyle=SL_SCOL[slStage]; g.lineWidth=1.5; g.beginPath();
-  for(var x=34;x<w-2;x++){ var t=slEegT-span+(x-34)/(w-36)*span, y=mid-slEeg(t,slStage)*h*0.42; if(x===34) g.moveTo(x,y); else g.lineTo(x,y); }
+  g.strokeStyle=slCol(slStage); g.lineWidth=1.5; g.beginPath();
+  for(var x=34;x<w-2;x++){ var t=slEegT-span+(x-34)/(w-36)*span, y=mid-clamp(slEeg(t,slStage),-1.1,1.1)*h*0.42; if(x===34) g.moveTo(x,y); else g.lineTo(x,y); }
   g.stroke(); g.fillText('3 s',w-22,h-12);
 }
 function slFrame(dt){
@@ -6101,6 +6106,7 @@ $('#slNight').addEventListener('click',function(){ slSetDay(false); });
   function at(e){ var r=c.getBoundingClientRect(), L=50; slSetTime((e.clientX-r.left-L)/Math.max(1,r.width-4-L)*480); slDrawHyp(); kick(); }
   c.addEventListener('pointerdown',function(e){ drag=true; if(c.setPointerCapture) c.setPointerCapture(e.pointerId); at(e); });
   c.addEventListener('pointermove',function(e){ if(drag) at(e); });
+  if(window.matchMedia){ var mq=matchMedia('(prefers-color-scheme: dark)'), f=function(){ slHypKey=''; slEegKey=''; if(slBuilt && mode==='sleep'){ slDrawHyp(); slDrawEeg(); } }; if(mq.addEventListener) mq.addEventListener('change',f); else if(mq.addListener) mq.addListener(f); }
   ['pointerup','pointercancel','lostpointercapture'].forEach(function(t){ c.addEventListener(t,function(){ drag=false; }); });
   c.addEventListener('keydown',function(e){ var d={ArrowRight:10,ArrowUp:10,ArrowLeft:-10,ArrowDown:-10,PageUp:60,PageDown:-60}[e.key]; if(e.key==='Home') d=-slT; if(e.key==='End') d=480-slT; if(d==null) return; e.preventDefault(); e.stopPropagation(); slSetTime(slT+d); slDrawHyp(); kick(); });
 })();
@@ -6267,6 +6273,7 @@ function kick(ms){ renderUntil=Math.max(renderUntil,performance.now()+(ms||900))
 ['pointerdown','pointermove','pointerup','wheel','keydown','click','input','change','touchstart'].forEach(function(t){ window.addEventListener(t,function(){ kick(); },{passive:true,capture:true}); });
 var PRIORITY=['prefrontal','parietal','occipital','temporal','cerebellum','motor','sensory','premotor','pons','medulla','midbrain','broca','wernicke','auditory','thalamus','hippocampus','amygdala','basal','snigra','callosum','hypothalamus','cingulate','insula','pituitary','dura','arachnoid','pia','mca','aca','veins','carotid','vertebral','willis','pca'];
 function setLbl(el,on,x,y){
+  if(on){ var hw=(el._w||(el._w=el.offsetWidth||0))/2+4; if(hw>4 && W>hw*2){ x=clamp(x,hw,W-hw); if(y<toolsB+14 && x+hw>toolsL && toolsL-hw>=hw) x=toolsL-hw; } }
   if(on && (el._x==null || Math.abs(el._x-x)>0.4 || Math.abs(el._y-y)>0.4)){ el._x=x; el._y=y; el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) translate(-50%,-50%)'; }
   if(el._on!==on){ el._on=on; el.classList.toggle('on',on); if(el.tagName==='BUTTON') el.tabIndex=on?0:-1; }
 }
@@ -6278,8 +6285,9 @@ function updateLevelLabels(taken){
     if(taken.some(function(t){ return Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22; })){ setLbl(e.el,false); return; }
     setLbl(e.el,true,x,y); });
 }
-var labTop=0, labBot=1e9;
+var labTop=0, labBot=1e9, toolsL=1e9, toolsB=-1, toolsEl=$('#tools');
 function updateLabels(){
+  toolsL=toolsEl.offsetLeft||1e9; toolsB=toolsEl.offsetTop+toolsEl.offsetHeight;
   labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?H-panel.offsetHeight:1e9;
   var items={};
   REGIONS.forEach(function(r){

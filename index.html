@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;touch-action:manipulation}
 button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #app{position:fixed;inset:0;overflow:hidden}
 #c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;outline:none}
-#c,#top,#tools,#labels,#layers,#dbar,#slbar,#zoom,#hint{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#c,#top,#tools,#labels,#layers,#dbar,#slbar,#csbar,#zoom,#hint{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #c.panning{cursor:move}
 
 /* top bar */
@@ -136,6 +136,26 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-hw .sv.hw-only{display:inline-flex!important}
 .sleep-only{display:none!important}
 .mode-sleep .sv.sleep-only{display:inline-flex!important}
+.mind-only{display:none!important}
+.mode-mind .sv.mind-only{display:inline-flex!important}
+#csMap{display:block;width:100%;height:100px;margin-top:6px;touch-action:none;cursor:pointer}
+#csWave{display:block;width:100%;height:86px;margin-top:4px;touch-action:none;cursor:pointer}
+.cv-states .cs-mo,.cv-states .cs-nw,.cv-moment .cs-st,.cv-moment .cs-nw,.cv-networks .cs-st,.cv-networks .cs-mo{display:none}
+.cs-pci{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)}
+.cs-pci b{color:var(--ink);font-weight:700;white-space:nowrap}
+.cs-track{position:relative;flex:1;height:8px;border-radius:99px;background:var(--soft);min-width:40px}
+.cs-track i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;background:var(--accent);transition:width .35s}
+.cs-pci .cs-track em{position:absolute;top:-3px;bottom:-3px;left:44.3%;width:2px;border-radius:1px;background:var(--ink);opacity:.55}
+.cs-zap{flex:0 0 auto;border:0;border-radius:999px;padding:8px 12px;background:var(--soft);color:var(--ink);font:700 13px var(--head);cursor:pointer}
+.cs-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.cs-note{font-size:11px;color:var(--muted)}
+.cs-see{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)}
+.cs-see i{transition:none}
+#csDmnF{background:#ffc145} #csCenF{background:#4895ef}
+.cs-sal{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.cs-sal::before{content:"";width:9px;height:9px;border-radius:50%;background:#ef476f;opacity:.3;transition:opacity .2s,transform .2s}
+.cs-sal.on{color:var(--ink);font-weight:700} .cs-sal.on::before{opacity:1;transform:scale(1.35)}
+.cs-nw .db-stage span{white-space:normal}
 #slHyp{display:block;width:100%;height:76px;margin-top:8px;touch-action:none;cursor:pointer}
 #slEEG{display:block;width:100%;height:42px;margin-top:2px}
 .sl-meters{display:flex;flex-wrap:wrap;gap:3px 14px;margin-top:4px;font-size:12px;color:var(--muted)}
@@ -204,17 +224,18 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   #zoom button+button{border-top:0;border-left:1px solid var(--line)}
   #hint{bottom:calc(10px + var(--sab));font-size:12px;padding:6px 12px}
   .mode-diseases #zoom,.bar-sl #zoom{bottom:calc(var(--dbh,150px) + 18px + var(--sab))}
-  #slbar{padding:6px 10px} #slHyp{height:58px;margin-top:4px} #slEEG{height:30px} .sl-meters,.sl-heat{display:none}
+  #slbar,#csbar{padding:6px 10px} #slHyp{height:58px;margin-top:4px} #slEEG{height:30px} .sl-meters,.sl-heat{display:none}
+  #csMap{height:72px} #csWave{height:58px} .cs-pci,.cs-sal,.cs-note,.cs-nw .db-stage span{display:none}
   #slCirS{display:none} .bar-sl #tools{max-height:calc(100% - var(--topui,60px) - var(--dbh,150px) - 28px - var(--sab))}
   #dbar{padding:6px 10px} #dSlider{margin-top:4px;height:24px} .db-legend{display:none}
 }
 .mode-diseases.dview-brain #bXray{display:flex!important}
 .mode-diseases.dview-brain .nerve-only{display:none!important}
 .mode-diseases #hint{display:none}
-#dbar,#slbar{position:absolute;z-index:7;left:calc(12px + var(--sal));right:calc(12px + var(--sar));bottom:calc(12px + var(--sab));padding:10px 14px 10px;border-radius:18px;background:var(--panel);
+#dbar,#slbar,#csbar{position:absolute;z-index:7;left:calc(12px + var(--sal));right:calc(12px + var(--sar));bottom:calc(12px + var(--sab));padding:10px 14px 10px;border-radius:18px;background:var(--panel);
   border:1px solid var(--line);box-shadow:0 10px 30px rgba(6,11,28,.3);backdrop-filter:blur(14px)}
-@media (min-width:820px), (min-width:600px) and (max-height:520px){ #dbar,#slbar{right:auto;width:min(560px,calc(100% - 24px))} .panel-open #dbar,.panel-open #slbar{max-width:calc(100% - 470px)} }
-@media (min-width:600px) and (max-height:520px){ .bar-sl.panel-open #slbar{max-width:calc(100% - 396px - var(--sal) - var(--sar))} .bar-sl.panel-open #zoom{opacity:0;pointer-events:none} .mode-diseases.panel-open #dbar{max-width:calc(100% - 396px - var(--sal) - var(--sar))} .mode-diseases.panel-open #zoom{opacity:0;pointer-events:none} }
+@media (min-width:820px), (min-width:600px) and (max-height:520px){ #dbar,#slbar,#csbar{right:auto;width:min(560px,calc(100% - 24px))} .panel-open #dbar,.panel-open #slbar,.panel-open #csbar{max-width:calc(100% - 470px)} }
+@media (min-width:600px) and (max-height:520px){ .bar-sl.panel-open #slbar,.bar-sl.panel-open #csbar{max-width:calc(100% - 396px - var(--sal) - var(--sar))} .bar-sl.panel-open #zoom{opacity:0;pointer-events:none} .mode-diseases.panel-open #dbar{max-width:calc(100% - 396px - var(--sal) - var(--sar))} .mode-diseases.panel-open #zoom{opacity:0;pointer-events:none} }
 .db-top{display:flex;align-items:center;gap:10px}
 .db-play{width:44px;height:44px;flex:0 0 auto;border-radius:50%;border:0;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;cursor:pointer}
 .db-play svg{width:18px;height:18px;fill:currentColor}
@@ -242,6 +263,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   .mode-diseases #panel,.bar-sl #panel{bottom:calc(var(--dbh,150px) + 20px + var(--sab));left:8px;right:8px;border-radius:18px;max-height:min(42%,380px)}
   .bar-sl #panel{max-height:min(42%,380px,calc(100% - var(--topui,100px) - var(--dbh,150px) - 34px - var(--sab)))}
   .slv-circuits.panel-open #slbar{display:none}
+  .bar-cs.panel-open #csMap,.bar-cs.panel-open #csWave,.bar-cs.panel-open .cs-pci,.bar-cs.panel-open .cs-see,.bar-cs.panel-open .cs-sal,.bar-cs.panel-open .cs-row,.bar-cs.panel-open .cs-nw .db-stage span{display:none}
   .bar-sl.panel-open #slEEG,.bar-sl.panel-open .sl-heat,.bar-sl.panel-open .lg-ends.sl-meters,.bar-sl.panel-open #slMeters{display:none}
   .bar-sl #tools{flex-wrap:wrap-reverse;align-content:flex-end;overflow:visible;max-height:calc(100% - var(--topui,100px) - var(--dbh,150px) - 92px - var(--sab))}
   .bar-sl #zoom{flex-direction:row} .bar-sl #zoom button{width:50px;height:44px} .bar-sl #zoom button+button{border-top:0;border-left:1px solid var(--line)}
@@ -257,7 +279,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 }
 .grab{flex:0 0 auto;height:22px;margin-bottom:-14px;display:grid;place-items:center;cursor:grab;touch-action:none;position:relative;z-index:1}
 .grab::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--line)}
-@media (max-width:599px) and (max-height:600px){ .bar-sl .tool{width:44px;height:40px;font-size:0;gap:0} .bar-sl #slMeters{display:none} .bar-sl #slHyp{height:56px} .bar-sl.panel-open #slEEG,.bar-sl.panel-open .sl-heat,.bar-sl.panel-open .lg-ends.sl-meters{display:none} }
+@media (max-width:599px) and (max-height:600px){ .bar-sl .tool{width:44px;height:40px;font-size:0;gap:0} .bar-sl #slMeters{display:none} .bar-sl #slHyp{height:56px} .bar-cs.panel-open #csWave{display:none} .bar-sl.panel-open #slEEG,.bar-sl.panel-open .sl-heat,.bar-sl.panel-open .lg-ends.sl-meters{display:none} }
 @media (pointer:coarse){ .label{padding:5px 11px 5px 8px;font-size:12.5px} .label.lvl{font-size:11px} }
 @media (max-width:599px), (max-width:819px) and (min-height:521px){ #tools{gap:6px} .tool{width:54px;height:46px;font-size:10.5px} .tool svg{width:18px;height:18px} }
 
@@ -357,12 +379,14 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <button class="mode" id="mThink" role="tab" aria-selected="false"><span class="tl">Thinking organs of the mind</span><span class="ts">Thinking</span></button>
       <button class="mode" id="mHW" role="tab" aria-selected="false"><span class="tl">The hardware of the mind</span><span class="ts">Hardware</span></button>
       <button class="mode" id="mSleep" role="tab" aria-selected="false"><span class="tl">Sleep and the brain</span><span class="ts">Sleep</span></button>
+      <button class="mode" id="mMind" role="tab" aria-selected="false"><span class="tl">Consciousness and the brain</span><span class="ts">Mind</span></button>
     </div>
       <div class="sv spine-only" role="tablist" aria-label="Spinal cord view"><button id="svCross" class="on" role="tab" aria-selected="true"><span class="tl">Cross-section</span><span class="ts">Cross</span></button><button id="svWhole" role="tab" aria-selected="false"><span class="tl">Whole cord</span><span class="ts">Whole</span></button></div>
       <div class="sv senses-only" role="tablist" aria-label="Senses view"><button id="seHead" class="on" role="tab" aria-selected="true">Head</button><button id="seBody" role="tab" aria-selected="false">Body</button></div>
       <div class="sv think-only" role="tablist" aria-label="Thinking organ"><button id="tvCer" class="on" role="tab" aria-selected="true">Cerebrum</button><button id="tvNeo" role="tab" aria-selected="false">Neocortex</button><button id="tvCb" role="tab" aria-selected="false">Cerebellum</button></div>
       <div class="sv hw-only" role="tablist" aria-label="Hardware view"><button id="hvNeu" class="on" role="tab" aria-selected="true">Neuron</button><button id="hvDen" role="tab" aria-selected="false">Dendrites</button><button id="hvMat" role="tab" aria-selected="false"><span class="tl">Grey &amp; white</span><span class="ts">Matter</span></button><button id="hvNet" role="tab" aria-selected="false">Network</button></div>
       <div class="sv sleep-only" role="tablist" aria-label="Sleep view"><button id="slvCyc" class="on" role="tab" aria-selected="true"><span class="tl">A night of sleep</span><span class="ts">Night</span></button><button id="slvCir" role="tab" aria-selected="false"><span class="tl">Sleep circuits</span><span class="ts">Circuits</span></button></div>
+      <div class="sv mind-only" role="tablist" aria-label="Consciousness view"><button id="cvSt" class="on" role="tab" aria-selected="true"><span class="tl">States of consciousness</span><span class="ts">States</span></button><button id="cvMo" role="tab" aria-selected="false"><span class="tl">A moment of awareness</span><span class="ts">Moment</span></button><button id="cvNw" role="tab" aria-selected="false"><span class="tl">Networks of the mind</span><span class="ts">Networks</span></button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -410,6 +434,23 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <input id="dSlider" type="range" min="0" max="4" step="0.01" value="0" aria-label="Disease stage">
     <div class="db-ticks" id="dTicks"></div>
     <div class="db-legend" id="dLegend"></div>
+  </div>
+  <div id="csbar" hidden>
+    <div class="cs-st">
+      <div class="db-top"><div class="db-stage"><b id="csStT">Fully Awake and Aware</b><span id="csStS"></span></div><button id="csZap" class="cs-zap" aria-label="Zap the cortex and watch the echo">&#9889; Zap</button><button id="csInfo" class="db-info" aria-label="About this state">i</button></div>
+      <canvas id="csMap" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" aria-label="Map of states of consciousness: wakefulness from left to right, awareness from bottom to top. Tap a state or use the arrow keys."></canvas>
+      <div class="cs-pci"><span>Complexity after a zap</span><div class="cs-track" title="The line marks about 0.31, the boundary found between conscious and unconscious states"><i id="csPciF"></i><em></em></div><b id="csPciV"></b></div>
+    </div>
+    <div class="cs-mo">
+      <div class="db-top"><button id="csPlay" class="db-play" aria-label="Play the moment"></button><div class="db-stage"><b id="csMoT"></b><span id="csMoS"></span></div></div>
+      <div class="cs-row"><div class="db-view" role="tablist" aria-label="Was the word seen?"><button id="csSeen" class="on" role="tab" aria-selected="true">Seen</button><button id="csUnseen" role="tab" aria-selected="false">Not seen</button></div><span class="cs-note">Simplified EEG, slowed down</span></div>
+      <canvas id="csWave" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="600" aria-valuenow="0" aria-label="Timeline of the moment from 0 to 600 milliseconds with a simplified EEG trace. Drag or use the arrow keys."></canvas>
+    </div>
+    <div class="cs-nw">
+      <div class="db-top"><div class="db-view" role="tablist" aria-label="Direction of attention"><button id="csIn" class="on" role="tab" aria-selected="true">Inward</button><button id="csOut" role="tab" aria-selected="false">Outward</button></div><div class="db-stage"><b id="csNwT"></b><span id="csNwS"></span></div></div>
+      <div class="cs-see"><span>Default mode</span><div class="cs-track"><i id="csDmnF"></i></div><span>Executive and attention</span><div class="cs-track"><i id="csCenF"></i></div></div>
+      <span id="csSalI" class="cs-sal">Salience network switching</span>
+    </div>
   </div>
   <div id="slbar" hidden>
     <div class="sl-cyc">
@@ -460,6 +501,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#128066;</span><span>Open Senses of the mind to see how each sense is detected, how its signals reach the brain, and how the brain makes sense of them.</span></li>
         <li><span class="ic">&#128161;</span><span>Open Thinking organs of the mind to look closely at the cerebrum, the six layers of the neocortex and the cerebellum, and see how they work.</span></li>
         <li><span class="ic">&#128268;</span><span>Open The hardware of the mind to see a neuron up close, dendrites at work in a network, grey and white matter, and how the whole brain communicates.</span></li>
+        <li><span class="ic">&#10024;</span><span>Open Consciousness and the brain to explore states of consciousness, watch a moment of awareness ignite across the brain, and turn the mind’s networks inward or outward.</span></li>
         <li><span class="ic">&#127769;</span><span>Open Sleep and the brain to play through a night of sleep stage by stage, and see the circuits that switch the brain between waking and sleeping.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
       </ul>
@@ -1888,6 +1930,192 @@ var REGIONS = [
   damage:'An EEG records these rhythms through the scalp. Seizures appear as abnormally synchronized waves, and the loss of normal rhythms helps diagnose coma and sleep disorders.',
   fact:'The hippocampus “replays” the day’s experiences in fast bursts during deep sleep, which helps move memories into the cortex. This is one reason sleep matters for learning.',
   view:{az:40,el:22}, zoom:1},
+ {id:'cs_states',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness',name:'Levels and States of Consciousness',short:'States of consciousness',color:'#8ecae6',
+  where:'The whole brain, from the brainstem to the cortex',
+  summary:'Doctors describe consciousness along two dimensions. Wakefulness is whether the brain is switched on: eyes open and sleep–wake cycles running. Awareness is whether there is experience: of the world, of thoughts and of oneself. Wakefulness depends mostly on the brainstem, hypothalamus and thalamus. Awareness depends on the cortex and its constant two-way conversation with the thalamus. Choose a state on the map below to see how the brain changes.',
+  funcs:['Wakefulness: the brain switched on','Awareness: experience of the world and of oneself','Moving between states every day, through sleep and dreaming','Helping doctors understand patients who cannot speak'],
+  hDamage:'In the clinic',
+  damage:'Severe brain injury can pull the two dimensions apart. A person may be awake but show no awareness (unresponsive wakefulness), or be fully aware but unable to move (locked-in syndrome). Careful testing matters, because missing awareness in a patient who has it is a serious error.',
+  fact:'Careful studies have found that around 40 percent of patients diagnosed as being in a vegetative state actually showed signs of awareness when examined more thoroughly.',
+  view:{az:20,el:12}, zoom:1},
+ {id:'cs_aras',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: what keeps us conscious',name:'Brainstem Arousal System',short:'Arousal system',color:'#ff9f1c',
+  where:'The upper brainstem (midbrain and upper pons), projecting through the thalamus and hypothalamus to the cortex',
+  summary:'A network of neuron clusters in the upper brainstem keeps the cortex switched on. Once called the reticular activating system, it sends signals upward along two routes: through the thalamus, and through the hypothalamus and basal forebrain straight to the cortex. Its messengers include acetylcholine, noradrenaline, serotonin, dopamine and glutamate, joined by histamine and orexin from the hypothalamus.',
+  funcs:['Switching the cortex on and keeping it awake','Opening the thalamus to pass signals to the cortex','Shifting the brain between waking and sleeping'],
+  damage:'A small injury here, especially in the upper pons and midbrain, can cause coma even when the cortex itself is undamaged. Damage to the cortex, by contrast, must be widespread on both sides to cause coma.',
+  fact:'In 1949 Giuseppe Moruzzi and Horace Magoun showed that electrically stimulating this brainstem area turned the brain waves of a sleeping or lightly anesthetized cat into the pattern of a waking brain.',
+  view:{az:70,el:8}, at:[0,-0.3,-0.2], zoom:0.75},
+ {id:'cs_cthal',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: what keeps us conscious',name:'Central Thalamus',short:'Central thalamus',color:'#ff70a6',
+  where:'Deep in the middle of each thalamus: the intralaminar nuclei',
+  summary:'The thalamus is the hub at the center of the brain. Most of it relays particular senses, but a central band of cells, the intralaminar nuclei, sends wide connections to the frontal cortex and the striatum and keeps the cortex active and ready. Together with the cortex it forms loops that run constantly while we are conscious.',
+  funcs:['Boosting activity across the frontal cortex','Sustaining attention and effort','Linking the arousal system to the cortex','Running thalamus–cortex loops that support awareness'],
+  damage:'Small strokes affecting the central thalamus on both sides can cause long-lasting severe drowsiness, loss of motivation, or coma-like states.',
+  fact:'In 2007, doctors placed stimulating electrodes in the central thalamus of a man who had been minimally conscious for six years after an assault. He became able to name objects, eat by mouth and respond more consistently.',
+  view:{az:35,el:18}, at:[0,0.12,0], zoom:0.7},
+ {id:'cs_pci',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: what keeps us conscious',name:'Zap and Zip: Measuring Consciousness',short:'Zap and zip (PCI)',color:'#ffd60a',
+  where:'A magnetic pulse to the scalp, with the echo recorded by EEG',
+  summary:'How can you tell whether someone is conscious if they cannot respond? One method sends a harmless magnetic pulse (TMS) into the cortex, the “zap”, and records the brain’s echo with EEG. The complexity of the echo is then measured by compressing it, like zipping a computer file, the “zip”. A conscious brain answers with a rich, varied echo that travels through many regions. An unconscious brain answers with a simple wave that stays local, or spreads uniformly, and fades. Press Zap below to compare states.',
+  funcs:['Testing consciousness without needing any response','Comparing waking, sleep, anesthesia and brain injury','Detecting hidden awareness in unresponsive patients'],
+  hDamage:'In the clinic',
+  damage:'The score is called the perturbational complexity index (PCI). Values above about 0.31 have been found in every conscious state tested, and values below it in dreamless sleep and most anesthesia. In some patients thought to be unresponsive, a high score has pointed to hidden consciousness.',
+  fact:'The method was developed by Marcello Massimini, Giulio Tononi and colleagues, and the index was first published in 2013.',
+  view:{az:20,el:24}, zoom:0.95},
+ {id:'cs_awake',kind:'mind',mode:'mind',lv:'states',st:'wake',group:'States of consciousness: the states',name:'Fully Awake and Aware',short:'Awake and aware',color:'#ffd166',
+  where:'Wakefulness high, awareness high',
+  summary:'In ordinary waking life the brainstem keeps the cortex switched on, the thalamus passes the senses through, and the cortex is busy with fast, varied and well-connected activity. Regions far apart stay in conversation, joining sights, sounds, memories and thoughts into one unified experience.',
+  funcs:['Experiencing the world through all the senses','Thinking, choosing and remembering','Knowing that you are you'],
+  hFuncs:'Signs', hDamage:'In the clinic',
+  damage:'Doctors check alertness with simple tests: eye opening, following commands and speaking. The Glasgow Coma Scale scores these from 3, no response at all, to 15, fully alert.',
+  fact:'The brain makes up about 2 percent of the body’s weight but uses about 20 percent of its energy.'},
+ {id:'cs_rem',kind:'mind',mode:'mind',lv:'states',st:'rem',group:'States of consciousness: the states',name:'Dreaming (REM Sleep)',short:'Dreaming',color:'#ef476f',
+  where:'Wakefulness low, awareness partly present',
+  summary:'In REM sleep we are cut off from the outside world, yet experience can be vivid. The cortex is active, especially visual and emotional areas, while the prefrontal cortex is quieter, which may be why dreams feel real and strange at the same time. Dreaming shows that awareness and wakefulness can come apart: the body sleeps while the mind experiences.',
+  funcs:['Vivid inner experience, cut off from the senses','Emotional and visual areas active','Muscles switched off so dreams are not acted out'],
+  hFuncs:'Signs', hDamage:'A closer look',
+  damage:'In lucid dreaming the sleeper realizes they are dreaming, and frontal areas involved in self-monitoring become more active than in ordinary dreams.',
+  fact:'Dreams also happen outside REM sleep, especially late in the night, but they tend to be shorter and more thought-like.'},
+ {id:'cs_nrem',kind:'mind',mode:'mind',lv:'states',st:'nrem',group:'States of consciousness: the states',name:'Dreamless Deep Sleep',short:'Deep sleep',color:'#4361ee',
+  where:'Wakefulness low, awareness low',
+  summary:'In deep slow-wave sleep the cortex is still alive with activity, but its neurons switch together between brief bursts and silences. Regions lose their ability to talk to one another in a rich, varied way, and experience largely fades. Woken from deep sleep, people usually report nothing, or only a vague thought.',
+  funcs:['Experience largely fades','Slow waves sweep across the cortex','Easily reversed: a loud sound wakes you'],
+  hFuncs:'Signs', hDamage:'A closer look',
+  damage:'Deep sleep is not damage: it is part of every healthy night. It shows that a living, active cortex is not enough for consciousness; the way regions interact matters.',
+  fact:'In 2005, scientists showed that a magnetic pulse in deep sleep produces a large wave that stays near where it started, while the same pulse in a waking brain ripples through many connected regions.'},
+ {id:'cs_anes',kind:'mind',mode:'mind',lv:'states',st:'anes',group:'States of consciousness: the states',name:'General Anesthesia',short:'Anesthesia',color:'#7b2cbf',
+  where:'Wakefulness and awareness switched off by medicine',
+  summary:'Anesthetic drugs switch off consciousness reversibly. Many, such as propofol, strengthen the brain’s main calming messenger, GABA. Communication between the front and back of the cortex breaks down, and the thalamus and cortex fall into slow, synchronized rhythms. Different drugs work in different ways: ketamine, for example, leaves the cortex busy and can bring dream-like experiences.',
+  funcs:['No response to speech or pain','Front–back communication in the cortex breaks down','Fully reversible when the drug wears off'],
+  hFuncs:'Signs', hDamage:'In the clinic',
+  damage:'Rarely, a patient has some awareness during surgery under general anesthesia; estimates range from about 1 in 1,000 to 1 in 19,000 operations. Careful dosing and, in some cases, brain monitors help prevent it.',
+  fact:'The first public demonstration of surgery under ether anesthesia took place at Massachusetts General Hospital in Boston on October 16, 1846.'},
+ {id:'cs_coma',kind:'mind',mode:'mind',lv:'states',st:'coma',group:'States of consciousness: the states',name:'Coma',short:'Coma',color:'#6c757d',
+  where:'Wakefulness absent, awareness absent',
+  summary:'In coma both dimensions are lost: the eyes stay closed, there are no sleep–wake cycles, and the person cannot be roused, even by pain. Coma usually results from damage to the brainstem arousal system, or from widespread injury to both sides of the brain, for example after cardiac arrest, trauma or poisoning.',
+  funcs:['Eyes closed; cannot be woken','No sleep–wake cycles','Some reflexes, such as breathing, may remain'],
+  hFuncs:'Signs', hDamage:'In the clinic',
+  damage:'Coma rarely lasts longer than two to four weeks. People then recover, move into an unresponsive or minimally conscious state, or, in the most severe cases, brain death is confirmed. Brain death is different from coma: all brain function, including the brainstem, has permanently stopped.',
+  fact:'The Glasgow Coma Scale, created by Graham Teasdale and Bryan Jennett in 1974, is used in hospitals around the world.'},
+ {id:'cs_uws',kind:'mind',mode:'mind',lv:'states',st:'uws',group:'States of consciousness: the states',name:'Unresponsive Wakefulness (Vegetative State)',short:'Unresponsive wakefulness',color:'#90a4ae',
+  where:'Wakefulness present, no outward signs of awareness',
+  summary:'Here the brainstem works but awareness shows no outward signs. The eyes open and close in sleep–wake cycles, breathing is normal and reflexes remain, but the person does not follow commands or respond with purpose. Scans show the brainstem and hypothalamus working, while the networks of the frontal and parietal cortex and their links with the thalamus are badly disrupted.',
+  funcs:['Eyes open; sleep–wake cycles','Reflexes, but no purposeful response','Islands of activity in sensory areas'],
+  hFuncs:'Signs', hDamage:'Hidden awareness',
+  damage:'Some patients in this state have hidden awareness. In 2006, a woman who could not respond was asked in a scanner to imagine playing tennis; her brain showed the same activity as healthy volunteers. In a 2024 study, about 1 in 4 patients who could not respond showed such hidden signs of following commands.',
+  fact:'The newer name, unresponsive wakefulness syndrome, was proposed in 2010 to avoid the word “vegetative”, which can wrongly suggest that a person is less than human.'},
+ {id:'cs_mcs',kind:'mind',mode:'mind',lv:'states',st:'mcs',group:'States of consciousness: the states',name:'Minimally Conscious State',short:'Minimally conscious',color:'#06d6a0',
+  where:'Wakefulness present, awareness partial and fluctuating',
+  summary:'Some patients show clear but inconsistent signs of awareness: following a simple command one minute but not the next, tracking a face with their eyes, or smiling at a familiar voice. Scans show thalamus–cortex loops that partly work, and a default mode network that is still partly connected.',
+  funcs:['Follows simple commands, but not every time','Tracks faces or objects with the eyes','Emotional responses to familiar people'],
+  hFuncs:'Signs', hDamage:'In the clinic',
+  damage:'Recovery is more likely than from unresponsive wakefulness, and it can continue for months or years. Treatments include the medicine amantadine, which sped recovery in a 2012 trial after traumatic brain injury, and, in research studies, stimulation of the thalamus or cortex.',
+  fact:'The minimally conscious state was formally defined in 2002 by Joseph Giacino and colleagues.'},
+ {id:'cs_lis',kind:'mind',mode:'mind',lv:'states',st:'lis',group:'States of consciousness: the states',name:'Locked-in Syndrome',short:'Locked-in syndrome',color:'#f77f00',
+  where:'Wakefulness high, awareness high, but almost no movement',
+  summary:'Here a person is fully awake and fully aware, yet almost completely paralyzed. Damage to the front part of the pons cuts the motor pathways to the body and face, while the arousal system behind it and the whole cortex are spared. Usually only blinking and up-and-down eye movements remain, and these become the way to communicate.',
+  funcs:['Fully awake and aware','Body and face paralyzed','Blinking and vertical eye movements remain'],
+  hFuncs:'Signs', hDamage:'In the clinic',
+  damage:'Locked-in syndrome can be mistaken for coma or unresponsiveness, so doctors ask patients to look up and down or blink on command. Brain–computer interfaces are now helping some locked-in patients to communicate.',
+  fact:'Journalist Jean-Dominique Bauby dictated a whole book, The Diving Bell and the Butterfly (1997), letter by letter by blinking his left eyelid.'},
+ {id:'cs_moment',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness',name:'A Moment of Awareness',short:'A moment of awareness',color:'#ffc145',
+  where:'From the eyes to the whole cortex, in about half a second',
+  summary:'What happens in the brain when you consciously see something? Press play to follow a word flashed before the eyes, in slow motion. Within a tenth of a second, signals sweep from the eyes to the back of the brain and on to areas that recognize shapes. Whether the word reaches awareness depends on what happens next. If it is seen, activity ignites across the brain and is shared widely. If it is not seen, the activity fades away.',
+  funcs:['Turning light into a recognized object in under a fifth of a second','Sharing what is seen with memory, language and planning','Letting much processing happen without awareness'],
+  hDamage:'When it goes wrong',
+  damage:'Brain damage can split seeing from awareness. In blindsight, damage to the primary visual cortex leaves people blind in part of their vision, yet they can still point to or avoid objects there that they say they cannot see.',
+  fact:'In masking experiments, a word flashed for about 30 milliseconds and then covered by a pattern is not consciously seen, yet it can still speed up responses to related words.',
+  view:{az:38,el:10}, at:[0,-0.05,0.15], zoom:1.05},
+ {id:'cs_sweep',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'The First Sweep',short:'First sweep',color:'#4cc9f0',
+  where:'Eyes → thalamus (LGN) → primary visual cortex → shape areas in the temporal lobe',
+  summary:'Light on the retina becomes nerve signals that travel along the optic nerves to a relay in the thalamus, the lateral geniculate nucleus, and on to the primary visual cortex at the back of the brain. From there a fast forward wave climbs a ladder of visual areas, each detecting more complex features: edges, then shapes and colors, then whole objects, faces and words. This first sweep takes about a tenth to a fifth of a second and, on its own, does not seem to produce awareness.',
+  funcs:['Carrying the image from the eyes to the cortex','Detecting edges, colors and motion','Recognizing objects, faces and words'],
+  damage:'Damage along this path causes loss of vision in a matching part of the visual field. Damage to the shape areas of the temporal lobe can cause visual agnosia: seeing clearly but being unable to recognize objects or faces.',
+  fact:'Signals reach the primary visual cortex roughly 50 to 70 milliseconds after light hits the eye.',
+  view:{az:55,el:8}, at:[0,-0.1,0.05], zoom:1},
+ {id:'cs_recur',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'Recurrent Loops',short:'Recurrent loops',color:'#2ec4b6',
+  where:'Back-and-forth signals among the visual areas of the posterior cortex',
+  summary:'After the first sweep, higher visual areas send signals back down to earlier ones, and neighboring areas talk sideways. These recurrent loops, from roughly 80–100 to 300 milliseconds, bind features into one object: this red, round, shiny thing is an apple. Many researchers think this local back-and-forth in the posterior cortex is where the contents of visual experience take shape.',
+  funcs:['Binding color, shape and position into one object','Sharpening and correcting the first impression','Building the contents of what we see'],
+  damage:'Disrupting the loops can block awareness. A magnetic pulse over the visual cortex about 80 to 100 milliseconds after an image appears can stop people from seeing it at all.',
+  fact:'Activity linked to consciously seeing something appears over the back of the head at about 200 milliseconds. Researchers call it the visual awareness negativity.',
+  view:{az:140,el:15}, at:[0,0,-0.45], zoom:0.85},
+ {id:'cs_hotzone',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'The Posterior Hot Zone',short:'Posterior hot zone',color:'#ff8c42',
+  where:'The back of the cortex: parietal, temporal and occipital lobes',
+  summary:'Brain-injury and stimulation studies point to the back of the cortex as especially important for the contents of experience: faces, colors, sounds and the feeling of space. Stimulating these areas during surgery can trigger experiences such as flashes of light, faces or a sense of movement, while stimulating much of the prefrontal cortex usually does not.',
+  funcs:['Shaping the contents of experience: sights, sounds, touch','Representing space, faces and objects','Linking the senses into one scene'],
+  damage:'Losing parts of this zone removes specific contents. Damage to color area V4 can make the world appear in shades of grey (achromatopsia), and damage to motion area MT can make moving things look like a series of still snapshots (akinetopsia).',
+  fact:'Whether the back or the front of the brain matters most for consciousness is one of the liveliest debates in the field. A large study comparing two leading theories, published in 2025, found evidence that challenged parts of both.',
+  view:{az:150,el:20}, at:[0,0.1,-0.3], zoom:0.95},
+ {id:'cs_ignite',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'Ignition: the Global Workspace',short:'Ignition',color:'#ffd60a',
+  where:'Prefrontal and parietal hubs linked by long-range white-matter fibers',
+  summary:'According to the global workspace theory, a piece of information becomes conscious when it “ignites”: activity suddenly surges and spreads to a network of prefrontal and parietal hubs, which hold it and broadcast it across the brain. It then becomes available to memory, speech, reasoning and decisions. Ignition is all-or-none, starts around 300 milliseconds, and is marked by a large brain wave called the P3b, although recent studies suggest this wave may reflect reporting what was seen more than seeing itself.',
+  funcs:['Broadcasting one selected piece of information brain-wide','Holding it in mind (working memory)','Making it available for speech, memory and action'],
+  damage:'Disruption of these frontal and parietal networks is common in unresponsive patients. In unresponsive patients, these frontal and parietal hubs are often among the most disrupted areas.',
+  fact:'Bernard Baars proposed the global workspace idea in 1988. Stanislas Dehaene and Jean-Pierre Changeux later developed it into a detailed brain model.',
+  view:{az:35,el:30}, at:[0,0.25,0.05], zoom:0.95},
+ {id:'cs_thalcx',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'Thalamus–Cortex Loops',short:'Thalamus–cortex loops',color:'#ff70a6',
+  where:'The thalamus, especially the pulvinar at its back, linked in loops with the cortex',
+  summary:'The cortex never works alone. Each area is linked in two-way loops with a partner region of the thalamus. The pulvinar, at the back of the thalamus, helps visual areas fall into step and pass information to one another, and the central thalamus keeps the frontal cortex engaged. Fast gamma rhythms, around 40 waves a second, appear when distant areas work together on what we are aware of.',
+  funcs:['Coordinating the timing of cortical areas','Helping attention select what reaches awareness','Keeping the cortex active and connected'],
+  damage:'Anesthesia and severe brain injury both disrupt these loops. Restoring activity in the thalamus can partly restore responsiveness.',
+  fact:'In the visual relay of the thalamus, connections arriving back from the cortex far outnumber those arriving from the eyes.',
+  view:{az:60,el:20}, at:[0,0.08,-0.1], zoom:0.75},
+ {id:'cs_claustrum',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: the steps',name:'The Claustrum',short:'Claustrum',color:'#b388ff',
+  where:'A thin sheet of grey matter beneath the insula, on each side',
+  summary:'The claustrum is a thin, hidden sheet of neurons beneath the insula, connected in both directions with almost every area of the cortex. Francis Crick and Christof Koch suggested it might act like an orchestra conductor, coordinating the cortex. Its true role is still being studied; current evidence suggests it helps with attention and with coordinating activity across the cortex.',
+  funcs:['Two-way links with nearly all of the cortex','Possibly coordinating activity across regions','Helping attention and focus'],
+  damage:'In one patient in 2014, electrical stimulation near the left claustrum during epilepsy testing repeatedly caused a brief loss of consciousness that ended when the stimulation stopped. One case cannot prove its role, and the claustrum is still poorly understood.',
+  fact:'Francis Crick, co-discoverer of the structure of DNA, was still revising his paper on the claustrum shortly before he died in 2004.',
+  view:{az:75,el:12}, at:[0.2,0.02,0.05], zoom:0.75},
+ {id:'cs_cbl',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: a surprising exception',name:'The Cerebellum: a Surprising Exception',short:'Cerebellum exception',color:'#27bfcc',
+  where:'Below the back of the cerebrum',
+  summary:'The cerebellum holds about 69 billion neurons, around four out of every five in the brain, yet it seems to contribute little to awareness itself. People with cerebellar damage lose coordination, not consciousness. Its circuits are arranged as many parallel modules that do not combine information the way the cortex does. This suggests that the way neurons are connected matters more than how many there are.',
+  funcs:['Coordinating movement and balance','Fine-tuning timing and some thinking','Working mostly outside awareness'],
+  damage:'Damage to the cerebellum causes clumsiness, unsteady walking, slurred speech and sometimes changes in thinking and mood, but awareness remains.',
+  fact:'In 2014, doctors in China described a 24-year-old woman born without a cerebellum. She was fully conscious and had only moderate problems with movement and speech.',
+  view:{az:140,el:10}, at:[0,-0.35,-0.55], zoom:0.75},
+ {id:'cs_networks',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind',name:'Networks of the Mind',short:'Networks of the mind',color:'#80ed99',
+  where:'Large sets of distant regions that work together',
+  summary:'Our awareness is shaped by large networks: sets of distant regions that rise and fall together. The default mode network supports the inner world of memories, plans and self-reflection. The central executive and attention networks direct the mind to tasks and to the world around us. The salience network notices what matters and switches between them. Use the switch below to turn the mind inward or outward.',
+  funcs:['Turning attention inward or outward','Holding goals and focusing on tasks','Noticing what matters and switching modes','Reflecting on our own thoughts'],
+  hDamage:'When it goes wrong',
+  damage:'Changes in these networks are seen in depression, ADHD, anxiety and dementia, and in disorders of consciousness. In Alzheimer’s disease, the default mode network is among the first to be affected.',
+  fact:'Networks are mapped by noticing which brain areas rise and fall together, for example while a person simply rests in a scanner.',
+  view:{az:28,el:24}, zoom:1},
+ {id:'cs_dmn',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind: the networks',name:'Default Mode Network',short:'Default mode network',color:'#ffc145',
+  where:'Medial prefrontal cortex, posterior cingulate and precuneus, angular gyrus, lateral temporal cortex and hippocampus',
+  summary:'When you are not focused on a task, but remembering, imagining the future, daydreaming or thinking about yourself and others, a set of regions along the middle of the brain becomes more active. This default mode network supports our inner life: our personal story, our plans, and our sense of what others think. It quiets down when we focus on a demanding task.',
+  funcs:['Remembering your own past','Imagining the future and planning','Thinking about yourself and about other people','Mind-wandering and daydreaming'],
+  damage:'Overactive, “sticky” self-focused thinking in this network is linked to rumination in depression. It is also one of the first networks affected in Alzheimer’s disease.',
+  fact:'In a 2010 study that asked people about their thoughts through a phone app, minds were wandering in nearly half of the moments sampled, and people were less happy when they were.',
+  view:{az:15,el:35}, zoom:1},
+ {id:'cs_cen',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind: the networks',name:'Central Executive Network',short:'Central executive',color:'#4895ef',
+  where:'Dorsolateral prefrontal cortex and posterior parietal cortex',
+  summary:'When you focus on a task, such as solving a sum, following directions or making a decision, the central executive network takes charge. Linking the side of the prefrontal cortex with the parietal cortex, it holds information in working memory, works with it and keeps you on track toward a goal, while the default mode network quiets.',
+  funcs:['Working memory: holding information in mind','Planning and solving problems','Keeping attention on a goal','Self-control and flexible thinking'],
+  damage:'Weakness in this network is linked to trouble with focus and planning, as in ADHD and after frontal brain injury.',
+  fact:'Working memory can hold only about four chunks of information at a time, which is why grouping a phone number into chunks makes it easier to remember.',
+  view:{az:40,el:25}, zoom:1},
+ {id:'cs_sal',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind: the networks',name:'Salience Network',short:'Salience network',color:'#ef476f',
+  where:'Anterior insula and dorsal anterior cingulate cortex',
+  summary:'The salience network notices what matters right now, such as a sudden sound, a pang of pain or your name across a room, and switches the brain between the inward default mode network and the outward executive network. Through the insula it also monitors the body’s inner state: heartbeat, breathing and gut feelings.',
+  funcs:['Detecting what is important or surprising','Switching between inward and outward modes','Sensing the body’s inner signals'],
+  damage:'Changes in this network are linked to anxiety, addiction and chronic pain. It is affected early in behavioral variant frontotemporal dementia, a form of dementia that changes personality and empathy.',
+  fact:'This network is rich in large spindle-shaped neurons, called von Economo neurons, found mostly in the anterior insula and anterior cingulate.',
+  view:{az:60,el:15}, zoom:0.9},
+ {id:'cs_dan',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind: the networks',name:'Attention Networks',short:'Attention networks',color:'#06d6a0',
+  where:'Dorsal: frontal eye fields and intraparietal sulcus. Ventral: temporoparietal junction and inferior frontal cortex, mainly on the right',
+  summary:'Attention decides much of what enters awareness. The dorsal attention network directs attention on purpose, like searching for a friend in a crowd, and controls where the eyes move. The ventral attention network, stronger on the right side, catches unexpected events and pulls attention toward them.',
+  funcs:['Choosing where to look and what to notice','Holding attention on a location or object','Catching unexpected events'],
+  damage:'After a stroke in the right parietal lobe, some people ignore the left side of the world, for example eating only the food on the right side of the plate. This is called hemispatial neglect.',
+  fact:'In a famous 1999 experiment, about half of the viewers who were counting basketball passes failed to notice a person in a gorilla suit walking through the scene.',
+  view:{az:50,el:30}, zoom:1},
+ {id:'cs_meta',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind: the networks',name:'Metacognition: Knowing That You Know',short:'Metacognition',color:'#b388ff',
+  where:'The front of the prefrontal cortex (frontopolar cortex), working with the cingulate and insula',
+  summary:'People can not only know things but know that they know: judge how confident they are and reflect on their own thoughts. This self-monitoring relies especially on the very front of the prefrontal cortex. It lets us notice mistakes, change our minds and examine our motives.',
+  funcs:['Judging confidence in what we know','Noticing and correcting mistakes','Reflecting on our own thoughts and motives'],
+  damage:'Brain damage, often on the right side, can leave people unaware of their own problems. This is called anosognosia: a person with a paralyzed arm may insist that they can move it normally.',
+  fact:'In a 2010 study, people with more grey matter in the frontopolar cortex tended to be better at judging whether their own answers were right.',
+  view:{az:10,el:15}, at:[0,0.15,0.4], zoom:0.85},
  {id:'sl_night',kind:'sleep',mode:'sleep',lv:'cycle',group:'A night of sleep',name:'A Night of Sleep',short:'A night of sleep',color:'#7c8cff',
   where:'The whole brain, over about eight hours',
   summary:'Sleep is not the brain switching off. Through the night the brain moves through repeating cycles of about 90 minutes, each passing through light sleep, deep sleep (mostly early in the night) and REM (dreaming) sleep. Each stage has its own brain waves and its own work: restoring the body, clearing waste, and filing away the day’s memories. Press play to watch a typical night.',
@@ -3040,7 +3268,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
-  if(mode==='spine' || mode==='senses' || mode==='think' || mode==='hw' || mode==='sleep') applyVisibility();
+  if(mode==='spine' || mode==='senses' || mode==='think' || mode==='hw' || mode==='sleep' || mode==='mind') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
     chipEls[r.id].classList.toggle('sel',mode==='diseases'?(r.id===curDisease):(selected===r.id));
@@ -3052,14 +3280,14 @@ var SIDE_Q='(min-width:820px), (min-width:600px) and (max-height:520px)';
 function sideLayout(){ return window.matchMedia?window.matchMedia(SIDE_Q).matches:W>=820; }
 function updateViewTargets(){
   var desktop=sideLayout(), open=panel.classList.contains('open');
-  var dbh=(mode==='diseases' && dbar && !dbar.hidden)?dbar.offsetHeight+20:((mode==='sleep' && slbar && !slbar.hidden)?slbar.offsetHeight+20:0);
+  var dbh=(mode==='diseases' && dbar && !dbar.hidden)?dbar.offsetHeight+20:((mode==='sleep' && slbar && !slbar.hidden)?slbar.offsetHeight+20:((mode==='mind' && csbar && !csbar.hidden)?csbar.offsetHeight+20:0));
   var right=(desktop&&open)?W-384:W;
   var bottom=(!desktop&&open)?H-panel.offsetHeight-dbh:H-dbh;
   var cx=right/2, cy=(topUI+bottom)/2;
   tgt.ox=W/2-cx; tgt.oy=H/2-cy;
   tgt.pm=open?(desktop?1.12:1.2):1;
 }
-var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } if(mode==='think'){ applyThinkColors(); return; } if(mode==='hw'){ applyHWColors(); return; } if(mode==='sleep'){ applySleepColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
+var _applyColors=applyColors; applyColors=function(){ if(mode==='diseases'){ applyDiseaseColors(); return; } if(mode==='senses'){ applySenseColors(); return; } if(mode==='think'){ applyThinkColors(); return; } if(mode==='hw'){ applyHWColors(); return; } if(mode==='sleep'){ applySleepColors(); return; } if(mode==='mind'){ applyMindColors(); return; } _applyColors(); if(mode==='sections') applySectionColors(); if(mode==='spine'){ pathTubes.forEach(function(m){ m.material.emissive.set(R[m.userData.region].color); }); applySpineHighlight(); } };
 function measureLabels(){ REGIONS.forEach(function(r){ labelEls[r.id]._w=labelEls[r.id].offsetWidth; }); }
 function layout(){
   if(typeof kick==='function') kick(1200);
@@ -3069,6 +3297,7 @@ function layout(){
   topUI=topEl.offsetHeight; measureLabels();
   if(dbar && !dbar.hidden) app.style.setProperty('--dbh',dbar.offsetHeight+'px');
   if(slbar && !slbar.hidden){ app.style.setProperty('--dbh',slbar.offsetHeight+'px'); if(slBuilt){ slDrawHyp(); slEegKey=''; } }
+  if(csbar && !csbar.hidden){ app.style.setProperty('--dbh',csbar.offsetHeight+'px'); if(csBuilt){ csDrawMap(); csWaveKey=''; csDrawWave(); } }
   app.style.setProperty('--topui',topUI+'px');
   var availH=Math.max(120,H-topUI-8);
   fitDist=3.5*H/Math.min(W,availH);
@@ -3078,7 +3307,7 @@ function layout(){
   updateViewTargets();
   if(ddMenu && !ddMenu.hidden) placeDD();
 }
-if(window.ResizeObserver){ var ro=new ResizeObserver(layout); ro.observe(app); ro.observe(topEl); ro.observe($('#dbar')); ro.observe($('#slbar')); } else { window.addEventListener('resize',layout); }
+if(window.ResizeObserver){ var ro=new ResizeObserver(layout); ro.observe(app); ro.observe(topEl); ro.observe($('#dbar')); ro.observe($('#slbar')); ro.observe($('#csbar')); } else { window.addEventListener('resize',layout); }
 
 function setXray(on){
   xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false');
@@ -3109,10 +3338,11 @@ function setMode(m){
   if(mode==='think') leaveThink();
   if(mode==='hw') leaveHW();
   if(mode==='sleep') leaveSleep();
+  if(mode==='mind') leaveMind();
   setHover(null); tip.style.opacity=0; dismissHint(); closeDD();
   mode=m;
-  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses'); app.classList.toggle('mode-think',m==='think'); app.classList.toggle('mode-hw',m==='hw'); app.classList.toggle('mode-sleep',m==='sleep');
-  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses'],['mThink','think'],['mHW','hw'],['mSleep','sleep']].forEach(function(t){
+  app.classList.toggle('mode-nerves',m!=='brain'); app.classList.toggle('mode-diseases',m==='diseases'); app.classList.toggle('mode-spine',m==='spine'); app.classList.toggle('mode-senses',m==='senses'); app.classList.toggle('mode-think',m==='think'); app.classList.toggle('mode-hw',m==='hw'); app.classList.toggle('mode-sleep',m==='sleep'); app.classList.toggle('mode-mind',m==='mind');
+  [['mBrain','brain'],['mNerves','nerves'],['mSpine','spine'],['mSections','sections'],['mDiseases','diseases'],['mSenses','senses'],['mThink','think'],['mHW','hw'],['mSleep','sleep'],['mMind','mind']].forEach(function(t){
     var e=$('#'+t[0]), on=(t[1]===m); e.classList.toggle('on',on); e.setAttribute('aria-selected',on?'true':'false');
     if(on && e.scrollIntoView) e.scrollIntoView({block:'nearest',inline:'nearest'});
   });
@@ -3122,6 +3352,7 @@ function setMode(m){
   if(m==='think') enterThink();
   if(m==='hw') enterHW();
   if(m==='sleep') enterSleep();
+  if(m==='mind') enterMind();
   applyVisibility(); applyModeChips();
   if(m==='diseases') enterDiseases();
   refreshUI(); resetView(); layout();
@@ -3129,13 +3360,14 @@ function setMode(m){
   if(m==='think' && sideLayout()) select(TH_OVER[tView]);
   if(m==='hw' && sideLayout()) select(HW_OVER[hView]);
   if(m==='sleep' && sideLayout()) select(SL_OVER[slv]);
+  if(m==='mind' && sideLayout()) select(CS_OVER[csv]);
 }
 function setSpin(on){ autoSpin=on; $('#bSpin').setAttribute('aria-pressed',on?'true':'false'); }
 function setLabels(on){ showLabels=on; $('#bLabels').setAttribute('aria-pressed',on?'true':'false'); }
 
 function fillPanel(r){
   $('#hFuncs').textContent=r.hFuncs||'What it does'; $('#hDamage').textContent=r.hDamage||'If it is damaged';
-  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think'||r.kind==='hw'||r.kind==='sleep');
+  $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think'||r.kind==='hw'||r.kind==='sleep'||r.kind==='mind');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
   panel.style.setProperty('--rc',r.color);
   $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray view':''); bd.hidden=!bd.textContent;
@@ -3177,6 +3409,7 @@ function fillPanel(r){
   else if(r.kind==='think') fillThink(r);
   else if(r.kind==='hw') fillHW(r);
   else if(r.kind==='sleep') fillSleep(r);
+  else if(r.kind==='mind') fillMind(r);
   else tree.hidden=true;
   var ul=$('#pFuncs'); ul.innerHTML='';
   r.funcs.forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
@@ -3188,6 +3421,7 @@ function focusOn(r){
   if(r.mode==='think'){ thinkFocus(r); return; }
   if(r.mode==='hw'){ hwFocus(r); return; }
   if(r.mode==='sleep'){ sleepFocus(r); return; }
+  if(r.mode==='mind'){ mindFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
   if(r.mode==='nerves'||r.mode==='sections'||r.mode==='spine'){ var at=r.at||(r.mode==='spine'?(r.sv==='whole'?[0,0.82,-0.1]:[0.35,-0.08,0.05]):[0,0,0]); tgt.zoom=r.zoom||0.6; CENTER_T.set(at[0],at[1],at[2]); }
@@ -3200,6 +3434,8 @@ function select(id){
   if(mode==='senses' && isSense(id)){ var want=(id==='se_all' || SENSE[id].se==='head')?'head':'body'; if(id==='se_all' || want!==seView && !(seView==='head' && SENSE[id].se==='body' && selected===id)) setSeView(want,true); }
   if(mode==='hw' && isHW(id) && R[id].hv!==hView) setHView(R[id].hv,true);
   if(mode==='sleep' && isSL(id)){ var slSw=R[id].lv!==slv; if(slSw) setSlView(R[id].lv,true); if(R[id].stage){ if(slStageAt(slT)!==R[id].stage) slSetTime(SL_JUMP[id]); if(slSw) sleepFocus(R.sl_night); } }
+  if(mode==='mind' && isCS(id)){ var csSw2=R[id].lv!==csv; if(csSw2) csSetView(R[id].lv,true); if(R[id].st){ csSetState(R[id].st); if(csSw2) mindFocus(R.cs_states); }
+    if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
@@ -3222,6 +3458,7 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
+  if(mode==='mind'){ var cd={states:[20,12,[0,-0.05,-0.02],1],moment:[38,10,[0,-0.05,0.15],1.05],networks:[28,24,[0,-0.05,-0.02],1]}[csv]; tgt.az=cur.az+wrap(cd[0]*Math.PI/180-cur.az); tgt.el=cd[1]*Math.PI/180; tgt.zoom=cd[3]; CENTER_T.set(cd[2][0],cd[2][1],cd[2][2]); setSpin(false); if(selected) select(null); return; }
   if(mode==='sleep'){ tgt.az=cur.az+wrap(20*Math.PI/180-cur.az); tgt.el=(slv==='cycle'?14:10)*Math.PI/180; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false); if(selected) select(null); return; }
   if(mode==='hw'){ var hd=HW_DEF[hView]; tgt.az=cur.az+wrap(hd.az-cur.az); tgt.el=hd.el; tgt.zoom=1; CENTER_T.copy(HW_C[hView]); setSpin(false); if(selected) select(null); return; }
   if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
@@ -3235,7 +3472,7 @@ function closeDetails(){
   if(mode==='diseases'){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); refreshUI(); updateViewTargets(); }
   else select(null);
 }
-function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:((mode==='senses'||mode==='think'||mode==='hw'||mode==='sleep')?0.3:0.35)); }
+function zoomMin(){ return bodyView()?0.1:(mode==='spine'?0.25:((mode==='senses'||mode==='think'||mode==='hw'||mode==='sleep'||mode==='mind')?0.3:0.35)); }
 /* ---- zoom toward a point and pan (move the view centre in the screen plane) */
 var PV=new THREE.Vector3(), PU=new THREE.Vector3(), CV=new THREE.Vector3();
 function pxWorld(dist){ return 2*dist*Math.tan(camera.fov*Math.PI/360)/H; }
@@ -3276,6 +3513,7 @@ $('#mSenses').addEventListener('click',function(){ setMode('senses'); });
 $('#mThink').addEventListener('click',function(){ setMode('think'); });
 $('#mHW').addEventListener('click',function(){ setMode('hw'); });
 $('#mSleep').addEventListener('click',function(){ setMode('sleep'); });
+$('#mMind').addEventListener('click',function(){ setMode('mind'); });
 $('#svCross').addEventListener('click',function(){ setSView('cross'); });
 $('#svWhole').addEventListener('click',function(){ setSView('whole'); });
 $('#bPaths').addEventListener('click',function(){ setPaths(!showAllPaths); });
@@ -3690,15 +3928,15 @@ function applyDiseaseColors(){
   });
 }
 function applyVisibility(){
-  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain') || (mode==='senses' && seView==='head') || (mode==='think' && tView==='cerebrum') || mode==='sleep'); nerveGroup.visible=bodyView();
+  brain.visible=(mode==='brain' || (mode==='diseases' && dView==='brain') || (mode==='senses' && seView==='head') || (mode==='think' && tView==='cerebrum') || mode==='sleep' || mode==='mind'); nerveGroup.visible=bodyView();
   spineGroup.visible=(mode==='spine'); crossGroup.visible=(sView==='cross'); wholeGroup.visible=(sView==='whole');
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && vesselsOn); });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && mode!=='mind' && vesselsOn); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
   Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
-  applySenseVis(); applyThinkVis(); applyHWVis(); applySleepVis();
+  applySenseVis(); applyThinkVis(); applyHWVis(); applySleepVis(); applyMindVis();
   R.sc_csf.meshes.forEach(function(m){ m.visible=layerOn.arachnoid; });
   updateLayerCard();
 }
@@ -4473,7 +4711,7 @@ function updateStations(taken){
   stnEls.forEach(function(st){
     if(!on || st.id!==selected || st.view!==seView){ setLbl(st.el,false); return; }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
-    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    var y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6, x=lblX(st.el,(tmpV.x*0.5+0.5)*W,y);
     if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
@@ -5082,7 +5320,7 @@ function updateThinkStations(taken){
     if(!on || st.id!==selected || st.view!==tView){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
-    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    var y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6, x=lblX(st.el,(tmpV.x*0.5+0.5)*W,y);
     if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
@@ -5711,7 +5949,7 @@ function updateHWStations(taken){
     if(!on || st.id!==selected || st.view!==hView){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
-    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    var y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6, x=lblX(st.el,(tmpV.x*0.5+0.5)*W,y);
     if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y);
@@ -6048,7 +6286,7 @@ function updateSleepStations(taken){
     if(!showLabels || !L[1](st)){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
     tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
-    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6;
+    var y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6, x=lblX(st.el,(tmpV.x*0.5+0.5)*W,y);
     if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
     for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
     taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y); }); });
@@ -6111,6 +6349,633 @@ $('#slNight').addEventListener('click',function(){ slSetDay(false); });
   c.addEventListener('keydown',function(e){ var d={ArrowRight:10,ArrowUp:10,ArrowLeft:-10,ArrowDown:-10,PageUp:60,PageDown:-60}[e.key]; if(e.key==='Home') d=-slT; if(e.key==='End') d=480-slT; if(d==null) return; e.preventDefault(); e.stopPropagation(); slSetTime(slT+d); slDrawHyp(); kick(); });
 })();
 
+/* ------------------------------------------------------------ consciousness and the brain */
+var CS={
+ cs_states:{stats:[['2','dimensions: wakefulness and awareness'],['~40%','of “vegetative” diagnoses wrong in careful studies'],['0.31','complexity line (PCI)']],
+  how:['Wakefulness comes from the brainstem arousal system, which switches the cortex on through the thalamus and hypothalamus.',
+   'Awareness needs the cortex to be switched on and richly connected: many regions working together while each still does something different.',
+   'Every day we move through states: awake, drowsy, dreaming and deep sleep. Medicine and injury can push the brain into others.',
+   'The map below places each state by its wakefulness (left to right) and awareness (bottom to top).'],
+  deep:['Scientists look for the “neural correlates of consciousness”: the smallest set of brain activity that goes along with a particular experience.',
+   'Leading theories disagree on where and how. Global workspace theory stresses broadcasting through frontal and parietal hubs; integrated information theory stresses the richly interconnected posterior cortex. Both are still being tested.',
+   'Consciousness is not the same as attention or intelligence: much clever processing happens without awareness, and awareness can be simple, like a single color.'],
+  rh:'Body, mind and soul',
+  reflect:['Neuroscience can show which brain activity goes along with experience, but has not explained why there is an inner experience at all. Philosophers call this the hard problem of consciousness. Scripture describes a person as more than matter: dust of the ground given the breath of life by God.',
+   'The brain is the God-given instrument through which we experience, think and act in this life. Studying it with care, and caring for it, honors the One who made it.'],
+  rel:['cs_moment','cs_networks']},
+ cs_aras:{stats:[['1949','discovered by Moruzzi and Magoun'],['5+','messenger chemicals'],['2','routes to the cortex']],
+  how:['Clusters of neurons in the midbrain and upper pons make acetylcholine, noradrenaline, serotonin, dopamine and glutamate.',
+   'One route climbs to the thalamus, opening its gates to the cortex.',
+   'A second route runs through the hypothalamus and basal forebrain straight to the cortex.',
+   'Together they keep the cortex in its fast, waking pattern of activity.'],
+  deep:['The arousal system is turned down at night by sleep-promoting neurons in the hypothalamus, and turned up by orexin neurons, light and stress.','Many sedating medicines, such as older antihistamines, work by blocking one of its messengers, histamine.'],
+  with:['cs_cthal'], rel:['cs_cthal','cs_coma','cs_uws']},
+ cs_cthal:{stats:[['2','thalami, one on each side'],['2007','landmark thalamic stimulation study'],['~40 Hz','gamma loops with the cortex']],
+  how:['The intralaminar nuclei receive input from the brainstem arousal system.','They send wide connections to the frontal cortex and the striatum.','Thalamus–cortex loops keep the cortex active and tie distant areas together in time.'],
+  deep:['Under anesthesia, activity in the thalamus drops sharply; as people regain consciousness, thalamus–cortex connections recover.','Researchers are testing ultrasound and electrical stimulation of the thalamus to help people with disorders of consciousness.'],
+  with:['cs_aras'], rel:['cs_aras','cs_mcs','cs_thalcx']},
+ cs_pci:{stats:[['0.31','line between conscious and unconscious'],['~0.5','typical when awake'],['~0.2','in deep sleep']],
+  how:['A coil held over the scalp sends a brief magnetic pulse that gently stirs a small patch of cortex.','EEG records how the rest of the brain answers over the next few hundred milliseconds.','The pattern of the echo across space and time is compressed. A pattern that cannot be compressed much is complex: both widespread and varied.','Conscious brains score high; dreamless sleep and most anesthesia score low.'],
+  deep:['The idea comes from integrated information theory: consciousness needs a system that is both unified (integrated) and rich in different possible states (differentiated).','Ketamine anesthesia, which brings dream-like experiences, gives high scores, matching what people report on waking.'],
+  rel:['cs_awake','cs_nrem','cs_uws']},
+ cs_awake:{stats:[['3–15','Glasgow Coma Scale range'],['~0.5','typical complexity (PCI)'],['20%','of the body’s energy']],
+  how:['The arousal system keeps the cortex switched on.','The thalamus passes the senses through to the cortex.','Front and back of the cortex stay in close, varied conversation, and fast gamma rhythms link distant areas.'],
+  deep:['Even when awake, we are aware of only a small part of what the brain processes. Most of the work, from steering our steps to understanding grammar, happens outside awareness.'],
+  rel:['cs_rem','cs_lis']},
+ cs_rem:{stats:[['~25%','of a night’s sleep'],['~0.45','typical complexity (PCI)'],['1953','REM discovered']],
+  how:['The pons switches REM sleep on and blocks the muscles.','Visual and emotional areas, and the hippocampus, are active.','The prefrontal cortex, which checks logic, is quieter, so strange events go unquestioned.'],
+  deep:['A magnetic pulse during REM sleep produces a complex echo, like waking, while the same pulse in deep sleep produces a simple one, matching the fact that dreams are experienced.'],
+  rh:'A Christian view', reflect:['Scripture speaks of God at times instructing people in dreams: “In a dream, in a vision of the night, when deep sleep falleth upon men, in slumberings upon the bed; then he openeth the ears of men, and sealeth their instruction” (Job 33:15–16). Even in sleep, the mind is not beyond His reach.'],
+  rel:['cs_nrem','cs_awake']},
+ cs_nrem:{stats:[['~0.2','typical complexity (PCI)'],['0.5–2 Hz','slow delta waves'],['~20%','of a night’s sleep']],
+  how:['Cortical neurons switch together between “on” bursts and “off” silences about once a second.','During the off periods, regions cannot exchange rich information.','A magnetic pulse produces a big, simple wave that stays local and fades.'],
+  deep:['Even in deep sleep, the brain keeps working: it stores memories, clears waste and restores energy.'],
+  rel:['cs_rem','cs_pci','cs_anes']},
+ cs_anes:{stats:[['1846','first public demonstration'],['~0.2','complexity under propofol'],['GABA','main target of many anesthetics']],
+  how:['Many anesthetics strengthen GABA, the brain’s main calming messenger.','Front–back communication in the cortex breaks down.','The thalamus and cortex slip into slow, synchronized rhythms, similar to deep sleep.'],
+  deep:['Anesthesiologists track depth with vital signs and sometimes with EEG monitors that read the brain’s rhythms.','Not every anesthetic works the same way: ketamine blocks a different receptor and leaves the cortex busy.'],
+  rh:'A Christian view', reflect:['When some objected to pain relief in childbirth, the Scottish doctor and Christian James Young Simpson, who introduced chloroform in 1847, pointed to Genesis 2:21: “And the LORD God caused a deep sleep to fall upon Adam, and he slept”. Relieving suffering through medicine can be an act of compassion.'],
+  rel:['cs_nrem','cs_coma']},
+ cs_coma:{stats:[['3','lowest Glasgow Coma Scale score'],['2–4 wk','coma rarely lasts longer'],['1974','scale created']],
+  how:['Damage to the upper brainstem arousal core, or to both hemispheres, stops the cortex from being switched on.','Without arousal, awareness cannot arise.','Basic brainstem reflexes may continue.'],
+  deep:['Doctors sometimes induce coma with medicines to protect an injured brain; this is different from coma caused by injury.'],
+  rh:'Every person has worth', reflect:['A person’s worth does not depend on how well they can respond. Each is made in the image of God (Genesis 1:27), and every patient deserves patience, careful testing and love.'],
+  with:['cs_aras'], rel:['cs_aras','cs_uws','cs_mcs']},
+ cs_uws:{stats:[['~1 in 4','unresponsive patients followed commands covertly (2024)'],['2006','“imagine playing tennis” study'],['2010','new name proposed']],
+  how:['The brainstem and hypothalamus work, so eyes open and sleep–wake cycles continue.','Frontal and parietal networks, and their links with the thalamus, are badly damaged.','Sensory areas may still respond to sound or touch, but the response does not spread.'],
+  deep:['Brain scans and EEG can now look for hidden awareness by asking patients to imagine actions, such as playing tennis or walking through their home, and seeing whether the right brain areas respond.'],
+  rh:'Every person has worth', reflect:['The discovery of hidden awareness in some unresponsive patients is a strong reminder to treat every patient with dignity. “For thou hast possessed my reins: thou hast covered me in my mother’s womb” (Psalm 139:13; “reins” means the inmost being): God knows each person from the inside, even when others cannot.'],
+  rel:['cs_mcs','cs_coma','cs_pci']},
+ cs_mcs:{stats:[['2002','defined'],['partial','thalamus–cortex loops'],['years','recovery can continue']],
+  how:['Thalamus–cortex loops partly work.','The default mode network remains partly connected.','Signs of awareness come and go, so repeated testing is needed.'],
+  deep:['Patients who can follow commands are sometimes described as “MCS plus”, and those who cannot as “MCS minus”.'],
+  rh:'Every person has worth', reflect:['Families often notice small responses before clinicians do. Patient, loving attention is both good medicine and an expression of the love Christ showed to the sick and the weak.'],
+  rel:['cs_uws','cs_cthal']},
+ cs_lis:{stats:[['~0.5','normal complexity (PCI)'],['1997','book dictated by blinking'],['~3 in 4','reported being happy (2011)']],
+  how:['Damage to the front of the pons cuts the motor pathways from the cortex to the body.','The arousal system at the back of the brainstem is spared, so the person is awake.','The cortex is intact, so awareness is complete.'],
+  deep:['In a 2011 survey of people with long-term locked-in syndrome, about three out of four said they were happy.'],
+  rh:'Every person has worth', reflect:['Locked-in syndrome shows that a rich inner life can exist even when the body cannot express it. “For which cause we faint not; but though our outward man perish, yet the inward man is renewed day by day” (2 Corinthians 4:16).'],
+  rel:['cs_awake','cs_coma']},
+ cs_moment:{stats:[['~60 ms','signal reaches visual cortex'],['~200 ms','awareness begins to form'],['~300 ms','ignition when seen']],
+  how:['0–60 ms: light reaches the eyes and travels through the thalamus to the primary visual cortex.','60–200 ms: a fast forward sweep climbs the visual areas and recognizes the shape as a word.','100–300 ms: recurrent loops bind the features together in the posterior cortex.','If seen, from about 300 ms: ignition spreads the word to frontal and parietal hubs, where it can be reported, remembered and acted on.','If not seen: the activity stays local and fades.'],
+  deep:['The bottom trace shows a simplified EEG: P1 and N1 waves for the first sweep, the visual awareness negativity at about 200 ms, and the large P3b wave that appears only when the word is seen.','Much of what the brain does is never conscious, yet it still guides us: unseen words can speed up related responses, and unseen threats can quicken the heart.'],
+  rh:'A Christian view',
+  reflect:['Each conscious moment rests on billions of precisely timed signals, yet the one who sees is a person, not a pathway.','The word shown here, LIGHT, recalls Psalm 119:105: “Thy word is a lamp unto my feet, and a light unto my path.”'],
+  rel:['cs_states','cs_networks']},
+ cs_sweep:{stats:[['~60 ms','to primary visual cortex'],['~150 ms','to recognize a word'],['30+','visual areas']],
+  how:['The retina turns light into signals; the optic nerves cross partly at the optic chiasm.','The thalamus relay (LGN) passes them to the primary visual cortex.','Areas V2 and V4 add shape and color; the temporal lobe recognizes objects, faces and written words.'],
+  deep:['A small region on the underside of the left temporal lobe, called the visual word form area, becomes specialized for written words as a person learns to read.'],
+  with:['cs_thalcx'], rel:['cs_recur','cs_moment']},
+ cs_recur:{stats:[['~100–300 ms','recurrent processing'],['~200 ms','awareness negativity'],['2-way','feedforward and feedback']],
+  how:['Higher areas send signals back to earlier ones.','Earlier areas sharpen their response to match what higher areas expect.','Features are bound into one object and held for a moment.'],
+  deep:['Victor Lamme proposed that this local recurrent processing is enough for visual experience, even before information is broadcast to the frontal lobes.'],
+  with:['cs_sweep'], rel:['cs_sweep','cs_hotzone']},
+ cs_hotzone:{stats:[['back','of the cortex'],['V4','color area'],['MT','motion area']],
+  how:['Parietal, temporal and occipital areas hold the specific contents of experience.','Each content has its own area: color, motion, faces, places, words.','Rich local connections let these areas form an integrated whole.'],
+  deep:['Integrated information theory, proposed by Giulio Tononi, predicts that the posterior cortex, with its grid-like, richly interconnected layout, is the main seat of experience.'],
+  rh:'A Christian view', reflect:['Even the most detailed map of the brain shows what accompanies experience, not experience itself. “For now we see through a glass, darkly; but then face to face” (1 Corinthians 13:12).'],
+  rel:['cs_recur','cs_ignite']},
+ cs_ignite:{stats:[['~300 ms','ignition begins'],['P3b','its EEG signature'],['1988','global workspace proposed']],
+  how:['Several pieces of information compete for the workspace.','The winner ignites: activity surges and spreads to frontal and parietal hubs.','The hubs hold it and broadcast it brain-wide, so memory, language and planning can use it.','Other information is held back until the next moment.'],
+  deep:['Ignition is all-or-none: in experiments near the threshold of seeing, the same word either ignites fully or fades, with little in between.','Long-range neurons with long axons, especially in the prefrontal and parietal cortex, are thought to carry the broadcast.'],
+  with:['cs_hotzone'], rel:['cs_hotzone','cs_cen']},
+ cs_thalcx:{stats:[['2-way','loops with every cortical area'],['~40 Hz','gamma rhythm'],['pulvinar','visual coordinator']],
+  how:['Each cortical area sends signals down to the thalamus and receives signals back.','The pulvinar helps visual areas lock into a shared rhythm.','The central thalamus keeps the frontal cortex active.'],
+  deep:['When distant areas fire in the same rhythm, their messages arrive at the right moment to influence each other: “communication through coherence”.'],
+  rel:['cs_cthal','cs_sweep']},
+ cs_claustrum:{stats:[['<1 mm','to a few mm thick'],['2005','“conductor” idea published'],['nearly all','cortical areas connected']],
+  how:['The claustrum receives input from nearly the whole cortex and sends signals back.','It may help keep distant areas coordinated, or help focus attention.'],
+  deep:['Studies in mice show that claustrum neurons can quiet broad areas of the cortex at once, which may help synchronize them.'],
+  rel:['cs_ignite','cs_thalcx']},
+ cs_cbl:{stats:[['~69 billion','neurons'],['~80%','of the brain’s neurons'],['little','role in awareness']],
+  how:['The cerebellum is built from many repeating, parallel modules.','Each module handles its own task with little crosstalk.','This layout is excellent for fast, precise control but poor at forming one unified experience.'],
+  deep:['This is one of the strongest clues that consciousness depends on how a network is organized, not just on its size.'],
+  rel:['cs_hotzone','cs_pci']},
+ cs_networks:{stats:[['4+','major networks'],['~47%','of time mind-wandering'],['1','salience switch']],
+  how:['Looking inward: the default mode network rises for memories, imagination and self-reflection.','Focusing outward: the executive and attention networks rise to handle tasks and the world around us.','The two tend to see-saw: when one rises, the other falls.','The salience network notices what matters and flips the switch.'],
+  deep:['Healthy minds move flexibly between inward and outward modes. Getting stuck in either is linked to problems such as rumination or distractibility.','These networks change with practice: training attention, learning and habits of thought all reshape their connections.'],
+  rh:'A Christian view',
+  reflect:['What we repeatedly fill our minds with shapes the networks we build. Scripture calls believers to an active renewal of the mind.','Prayer and meditation on Scripture may engage both the inward and the focused networks: quiet reflection joined with attentive thought.'],
+  rel:['cs_states','cs_moment']},
+ cs_dmn:{stats:[['2001','named by Marcus Raichle'],['~47%','of waking moments mind-wandering'],['5','main hub areas']],
+  how:['Hubs along the midline, the medial prefrontal cortex and the posterior cingulate, are linked with the angular gyrus, lateral temporal cortex and hippocampus.','They rise together when attention turns inward.','They quiet when a demanding outside task begins.'],
+  deep:['The network was discovered by noticing that some areas became less active, not more, when people started a task.'],
+  rh:'A Christian view',
+  reflect:['Where the mind wanders matters. “Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things” (Philippians 4:8).',
+   '“Be still, and know that I am God” (Psalm 46:10): stillness before God is not an empty mind but a mind turned toward Him.'],
+  rel:['cs_sal','cs_cen']},
+ cs_cen:{stats:[['~4','chunks in working memory'],['2','main hubs per side'],['goal','directed']],
+  how:['The dorsolateral prefrontal cortex holds goals and rules.','The posterior parietal cortex holds and manipulates information.','Together they keep you on task, pushing distractions aside.'],
+  deep:['This network works closely with the dorsal attention network, and both quiet the default mode network during focused work.'],
+  rh:'A Christian view', reflect:['Jesus said: “Thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind” (Matthew 22:37). Focused, careful thinking is one way to love God.'],
+  rel:['cs_dan','cs_sal']},
+ cs_sal:{stats:[['2','key hubs: insula and cingulate'],['VENs','special large neurons'],['switch','between networks']],
+  how:['The anterior insula senses what is important, inside the body and outside.','The anterior cingulate helps decide what to do about it.','Together they turn up the executive network and turn down the default mode network, or the reverse.'],
+  deep:['Vinod Menon and Lucina Uddin described this switching role in 2010.'],
+  with:['cs_dmn','cs_cen'], rel:['cs_dmn','cs_cen']},
+ cs_dan:{stats:[['~50%','missed the gorilla'],['2','attention networks'],['right','side dominant for catching surprises']],
+  how:['The dorsal network (frontal eye fields and intraparietal sulcus) directs attention on purpose.','The ventral network (temporoparietal junction and inferior frontal cortex) catches the unexpected.','Together they decide much of what reaches awareness.'],
+  deep:['Attention and consciousness are closely linked but not identical: attention can be drawn to things we never become aware of.'],
+  rel:['cs_cen','cs_sal']},
+ cs_meta:{stats:[['front','most forward part of the brain'],['2010','grey-matter study'],['confidence','what it judges']],
+  how:['The frontopolar cortex monitors the brain’s own decisions.','It compares how sure we feel with how well we do.','It helps us notice errors and change course.'],
+  deep:['Metacognition can be trained: feedback on how accurate your confidence was helps people judge themselves better.'],
+  rh:'A Christian view',
+  reflect:['The ability to examine our own hearts is a gift and a responsibility. “Search me, O God, and know my heart: try me, and know my thoughts” (Psalm 139:23).','“For what man knoweth the things of a man, save the spirit of man which is in him?” (1 Corinthians 2:11).'],
+  rel:['cs_dmn','cs_cen']}
+};
+var CS_VERSE={cs_states:['“And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.”','Genesis 2:7 (KJV)'],
+ cs_moment:['“The spirit of man is the candle of the LORD, searching all the inward parts of the belly.”','Proverbs 20:27 (KJV)'],
+ cs_networks:['“And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.”','Romans 12:2 (KJV)']};
+// the states map: wakefulness (x) and awareness (y), typical complexity after a zap (pci, null when not measured)
+var CS_ST={
+ wake:{id:'cs_awake',x:0.92,y:0.95,pci:0.55,lab:'Awake'},
+ lis:{id:'cs_lis',x:0.78,y:0.88,pci:0.53,lab:'Locked-in'},
+ rem:{id:'cs_rem',x:0.2,y:0.62,pci:0.45,lab:'Dreaming'},
+ mcs:{id:'cs_mcs',x:0.7,y:0.45,pci:0.38,lab:'Minimally conscious',short:'Min. conscious'},
+ uws:{id:'cs_uws',x:0.74,y:0.13,pci:0.22,lab:'Unresponsive'},
+ nrem:{id:'cs_nrem',x:0.3,y:0.3,pci:0.2,lab:'Deep sleep'},
+ anes:{id:'cs_anes',x:0.15,y:0.16,pci:0.18,lab:'Anesthesia'},
+ coma:{id:'cs_coma',x:0.05,y:0.0,pci:null,lab:'Coma'}};
+var CS_ST_ORDER=['wake','lis','rem','mcs','uws','nrem','anes','coma'];
+var CS_ST_SUB={wake:'Brainstem on, cortex richly connected',lis:'Fully aware, but the body cannot move',rem:'Cut off from the world, yet experiencing',mcs:'Signs of awareness that come and go',
+ uws:'Eyes open, but no signs of awareness',nrem:'Cortex active, but experience fades',anes:'Switched off by medicine, reversibly',coma:'Cannot be woken; eyes closed'};
+// relative activity of brain regions in each state (0 to 1), simplified from imaging studies
+var CS_ACT=(function(){
+  var K=['wake','lis','rem','mcs','uws','nrem','anes','coma'], a={}, base={wake:0.72,lis:0.7,rem:0.6,mcs:0.42,uws:0.24,nrem:0.25,anes:0.16,coma:0.1};
+  K.forEach(function(k){ a[k]={}; });
+  function set(ids,v){ ids.forEach(function(id){ K.forEach(function(k,i){ a[k][id]=v[i]; }); }); }
+  //               wake  lis   rem   mcs   uws   nrem  anes  coma
+  set(['prefrontal'],[0.85,0.8, 0.3, 0.35,0.15,0.18,0.1, 0.08]);
+  set(['parietal'],  [0.82,0.8, 0.5, 0.45,0.15,0.22,0.1, 0.08]);
+  set(['premotor','broca'],[0.75,0.7,0.5,0.38,0.18,0.22,0.14,0.1]);
+  set(['motor'],     [0.72,0.62,0.6, 0.35,0.25,0.22,0.14,0.1]);
+  set(['sensory'],   [0.72,0.7, 0.45,0.42,0.38,0.22,0.16,0.1]);
+  set(['occipital'], [0.75,0.72,0.72,0.45,0.38,0.25,0.18,0.1]);
+  set(['temporal','wernicke'],[0.72,0.7,0.72,0.45,0.25,0.25,0.15,0.1]);
+  set(['auditory'],  [0.72,0.7, 0.55,0.45,0.42,0.25,0.18,0.1]);
+  set(['thalamus'],  [0.82,0.8, 0.78,0.45,0.3, 0.25,0.1, 0.08]);
+  set(['cingulate'], [0.75,0.72,0.82,0.42,0.18,0.25,0.12,0.08]);
+  set(['hippocampus'],[0.65,0.62,0.75,0.4,0.3, 0.55,0.3, 0.15]);
+  set(['amygdala'],  [0.6, 0.6, 0.92,0.4, 0.3, 0.3, 0.2, 0.12]);
+  set(['insula'],    [0.68,0.66,0.6, 0.4, 0.25,0.28,0.15,0.1]);
+  set(['basal','snigra'],[0.68,0.6,0.6,0.38,0.3,0.3,0.2,0.12]);
+  set(['hypothalamus'],[0.65,0.65,0.55,0.6,0.6, 0.45,0.4, 0.35]);
+  set(['pituitary'], [0.5, 0.5, 0.5, 0.5, 0.5, 0.6, 0.45,0.4]);
+  set(['midbrain'],  [0.72,0.7, 0.75,0.65,0.65,0.32,0.25,0.05]);
+  set(['pons'],      [0.65,0.35,0.95,0.6, 0.6, 0.35,0.3, 0.05]);
+  set(['medulla'],   [0.6, 0.55,0.6, 0.6, 0.62,0.55,0.45,0.4]);
+  set(['cerebellum'],[0.65,0.5, 0.5, 0.4, 0.35,0.25,0.2, 0.15]);
+  set(['callosum'],  [0.55,0.55,0.45,0.35,0.2, 0.3, 0.15,0.1]);
+  a.base=base; return a;
+})();
+var CS_IDS=REGIONS.filter(function(r){ return r.mode==='mind'; }).map(function(r){ return r.id; });
+var CS_OVER={states:'cs_states',moment:'cs_moment',networks:'cs_networks'}, CS_OVERS=['cs_states','cs_moment','cs_networks'];
+var PRIORITY_CS=CS_IDS.filter(function(id){ return CS_OVERS.indexOf(id)<0; }).concat(CS_OVERS);
+// a moment of awareness: what the bar says at each point of the trial (ms)
+var CS_PHASE=[[0,'Light from the word reaches the eyes','The retina turns it into nerve signals'],[25,'Signals travel to the thalamus','The optic nerves carry them to the LGN relay'],
+ [55,'Primary visual cortex responds','Edges and lines are detected at the back of the brain'],[100,'The first sweep climbs the visual areas','Shapes and letters are picked out (P1 and N1 waves)'],
+ [170,'Recurrent loops bind the features','Higher areas talk back to lower ones'],[280,'@','@'],[460,'@','@']];
+var CS_PHASE_SEEN={280:['Ignition! The word is shared brain-wide','Frontal and parietal hubs light up (P3b wave)'],460:['The word “LIGHT” is in awareness','You could now say it, remember it and act on it']};
+var CS_PHASE_UNSEEN={280:['No ignition: the mask won the race','The activity stays local at the back of the brain'],460:['The word was not seen','Yet it was processed, and can still nudge later responses']};
+var csv='states', csBuilt=false, csG=new THREE.Group(), csPick=[], csPaths=[], csMeshes=[], csStn=[], csStStn=[], csPhStn=[], csAnch={}, csXrayBefore=false;
+var csState='wake', csAct={}, csMoving=true, csColDirty=true, csColT=0, csSigWas=null, csZapT=-1, csRipple=null, csZapTarget=null, csCard=null, csCardTex={};
+var csT=0, csPlaying=false, csSeen=true, csWaveKey='', csMapKey='', csMoTxt='', csCardKey='';
+var csNwKey='', csIn=true, csSw=1, csSwFrom=1, csSwP=1, csSal=0, csbar=$('#csbar');
+csG.visible=false; scene.add(csG);
+function isCS(id){ return !!(id && R[id] && R[id].mode==='mind'); }
+function csSel(){ return (isCS(selected) && CS_OVERS.indexOf(selected)<0 && !R[selected].st)?selected:null; }
+function csEnv(t,a,b,c,d){ if(t<=a || t>=d) return 0; if(t<b) return (t-a)/(b-a); if(t<=c) return 1; return (d-t)/(d-c); }
+function buildMind(){
+  if(csBuilt) return; csBuilt=true;
+  function V(a){ return a.isVector3?a.clone():new THREE.Vector3(a[0],a[1],a[2]); }
+  var rnd=(function(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; })(1949);
+  function rr(a,b){ return a+(b-a)*rnd(); }
+  function S(t,ax,az){ var c=stemCurve.getPointAt(t), r=0.12*stemTaper(t); return [c.x+ax*r,c.y,c.z+az*r]; }
+  function sp(d,s,l){ return surfacePoint(d,s,l==null?-0.02:l); }
+  function tmat(c,o){ return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.4,metalness:0,transparent:true},o||{})); }
+  function creg(id,m,o){ o=o||{};
+    m.userData={region:id,mind:true,lv:o.lv||R[id].lv,kind:o.kind||'part',role:o.role||null,env:o.env||null,cond:o.cond||'both',uamp:o.uamp==null?1:o.uamp,floor:o.floor!=null?o.floor:(o.kind==='path'?0.04:0.15),net:o.net||null,st:o.st||null,
+      tex:m.userData.tex||null,spd:m.userData.spd||0.8,base:[m.material.color.r,m.material.color.g,m.material.color.b],op0:o.op||m.material.opacity,on:-1};
+    m.material.transparent=true; if(o.kind==='path') csPaths.push(m); m.renderOrder=o.ro||5;
+    R[id].meshes.push(m); csG.add(m); csMeshes.push(m); if(!o.nopick) csPick.push(m); return m; }
+  var buckets={}, order=[];
+  function put(id,key,mesh,o){ var k=id+'|'+key; if(!buckets[k]){ buckets[k]={id:id,list:[],o:o||{}}; order.push(k); } buckets[k].list.push(mesh); }
+  function flush(){ order.forEach(function(k){ var b=buckets[k], L=b.list, first=L[0], m=first;
+      if(L.length>1){ var mat=first.material, tex=null; if(first.userData.tex){ tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; mat=mat.clone(); mat.emissiveMap=tex; }
+        m=new THREE.Mesh(mergeMeshes(L),mat); m.userData.tex=tex; m.userData.spd=first.userData.spd||0.8; L.forEach(function(o){ o.geometry.dispose(); }); }
+      creg(b.id,m,b.o); }); buckets={}; order=[]; }
+  function ball(p,r,c,glow){ var m=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),tmat(c,{emissive:c,emissiveIntensity:glow==null?0.45:glow})); m.position.copy(V(p)); return m; }
+  function pulse(pts,r,col,step,spd){ var c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength(), tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping;
+    tex.repeat.set(Math.max(1,Math.round(L/(step||0.14))),1); tex.offset.x=rnd();
+    var m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(12,Math.round(L*60)),r||0.01,7,false),tmat(col,{emissive:col,emissiveMap:tex}));
+    m.userData.tex=tex; m.userData.spd=spd||0.8; return m; }
+  // a curved link that dips inward through the white matter
+  function arc(a,b,r,col,step,spd){ var A=V(a), B=V(b), M=A.clone().lerp(B,0.5), d=M.clone().sub(BRAIN_C), L=A.distanceTo(B); M.sub(d.normalize().multiplyScalar(Math.min(0.32,0.1+0.18*L))); return pulse([A,M,B],r,col,step,spd); }
+  function stations(id,list){ list.forEach(function(st){ var e=document.createElement('div'); e.className='label stn'; e.style.setProperty('--c',R[id].color); e.innerHTML='<i class="dot"></i>'; e.appendChild(document.createTextNode(st[0])); labelsEl.appendChild(e); csStn.push({el:e,p:V(st[1]),n:st[2]?V(st[2]).normalize():null,id:id}); }); }
+  function lbl(text,color){ var e=document.createElement('div'); e.className='label stn'; e.style.setProperty('--c',color); e.innerHTML='<i class="dot"></i>'; e.appendChild(document.createTextNode(text)); labelsEl.appendChild(e); return e; }
+  function cxp(id){ return anchors[id]?anchors[id].p.clone():BRAIN_C.clone(); }
+  // shared landmarks (brain coordinates; +x is the person's left)
+  var THAL=function(s){ return [s*0.14,0.12,-0.05]; }, CM=function(s){ return [s*0.075,0.13,-0.04]; }, HYP=function(s){ return [s*0.06,-0.08,0.15]; }, BF=function(s){ return [s*0.13,-0.07,0.3]; };
+  var STR=function(s){ return [s*0.22,0.08,0.18]; }, EYE=function(s){ return [s*0.32,-0.3,1.06]; }, CHI=[0,-0.25,0.32], LGN=function(s){ return [s*0.22,-0.02,-0.12]; }, PUL=function(s){ return [s*0.15,0.1,-0.17]; };
+  var V1=function(s){ return sp([0.12,0.05,-1],s); }, V2=function(s){ return sp([0.35,0.18,-0.93],s); }, V4=function(s){ return sp([0.45,-0.55,-0.75],s); }, VW=function(s){ return sp([0.4,-0.85,-0.25],s); };
+  var IPS=function(s){ return sp([0.6,0.75,-0.45],s); }, DLPFC=function(s){ return sp([0.7,0.5,0.6],s); }, ACC=function(s){ return [s*0.07,0.42,0.42]; }, BROCA=sp([0.85,0.1,0.55],1);
+  var MPFC=function(s){ return [s*0.07,0.3,0.78]; }, PCC=function(s){ return [s*0.07,0.5,-0.38]; }, ANG=function(s){ return sp([0.8,0.5,-0.5],s); }, LTC=function(s){ return sp([0.95,-0.3,-0.1],s); }, HIP=function(s){ return [s*0.3,-0.15,-0.2]; };
+  var PPC=function(s){ return sp([0.75,0.62,-0.3],s); }, AINS=function(s){ return [s*0.5,0.02,0.15]; }, DACC=function(s){ return [s*0.07,0.46,0.3]; }, FEF=function(s){ return sp([0.5,0.75,0.35],s); };
+  var TPJ=sp([0.9,0.3,-0.35],-1), IFG=sp([0.85,0.1,0.55],-1), FPC=function(s){ return sp([0.28,0.25,0.95],s); };
+  var CX={pf:function(s){ return sp(lat(0.62,0.25),s); }, pm:function(s){ return sp(lat(0.3,0.62),s); }, pa:function(s){ return sp(lat(-0.45,0.55),s); }, oc:function(s){ return sp(lat(-0.85,0.05),s); }, te:function(s){ return sp(lat(0.1,-0.4),s); }};
+  var OR='#ff9f1c', PK='#ff70a6', BL='#4cc9f0', TE='#2ec4b6', GO='#ffd60a', VI='#b388ff', RD='#e63946', HZ='#ff8c42';
+  var NC={dmn:R.cs_dmn.color,cen:R.cs_cen.color,sal:R.cs_sal.color,dan:R.cs_dan.color,meta:R.cs_meta.color};
+
+  /* ---------- states view */
+  [1,-1].forEach(function(s){
+    for(var t=0;t<=0.46;t+=0.06) put('cs_aras','rf',ball(S(t,s*0.32,-0.38),0.016,OR,0.6),{role:'aras'});
+    put('cs_aras','p',pulse([S(0.32,s*0.3,-0.4),S(0.12,s*0.35,-0.35),[s*0.1,0.0,-0.08],CM(s)],0.009,OR,0.12),{kind:'path',role:'aras'});
+    put('cs_aras','p',pulse([S(0.22,s*0.3,-0.2),S(0.04,s*0.35,0.1),HYP(s),BF(s),CX.pf(s)],0.009,OR,0.12),{kind:'path',role:'aras'});
+    put('cs_aras','p',pulse([S(0.4,s*0.25,-0.45),S(0.15,s*0.5,-0.4),[s*0.28,0.15,-0.25],CX.pa(s)],0.008,OR,0.12),{kind:'path',role:'aras'});
+    put('cs_cthal','m',ball(CM(s),0.03,R.cs_cthal.color,0.6),{role:'cthal'});
+    var sh=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),tmat(R.cs_cthal.color,{opacity:0.2,depthWrite:false})); sh.position.set(s*0.14,0.12,-0.05); sh.scale.set(0.14,0.11,0.18); put('cs_cthal','sh',sh,{role:'cthal',op:0.2,ro:4,nopick:true});
+    [CX.pf(s),CX.pm(s),CX.pa(s),CX.te(s),CX.oc(s),STR(s)].forEach(function(c){ var a=V(CM(s)), b=V(c), m=a.clone().lerp(b,0.5); m.y+=0.07; put('cs_cthal','p',pulse([a,m,b],0.008,PK,0.11,1.1),{kind:'path',role:'cthal'}); });
+  });
+  var les1=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),tmat(RD,{emissive:RD,emissiveIntensity:0.6,opacity:0.6,depthWrite:false})); les1.position.copy(V(S(0.18,0,-0.45))); les1.scale.set(0.12,0.09,0.08); put('cs_coma','les',les1,{role:'lesion',st:'coma',op:0.6,ro:6});
+  var les2=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),tmat(RD,{emissive:RD,emissiveIntensity:0.6,opacity:0.6,depthWrite:false})); les2.position.copy(V(S(0.36,0,0.55))); les2.scale.set(0.1,0.1,0.06); put('cs_lis','les',les2,{role:'lesion',st:'lis',op:0.6,ro:6});
+  // the zap: a figure-eight TMS coil over the left premotor cortex
+  var ztg=sp(lat(0.22,0.76),1,0), nrm=ztg.clone().sub(BRAIN_C).normalize(), q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,0,1),nrm), tan=new THREE.Vector3(0,0,1).cross(nrm).normalize(), cc=ztg.clone().add(nrm.clone().multiplyScalar(0.17));
+  csZapTarget=ztg.clone();
+  [1,-1].forEach(function(k){ var ring=new THREE.Mesh(new THREE.TorusGeometry(0.075,0.017,10,32),tmat('#5c677d',{emissive:GO,emissiveIntensity:0.25,roughness:0.3,metalness:0.3})); ring.quaternion.copy(q); ring.position.copy(cc.clone().add(tan.clone().multiplyScalar(0.078*k))); put('cs_pci','coil',ring,{role:'coil'}); });
+  var hd=new THREE.Mesh(new THREE.CylinderGeometry(0.018,0.022,0.3,12),tmat('#495057',{roughness:0.4})); hd.position.copy(cc.clone().add(nrm.clone().multiplyScalar(0.15))); hd.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),nrm); put('cs_pci','handle',hd,{role:'coil'});
+  flush();
+  csRipple=new THREE.Mesh(new THREE.TorusGeometry(1,0.06,8,40),new THREE.MeshBasicMaterial({color:GO,transparent:true,opacity:0,depthWrite:false})); csRipple.quaternion.copy(q); csRipple.position.copy(ztg.clone().add(nrm.clone().multiplyScalar(0.03))); csRipple.visible=false; csRipple.renderOrder=7; csG.add(csRipple);
+
+  /* ---------- a moment of awareness */
+  [1,-1].forEach(function(s){
+    var eye=ball(EYE(s),0.1,'#e9f1fb',0.15); put('cs_sweep','eye',eye,{lv:'moment',env:[0,8,60,140],floor:0.4});
+    var pup=ball(V(EYE(s)).add(new THREE.Vector3(0,0,0.088)),0.04,'#1d3557',0.1); put('cs_sweep','pup',pup,{lv:'moment',env:[0,8,60,140],nopick:true,floor:0.4});
+    put('cs_sweep','on',pulse([EYE(s),[s*0.2,-0.28,0.7],CHI],0.012,BL,0.1,1.6),{kind:'path',env:[0,10,45,110]});
+    put('cs_sweep','ot',pulse([CHI,[s*0.14,-0.22,0.12],[s*0.22,-0.12,-0.02],LGN(-s)],0.011,BL,0.1,1.6),{kind:'path',env:[12,25,60,130]});
+    put('cs_sweep','or',pulse([LGN(s),[s*0.36,0.0,-0.35],[s*0.3,0.05,-0.7],V1(s)],0.011,BL,0.1,1.6),{kind:'path',env:[30,50,90,170]});
+    put('cs_sweep','lg',ball(LGN(s),0.03,BL,0.5),{env:[18,30,80,160]});
+    put('cs_sweep','v1',ball(V1(s),0.035,BL,0.55),{env:[50,62,140,320]});
+    put('cs_sweep','vs',pulse([V1(s),V2(s),V4(s),VW(s)],0.012,BL,0.1,1.6),{kind:'path',env:[60,95,170,280]});
+    put('cs_sweep','v4',ball(V4(s),0.03,BL,0.5),{env:[85,105,200,330]});
+    put('cs_sweep','vw',ball(VW(s),s>0?0.038:0.028,BL,0.55),{env:[110,150,260,600],uamp:0.9});
+    // recurrent loops: feedback from higher to lower areas, and sideways
+    put('cs_recur','fb',arc(VW(s),V1(s),0.01,TE,0.08,1.4),{kind:'path',env:[110,170,300,380],uamp:0.6});
+    put('cs_recur','fb',arc(V4(s),V2(s),0.009,TE,0.08,1.4),{kind:'path',env:[110,160,300,380],uamp:0.6});
+    put('cs_recur','fb',arc(VW(s),CX.pa(s),0.009,TE,0.08,1.4),{kind:'path',env:[150,200,320,420],uamp:0.5});
+    put('cs_recur','fb',arc(V2(s),CX.pa(s),0.008,TE,0.08,1.4),{kind:'path',env:[140,190,320,420],uamp:0.5});
+    // the posterior hot zone: a glowing cap over the back of the cortex
+    var nu=14, nv=16, pos=[], idx=[];
+    for(var i=0;i<nu;i++) for(var j=0;j<nv;j++){ var u=-1+0.8*i/(nu-1), v=-0.6+1.45*j/(nv-1), p=surfacePoint(lat(u,v),s,0.035); pos.push(p.x,p.y,p.z); }
+    for(i=0;i<nu-1;i++) for(j=0;j<nv-1;j++){ var a=i*nv+j, b=a+1, c=a+nv, d=c+1; idx.push(a,c,b,b,c,d); }
+    var g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); g.setIndex(idx); g.computeVertexNormals();
+    var cap=new THREE.Mesh(g,tmat(HZ,{emissive:HZ,emissiveIntensity:0.5,opacity:0.22,side:THREE.DoubleSide,depthWrite:false})); put('cs_hotzone','cap',cap,{op:0.22,ro:6,env:[150,230,600,700],uamp:0.55,floor:0});
+    // ignition: frontal and parietal hubs and the long-range broadcast
+    [DLPFC(s),IPS(s),ACC(s)].forEach(function(p){ put('cs_ignite','hub',ball(p,0.04,GO,0.7),{env:[270,330,600,700],cond:'seen'}); });
+    put('cs_ignite','lk',arc(DLPFC(s),IPS(s),0.013,GO,0.12,1.2),{kind:'path',env:[280,340,600,700],cond:'seen'});
+    put('cs_ignite','lk',arc(VW(s),DLPFC(s),0.012,GO,0.12,1.2),{kind:'path',env:[270,320,600,700],cond:'seen'});
+    put('cs_ignite','lk',arc(IPS(s),ACC(s),0.011,GO,0.12,1.2),{kind:'path',env:[290,350,600,700],cond:'seen'});
+    put('cs_ignite','lk',arc(DLPFC(s),ACC(s),0.011,GO,0.12,1.2),{kind:'path',env:[290,350,600,700],cond:'seen'});
+    put('cs_ignite','lk',arc(V4(s),IPS(s),0.011,GO,0.12,1.2),{kind:'path',env:[280,340,600,700],cond:'seen'});
+    // thalamus-cortex loops through the pulvinar
+    put('cs_thalcx','pul',ball(PUL(s),0.034,PK,0.55),{env:[40,70,600,700],uamp:0.55});
+    [V1(s),V4(s),VW(s),IPS(s),DLPFC(s)].forEach(function(c,i){ var a=V(PUL(s)), b=V(c), m=a.clone().lerp(b,0.5); m.y+=0.08; put('cs_thalcx','lp'+(i<3?'a':'b'),pulse([a,m,b],0.008,PK,0.09,1.3),{kind:'path',env:i<3?[60,110,600,700]:[260,320,600,700],uamp:i<3?0.6:0,cond:i<3?'both':'seen'}); });
+    // claustrum: a thin sheet beneath the insula, wired to the whole cortex
+    var cl=new THREE.Mesh(new THREE.BoxGeometry(0.016,0.2,0.44),tmat(VI,{emissive:VI,emissiveIntensity:0.5,opacity:0.85})); cl.position.set(s*0.43,0.02,0.05); cl.rotation.y=s*0.14; put('cs_claustrum','sheet',cl,{env:[230,300,600,700],uamp:0.4});
+    [CX.pf(s),CX.pm(s),CX.pa(s),CX.oc(s),CX.te(s),V4(s)].forEach(function(c){ put('cs_claustrum','sp',pulse([[s*0.43,0.02,0.05],V([s*0.43,0.02,0.05]).lerp(V(c),0.5).add(new THREE.Vector3(s*0.05,0.03,0)),c],0.006,VI,0.1,1.1),{kind:'path',env:[250,320,600,700],cond:'seen'}); });
+  });
+  // commissural link: ignition crosses the corpus callosum
+  put('cs_ignite','cc',pulse([DLPFC(1),[0,0.48,0.45],DLPFC(-1)],0.013,GO,0.12,1.2),{kind:'path',env:[300,360,600,700],cond:'seen'});
+  put('cs_ignite','cc',pulse([IPS(1),[0,0.5,-0.25],IPS(-1)],0.012,GO,0.12,1.2),{kind:'path',env:[300,360,600,700],cond:'seen'});
+  put('cs_ignite','br',ball(BROCA,0.036,GO,0.7),{env:[360,420,600,700],cond:'seen'});
+  put('cs_ignite','lk',arc(DLPFC(1),BROCA,0.011,GO,0.12,1.2),{kind:'path',env:[340,400,600,700],cond:'seen'});
+  // the cerebellum: many neurons, arranged as parallel modules
+  var cb=new THREE.Box3(); R.cerebellum.meshes.forEach(function(m){ m.updateMatrixWorld(); cb.expandByObject(m); }); var cbc=cb.getCenter(new THREE.Vector3()), cbs=cb.getSize(new THREE.Vector3()).multiplyScalar(0.5);
+  R.cerebellum.meshes.forEach(function(m){ if(!m.geometry) return; var g2=new THREE.Mesh(m.geometry,tmat(R.cs_cbl.color,{opacity:0.16,depthWrite:false})); g2.position.copy(m.position); g2.scale.copy(m.scale); g2.quaternion.copy(m.quaternion); put('cs_cbl','ghost',g2,{op:0.16,ro:4,nopick:true}); });
+  for(var k=0;k<11;k++){ var x=-0.85+1.7*k/10, pts=[]; for(var zi=0;zi<9;zi++){ var z=-0.85+1.7*zi/8, yy=1-x*x-z*z; if(yy<0.05) continue; pts.push([cbc.x+x*cbs.x*1.02,cbc.y+Math.sqrt(yy)*cbs.y*1.04,cbc.z+z*cbs.z*1.02]); }
+    if(pts.length>2) put('cs_cbl','mod',pulse(pts,0.007,R.cs_cbl.color,0.07,0.9),{kind:'path'}); }
+  flush();
+  // the word on the screen in front of the eyes
+  function cardTex(draw){ var c=document.createElement('canvas'); c.width=512; c.height=192; var g=c.getContext('2d'); if(g && g.fillRect){ draw(g); } var t=new THREE.CanvasTexture(c); return t; }
+  csCardTex.word=cardTex(function(g){ g.fillStyle='#0b1020'; g.fillRect(0,0,512,192); g.fillStyle='#fff'; g.font='800 112px system-ui, sans-serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText('LIGHT',256,100); });
+  csCardTex.mask=cardTex(function(g){ g.fillStyle='#0b1020'; g.fillRect(0,0,512,192); g.fillStyle='#fff'; g.font='800 112px system-ui, sans-serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText('#&%@#',256,100); });
+  csCardTex.blank=cardTex(function(g){ g.fillStyle='#0b1020'; g.fillRect(0,0,512,192); g.fillStyle='#ffffff'; g.font='800 60px system-ui, sans-serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText('+',256,100); });
+  csCard=new THREE.Sprite(new THREE.SpriteMaterial({map:csCardTex.blank,transparent:true,depthWrite:false})); csCard.scale.set(0.38,0.145,1); csCard.position.set(0.22,0.0,1.24); csCard.renderOrder=8; csCard.userData={lv:'moment'}; csG.add(csCard);
+
+  /* ---------- networks of the mind */
+  var HUBS={dmn:[MPFC,PCC,ANG,LTC,HIP],cen:[DLPFC,PPC],sal:[AINS,DACC],dan:[FEF,IPS],meta:[FPC]};
+  var NID={dmn:'cs_dmn',cen:'cs_cen',sal:'cs_sal',dan:'cs_dan',meta:'cs_meta'};
+  Object.keys(HUBS).forEach(function(n){ [1,-1].forEach(function(s){ HUBS[n].forEach(function(f,i){ var r=(n==='dmn' && i<2)?0.05:0.04;
+    put(NID[n],'h'+n,ball(f(s),r,NC[n],0.6),{lv:'networks',net:n});
+    put(NID[n],'g'+n,ball(f(s),r*1.7,NC[n],0.4),{lv:'networks',net:n,op:0.18,nopick:true,ro:8}); }); }); });
+  put('cs_dan','hv',ball(TPJ,0.04,NC.dan,0.6),{lv:'networks',net:'dan'}); put('cs_dan','hv',ball(IFG,0.04,NC.dan,0.6),{lv:'networks',net:'dan'});
+  [1,-1].forEach(function(s){
+    [[MPFC,PCC],[PCC,ANG],[PCC,HIP],[ANG,LTC],[MPFC,LTC],[MPFC,ANG]].forEach(function(e){ put('cs_dmn','l',arc(e[0](s),e[1](s),0.012,NC.dmn,0.12,1),{kind:'path',lv:'networks',net:'dmn'}); });
+    put('cs_cen','l',arc(DLPFC(s),PPC(s),0.013,NC.cen,0.12,1),{kind:'path',lv:'networks',net:'cen'});
+    put('cs_dan','l',arc(FEF(s),IPS(s),0.012,NC.dan,0.12,1),{kind:'path',lv:'networks',net:'dan'});
+    put('cs_sal','l',arc(AINS(s),DACC(s),0.012,NC.sal,0.12,1),{kind:'path',lv:'networks',net:'sal'});
+    put('cs_meta','l',arc(FPC(s),DLPFC(s),0.01,NC.meta,0.12,1),{kind:'path',lv:'networks',net:'meta'});
+    put('cs_meta','l',arc(FPC(s),DACC(s),0.01,NC.meta,0.12,1),{kind:'path',lv:'networks',net:'meta'});
+    // the salience switch: signals to both networks
+    [MPFC(s),PCC(s),DLPFC(s),PPC(s)].forEach(function(t){ put('cs_sal','sw',arc(AINS(s),t,0.008,NC.sal,0.09,1.6),{kind:'path',lv:'networks',net:'salsw'}); });
+  });
+  put('cs_dmn','x',pulse([PCC(1),[0,0.56,-0.36],PCC(-1)],0.012,NC.dmn,0.12,1),{kind:'path',lv:'networks',net:'dmn'});
+  put('cs_dmn','x',pulse([MPFC(1),[0,0.36,0.74],MPFC(-1)],0.012,NC.dmn,0.12,1),{kind:'path',lv:'networks',net:'dmn'});
+  put('cs_dan','v',arc(TPJ,IFG,0.011,NC.dan,0.12,1),{kind:'path',lv:'networks',net:'dan'});
+  flush();
+
+  /* ---------- label points and stations */
+  function A(id,p){ csAnch[id]={p:V(p),n:null}; }
+  A('cs_states',[0,0.8,0]); A('cs_aras',S(0.2,1.6,-0.4)); A('cs_cthal',[0.09,0.22,-0.04]); A('cs_pci',cc.clone().add(nrm.clone().multiplyScalar(0.1)));
+  A('cs_moment',[0.22,0.13,1.24]); A('cs_sweep',EYE(1)); A('cs_recur',V2(1)); A('cs_hotzone',sp(lat(-0.55,0.32),1,0.06)); A('cs_ignite',DLPFC(1)); A('cs_thalcx',PUL(1)); A('cs_claustrum',[0.45,0.14,0.05]); A('cs_cbl',[cbc.x+0.25,cbc.y+cbs.y*0.6,cbc.z-0.1]);
+  A('cs_networks',[0,0.85,0]); A('cs_dmn',PCC(1)); A('cs_cen',DLPFC(1)); A('cs_sal',AINS(1)); A('cs_dan',FEF(1)); A('cs_meta',FPC(1));
+  stations('cs_aras',[['Reticular core (upper brainstem)',S(0.14,0.5,-0.4)],['Route 1: through the thalamus',CM(-1)],['Route 2: hypothalamus and basal forebrain',BF(1)],['Cortex switched on',CX.pa(1)]]);
+  stations('cs_cthal',[['Intralaminar nuclei',CM(-1)],['To the frontal cortex',CX.pf(1)],['To the striatum',STR(-1)],['Loops with the cortex',CX.pa(-1)]]);
+  stations('cs_pci',[['The zap: a magnetic pulse',ztg],['The echo spreads, or stays local',CX.pa(1)]]);
+  stations('cs_sweep',[['Optic chiasm',CHI],['Thalamus relay (LGN)',LGN(-1)],['Primary visual cortex (V1)',V1(1)],['V4: shape and color',V4(-1)],['Word area (left fusiform)',VW(1)]]);
+  stations('cs_recur',[['Feedback to V1',V1(-1)],['Word area talks back',VW(1)],['Parietal: where it is',CX.pa(1)]]);
+  stations('cs_hotzone',[['Parietal: space and attention',CX.pa(-1)],['Temporal: objects and faces',LTC(1)],['Occipital: vision',CX.oc(1)]]);
+  stations('cs_ignite',[['Prefrontal hub',DLPFC(-1)],['Parietal hub',IPS(1)],['Anterior cingulate',ACC(1)],['Language: you can say it',BROCA],['Across the corpus callosum',[0,0.48,0.45]]]);
+  stations('cs_thalcx',[['Pulvinar',PUL(-1)],['Loops to the visual areas',V4(1)],['Loops to the frontal cortex',DLPFC(1)]]);
+  stations('cs_claustrum',[['Claustrum (beneath the insula)',[-0.43,0.02,0.05]],['Wired to almost every area',CX.pm(1)]]);
+  stations('cs_cbl',[['~69 billion neurons',[cbc.x-0.2,cbc.y,cbc.z+cbs.z*0.6]],['Parallel modules',[cbc.x,cbc.y+cbs.y,cbc.z-cbs.z*0.3]]]);
+  stations('cs_dmn',[['Medial prefrontal cortex',MPFC(1)],['Posterior cingulate and precuneus',PCC(-1)],['Angular gyrus',ANG(1)],['Lateral temporal cortex',LTC(-1)],['Hippocampus',HIP(1)]]);
+  stations('cs_cen',[['Dorsolateral prefrontal cortex',DLPFC(-1)],['Posterior parietal cortex',PPC(1)]]);
+  stations('cs_sal',[['Anterior insula',AINS(-1)],['Dorsal anterior cingulate',DACC(1)],['Switches the networks',[0.3,0.35,0.15]]]);
+  stations('cs_dan',[['Frontal eye field',FEF(-1)],['Intraparietal sulcus',IPS(1)],['Temporoparietal junction (right)',TPJ],['Inferior frontal (right)',IFG]]);
+  stations('cs_meta',[['Frontopolar cortex',FPC(-1)],['Works with the cingulate',DACC(1)]]);
+  // labels for each state
+  var stl={wake:[['Prefrontal and parietal: richly connected','prefrontal'],['Thalamus: gate open',THAL(1)],['Arousal system: on',S(0.25,1.4,-0.3)]],
+    lis:[['Front of the pons: motor pathways cut',S(0.36,0.4,0.9)],['Cortex: fully aware','parietal'],['Midbrain: eye movements spared',S(0.02,1.3,0.4)]],
+    rem:[['Visual and emotional areas: vivid','occipital'],['Prefrontal: quieter','prefrontal'],['Pons: switches on REM',S(0.36,1.3,0.1)]],
+    mcs:[['Thalamus–cortex loops: partly working',THAL(1)],['Default mode hubs: partly connected',PCC(-1)],['Language areas: may follow commands','wernicke']],
+    uws:[['Brainstem working: eyes open, sleep cycles',S(0.25,1.4,-0.3)],['Frontal and parietal networks: disconnected','parietal'],['Islands of activity in sensory areas','auditory']],
+    nrem:[['Cortex: bursts and silences','premotor'],['Prefrontal: deeply quiet','prefrontal'],['Thalamus: gate closed',THAL(1)]],
+    anes:[['Front–back communication broken','parietal'],['Thalamus: quieted',THAL(1)],['Prefrontal: switched off','prefrontal']],
+    coma:[['Upper brainstem: arousal core damaged',S(0.18,1.2,-0.5)],['Cortex: not switched on','parietal']]};
+  Object.keys(stl).forEach(function(k){ stl[k].forEach(function(st){ var p,n=null; if(typeof st[1]==='string'){ p=cxp(st[1]); n=anchors[st[1]]&&anchors[st[1]].n?anchors[st[1]].n.clone():null; } else p=V(st[1]);
+    csStStn.push({el:lbl(st[0],R[CS_ST[k].id].color),p:p,n:n,st:k}); }); });
+  // labels that follow the moment of awareness
+  [['Eyes: light arrives',EYE(1),0,70,'both'],['Thalamus relay (LGN)',LGN(-1),22,110,'both'],['Primary visual cortex',V1(1),55,180,'both'],['Shapes and letters (V4)',V4(-1),90,230,'both'],['Word area: “a word!”',VW(1),130,300,'both'],
+   ['Feedback loops bind it',V2(1),170,300,'both'],['Prefrontal hub ignites',DLPFC(-1),285,600,'seen'],['Parietal hub holds it',IPS(1),310,600,'seen'],['Language: ready to say it',BROCA,370,600,'seen'],['Activity fades: not seen',CX.pa(1),285,480,'unseen']].forEach(function(st){
+    csPhStn.push({el:lbl(st[0],st[4]==='seen'?GO:(st[4]==='unseen'?'#90a4ae':BL)),p:V(st[1]),n:null,a:st[2],b:st[3],cond:st[4]}); });
+  setCSAnchors();
+}
+function setCSAnchors(){ CS_IDS.forEach(function(id){ var a=(R[id].lv===csv && !R[id].st)?csAnch[id]:null; if(a) anchors[id]={p:a.p,n:a.n}; else delete anchors[id]; }); }
+function csLabelOK(id){
+  if(!csBuilt || !anchors[id] || R[id].lv!==csv) return false;
+  var s=csSel(); if(s) return s===id;
+  if(csv==='moment' && csT>0) return selected===id;
+  if(id==='cs_pci') return selected===id || csZapT>=0;
+  return CS_OVERS.indexOf(id)<0 || selected===id;
+}
+// activity of brain regions during the moment of awareness
+function csMomAct(id,t){
+  var s=csSeen, e=csEnv, b=0.14;
+  switch(id){
+    case 'occipital': return b+0.7*e(t,45,75,220,420)+(s?0.25*e(t,300,360,600,700):0);
+    case 'temporal': return b+0.6*e(t,100,160,300,480)+(s?0.25*e(t,300,360,600,700):0);
+    case 'wernicke': return b+(s?0.6*e(t,330,400,600,700):0.12*e(t,150,220,240,320));
+    case 'parietal': return b+(s?0.75*e(t,270,320,600,700):0.25*e(t,170,230,260,340));
+    case 'prefrontal': return b+(s?0.8*e(t,290,340,600,700):0.08*e(t,200,260,280,350));
+    case 'premotor': case 'broca': return b+(s?0.6*e(t,320,390,600,700):0);
+    case 'motor': return b+(s?0.3*e(t,400,480,600,700):0);
+    case 'thalamus': return 0.2+0.5*e(t,15,35,150,260)+(s?0.4*e(t,270,320,600,700):0);
+    case 'cingulate': return 0.18+(s?0.6*e(t,300,360,600,700):0);
+    case 'hippocampus': return 0.18+(s?0.4*e(t,380,460,600,700):0);
+    default: return CORTEX_IDS.indexOf(id)>=0?b:null;
+  }
+}
+// the brain's echo after a zap: varied and widespread when conscious, simple and local when not
+function csZapResp(id,t){
+  if(t<0 || !csZapTarget || !anchors[id]) return 0;
+  var st=CS_ST[csState], d=anchors[id].p.distanceTo(csZapTarget), k=CORTEX_IDS.indexOf(id), j=((k*37)%11)/11;
+  if(st.pci==null) return d<0.4?0.12*Math.exp(-Math.pow((t-0.08)/0.1,2)):0;
+  if(st.pci>=0.31){ var dl=0.1+d*0.3+j*0.25, sg=(k%2?1:-0.7); return 0.42*sg*Math.exp(-Math.pow((t-dl)/0.13,2))+0.22*-sg*Math.exp(-Math.pow((t-dl-0.45)/0.15,2)); }
+  return (d<0.7?0.55*(1-d/0.7):0)*Math.exp(-Math.pow((t-0.18)/0.22,2));
+}
+function csHeatCortex(vals){ var st=CORTEX_IDS.map(function(id){ return slHeat(vals[id]); });
+  cortexMeshes.forEach(function(m){ var col=m.geometry.attributes.color, fr=m.userData.faceReg, a=col.array; for(var f=0;f<fr.length;f++){ var c=st[fr[f]], o=f*9; a[o]=a[o+3]=a[o+6]=c[0]; a[o+1]=a[o+4]=a[o+7]=c[1]; a[o+2]=a[o+5]=a[o+8]=c[2]; } col.needsUpdate=true; }); }
+function csDeep(get){ var NEU=[0.72,0.76,0.84];
+  BRAIN_IDS.forEach(function(id){ var r=R[id]; if(r.kind==='cortex' || r.kind==='cover') return; var v=get(id), c=v==null?NEU:slHeat(v), k=v==null?0:0.25, seen=[];
+    r.meshes.forEach(function(m){ if(m.userData.keep || seen.indexOf(m.material)>=0) return; seen.push(m.material); m.material.color.setRGB(c[0],c[1],c[2]); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k); m.material.userData.seOp=v==null?0.12:0.85; }); }); }
+function csLevel(u){
+  var sel=csSel(), w;
+  if(u.lv!==csv) return 0;
+  if(sel && R[sel].lv===csv){ if(u.region===sel) return 1; w=(CS[sel] && CS[sel].with)||[]; return w.indexOf(u.region)>=0?0.85:((u.role==='lesion'||u.role==='coil')?0:0.1); }
+  if(csv==='states'){ var st=CS_ST[csState];
+    if(u.role==='lesion') return u.st===csState?1:0;
+    if(u.role==='coil') return (selected==='cs_pci' || csZapT>=0)?1:0;
+    if(u.role==='aras') return csState==='coma'?0.06:clamp(0.15+0.85*st.x,0,1);
+    if(u.role==='cthal') return clamp(0.1+0.9*(st.x+st.y)/2,0,1);
+    return 0.5; }
+  if(csv==='moment'){
+    if(u.region==='cs_cbl') return selected==='cs_cbl'?1:0.28;
+    if(csT<=0 && !csPlaying) return u.cond==='seen'?0.35:0.5;
+    if(!u.env) return 0.4;
+    if(u.cond==='seen' && !csSeen) return u.floor;
+    var e=csEnv(csT,u.env[0],u.env[1],u.env[2],u.env[3])*(csSeen?1:u.uamp); return Math.max(u.floor,e); }
+  if(csv==='networks'){
+    if(u.net==='dmn') return 0.12+0.88*csSw;
+    if(u.net==='cen' || u.net==='dan') return 0.12+0.88*(1-csSw);
+    if(u.net==='sal') return 0.35+0.65*csSal;
+    if(u.net==='salsw') return csSal;
+    return 0.55; }
+  return 0.5;
+}
+function applyMindColors(){
+  if(!csBuilt) return;
+  if(csv==='states'){ var tz=csZapT, vals={};
+    CORTEX_IDS.forEach(function(id){ var v=csAct[id]!=null?csAct[id]:CS_ACT.base[csState]; if(tz>=0) v+=csZapResp(id,tz); vals[id]=v; });
+    csHeatCortex(vals); csDeep(function(id){ return csAct[id]!=null?csAct[id]:null; });
+  } else if(csv==='moment'){ var vm={}, idle=csT<=0 && !csPlaying;
+    CORTEX_IDS.forEach(function(id){ vm[id]=idle?0.3:csMomAct(id,csT); }); csHeatCortex(vm); csDeep(function(id){ return idle?null:csMomAct(id,csT); });
+  } else {
+    cortexMeshes.forEach(function(m){ var col=m.geometry.attributes.color, a=col.array; for(var i=0;i<a.length;i+=3){ a[i]=0.62; a[i+1]=0.68; a[i+2]=0.8; } col.needsUpdate=true; });
+    csDeep(function(){ return null; });
+  }
+  var hov=isCS(hovered)?hovered:null;
+  for(var i=0;i<csMeshes.length;i++){ var m=csMeshes[i], u=m.userData, on=csLevel(u), h=hov===u.region && on>0.05;
+    var key=on.toFixed(3)+(h?'h':''); if(key===u.key) continue; u.key=key; u.on=on;
+    m.visible=on>0.02; if(!m.visible) continue;
+    var c=mix(u.base,[0.45,0.48,0.58],0.75*(1-on)); if(h) c=mix(c,[1,1,1],0.3);
+    m.material.color.setRGB(c[0],c[1],c[2]); var k=on*(u.kind==='path'?0.9:0.55); m.material.emissive.setRGB(c[0]*k,c[1]*k,c[2]*k);
+    m.material.opacity=u.op0*(u.kind==='path'?0.08+0.92*on:0.25+0.75*on); m.material.depthWrite=on>0.9 && u.op0>=1; }
+}
+function csSetState(k){
+  if(!CS_ST[k]) return; csState=k; csColDirty=true; csMoving=true;
+  var st=CS_ST[k], r=R[st.id]; $('#csStT').textContent=r.name; $('#csStS').textContent=CS_ST_SUB[k];
+  var pci=st.pci; $('#csPciF').style.width=(pci==null?0:Math.min(100,pci/0.7*100))+'%'; $('#csPciF').style.background=pci==null?'':(pci>=0.31?'var(--accent)':'#8d99ae');
+  $('#csPciV').textContent=pci==null?'not measured':'~'+pci.toFixed(2)+(pci>=0.31?' · conscious':' · unconscious');
+  var m=$('#csMap'); m.setAttribute('aria-valuenow',String(CS_ST_ORDER.indexOf(k))); m.setAttribute('aria-valuetext',r.name);
+  csDrawMap(); kick();
+}
+function csZap(){ if(!csBuilt) return; csZapT=0; csColDirty=true; kick(2500); }
+function csSetView(v,keep){
+  if(v===csv) return; csv=v;
+  [['#cvSt','states'],['#cvMo','moment'],['#cvNw','networks']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  app.classList.toggle('cv-states',v==='states'); app.classList.toggle('cv-moment',v==='moment'); app.classList.toggle('cv-networks',v==='networks');
+  if(v!=='moment') csPlaying=false; if(v!=='states'){ csZapT=-1; if(csRipple) csRipple.visible=false; } if(v!=='networks' && csSwP<1){ csSwP=1; csSw=csIn?1:0; csSal=0; }
+  setCSAnchors();
+  if(!keep && isCS(selected) && R[selected].lv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
+  setHover(null); applyVisibility(); refreshUI(); layout(); csWaveKey=''; csColDirty=true; csDrawMap(); csDrawWave(); csSetPlayIcon();
+  if(keep) return;
+  if(sideLayout()) select(CS_OVER[v]); else resetView();
+}
+function csSetIn(v,instant){ csIn=v; $('#csIn').classList.toggle('on',v); $('#csOut').classList.toggle('on',!v); $('#csIn').setAttribute('aria-selected',v?'true':'false'); $('#csOut').setAttribute('aria-selected',v?'false':'true');
+  $('#csNwT').textContent=v?'Looking inward: the default mode network':'Focusing outward: executive and attention networks';
+  $('#csNwS').textContent=v?'Remembering, imagining and reflecting; task networks quiet down.':'Working on a task and attending to the world; the default mode network quiets.';
+  csSwFrom=csSw; csSwP=(instant || !signalsOn)?1:0; if(csSwP>=1){ csSw=v?1:0; csSal=0; } csColDirty=true; kick(1800); }
+function csSetPlayIcon(){ var b=$('#csPlay'); if(!b) return; b.innerHTML=csPlaying?'<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>':(csT>=600?'<svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'); b.setAttribute('aria-label',csPlaying?'Pause':(csT>=600?'Replay':'Play the moment')); }
+function csSetT(t){ csT=clamp(t,0,600); csColDirty=true; csUpdateMoText(); kick(); }
+function csSetSeen(v){ csSeen=v; $('#csSeen').classList.toggle('on',v); $('#csUnseen').classList.toggle('on',!v); $('#csSeen').setAttribute('aria-selected',v?'true':'false'); $('#csUnseen').setAttribute('aria-selected',v?'false':'true'); csWaveKey=''; csMoTxt=''; csColDirty=true; csUpdateMoText(); kick(); }
+function csUpdateMoText(){
+  var ph=CS_PHASE[0]; for(var i=0;i<CS_PHASE.length;i++) if(csT>=CS_PHASE[i][0]) ph=CS_PHASE[i];
+  var t=ph[1], s=ph[2]; if(t==='@'){ var M=csSeen?CS_PHASE_SEEN:CS_PHASE_UNSEEN; t=M[ph[0]][0]; s=M[ph[0]][1]; }
+  if(csT<=0 && !csPlaying){ t='Press play to flash a word'; s=csSeen?'Shown long enough to be seen':'Shown for 30 ms, then covered by a mask'; }
+  var txt=Math.round(csT)+'|'+t+'|'+s; if(txt===csMoTxt) return; csMoTxt=txt;
+  $('#csMoT').textContent=(csT>0||csPlaying?Math.round(csT)+' ms · ':'')+t; $('#csMoS').textContent=s;
+  var w=$('#csWave'); if(!csPlaying || w._t!==t){ w._t=t; w.setAttribute('aria-valuenow',String(Math.round(csT))); w.setAttribute('aria-valuetext',Math.round(csT)+' milliseconds: '+t); }
+}
+function csCol(n){ return slDark()?n[0]:n[1]; }
+function csDrawMap(){
+  var c=$('#csMap'); if(!c || !c.getContext || !c.clientWidth) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, L=16, B=14, T=4, Rt=6, pw=w-L-Rt, ph=h-B-T;
+  var cs=getComputedStyle(app), ink=cs.getPropertyValue('--ink')||'#fff', mut=cs.getPropertyValue('--muted')||'#888', line=cs.getPropertyValue('--line')||'#ccc';
+  g.clearRect(0,0,w,h);
+  var gr=g.createLinearGradient?g.createLinearGradient(L,T+ph,L+pw,T):null; if(gr){ gr.addColorStop(0,'rgba(67,97,238,0.10)'); gr.addColorStop(1,'rgba(255,209,102,0.16)'); g.fillStyle=gr; g.fillRect(L,T,pw,ph); }
+  g.strokeStyle=line; g.lineWidth=1; g.beginPath(); g.moveTo(L,T); g.lineTo(L,T+ph); g.lineTo(L+pw,T+ph); g.stroke();
+  g.fillStyle=mut; g.font='600 10px system-ui, sans-serif'; g.textBaseline='alphabetic'; g.textAlign='right'; g.fillText('Wakefulness →',L+pw,h-2);
+  g.save(); g.translate(10,T+ph); g.rotate(-Math.PI/2); g.textAlign='left'; g.fillText('Awareness →',0,0); g.restore();
+  var X=function(x){ return L+6+(pw-12)*x; }, Y=function(y){ return T+ph-5-(ph-10)*y; };
+  var boxes=[], order=[csState].concat(CS_ST_ORDER.filter(function(k){ return k!==csState; }));
+  CS_ST_ORDER.forEach(function(k){ var st=CS_ST[k], x=X(st.x), y=Y(st.y), on=k===csState, col=R[st.id].color;
+    if(on){ g.strokeStyle=col; g.lineWidth=2; g.beginPath(); g.arc(x,y,9,0,Math.PI*2); g.stroke(); }
+    g.fillStyle=col; g.beginPath(); g.arc(x,y,on?6:4.5,0,Math.PI*2); g.fill(); boxes.push([x-5,y-5,x+5,y+5]); });
+  order.forEach(function(k){ var st=CS_ST[k], x=X(st.x), y=Y(st.y), on=k===csState, txt=(w<480 && st.short)?st.short:st.lab;
+    g.font=(on?'800 11px':'600 9.5px')+' system-ui, sans-serif'; var mt=g.measureText && g.measureText(txt), tw=(mt && mt.width) || txt.length*6;
+    var left=st.x>0.55, x0=left?x-11-tw:x+11, bx=[x0-2,y-6,x0+tw+2,y+6];
+    if(!on && boxes.some(function(b2){ return bx[0]<b2[2] && bx[2]>b2[0] && bx[1]<b2[3] && bx[3]>b2[1] && !(b2[0]===x-5 && b2[1]===y-5); })) return;
+    boxes.push(bx); g.fillStyle=on?ink:mut; g.textBaseline='middle'; g.textAlign='left'; g.fillText(txt,x0,y); });
+}
+function csErp(t,seen){ function G(m,s){ return Math.exp(-Math.pow((t-m)/s,2)); }
+  return 0.32*G(100,22)-0.45*G(170,28)-(seen?0.32:0.1)*G(210,40)+(seen?0.95*G(410,85):0.08*G(380,70)); }
+function csDrawWave(){
+  var c=$('#csWave'); if(!c || !c.getContext || !c.clientWidth) return; var F=slFitCanvas(c), g=F.g, w=F.w, h=F.h, L=8, Rt=8, top=14, bot=h-14, mid=(top+bot)/2+4, amp=(bot-top)*0.42;
+  var cs=getComputedStyle(app), ink=cs.getPropertyValue('--ink')||'#fff', mut=cs.getPropertyValue('--muted')||'#888', line=cs.getPropertyValue('--line')||'#ccc';
+  var X=function(t){ return L+(w-L-Rt)*t/600; }, col=csCol(csSeen?['#ffd60a','#b8860b']:['#90a4ae','#5c6b73']);
+  g.clearRect(0,0,w,h);
+  // the stimulus: word, then blank or mask
+  g.font='700 9.5px system-ui, sans-serif'; g.textBaseline='middle';
+  if(csSeen){ g.fillStyle=csCol(['#4cc9f0','#0b86b5']); g.fillRect(X(0),2,X(100)-X(0),8); g.fillStyle=mut; g.textAlign='left'; g.fillText('word shown',X(104),6); }
+  else { g.fillStyle=csCol(['#4cc9f0','#0b86b5']); g.fillRect(X(0),2,X(33)-X(0),8); g.fillStyle=mut; g.fillRect(X(33),2,X(200)-X(33),8); g.textAlign='left'; g.fillText('mask',X(204),6); }
+  g.strokeStyle=line; g.lineWidth=1; g.beginPath(); g.moveTo(L,mid); g.lineTo(w-Rt,mid); g.stroke();
+  g.fillStyle=mut; g.textAlign='center'; g.textBaseline='alphabetic'; [0,100,200,300,400,500,600].forEach(function(t){ g.fillText(t===600?'600 ms':String(t),Math.min(w-18,X(t)),h-2); });
+  for(var pass=0;pass<2;pass++){ g.strokeStyle=pass?col:line; g.lineWidth=pass?2:1.2; g.beginPath(); var end=pass?csT:600;
+    for(var t=0;t<=end;t+=3){ var x=X(t), y=mid-csErp(t,csSeen)*amp; if(t===0) g.moveTo(x,y); else g.lineTo(x,y); } g.stroke(); }
+  g.fillStyle=mut; g.font='700 9.5px system-ui, sans-serif'; g.textAlign='center';
+  g.fillText('P1',X(100),mid-0.32*amp-4); g.fillText('N1',X(170),mid+0.45*amp+11); if(csSeen) g.fillText('P3b',X(410),mid-0.95*amp-4);
+  var cx=X(csT); g.strokeStyle=ink; g.lineWidth=2; g.beginPath(); g.moveTo(cx,top-2); g.lineTo(cx,bot+2); g.stroke();
+}
+function csFrame(dt){
+  if(!csBuilt) return;
+  if(csSigWas!==signalsOn){ csSigWas=signalsOn; csColDirty=true; }
+  var k=1-Math.exp(-dt*3), recolor=csColDirty;
+  if(csv==='states'){
+    var tg=CS_ACT[csState], md=0;
+    for(var bi=0;bi<BRAIN_IDS.length;bi++){ var id=BRAIN_IDS[bi], v=tg[id]!=null?tg[id]:(R[id].kind==='cortex'?CS_ACT.base[csState]:null); if(v==null) continue; var o=csAct[id]; csAct[id]=o==null?v:o+(v-o)*k; md=Math.max(md,Math.abs(v-csAct[id])); }
+    csMoving=md>0.002; if(csMoving) recolor=true;
+    if(csZapT>=0){ csZapT+=dt; recolor=true; if(csZapT>2.4){ csZapT=-1; csColDirty=true; } }
+    if(csRipple){ var zt=csZapT; csRipple.visible=zt>=0 && zt<0.6; if(csRipple.visible){ var sc=0.04+zt*0.55; csRipple.scale.set(sc,sc,sc); csRipple.material.opacity=0.9*(1-zt/0.6); } }
+  } else if(csv==='moment'){
+    if(csPlaying){ csT+=dt*60; if(csT>=600){ csT=600; csPlaying=false; csSetPlayIcon(); csColDirty=true; } recolor=true; csUpdateMoText(); }
+    var wk=Math.round(csT)+(csSeen?'s':'u'); if(wk!==csWaveKey){ csWaveKey=wk; csDrawWave(); }
+    if(csCard){ var tex=csT<=0 && !csPlaying?csCardTex.blank:(csSeen?(csT<100?csCardTex.word:csCardTex.blank):(csT<33?csCardTex.word:(csT<200?csCardTex.mask:csCardTex.blank))); if(csCard.material.map!==tex){ csCard.material.map=tex; csCard.material.needsUpdate=true; } }
+  } else {
+    if(csSwP<1){ csSwP=Math.min(1,csSwP+dt/1.6); var e=csSwP<0.35?0:(csSwP-0.35)/0.65, sm=e*e*(3-2*e); csSw=csSwFrom+((csIn?1:0)-csSwFrom)*sm; csSal=Math.sin(Math.PI*Math.min(1,csSwP/0.75)); recolor=true; if(csSwP>=1) csColDirty=true; }
+    else if(csSal!==0){ csSal=0; csColDirty=true; }
+    var nk=Math.round(csSw*100)+'|'+(csSal>0.2); if(nk!==csNwKey){ csNwKey=nk; $('#csDmnF').style.width=Math.round(8+92*csSw)+'%'; $('#csCenF').style.width=Math.round(8+92*(1-csSw))+'%'; $('#csSalI').classList.toggle('on',csSal>0.2); }
+  }
+  csColT+=dt; if(recolor && (csColT>0.045 || csColDirty)){ csColT=0; csColDirty=false; applyMindColors(); }
+  if(signalsOn){ for(var j=0;j<csPaths.length;j++){ var p=csPaths[j], u=p.userData; if(p.visible && u.tex && u.on>0.25) u.tex.offset.x-=dt*u.spd*(0.4+u.on); } }
+}
+function csBusy(){ return csv==='states'?(csMoving || csZapT>=0):(csv==='moment'?csPlaying:csSwP<1); }
+function applyMindVis(){ if(!csBuilt) return; csG.visible=(mode==='mind'); if(csCard) csCard.visible=(mode==='mind' && csv==='moment'); }
+function updateMindStations(taken){
+  var sel=csSel();
+  var lists=[[csStn,function(st){ return mode==='mind' && st.id===selected && R[st.id].lv===csv; }],
+    [csStStn,function(st){ return mode==='mind' && csv==='states' && !sel && st.st===csState; }],
+    [csPhStn,function(st){ return mode==='mind' && csv==='moment' && !sel && (csT>0 || csPlaying) && csT>=st.a && csT<=st.b && (st.cond==='both' || (st.cond==='seen')===csSeen); }]];
+  lists.forEach(function(L){ L[0].forEach(function(st){
+    if(!showLabels || !L[1](st)){ setLbl(st.el,false); return; }
+    if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
+    tmpV.copy(st.p).project(camera); if(tmpV.z>1){ setLbl(st.el,false); return; }
+    var y=(-tmpV.y*0.5+0.5)*H, w=(st.el._w||(st.el._w=st.el.offsetWidth||100))+6, x=lblX(st.el,(tmpV.x*0.5+0.5)*W,y);
+    if(y<labTop || y>labBot){ setLbl(st.el,false); return; }
+    for(var i=0;i<taken.length;i++){ var t=taken[i]; if(Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22){ setLbl(st.el,false); return; } }
+    taken.push({x:x,y:y,w:w}); setLbl(st.el,true,x,y); }); });
+}
+function csPickAt(){
+  var h=rc.intersectObjects(csPick.filter(function(m){ return m.visible && m.userData.on>0.12; }),false); if(h.length) return h[0].object.userData.region;
+  if(csv==='networks') return null;
+  var hits=rc.intersectObjects(pickables.filter(function(m){ return m.visible; }),false); if(!hits.length) return null;
+  if(csv==='states') return CS_ST[csState].id;
+  if(csT<=0 && !csPlaying) return 'cs_moment';
+  return csT<150?'cs_sweep':(csT<280?'cs_recur':(csSeen?'cs_ignite':'cs_recur'));
+}
+function mindFocus(r){
+  if(r.st) return;
+  var v=r.view||{az:20,el:12}, at=r.at?new THREE.Vector3(r.at[0],r.at[1],r.at[2]):BRAIN_C;
+  tgt.az=tgt.az+wrap(v.az*Math.PI/180-tgt.az); tgt.el=v.el*Math.PI/180; tgt.zoom=r.zoom||1; CENTER_T.copy(at);
+}
+function enterMind(){
+  buildMind(); csXrayBefore=xray; xrayTo(true);
+  csbar.hidden=false; app.classList.add('bar-sl','bar-cs'); app.classList.toggle('cv-states',csv==='states'); app.classList.toggle('cv-moment',csv==='moment'); app.classList.toggle('cv-networks',csv==='networks');
+  for(var ci=0;ci<csMeshes.length;ci++) csMeshes[ci].userData.key=null;
+  csAct={}; csMoving=true; csColDirty=true; csMoTxt=''; csSetState(csState); csSetIn(csIn,true); csSetSeen(csSeen); csSetPlayIcon(); setCSAnchors();
+  app.style.setProperty('--dbh',csbar.offsetHeight+'px'); csWaveKey='';
+}
+function leaveMind(){ csPlaying=false; csZapT=-1; if(csRipple) csRipple.visible=false; xrayTo(csXrayBefore); csbar.hidden=true; app.classList.remove('bar-sl','bar-cs','cv-states','cv-moment','cv-networks'); }
+function fillMind(r){
+  var d=CS[r.id]||{}, tree=$('#pTree'); tree.hidden=false;
+  if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
+  senseList(r.hFuncs||'What it does',r.funcs);
+  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks)$/.test(r.id));
+  if(d.deep) senseList('A deeper look',d.deep);
+  if(d.reflect){ tree.appendChild(el('h3',null,d.rh||'A Christian view')); d.reflect.forEach(function(t){ tree.appendChild(el('p','dmg',t)); }); }
+  if(r.id==='cs_pci'){ var zb=el('button','jump','⚡ Zap the cortex'); zb.addEventListener('click',function(){ csZap(); }); tree.appendChild(zb); }
+  if(CS_OVERS.indexOf(r.id)>=0){
+    var same=CS_IDS.filter(function(id){ return R[id].lv===r.lv && id!==r.id; });
+    if(r.id==='cs_states'){ thChips('What keeps us conscious',same.filter(function(id){ return !R[id].st; })); thChips('The states',same.filter(function(id){ return !!R[id].st; })); }
+    else thChips(r.id==='cs_moment'?'The steps':'The networks',same);
+    thChips('Explore more',d.rel||[]);
+    var vs=CS_VERSE[r.id]; if(vs){ var q=el('div','verse',vs[0]); q.appendChild(el('small',null,vs[1])); tree.appendChild(q); }
+  } else { var rel=(d.rel||[]).slice(); if(rel.indexOf(CS_OVER[r.lv])<0) rel.push(CS_OVER[r.lv]); thChips('Related parts',rel); }
+}
+$('#cvSt').addEventListener('click',function(){ csSetView('states'); });
+$('#cvMo').addEventListener('click',function(){ csSetView('moment'); });
+$('#cvNw').addEventListener('click',function(){ csSetView('networks'); });
+$('#csInfo').addEventListener('click',function(){ select(CS_ST[csState].id); });
+$('#csZap').addEventListener('click',function(){ csZap(); });
+$('#csPlay').addEventListener('click',function(){ if(csT>=600) csT=0; csPlaying=!csPlaying; csMoTxt=''; csSetPlayIcon(); csColDirty=true; kick(); });
+$('#csSeen').addEventListener('click',function(){ csSetSeen(true); });
+$('#csUnseen').addEventListener('click',function(){ csSetSeen(false); });
+$('#csIn').addEventListener('click',function(){ if(!csIn) csSetIn(true); });
+$('#csOut').addEventListener('click',function(){ if(csIn) csSetIn(false); });
+(function(){ var c=$('#csMap');
+  function near(e){ var r=c.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top, w=r.width, h=r.height, L=16, B=14, T=4, pw=w-L-6, ph=h-B-T, best=null, bd=1e9;
+    CS_ST_ORDER.forEach(function(k){ var st=CS_ST[k], px=L+6+(pw-12)*st.x, py=T+ph-5-(ph-10)*st.y, d=Math.hypot(px-x,py-y); if(d<bd){ bd=d; best=k; } }); return bd<40?best:null; }
+  c.addEventListener('pointerdown',function(e){ var k=near(e); if(k){ select(CS_ST[k].id); kick(); } });
+  c.addEventListener('keydown',function(e){ var i=CS_ST_ORDER.indexOf(csState), n=CS_ST_ORDER.length, j={ArrowRight:i+1,ArrowDown:i+1,ArrowLeft:i-1,ArrowUp:i-1,Home:0,End:n-1}[e.key]; if(j==null) return; e.preventDefault(); e.stopPropagation(); select(CS_ST[CS_ST_ORDER[clamp(j,0,n-1)]].id); });
+})();
+(function(){ var c=$('#csWave'), drag=false;
+  function at(e){ var r=c.getBoundingClientRect(); csPlaying=false; csSetPlayIcon(); csSetT((e.clientX-r.left-8)/Math.max(1,r.width-16)*600); }
+  c.addEventListener('pointerdown',function(e){ drag=true; if(c.setPointerCapture) c.setPointerCapture(e.pointerId); at(e); });
+  c.addEventListener('pointermove',function(e){ if(drag) at(e); });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(function(t){ c.addEventListener(t,function(){ drag=false; }); });
+  c.addEventListener('keydown',function(e){ var d={ArrowRight:10,ArrowUp:10,ArrowLeft:-10,ArrowDown:-10,PageUp:100,PageDown:-100}[e.key]; if(e.key==='Home') d=-csT; if(e.key==='End') d=600-csT; if(d==null) return; e.preventDefault(); e.stopPropagation(); csPlaying=false; csSetPlayIcon(); csSetT(csT+d); });
+  if(window.matchMedia){ var mq=matchMedia('(prefers-color-scheme: dark)'), f=function(){ csWaveKey=''; csMoTxt=''; if(csBuilt && mode==='mind'){ csDrawMap(); csDrawWave(); } }; if(mq.addEventListener) mq.addEventListener('change',f); else if(mq.addListener) mq.addListener(f); }
+})();
+
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');
 function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:MEN_N[id]||null):null; }
@@ -6154,6 +7019,7 @@ function pickAt(cx,cy){
   if(mode==='think') return thinkPickAt();
   if(mode==='hw') return hwPickAt();
   if(mode==='sleep') return slPickAt();
+  if(mode==='mind') return csPickAt();
   var list=(mode==='senses'?(seView==='head'?sensePickHead:sensePickBody):mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
   var hits=rc.intersectObjects(list,false).filter(function(x){ return !(x.object.material && x.object.material.userData && x.object.material.userData.faded); });
   if(!hits.length) return null;
@@ -6169,7 +7035,7 @@ function pickAt(cx,cy){
 
 function pick(cx,cy){
   var id=pickAt(cx,cy);
-  if(!id && (bodyView()||mode==='spine'||mode==='senses'||mode==='think'||mode==='hw'||mode==='sleep')){
+  if(!id && (bodyView()||mode==='spine'||mode==='senses'||mode==='think'||mode==='hw'||mode==='sleep'||mode==='mind')){
     var rads=[8,16];
     for(var ri=0;ri<2 && !id;ri++) for(var a=0;a<8 && !id;a++){ var an=a/8*Math.PI*2; id=pickAt(cx+Math.cos(an)*rads[ri],cy+Math.sin(an)*rads[ri]); }
   }
@@ -6272,8 +7138,9 @@ var tmpV=new THREE.Vector3(), tmpD=new THREE.Vector3(), last=0, lastRender=0, re
 function kick(ms){ renderUntil=Math.max(renderUntil,performance.now()+(ms||900)); }
 ['pointerdown','pointermove','pointerup','wheel','keydown','click','input','change','touchstart'].forEach(function(t){ window.addEventListener(t,function(){ kick(); },{passive:true,capture:true}); });
 var PRIORITY=['prefrontal','parietal','occipital','temporal','cerebellum','motor','sensory','premotor','pons','medulla','midbrain','broca','wernicke','auditory','thalamus','hippocampus','amygdala','basal','snigra','callosum','hypothalamus','cingulate','insula','pituitary','dura','arachnoid','pia','mca','aca','veins','carotid','vertebral','willis','pca'];
+function lblX(el,x,y){ var hw=(el._w||(el._w=el.offsetWidth||0))/2+4; if(hw>4 && W>hw*2 && x>=0 && x<=W){ x=clamp(x,hw,W-hw); if(y<toolsB+14 && x+hw>toolsL && toolsL-hw>=hw) x=toolsL-hw; } return x; }
 function setLbl(el,on,x,y){
-  if(on){ var hw=(el._w||(el._w=el.offsetWidth||0))/2+4; if(hw>4 && W>hw*2){ x=clamp(x,hw,W-hw); if(y<toolsB+14 && x+hw>toolsL && toolsL-hw>=hw) x=toolsL-hw; } }
+  if(on) x=lblX(el,x,y);
   if(on && (el._x==null || Math.abs(el._x-x)>0.4 || Math.abs(el._y-y)>0.4)){ el._x=x; el._y=y; el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) translate(-50%,-50%)'; }
   if(el._on!==on){ el._on=on; el.classList.toggle('on',on); if(el.tagName==='BUTTON') el.tabIndex=on?0:-1; }
 }
@@ -6281,7 +7148,7 @@ function updateLevelLabels(taken){
   if(!lvlEls.length) return;
   var on=(mode==='spine' && sView==='whole' && showLabels);
   lvlEls.forEach(function(e){ if(!on){ setLbl(e.el,false); return; } tmpV.copy(e.p).project(camera); if(tmpV.z>1){ setLbl(e.el,false); return; }
-    var x=(tmpV.x*0.5+0.5)*W, y=(-tmpV.y*0.5+0.5)*H, w=(e.el._w||(e.el._w=e.el.offsetWidth)||30)+6;
+    var y=(-tmpV.y*0.5+0.5)*H, w=(e.el._w||(e.el._w=e.el.offsetWidth)||30)+6, x=lblX(e.el,(tmpV.x*0.5+0.5)*W,y);
     if(taken.some(function(t){ return Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22; })){ setLbl(e.el,false); return; }
     setLbl(e.el,true,x,y); });
 }
@@ -6293,7 +7160,7 @@ function updateLabels(){
   REGIONS.forEach(function(r){
     if(mode==='diseases'){
       if(!D || (r.mode||'brain')!==(dView==='brain'?'brain':'nerves') || (r.kind==='vessel' && r.id!==selected) || (r.kind==='deep' && xrayT<0.6) || !dLabelOK(r.id)){ setLbl(labelEls[r.id],false); return; }
-    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id)) || (mode==='hw' && !hwLabelOK(r.id)) || (mode==='sleep' && !slLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
+    } else if((r.mode||'brain')!==mode || (mode==='spine' && (r.sv!==sView || (r.kind==='tract' && !tractVisible(r.id)))) || (mode==='senses' && !seLabelOK(r.id)) || (mode==='think' && !thLabelOK(r.id)) || (mode==='hw' && !hwLabelOK(r.id)) || (mode==='sleep' && !slLabelOK(r.id)) || (mode==='mind' && !csLabelOK(r.id))){ setLbl(labelEls[r.id],false); return; }
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
@@ -6316,10 +7183,10 @@ function updateLabels(){
     }
     if(!show) setLbl(labelEls[r.id],false);
   });
-  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='hw'?PRIORITY_HW:mode==='sleep'?PRIORITY_SL:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
+  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='hw'?PRIORITY_HW:mode==='sleep'?PRIORITY_SL:mode==='mind'?PRIORITY_CS:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
   order.forEach(function(id){
     var it=items[id]; if(!it || it.done) return; it.done=true;
-    var el=labelEls[id], w=(el._w||80)+6, hit=false;
+    var el=labelEls[id], w=(el._w||80)+6, hit=false; it.x=lblX(el,it.x,it.y);
     for(var i=0;i<taken.length;i++){
       var t=taken[i];
       if(Math.abs(it.x-t.x)<(w+t.w)/2 && Math.abs(it.y-t.y)<26){ hit=true; break; }
@@ -6328,7 +7195,7 @@ function updateLabels(){
     taken.push({x:it.x,y:it.y,w:w});
     setLbl(el,true,it.x,it.y);
   });
-  updateLevelLabels(taken); updateStations(taken); updateThinkStations(taken); updateHWStations(taken); updateSleepStations(taken);
+  updateLevelLabels(taken); updateStations(taken); updateThinkStations(taken); updateHWStations(taken); updateSleepStations(taken); updateMindStations(taken);
 }
 
 
@@ -6339,14 +7206,15 @@ function frame(now){
   cur.az+=(tgt.az-cur.az)*k; cur.el+=(tgt.el-cur.el)*k; cur.zoom+=(tgt.zoom-cur.zoom)*k;
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
-  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):0.86))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
+  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:0.82)):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
-  for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep') && dm.userData.seOp!=null?dm.userData.seOp:1); }
+  for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
   if(mode==='think') thFrame(dt);
   if(mode==='hw') hwFrame(dt);
   if(mode==='sleep') slFrame(dt);
+  if(mode==='mind') csFrame(dt);
   if(vesselsOn && mode==='brain'){
     hbT+=dt; var hb=heartbeat(hbT);
     for(var vi=0;vi<vesselMeshes.length;vi++){
@@ -6382,7 +7250,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle'?(slPlaying || slMoving || signalsOn):signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle'?(slPlaying || slMoving || signalsOn):signalsOn)) || (mode==='mind' && (csBusy() || signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

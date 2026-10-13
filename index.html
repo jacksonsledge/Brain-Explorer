@@ -178,6 +178,30 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .scroll ol.steps li{counter-increment:st;padding-left:28px}
 .scroll ol.steps li::before{content:counter(st);top:.05em;left:0;width:20px;height:20px;border-radius:50%;color:#0a1226;font:700 11.5px/20px var(--body);text-align:center}
 #pTree .verse{margin-top:18px}
+.cs-th{margin:8px 0;padding:10px 12px;border-radius:12px;background:var(--soft);border-left:4px solid var(--c)}
+.cs-th b{display:block;font:700 15px/1.25 var(--head)}
+.cs-th small{display:block;margin-top:3px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.cs-th small strong{color:var(--ink)}
+.cs-th p{margin:5px 0 0;font-size:14px;line-height:1.45}
+.cs-terms{margin:4px 0 0}
+.cs-terms dt{margin-top:8px;font-weight:700;font-size:14px}
+.cs-terms dd{margin:2px 0 0;font-size:14px;line-height:1.45}
+.cs-myth{margin:8px 0;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.cs-myth p{margin:0;font-size:14px;line-height:1.45}
+.cs-myth p+p{margin-top:5px}
+.cs-time{list-style:none;margin:6px 0 0 5px;padding:0 0 0 14px;border-left:2px solid var(--line)}
+.cs-time li{position:relative;margin:0 0 7px;font-size:14px;line-height:1.4}
+.cs-time li::before{content:"";position:absolute;left:-19px;top:.42em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.cs-time b{margin-right:7px}
+.cs-fl{margin:6px 0 4px}
+.cs-fl-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.cs-fl-row .chip{min-height:36px;padding:0 12px}
+.cs-fl-row .chip[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.cs-fl-scr{display:grid;place-items:center;height:84px;margin:8px 0;border-radius:12px;background:#0b1020;color:#fff;font:800 34px/1 system-ui,sans-serif;letter-spacing:.06em}
+.cs-fl-out{margin:4px 0 0;font-size:14px;font-weight:600}
+.cs-fl-tal{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
+.cs-bs{display:flex;justify-content:space-between;align-items:center;max-width:340px;margin:10px 0;padding:16px 20px;border-radius:12px;background:#fff;color:#000;font:700 24px/1 system-ui,sans-serif}
+.cs-kz{display:block;width:200px;max-width:100%;height:auto;margin:10px auto;padding:8px;border-radius:12px;background:#fff;color:#000}
 .spine-only{display:none!important}
 .mode-spine .spine-only{display:flex!important}
 .mode-spine .sv.spine-only{display:inline-flex!important}
@@ -1952,7 +1976,7 @@ var REGIONS = [
   damage:'Small strokes affecting the central thalamus on both sides can cause long-lasting severe drowsiness, loss of motivation, or coma-like states.',
   fact:'In 2007, doctors placed stimulating electrodes in the central thalamus of a man who had been minimally conscious for six years after an assault. He became able to name objects, eat by mouth and respond more consistently.',
   view:{az:35,el:18}, at:[0,0.12,0], zoom:0.7},
- {id:'cs_pci',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: what keeps us conscious',name:'Zap and Zip: Measuring Consciousness',short:'Zap and zip (PCI)',color:'#ffd60a',
+ {id:'cs_pci',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: measuring awareness',name:'Zap and Zip: Measuring Consciousness',short:'Zap and zip (PCI)',color:'#ffd60a',
   where:'A magnetic pulse to the scalp, with the echo recorded by EEG',
   summary:'How can you tell whether someone is conscious if they cannot respond? One method sends a harmless magnetic pulse (TMS) into the cortex, the “zap”, and records the brain’s echo with EEG. The complexity of the echo is then measured by compressing it, like zipping a computer file, the “zip”. A conscious brain answers with a rich, varied echo that travels through many regions. An unconscious brain answers with a simple wave that stays local, or spreads uniformly, and fades. Press Zap below to compare states.',
   funcs:['Testing consciousness without needing any response','Comparing waking, sleep, anesthesia and brain injury','Detecting hidden awareness in unresponsive patients'],
@@ -1960,6 +1984,14 @@ var REGIONS = [
   damage:'The score is called the perturbational complexity index (PCI). Values above about 0.31 have been found in every conscious state tested, and values below it in dreamless sleep and most anesthesia. In some patients thought to be unresponsive, a high score has pointed to hidden consciousness.',
   fact:'The method was developed by Marcello Massimini, Giulio Tononi and colleagues, and the index was first published in 2013.',
   view:{az:20,el:24}, zoom:0.95},
+ {id:'cs_covert',kind:'mind',mode:'mind',lv:'states',group:'States of consciousness: measuring awareness',name:'Finding Hidden Awareness',short:'Hidden awareness',color:'#00b4d8',
+  where:'Movement-planning and spatial areas of the cortex, read with brain scans or EEG',
+  summary:'Some patients who cannot move or speak may still be aware. To find out, doctors ask them, while a brain scan or EEG records, to imagine playing tennis or to imagine walking through the rooms of their home. Imagining tennis activates the supplementary motor area at the top of the brain. Imagining walking through a house activates spatial areas such as the parahippocampal cortex, the posterior parietal cortex and the premotor cortex. If the right areas respond at the right times, again and again, the patient is hearing, understanding and choosing to respond. Some patients have even answered yes-or-no questions this way: tennis for “yes”, home for “no”.',
+  funcs:['Detecting awareness without any movement','Letting some patients answer yes-or-no questions','Guiding families and care teams'],
+  hDamage:'In the clinic',
+  damage:'This hidden ability is called cognitive motor dissociation. In a 2024 study of 353 patients with disorders of consciousness, about one in four of those who showed no outward response to commands followed them on brain scans or EEG.',
+  fact:'In 2006, a young woman thought to be in a vegetative state after a road accident was asked, inside a scanner, to imagine playing tennis. Her brain responded just like those of healthy volunteers.',
+  view:{az:30,el:30}, zoom:0.95},
  {id:'cs_awake',kind:'mind',mode:'mind',lv:'states',st:'wake',group:'States of consciousness: the states',name:'Fully Awake and Aware',short:'Awake and aware',color:'#ffd166',
   where:'Wakefulness high, awareness high',
   summary:'In ordinary waking life the brainstem keeps the cortex switched on, the thalamus passes the senses through, and the cortex is busy with fast, varied and well-connected activity. Regions far apart stay in conversation, joining sights, sounds, memories and thoughts into one unified experience.',
@@ -2073,6 +2105,22 @@ var REGIONS = [
   damage:'Damage to the cerebellum causes clumsiness, unsteady walking, slurred speech and sometimes changes in thinking and mood, but awareness remains.',
   fact:'In 2014, doctors in China described a 24-year-old woman born without a cerebellum. She was fully conscious and had only moderate problems with movement and speech.',
   view:{az:140,el:10}, at:[0,-0.35,-0.55], zoom:0.75},
+ {id:'cs_blind',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: when seeing and knowing split',name:'Blindsight',short:'Blindsight',color:'#f15bb5',
+  where:'A second visual route: eye → superior colliculus → pulvinar → motion area (MT) and amygdala, bypassing the primary visual cortex',
+  summary:'When the primary visual cortex (V1) on one side is destroyed, a person becomes blind in the opposite half of their vision. Yet some of these patients, when asked to guess, can point to objects, tell which way something is moving, or even sense the emotion on a face in the blind half, far better than chance, while insisting they see nothing. Smaller pathways carry some information around the damage, through the midbrain and the thalamus, to other visual areas. Blindsight shows that the brain can use what the eyes see without the person being aware of it.',
+  funcs:['Guiding the eyes and hand toward things not consciously seen','Detecting motion and sudden changes','Sensing emotional faces through a fast route to the amygdala'],
+  hDamage:'What it teaches',
+  damage:'Blindsight is strong evidence that V1 and the feedback loops through it are needed for normal visual awareness, while a good deal of visual processing can happen without them.',
+  fact:'The term “blindsight” was coined by Lawrence Weiskrantz and colleagues in 1974. A patient known as TN, blind after two strokes, later walked down a cluttered corridor, stepping around every obstacle, without knowing how.',
+  view:{az:100,el:12}, at:[0,-0.05,-0.2], zoom:0.9},
+ {id:'cs_split',kind:'mind',mode:'mind',lv:'moment',group:'A moment of awareness: when seeing and knowing split',name:'The Split Brain',short:'Split brain',color:'#f4a261',
+  where:'The corpus callosum: the bridge of about 200 million fibers joining the two hemispheres',
+  summary:'The two halves of the cortex share what they know through the corpus callosum. To control severe epilepsy, some patients had it cut. Afterwards they seemed quite normal in daily life, but careful tests revealed something remarkable. A word flashed to the left half of vision reaches only the right hemisphere. The patient says they saw nothing, because speech is controlled mostly by the left hemisphere. Yet their left hand, controlled by the right hemisphere, can pick out the matching object by touch. Each half could perceive and respond, but could not share with the other.',
+  funcs:['Sharing sensations, memories and plans between the two halves','Joining the two halves of the visual field into one scene','Coordinating the two hands'],
+  hDamage:'What it teaches',
+  damage:'Split-brain studies show how much awareness depends on communication between brain areas. Yet patients still experience themselves as one person, and researchers still debate how this unity is kept.',
+  fact:'Roger Sperry received a share of the 1981 Nobel Prize in Physiology or Medicine for his split-brain research, carried out with Michael Gazzaniga and others.',
+  view:{az:-30,el:42}, at:[0,0.2,0], zoom:0.95},
  {id:'cs_networks',kind:'mind',mode:'mind',lv:'networks',group:'Networks of the mind',name:'Networks of the Mind',short:'Networks of the mind',color:'#80ed99',
   where:'Large sets of distant regions that work together',
   summary:'Our awareness is shaped by large networks: sets of distant regions that rise and fall together. The default mode network supports the inner world of memories, plans and self-reflection. The central executive and attention networks direct the mind to tasks and to the world around us. The salience network notices what matters and switches between them. Use the switch below to turn the mind inward or outward.',
@@ -6362,6 +6410,23 @@ var CS={
   rh:'Body, mind and soul',
   reflect:['Neuroscience can show which brain activity goes along with experience, but has not explained why there is an inner experience at all. Philosophers call this the hard problem of consciousness. Scripture describes a person as more than matter: dust of the ground given the breath of life by God.',
    'The brain is the God-given instrument through which we experience, think and act in this life. Studying it with care, and caring for it, honors the One who made it.'],
+  terms:[['Wakefulness','Being switched on: eyes open and sleep–wake cycles running.'],['Awareness','Having experience: of the world, of one’s body and thoughts, and of oneself.'],
+   ['Subjective experience','What something is like for the person: the redness of red, the taste of bread, the sting of a cut.'],
+   ['Neural correlates of consciousness','The smallest set of brain activity that reliably goes along with a particular conscious experience.'],
+   ['Disorders of consciousness','Coma, unresponsive wakefulness and the minimally conscious state, usually after severe brain injury.'],
+   ['The hard problem','The question of why any brain activity is accompanied by inner experience at all.']],
+  theories:[['Global workspace','#ffd60a','Bernard Baars, 1988; Stanislas Dehaene','Information becomes conscious when it ignites a brain-wide “workspace” in frontal and parietal hubs and is broadcast to memory, language and planning.','Late, all-or-none ignition and the P3b wave.'],
+   ['Integrated information','#ff8c42','Giulio Tononi, 2004','Consciousness is how much a system’s parts are joined into one whole while each still does something different. It points to the richly linked back of the cortex.','Complex, integrated echoes after a zap (PCI).'],
+   ['Recurrent processing','#2ec4b6','Victor Lamme, 2000s','Feedback loops within the sensory cortex are enough for experience; broadcasting to the front of the brain is needed only to report it.','Feedback from about 100 milliseconds onward.'],
+   ['Higher-order theories','#b388ff','David Rosenthal; Hakwan Lau','A state becomes conscious when the brain, mainly the prefrontal cortex, represents itself as being in that state.','Confidence and metacognition.'],
+   ['Predictive processing','#4cc9f0','Karl Friston, Anil Seth, Andy Clark','The brain constantly predicts its input; experience reflects its best guesses, corrected by prediction errors. It is a broad framework rather than a complete theory.','Responses to the unexpected.']],
+  theoryNote:'In 2025 a large team published, in the journal Nature, a head-to-head test of the global workspace and integrated information theories, with predictions agreed in advance. The results supported parts of each, and challenged key predictions of both: the ignition expected in the prefrontal cortex when a picture disappeared was not found, and neither was the lasting synchrony within the back of the cortex that integrated information theory predicted. The search continues.',
+  mile:[['1846','Ether anesthesia is first shown in public, in Boston.'],['1929','Hans Berger publishes the first human EEG recordings.'],['1949','Moruzzi and Magoun discover the brainstem arousal system.'],['1953','REM sleep is discovered.'],
+   ['1974','The Glasgow Coma Scale is published.'],['1981','Roger Sperry shares a Nobel Prize for split-brain research.'],['1988','Global workspace theory is proposed.'],['2001','The default mode network is named.'],['2002','The minimally conscious state is defined.'],
+   ['2004','Integrated information theory is proposed.'],['2006','The “imagine playing tennis” study finds hidden awareness.'],['2013','The zap-and-zip complexity index is published.'],['2024','About 1 in 4 unresponsive patients are found to respond covertly.'],['2025','Two leading theories are tested head to head.']],
+  myths:[['People in a coma are just deeply asleep.','Sleep is natural, cycles through stages and ends when you are woken. A person in a coma cannot be woken, even by strong stimulation, because the systems that switch the brain on are injured or suppressed.'],
+   ['Anesthesia is simply a very deep sleep.','Anesthesia is a controlled, medicine-induced state. It shares some slow rhythms with deep sleep, but it works through different mechanisms, and noise or touch will not wake you from it.'],
+   ['If someone cannot respond, they cannot be aware.','Brain scans and EEG show that some patients who cannot move are aware. That is why careful, repeated testing matters.']],
   rel:['cs_moment','cs_networks']},
  cs_aras:{stats:[['1949','discovered by Moruzzi and Magoun'],['5+','messenger chemicals'],['2','routes to the cortex']],
   how:['Clusters of neurons in the midbrain and upper pons make acetylcholine, noradrenaline, serotonin, dopamine and glutamate.',
@@ -6380,7 +6445,8 @@ var CS={
   rel:['cs_awake','cs_nrem','cs_uws']},
  cs_awake:{stats:[['3–15','Glasgow Coma Scale range'],['~0.5','typical complexity (PCI)'],['20%','of the body’s energy']],
   how:['The arousal system keeps the cortex switched on.','The thalamus passes the senses through to the cortex.','Front and back of the cortex stay in close, varied conversation, and fast gamma rhythms link distant areas.'],
-  deep:['Even when awake, we are aware of only a small part of what the brain processes. Most of the work, from steering our steps to understanding grammar, happens outside awareness.'],
+  signs:['Eyes: open on their own (4 of 4)','Speech: oriented, knowing name, place and time (5 of 5)','Movement: obeys commands (6 of 6)','Total 15 out of 15: the highest Glasgow Coma Scale score'],
+  deep:['Awareness also comes in levels while awake: drowsiness, focused attention and deep absorption in a task each feel different and show different brain patterns.','Even when awake, we are aware of only a small part of what the brain processes. Most of the work, from steering our steps to understanding grammar, happens outside awareness.'],
   rel:['cs_rem','cs_lis']},
  cs_rem:{stats:[['~25%','of a night’s sleep'],['~0.45','typical complexity (PCI)'],['1953','REM discovered']],
   how:['The pons switches REM sleep on and blocks the muscles.','Visual and emotional areas, and the hippocampus, are active.','The prefrontal cortex, which checks logic, is quieter, so strange events go unquestioned.'],
@@ -6393,26 +6459,31 @@ var CS={
   rel:['cs_rem','cs_pci','cs_anes']},
  cs_anes:{stats:[['1846','first public demonstration'],['~0.2','complexity under propofol'],['GABA','main target of many anesthetics']],
   how:['Many anesthetics strengthen GABA, the brain’s main calming messenger.','Front–back communication in the cortex breaks down.','The thalamus and cortex slip into slow, synchronized rhythms, similar to deep sleep.'],
+  signs:['Heart rate, blood pressure and breathing','No response to speech or touch','EEG: slow waves and a strong alpha rhythm over the front of the brain','Processed EEG “depth” numbers on a monitor'],
   deep:['Anesthesiologists track depth with vital signs and sometimes with EEG monitors that read the brain’s rhythms.','Not every anesthetic works the same way: ketamine blocks a different receptor and leaves the cortex busy.'],
   rh:'A Christian view', reflect:['When some objected to pain relief in childbirth, the Scottish doctor and Christian James Young Simpson, who introduced chloroform in 1847, pointed to Genesis 2:21: “And the LORD God caused a deep sleep to fall upon Adam, and he slept”. Relieving suffering through medicine can be an act of compassion.'],
   rel:['cs_nrem','cs_coma']},
  cs_coma:{stats:[['3','lowest Glasgow Coma Scale score'],['2–4 wk','coma rarely lasts longer'],['1974','scale created']],
   how:['Damage to the upper brainstem arousal core, or to both hemispheres, stops the cortex from being switched on.','Without arousal, awareness cannot arise.','Basic brainstem reflexes may continue.'],
-  deep:['Doctors sometimes induce coma with medicines to protect an injured brain; this is different from coma caused by injury.'],
+  signs:['Eyes stay closed, even to pain','No sleep–wake cycles','No purposeful movement or speech','A Glasgow Coma Scale score usually 8 or below'],
+  deep:['Most people who survive a coma begin to wake within days to weeks, often passing through unresponsive wakefulness or the minimally conscious state on the way.','Doctors sometimes induce coma with medicines to protect an injured brain; this is different from coma caused by injury.'],
   rh:'Every person has worth', reflect:['A person’s worth does not depend on how well they can respond. Each is made in the image of God (Genesis 1:27), and every patient deserves patience, careful testing and love.'],
   with:['cs_aras'], rel:['cs_aras','cs_uws','cs_mcs']},
  cs_uws:{stats:[['~1 in 4','unresponsive patients followed commands covertly (2024)'],['2006','“imagine playing tennis” study'],['2010','new name proposed']],
   how:['The brainstem and hypothalamus work, so eyes open and sleep–wake cycles continue.','Frontal and parietal networks, and their links with the thalamus, are badly damaged.','Sensory areas may still respond to sound or touch, but the response does not spread.'],
+  signs:['Eyes open on their own; sleep–wake cycles present','Only reflex movements: startle, grimace, pulling away from pain','No consistent tracking of a mirror and no following of commands','Checked with the Coma Recovery Scale–Revised, repeated several times'],
   deep:['Brain scans and EEG can now look for hidden awareness by asking patients to imagine actions, such as playing tennis or walking through their home, and seeing whether the right brain areas respond.'],
   rh:'Every person has worth', reflect:['The discovery of hidden awareness in some unresponsive patients is a strong reminder to treat every patient with dignity. “For thou hast possessed my reins: thou hast covered me in my mother’s womb” (Psalm 139:13; “reins” means the inmost being): God knows each person from the inside, even when others cannot.'],
   rel:['cs_mcs','cs_coma','cs_pci']},
  cs_mcs:{stats:[['2002','defined'],['partial','thalamus–cortex loops'],['years','recovery can continue']],
   how:['Thalamus–cortex loops partly work.','The default mode network remains partly connected.','Signs of awareness come and go, so repeated testing is needed.'],
-  deep:['Patients who can follow commands are sometimes described as “MCS plus”, and those who cannot as “MCS minus”.'],
+  signs:['Following a mirror or moving object with the eyes','Reaching for or holding objects in the right way','Following simple commands now and then','Smiling or crying in response to the right situation, not at random'],
+  deep:['Many patients move from unresponsive wakefulness to the minimally conscious state within weeks or months, and some keep improving for years.','Patients who can follow commands are sometimes described as “MCS plus”, and those who cannot as “MCS minus”.'],
   rh:'Every person has worth', reflect:['Families often notice small responses before clinicians do. Patient, loving attention is both good medicine and an expression of the love Christ showed to the sick and the weak.'],
   rel:['cs_uws','cs_cthal']},
  cs_lis:{stats:[['~0.5','normal complexity (PCI)'],['1997','book dictated by blinking'],['~3 in 4','reported being happy (2011)']],
   how:['Damage to the front of the pons cuts the motor pathways from the cortex to the body.','The arousal system at the back of the brainstem is spared, so the person is awake.','The cortex is intact, so awareness is complete.'],
+  signs:['Awake, with eyes open','Up-and-down eye movements and blinking preserved','Answers by blinking, for example once for yes and twice for no','Scans show damage in the front of the pons'],
   deep:['In a 2011 survey of people with long-term locked-in syndrome, about three out of four said they were happy.'],
   rh:'Every person has worth', reflect:['Locked-in syndrome shows that a rich inner life can exist even when the body cannot express it. “For which cause we faint not; but though our outward man perish, yet the inward man is renewed day by day” (2 Corinthians 4:16).'],
   rel:['cs_awake','cs_coma']},
@@ -6421,44 +6492,76 @@ var CS={
   deep:['The bottom trace shows a simplified EEG: P1 and N1 waves for the first sweep, the visual awareness negativity at about 200 ms, and the large P3b wave that appears only when the word is seen.','Much of what the brain does is never conscious, yet it still guides us: unseen words can speed up related responses, and unseen threats can quicken the heart.'],
   rh:'A Christian view',
   reflect:['Each conscious moment rests on billions of precisely timed signals, yet the one who sees is a person, not a pathway.','The word shown here, LIGHT, recalls Psalm 119:105: “Thy word is a lamp unto my feet, and a light unto my path.”'],
+  terms:[['Masking','Covering a briefly flashed image with a pattern, so that it is processed by the brain but often not seen.'],['Threshold','The point at which a stimulus is seen about half the time.'],
+   ['Feedforward and feedback','Signals that climb from lower to higher areas, and signals that come back down.'],['Ignition','A sudden, self-sustaining surge of activity that spreads to frontal and parietal hubs.'],
+   ['Unconscious processing','Work the brain does on information that never reaches awareness, such as recognizing a masked word.']],
+  demo:'mask',
+  myths:[['We see the world instantly and exactly as it is.','Awareness forms over about a third of a second, and the brain fills gaps and predicts. You never notice the blind spot in each eye, because the brain fills it in.'],
+   ['Hidden “subliminal” messages can make people buy things.','Unseen words can have small, brief effects in the lab. The famous 1957 claim that flashing “eat popcorn” in cinemas boosted sales was later admitted to be made up.']],
   rel:['cs_states','cs_networks']},
  cs_sweep:{stats:[['~60 ms','to primary visual cortex'],['~150 ms','to recognize a word'],['30+','visual areas']],
   how:['The retina turns light into signals; the optic nerves cross partly at the optic chiasm.','The thalamus relay (LGN) passes them to the primary visual cortex.','Areas V2 and V4 add shape and color; the temporal lobe recognizes objects, faces and written words.'],
+  demo:'spot',
   deep:['A small region on the underside of the left temporal lobe, called the visual word form area, becomes specialized for written words as a person learns to read.'],
   with:['cs_thalcx'], rel:['cs_recur','cs_moment']},
  cs_recur:{stats:[['~100–300 ms','recurrent processing'],['~200 ms','awareness negativity'],['2-way','feedforward and feedback']],
   how:['Higher areas send signals back to earlier ones.','Earlier areas sharpen their response to match what higher areas expect.','Features are bound into one object and held for a moment.'],
+  demo:'kanizsa',
   deep:['Victor Lamme proposed that this local recurrent processing is enough for visual experience, even before information is broadcast to the frontal lobes.'],
   with:['cs_sweep'], rel:['cs_sweep','cs_hotzone']},
  cs_hotzone:{stats:[['back','of the cortex'],['V4','color area'],['MT','motion area']],
   how:['Parietal, temporal and occipital areas hold the specific contents of experience.','Each content has its own area: color, motion, faces, places, words.','Rich local connections let these areas form an integrated whole.'],
-  deep:['Integrated information theory, proposed by Giulio Tononi, predicts that the posterior cortex, with its grid-like, richly interconnected layout, is the main seat of experience.'],
+  deep:['Integrated information theory, proposed by Giulio Tononi, predicts that the posterior cortex, with its grid-like, richly interconnected layout, is the main seat of experience.','In a 2017 study, sleepers who were woken and said they had been dreaming showed less slow-wave activity in this posterior zone just before waking, in both REM and non-REM sleep.'],
   rh:'A Christian view', reflect:['Even the most detailed map of the brain shows what accompanies experience, not experience itself. “For now we see through a glass, darkly; but then face to face” (1 Corinthians 13:12).'],
   rel:['cs_recur','cs_ignite']},
  cs_ignite:{stats:[['~300 ms','ignition begins'],['P3b','its EEG signature'],['1988','global workspace proposed']],
   how:['Several pieces of information compete for the workspace.','The winner ignites: activity surges and spreads to frontal and parietal hubs.','The hubs hold it and broadcast it brain-wide, so memory, language and planning can use it.','Other information is held back until the next moment.'],
+  tryit:'Watch a fast stream of letters for two numbers hidden among them. If the second number comes within about half a second of the first, it is often missed. This “attentional blink” happens because the workspace is still busy with the first number, so the second fails to ignite.',
   deep:['Ignition is all-or-none: in experiments near the threshold of seeing, the same word either ignites fully or fades, with little in between.','Long-range neurons with long axons, especially in the prefrontal and parietal cortex, are thought to carry the broadcast.'],
   with:['cs_hotzone'], rel:['cs_hotzone','cs_cen']},
  cs_thalcx:{stats:[['2-way','loops with every cortical area'],['~40 Hz','gamma rhythm'],['pulvinar','visual coordinator']],
   how:['Each cortical area sends signals down to the thalamus and receives signals back.','The pulvinar helps visual areas lock into a shared rhythm.','The central thalamus keeps the frontal cortex active.'],
-  deep:['When distant areas fire in the same rhythm, their messages arrive at the right moment to influence each other: “communication through coherence”.'],
+  deep:['Small strokes in the thalamus on both sides can cause coma, while much larger areas of the cortex can be lost without it.','When distant areas fire in the same rhythm, their messages arrive at the right moment to influence each other: “communication through coherence”.'],
   rel:['cs_cthal','cs_sweep']},
  cs_claustrum:{stats:[['<1 mm','to a few mm thick'],['2005','“conductor” idea published'],['nearly all','cortical areas connected']],
   how:['The claustrum receives input from nearly the whole cortex and sends signals back.','It may help keep distant areas coordinated, or help focus attention.'],
-  deep:['Studies in mice show that claustrum neurons can quiet broad areas of the cortex at once, which may help synchronize them.'],
+  deep:['Studies in mice show that claustrum neurons can quiet broad areas of the cortex at once, which may help synchronize them.','Because the claustrum is so thin and so deep, it is very hard to study in people: its neighbors are easily affected by mistake.'],
   rel:['cs_ignite','cs_thalcx']},
  cs_cbl:{stats:[['~69 billion','neurons'],['~80%','of the brain’s neurons'],['little','role in awareness']],
   how:['The cerebellum is built from many repeating, parallel modules.','Each module handles its own task with little crosstalk.','This layout is excellent for fast, precise control but poor at forming one unified experience.'],
-  deep:['This is one of the strongest clues that consciousness depends on how a network is organized, not just on its size.'],
+  deep:['This is one of the strongest clues that consciousness depends on how a network is organized, not just on its size.','Integrated information theory explains it this way: a system built from many separate modules, however large, joins very little information into one whole.'],
   rel:['cs_hotzone','cs_pci']},
+ cs_covert:{stats:[['2006','first scanner study'],['2010','first yes-or-no answers'],['~1 in 4','hidden responders (2024)']],
+  how:['The patient hears an instruction: “imagine playing tennis” or “imagine walking around your home”.','They imagine it for about 30 seconds, then rest. This is repeated several times.','Tennis activates the supplementary motor area; walking through a house activates spatial memory areas.','If the pattern reliably follows the instructions, the person must be hearing, understanding and choosing to respond.'],
+  deep:['A negative result does not prove that someone is unaware: they may be asleep, unable to hear, or have damage to the very areas being tested. Doctors combine several tests and repeat them.','Bedside EEG versions are being developed so that more patients can be tested without a scanner.'],
+  rh:'Every person has worth', reflect:['These studies remind us that we cannot always see a person’s inner life from the outside. “For the LORD seeth not as man seeth; for man looketh on the outward appearance, but the LORD looketh on the heart” (1 Samuel 16:7).'],
+  rel:['cs_uws','cs_mcs','cs_pci']},
+ cs_blind:{stats:[['1974','term coined'],['~10%','of optic nerve fibers take other routes'],['>chance','guesses in the blind field']],
+  how:['V1 is damaged, so the main route from the eyes no longer produces conscious sight on that side.','A smaller route runs from the eyes to the superior colliculus in the midbrain, then to the pulvinar of the thalamus.','From there, and from a few cells in the LGN, signals reach the motion area (MT) and the amygdala.','These areas can guide the eyes and hands, but without V1 and its loops the information does not become a conscious experience.'],
+  deep:['Some patients report a vague feeling that “something happened” without seeing anything. Researchers study the line between this feeling and true seeing to learn what awareness adds.','Visual neglect, after damage to the right parietal lobe, shows a different split: the eyes and V1 work, but awareness of the left side of space is lost because attention no longer reaches it.'],
+  rh:'A Christian view', reflect:['Much of how we are kept and guided happens without our knowing it. “The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore” (Psalm 121:8).'],
+  rel:['cs_sweep','cs_thalcx','cs_split']},
+ cs_split:{stats:[['~200 million','fibers in the corpus callosum'],['1960s','first split-brain studies'],['1981','Nobel Prize for Sperry']],
+  how:['A word is flashed to the left of where the patient is looking.','It reaches only the right hemisphere, which sees it but cannot speak.','The left hemisphere, which controls speech, did not see it, so the patient says “nothing”.','Yet the left hand, guided by the right hemisphere, can feel among hidden objects and pick the right one.'],
+  deep:['The speaking left hemisphere often makes up a reason for what the left hand did. Michael Gazzaniga called this the “interpreter”: a part of us that tells a story to make sense of our own actions.','Today the full operation is rare. When surgery is needed, surgeons often cut only part of the corpus callosum.'],
+  tryit:'Hold a small object, like a pen or a coin, in your left hand behind your back and feel it without looking. You can name it easily: touch signals go to your right hemisphere, and the corpus callosum carries them across to the language areas on the left. Many split-brain patients could not name it, though their left hand could point to it.',
+  rh:'A Christian view', reflect:['Even with the bridge between the two halves cut, patients go on living as one person, with one name and one story. Scripture speaks of the whole person: “And the very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ” (1 Thessalonians 5:23).'],
+  rel:['cs_ignite','cs_blind','cs_hotzone']},
  cs_networks:{stats:[['4+','major networks'],['~47%','of time mind-wandering'],['1','salience switch']],
   how:['Looking inward: the default mode network rises for memories, imagination and self-reflection.','Focusing outward: the executive and attention networks rise to handle tasks and the world around us.','The two tend to see-saw: when one rises, the other falls.','The salience network notices what matters and flips the switch.'],
   deep:['Healthy minds move flexibly between inward and outward modes. Getting stuck in either is linked to problems such as rumination or distractibility.','These networks change with practice: training attention, learning and habits of thought all reshape their connections.'],
   rh:'A Christian view',
   reflect:['What we repeatedly fill our minds with shapes the networks we build. Scripture calls believers to an active renewal of the mind.','Prayer and meditation on Scripture may engage both the inward and the focused networks: quiet reflection joined with attentive thought.'],
+  terms:[['Network','A set of distant brain areas whose activity rises and falls together.'],['Hub','A highly connected area that links many others, like a busy airport.'],
+   ['Functional connectivity','How closely the activity of two areas moves together over time.'],['Anticorrelated','When one network rises, the other tends to fall, like a see-saw.'],
+   ['Mind-wandering','Thoughts drifting away from the task at hand toward memories, plans or daydreams.'],['Metacognition','Thinking about your own thinking: knowing what you know and how sure you are.']],
+  myths:[['We only use 10 percent of our brains.','Brain scans show activity throughout the brain over the course of a day. Even at rest, networks such as the default mode network are busy.'],
+   ['A wandering mind is always a bad thing.','On average, people report feeling a little less happy while their minds wander, but wandering also helps with planning, problem-solving and creativity. Trouble comes when it gets stuck in worry or rumination.'],
+   ['People can focus fully on two demanding tasks at once.','The brain switches rapidly between them, and each switch costs time and causes more errors.']],
   rel:['cs_states','cs_moment']},
  cs_dmn:{stats:[['2001','named by Marcus Raichle'],['~47%','of waking moments mind-wandering'],['5','main hub areas']],
   how:['Hubs along the midline, the medial prefrontal cortex and the posterior cingulate, are linked with the angular gyrus, lateral temporal cortex and hippocampus.','They rise together when attention turns inward.','They quiet when a demanding outside task begins.'],
+  tryit:'Sit quietly for one minute and focus only on your breathing. Each time you notice your mind has wandered, count it and gently come back. Most people wander several times. Brain scans suggest that the moment of noticing involves the salience network.',
   deep:['The network was discovered by noticing that some areas became less active, not more, when people started a task.'],
   rh:'A Christian view',
   reflect:['Where the mind wanders matters. “Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things” (Philippians 4:8).',
@@ -6466,19 +6569,21 @@ var CS={
   rel:['cs_sal','cs_cen']},
  cs_cen:{stats:[['~4','chunks in working memory'],['2','main hubs per side'],['goal','directed']],
   how:['The dorsolateral prefrontal cortex holds goals and rules.','The posterior parietal cortex holds and manipulates information.','Together they keep you on task, pushing distractions aside.'],
-  deep:['This network works closely with the dorsal attention network, and both quiet the default mode network during focused work.'],
+  deep:['Sleep loss, stress and constant interruptions weaken this network’s control, which is one reason rest helps focus.','This network works closely with the dorsal attention network, and both quiet the default mode network during focused work.'],
   rh:'A Christian view', reflect:['Jesus said: “Thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind” (Matthew 22:37). Focused, careful thinking is one way to love God.'],
   rel:['cs_dan','cs_sal']},
  cs_sal:{stats:[['2','key hubs: insula and cingulate'],['VENs','special large neurons'],['switch','between networks']],
   how:['The anterior insula senses what is important, inside the body and outside.','The anterior cingulate helps decide what to do about it.','Together they turn up the executive network and turn down the default mode network, or the reverse.'],
-  deep:['Vinod Menon and Lucina Uddin described this switching role in 2010.'],
+  deep:['Vinod Menon and Lucina Uddin described this switching role in 2010.','The anterior insula also senses the body’s inner state, such as heartbeat, breathing and the gut, and may help join body and world into one felt moment.'],
   with:['cs_dmn','cs_cen'], rel:['cs_dmn','cs_cen']},
  cs_dan:{stats:[['~50%','missed the gorilla'],['2','attention networks'],['right','side dominant for catching surprises']],
   how:['The dorsal network (frontal eye fields and intraparietal sulcus) directs attention on purpose.','The ventral network (temporoparietal junction and inferior frontal cortex) catches the unexpected.','Together they decide much of what reaches awareness.'],
+  tryit:'In a famous 1999 experiment, people counted basketball passes in a short video while a person in a gorilla suit walked through the scene. About half never noticed the gorilla. Without attention, even striking things can fail to reach awareness. This is called inattentional blindness.',
   deep:['Attention and consciousness are closely linked but not identical: attention can be drawn to things we never become aware of.'],
   rel:['cs_cen','cs_sal']},
  cs_meta:{stats:[['front','most forward part of the brain'],['2010','grey-matter study'],['confidence','what it judges']],
   how:['The frontopolar cortex monitors the brain’s own decisions.','It compares how sure we feel with how well we do.','It helps us notice errors and change course.'],
+  tryit:'Before checking your answers on a quiz, rate how sure you are of each from 1 to 5. Then check. Over time, notice whether your confidence matches your accuracy: a close match is good metacognition.',
   deep:['Metacognition can be trained: feedback on how accurate your confidence was helps people judge themselves better.'],
   rh:'A Christian view',
   reflect:['The ability to examine our own hearts is a gift and a responsibility. “Search me, O God, and know my heart: try me, and know my thoughts” (Psalm 139:23).','“For what man knoweth the things of a man, save the spirit of man which is in him?” (1 Corinthians 2:11).'],
@@ -6684,11 +6789,43 @@ function buildMind(){
   put('cs_dan','v',arc(TPJ,IFG,0.011,NC.dan,0.12,1),{kind:'path',lv:'networks',net:'dan'});
   flush();
 
+  /* ---------- extra parts, shown when selected */
+  var SC=function(s){ return S(0.03,s*0.4,-0.95); }, MT=function(s){ return sp([0.82,-0.05,-0.6],s); }, AMY=function(s){ return [s*0.28,-0.2,0.06]; };
+  var SMA=function(s){ return sp([0.1,1,0.12],s,-0.03); }, PPA=function(s){ return [s*0.26,-0.28,-0.4]; }, AUD=cxp('auditory');
+  var BLC=R.cs_blind.color, SPC=R.cs_split.color, TEN='#ffd166', HOM='#4cc9f0';
+  function xo(o){ return Object.assign({role:'extra'},o||{}); }
+  // blindsight: a damaged right V1, and the side route through the midbrain and thalamus
+  var les3=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),tmat(RD,{emissive:RD,emissiveIntensity:0.6,opacity:0.6,depthWrite:false})); les3.position.copy(V(V1(-1))); les3.scale.set(0.1,0.12,0.06);
+  put('cs_blind','les',les3,xo({lv:'moment',op:0.6,ro:6}));
+  [1,-1].forEach(function(s){
+    put('cs_blind','eye',ball(EYE(s),0.1,'#e9f1fb',0.15),xo({lv:'moment'}));
+    put('cs_blind','p',pulse([EYE(s),[s*0.2,-0.28,0.7],CHI,[s*0.12,-0.16,0.05],SC(s),PUL(s),MT(s)],0.011,BLC,0.1,1.4),xo({kind:'path',lv:'moment'}));
+    put('cs_blind','p',pulse([PUL(s),[s*0.3,-0.05,-0.05],AMY(s)],0.009,BLC,0.1,1.4),xo({kind:'path',lv:'moment'}));
+    put('cs_blind','p',pulse([LGN(s),[s*0.5,-0.05,-0.4],MT(s)],0.007,BLC,0.1,1.4),xo({kind:'path',lv:'moment'}));
+    put('cs_blind','n',ball(SC(s),0.028,BLC,0.6),xo({lv:'moment'})); put('cs_blind','n',ball(PUL(s),0.03,BLC,0.6),xo({lv:'moment'}));
+    put('cs_blind','n',ball(MT(s),0.034,BLC,0.6),xo({lv:'moment'})); put('cs_blind','n',ball(AMY(s),0.03,BLC,0.6),xo({lv:'moment'}));
+  });
+  // the split brain: fibers crossing the corpus callosum, and the cut
+  var cut=[];
+  [0.62,0.42,0.22,0.02,-0.18,-0.38,-0.58].forEach(function(u){ var a=sp(lat(u,0.55),1), b=sp(lat(u,0.55),-1), m=a.clone().lerp(b,0.5), L=a.distanceTo(b);
+    m.sub(m.clone().sub(BRAIN_C).normalize().multiplyScalar(Math.min(0.32,0.1+0.18*L))); cut.push(m);
+    put('cs_split','f',arc(a,b,0.009,SPC,0.1,1.2),xo({kind:'path',lv:'moment'})); });
+  var cutC=new THREE.CatmullRomCurve3(cut); put('cs_split','cut',new THREE.Mesh(new THREE.TubeGeometry(cutC,48,0.022,8,false),tmat(RD,{emissive:RD,emissiveIntensity:0.6,opacity:0.7,depthWrite:false})),xo({lv:'moment',op:0.7,ro:6}));
+  put('cs_split','h',ball(BROCA,0.04,SPC,0.6),xo({lv:'moment'})); put('cs_split','h',ball(V1(-1),0.035,SPC,0.6),xo({lv:'moment'}));
+  // hidden awareness: tennis and home imagery
+  [1,-1].forEach(function(s){
+    put('cs_covert','t',ball(SMA(s),0.045,TEN,0.7),xo()); put('cs_covert','g',ball(SMA(s),0.08,TEN,0.4),xo({op:0.2,nopick:true,ro:8}));
+    [PPA(s),PPC(s),CX.pm(s)].forEach(function(p){ put('cs_covert','h',ball(p,0.038,HOM,0.6),xo()); });
+  });
+  put('cs_covert','p',arc(AUD,SMA(1),0.009,TEN,0.1,1.2),xo({kind:'path'})); put('cs_covert','p',arc(AUD,SMA(-1),0.009,TEN,0.1,1.2),xo({kind:'path'}));
+  put('cs_covert','p',arc(AUD,PPA(1),0.009,HOM,0.1,1.2),xo({kind:'path'})); put('cs_covert','p',arc(AUD,PPC(1),0.009,HOM,0.1,1.2),xo({kind:'path'}));
+  flush();
+
   /* ---------- label points and stations */
   function A(id,p){ csAnch[id]={p:V(p),n:null}; }
   A('cs_states',[0,0.8,0]); A('cs_aras',S(0.2,1.6,-0.4)); A('cs_cthal',[0.09,0.22,-0.04]); A('cs_pci',cc.clone().add(nrm.clone().multiplyScalar(0.1)));
   A('cs_moment',[0.22,0.13,1.24]); A('cs_sweep',EYE(1)); A('cs_recur',V2(1)); A('cs_hotzone',sp(lat(-0.55,0.32),1,0.06)); A('cs_ignite',DLPFC(1)); A('cs_thalcx',PUL(1)); A('cs_claustrum',[0.45,0.14,0.05]); A('cs_cbl',[cbc.x+0.25,cbc.y+cbs.y*0.6,cbc.z-0.1]);
-  A('cs_networks',[0,0.85,0]); A('cs_dmn',PCC(1)); A('cs_cen',DLPFC(1)); A('cs_sal',AINS(1)); A('cs_dan',FEF(1)); A('cs_meta',FPC(1));
+  A('cs_covert',SMA(1)); A('cs_blind',MT(-1)); A('cs_split',cut[3].clone().add(new THREE.Vector3(0,0.12,0))); A('cs_networks',[0,0.85,0]); A('cs_dmn',PCC(1)); A('cs_cen',DLPFC(1)); A('cs_sal',AINS(1)); A('cs_dan',FEF(1)); A('cs_meta',FPC(1));
   stations('cs_aras',[['Reticular core (upper brainstem)',S(0.14,0.5,-0.4)],['Route 1: through the thalamus',CM(-1)],['Route 2: hypothalamus and basal forebrain',BF(1)],['Cortex switched on',CX.pa(1)]]);
   stations('cs_cthal',[['Intralaminar nuclei',CM(-1)],['To the frontal cortex',CX.pf(1)],['To the striatum',STR(-1)],['Loops with the cortex',CX.pa(-1)]]);
   stations('cs_pci',[['The zap: a magnetic pulse',ztg],['The echo spreads, or stays local',CX.pa(1)]]);
@@ -6699,6 +6836,9 @@ function buildMind(){
   stations('cs_thalcx',[['Pulvinar',PUL(-1)],['Loops to the visual areas',V4(1)],['Loops to the frontal cortex',DLPFC(1)]]);
   stations('cs_claustrum',[['Claustrum (beneath the insula)',[-0.43,0.02,0.05]],['Wired to almost every area',CX.pm(1)]]);
   stations('cs_cbl',[['~69 billion neurons',[cbc.x-0.2,cbc.y,cbc.z+cbs.z*0.6]],['Parallel modules',[cbc.x,cbc.y+cbs.y,cbc.z-cbs.z*0.3]]]);
+  stations('cs_blind',[['Damaged V1 (right side): blind on the left',V1(-1)],['Superior colliculus (midbrain)',SC(1)],['Pulvinar (thalamus)',PUL(-1)],['MT: motion area',MT(1)],['Amygdala: emotional faces',AMY(-1)]]);
+  stations('cs_split',[['The cut: no sharing across',cut[1]],['Left hemisphere: can say what it saw',BROCA],['Right hemisphere: sees the left side',V1(-1)]]);
+  stations('cs_covert',[['“Imagine tennis”: supplementary motor area',SMA(-1)],['“Imagine your home”: spatial areas',PPC(1)],['Parahippocampal cortex',PPA(-1)],['Hearing the instruction',AUD]]);
   stations('cs_dmn',[['Medial prefrontal cortex',MPFC(1)],['Posterior cingulate and precuneus',PCC(-1)],['Angular gyrus',ANG(1)],['Lateral temporal cortex',LTC(-1)],['Hippocampus',HIP(1)]]);
   stations('cs_cen',[['Dorsolateral prefrontal cortex',DLPFC(-1)],['Posterior parietal cortex',PPC(1)]]);
   stations('cs_sal',[['Anterior insula',AINS(-1)],['Dorsal anterior cingulate',DACC(1)],['Switches the networks',[0.3,0.35,0.15]]]);
@@ -6762,6 +6902,7 @@ function csDeep(get){ var NEU=[0.72,0.76,0.84];
 function csLevel(u){
   var sel=csSel(), w;
   if(u.lv!==csv) return 0;
+  if(u.role==='extra') return sel===u.region?1:0;
   if(sel && R[sel].lv===csv){ if(u.region===sel) return 1; w=(CS[sel] && CS[sel].with)||[]; return w.indexOf(u.region)>=0?0.85:((u.role==='lesion'||u.role==='coil')?0:0.1); }
   if(csv==='states'){ var st=CS_ST[csState];
     if(u.role==='lesion') return u.st===csState?1:0;
@@ -6939,17 +7080,65 @@ function fillMind(r){
   var d=CS[r.id]||{}, tree=$('#pTree'); tree.hidden=false;
   if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
   senseList(r.hFuncs||'What it does',r.funcs);
-  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks)$/.test(r.id));
+  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks|covert|split)$/.test(r.id));
+  if(d.signs) senseList('What doctors look for',d.signs);
   if(d.deep) senseList('A deeper look',d.deep);
+  if(d.theories){ tree.appendChild(el('h3',null,'Leading theories compared'));
+    d.theories.forEach(function(t){ var c=el('div','cs-th'); c.style.setProperty('--c',t[1]); c.appendChild(el('b',null,t[0])); c.appendChild(el('small',null,t[2])); c.appendChild(el('p',null,t[3]));
+      var sg=el('small'); sg.appendChild(el('strong',null,'Look for: ')); sg.appendChild(document.createTextNode(t[4])); c.appendChild(sg); tree.appendChild(c); });
+    if(d.theoryNote) tree.appendChild(el('p','dmg',d.theoryNote)); }
+  if(d.demo || d.tryit) csTryIt(tree,d);
+  if(d.terms){ tree.appendChild(el('h3',null,'Key terms')); var dl=el('dl','cs-terms'); d.terms.forEach(function(t){ dl.appendChild(el('dt',null,t[0])); dl.appendChild(el('dd',null,t[1])); }); tree.appendChild(dl); }
+  if(d.myths){ tree.appendChild(el('h3',null,'Myth or fact?')); d.myths.forEach(function(m){ var c=el('div','cs-myth'), a=el('p'), b=el('p');
+    a.appendChild(el('strong',null,'Myth: ')); a.appendChild(document.createTextNode(m[0])); b.appendChild(el('strong',null,'Fact: ')); b.appendChild(document.createTextNode(m[1])); c.appendChild(a); c.appendChild(b); tree.appendChild(c); }); }
+  if(d.mile){ tree.appendChild(el('h3',null,'Milestones of discovery')); var ol=el('ol','cs-time'); d.mile.forEach(function(m){ var li=el('li'); li.appendChild(el('b',null,m[0])); li.appendChild(document.createTextNode(m[1])); ol.appendChild(li); }); tree.appendChild(ol); }
   if(d.reflect){ tree.appendChild(el('h3',null,d.rh||'A Christian view')); d.reflect.forEach(function(t){ tree.appendChild(el('p','dmg',t)); }); }
   if(r.id==='cs_pci'){ var zb=el('button','jump','⚡ Zap the cortex'); zb.addEventListener('click',function(){ csZap(); }); tree.appendChild(zb); }
   if(CS_OVERS.indexOf(r.id)>=0){
     var same=CS_IDS.filter(function(id){ return R[id].lv===r.lv && id!==r.id; });
-    if(r.id==='cs_states'){ thChips('What keeps us conscious',same.filter(function(id){ return !R[id].st; })); thChips('The states',same.filter(function(id){ return !!R[id].st; })); }
-    else thChips(r.id==='cs_moment'?'The steps':'The networks',same);
+    var gs=[], gm={}; same.forEach(function(id){ var g=R[id].group.split(': ')[1]||''; if(!gm[g]){ gm[g]=[]; gs.push(g); } gm[g].push(id); });
+    gs.forEach(function(g){ thChips(g.charAt(0).toUpperCase()+g.slice(1),gm[g]); });
     thChips('Explore more',d.rel||[]);
     var vs=CS_VERSE[r.id]; if(vs){ var q=el('div','verse',vs[0]); q.appendChild(el('small',null,vs[1])); tree.appendChild(q); }
   } else { var rel=(d.rel||[]).slice(); if(rel.indexOf(CS_OVER[r.lv])<0) rel.push(CS_OVER[r.lv]); thChips('Related parts',rel); }
+}
+function csTryIt(tree,d){
+  tree.appendChild(el('h3',null,'Try it yourself'));
+  if(d.tryit) tree.appendChild(el('p','dmg',d.tryit));
+  if(d.demo==='spot'){
+    tree.appendChild(el('p','dmg','Close your left eye and look steadily at the cross with your right eye. Slowly move closer to the screen or farther away. At about three to four times the gap between them, the dot vanishes: it has landed on your blind spot, where the optic nerve leaves the eye and there are no light receptors. Notice that you see no hole. The brain fills it in.'));
+    var bs=el('div','cs-bs'); bs.setAttribute('aria-hidden','true'); bs.appendChild(el('span',null,'+')); bs.appendChild(el('span',null,'●')); tree.appendChild(bs);
+  }
+  if(d.demo==='kanizsa'){
+    tree.appendChild(el('p','dmg','Look at the shape below. You see a bright triangle with sharp edges, yet no lines draw it. Higher visual areas propose the triangle and send it back to earlier ones; cells in area V2 respond to these imagined edges as if they were real.'));
+    var P=[[100,24],[34,138],[166,138]], r=24, path='';
+    P.forEach(function(v,i){ var a=P[(i+1)%3], b=P[(i+2)%3], a1=Math.atan2(a[1]-v[1],a[0]-v[0]), a2=Math.atan2(b[1]-v[1],b[0]-v[0]), dd=((a2-a1)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+      var x1=v[0]+r*Math.cos(a1), y1=v[1]+r*Math.sin(a1), x2=v[0]+r*Math.cos(a2), y2=v[1]+r*Math.sin(a2);
+      path+='M'+v[0]+' '+v[1]+'L'+x1.toFixed(2)+' '+y1.toFixed(2)+'A'+r+' '+r+' 0 1 '+(dd>Math.PI?1:0)+' '+x2.toFixed(2)+' '+y2.toFixed(2)+'Z'; });
+    var sv=document.createElementNS('http://www.w3.org/2000/svg','svg'); sv.setAttribute('viewBox','0 0 200 165'); sv.setAttribute('class','cs-kz'); sv.setAttribute('role','img'); sv.setAttribute('aria-label','Three black discs with wedges cut out, arranged so that an imaginary white triangle seems to lie on top of them');
+    var pe=document.createElementNS('http://www.w3.org/2000/svg','path'); pe.setAttribute('d',path); pe.setAttribute('fill','currentColor'); sv.appendChild(pe); tree.appendChild(sv);
+  }
+  if(d.demo==='mask') csMaskDemo(tree);
+}
+function csMaskDemo(tree){
+  var WORDS=['LIGHT','GRACE','FAITH','PEACE','HOUSE','RIVER','CLOUD','STONE','BREAD','MUSIC','HEART','PLANT','SHEEP','TRAIN','HONEY','FLAME'];
+  tree.appendChild(el('p','dmg','Flash a word and see whether you notice it. It appears for a split second and is then covered by a mask, just as in the experiments. At the shortest times many people see nothing, yet often guess better than chance: the word was processed without reaching awareness. (Brief flashes of text.)'));
+  var box=el('div','cs-fl'), scr=el('div','cs-fl-scr','+'), sp=el('div','cs-fl-row'), go=el('button','jump','⚡ Flash a word'), ch=el('div','cs-fl-row'), out=el('p','cs-fl-out'), tal=el('p','cs-fl-tal');
+  scr.setAttribute('aria-hidden','true'); out.setAttribute('aria-live','polite');
+  var ms=33, busy=false, res={}, SP=[17,33,67,150];
+  SP.forEach(function(v){ var b=el('button','chip',v+' ms'); b.setAttribute('aria-pressed',v===ms?'true':'false'); b.addEventListener('click',function(){ ms=v; Array.prototype.forEach.call(sp.children,function(x,i){ x.setAttribute('aria-pressed',SP[i]===v?'true':'false'); }); }); sp.appendChild(b); });
+  function tally(){ tal.textContent='Your results: '+SP.filter(function(v){ return res[v]; }).map(function(v){ return v+' ms: '+res[v].c+' of '+res[v].n+' right'; }).join(' · '); }
+  function answer(w,pick){ busy=false; ch.innerHTML=''; scr.textContent='+'; var r=res[ms]||(res[ms]={n:0,c:0}); r.n++; if(pick===w) r.c++;
+    out.textContent=pick===w?'Correct! The word was '+w+'.':(pick?'The word was '+w+'.':'The word was '+w+'. Next time try guessing: people are often right even when they saw nothing.'); tally(); }
+  function ask(w){ if(!scr.isConnected){ busy=false; return; } scr.textContent='?';
+    var opts=[w]; while(opts.length<4){ var o=WORDS[Math.floor(Math.random()*WORDS.length)]; if(opts.indexOf(o)<0) opts.push(o); } opts.sort(function(){ return Math.random()-0.5; });
+    opts.concat(['']).forEach(function(o){ var b=el('button','chip',o||'I saw nothing'); b.addEventListener('click',function(){ answer(w,o); }); ch.appendChild(b); });
+    out.textContent='Which word was it?'; var f=ch.querySelector('button'); if(f) f.focus(); }
+  go.addEventListener('click',function(){ if(busy) return; busy=true; ch.innerHTML=''; out.textContent=''; var w=WORDS[Math.floor(Math.random()*WORDS.length)];
+    setTimeout(function(){ if(!scr.isConnected){ busy=false; return; } scr.textContent=w; var t0=null;
+      function step(ts){ if(t0===null) t0=ts; if(ts-t0>=ms-4){ scr.textContent='#&%@#'; setTimeout(function(){ ask(w); },300); } else requestAnimationFrame(step); }
+      requestAnimationFrame(step); },700); });
+  box.appendChild(sp); box.appendChild(scr); box.appendChild(go); box.appendChild(ch); box.appendChild(out); box.appendChild(tal); tree.appendChild(box);
 }
 $('#cvSt').addEventListener('click',function(){ csSetView('states'); });
 $('#cvMo').addEventListener('click',function(){ csSetView('moment'); });

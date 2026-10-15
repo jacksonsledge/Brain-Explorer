@@ -140,7 +140,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-mind .sv.mind-only{display:inline-flex!important}
 #csMap{display:block;width:100%;height:100px;margin-top:6px;touch-action:none;cursor:pointer}
 #csWave{display:block;width:100%;height:86px;margin-top:4px;touch-action:none;cursor:pointer}
-.cv-states .cs-mo,.cv-states .cs-nw,.cv-moment .cs-st,.cv-moment .cs-nw,.cv-networks .cs-st,.cv-networks .cs-mo{display:none}
+.cv-states .cs-mo,.cv-states .cs-nw,.cv-moment .cs-st,.cv-moment .cs-nw,.cv-networks .cs-st,.cv-networks .cs-mo,.cs-or,.cv-origin .cs-st,.cv-origin .cs-mo,.cv-origin .cs-nw{display:none}
+.cv-origin .cs-or{display:block}
+@media (max-width:560px){ .cs-or .db-top{flex-wrap:wrap;row-gap:4px} .cs-or .db-stage{order:3;flex:1 0 100%} }
 .cs-pci{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)}
 .cs-pci b{color:var(--ink);font-weight:700;white-space:nowrap}
 .cs-track{position:relative;flex:1;height:8px;border-radius:99px;background:var(--soft);min-width:40px}
@@ -410,7 +412,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="sv think-only" role="tablist" aria-label="Thinking organ"><button id="tvCer" class="on" role="tab" aria-selected="true">Cerebrum</button><button id="tvNeo" role="tab" aria-selected="false">Neocortex</button><button id="tvCb" role="tab" aria-selected="false">Cerebellum</button></div>
       <div class="sv hw-only" role="tablist" aria-label="Hardware view"><button id="hvNeu" class="on" role="tab" aria-selected="true">Neuron</button><button id="hvDen" role="tab" aria-selected="false">Dendrites</button><button id="hvMat" role="tab" aria-selected="false"><span class="tl">Grey &amp; white</span><span class="ts">Matter</span></button><button id="hvNet" role="tab" aria-selected="false">Network</button></div>
       <div class="sv sleep-only" role="tablist" aria-label="Sleep view"><button id="slvCyc" class="on" role="tab" aria-selected="true"><span class="tl">A night of sleep</span><span class="ts">Night</span></button><button id="slvCir" role="tab" aria-selected="false"><span class="tl">Sleep circuits</span><span class="ts">Circuits</span></button></div>
-      <div class="sv mind-only" role="tablist" aria-label="Consciousness view"><button id="cvSt" class="on" role="tab" aria-selected="true"><span class="tl">States of consciousness</span><span class="ts">States</span></button><button id="cvMo" role="tab" aria-selected="false"><span class="tl">A moment of awareness</span><span class="ts">Moment</span></button><button id="cvNw" role="tab" aria-selected="false"><span class="tl">Networks of the mind</span><span class="ts">Networks</span></button></div>
+      <div class="sv mind-only" role="tablist" aria-label="Consciousness view"><button id="cvSt" class="on" role="tab" aria-selected="true"><span class="tl">States of consciousness</span><span class="ts">States</span></button><button id="cvMo" role="tab" aria-selected="false"><span class="tl">A moment of awareness</span><span class="ts">Moment</span></button><button id="cvNw" role="tab" aria-selected="false"><span class="tl">Networks of the mind</span><span class="ts">Networks</span></button><button id="cvOr" role="tab" aria-selected="false"><span class="tl">What is consciousness?</span><span class="ts">Origin</span></button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -474,6 +476,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="db-top"><div class="db-view" role="tablist" aria-label="Direction of attention"><button id="csIn" class="on" role="tab" aria-selected="true">Inward</button><button id="csOut" role="tab" aria-selected="false">Outward</button></div><div class="db-stage"><b id="csNwT"></b><span id="csNwS"></span></div></div>
       <div class="cs-see"><span>Default mode</span><div class="cs-track"><i id="csDmnF"></i></div><span>Executive and attention</span><div class="cs-track"><i id="csCenF"></i></div></div>
       <span id="csSalI" class="cs-sal">Salience network switching</span>
+    </div>
+    <div class="cs-or">
+      <div class="db-top"><div class="db-view" role="tablist" aria-label="Layer of consciousness"><button id="csPow" class="on" role="tab" aria-selected="true">Power</button><button id="csCon" role="tab" aria-selected="false">Contents</button><button id="csSelf" role="tab" aria-selected="false">Self</button></div><div class="db-stage"><b id="csOrT"></b><span id="csOrS"></span></div><button id="csOrInfo" class="db-info" aria-label="About this layer">i</button></div>
     </div>
   </div>
   <div id="slbar" hidden>
@@ -2164,6 +2169,65 @@ var REGIONS = [
   damage:'Brain damage, often on the right side, can leave people unaware of their own problems. This is called anosognosia: a person with a paralyzed arm may insist that they can move it normally.',
   fact:'In a 2010 study, people with more grey matter in the frontopolar cortex tended to be better at judging whether their own answers were right.',
   view:{az:10,el:15}, at:[0,0.15,0.4], zoom:0.85},
+ {id:'cs_origin',kind:'mind',mode:'mind',lv:'origin',group:'What is consciousness?',name:'What Is Consciousness?',short:'What is consciousness?',color:'#f4978e',
+  where:'From the brainstem to the cortex, working as a whole',
+  summary:'Consciousness is your inner experience: everything it is like to be you right now. It includes the sight of these words, the sounds around you, the feeling of your body, your thoughts, and the sense that you are the one having them. No single spot in the brain “makes” it. The brainstem and thalamus act like a power switch that makes experience possible, areas of the cortex shape what it is about, and connections between regions bind it into one. Use the buttons below to explore each layer.',
+  funcs:['Experiencing the world: sights, sounds, touch, taste and smell','Experiencing ourselves: our body, feelings and thoughts','Joining everything into one moment of experience','Knowing that we are aware, and choosing what to do'],
+  hDamage:'What injuries teach',
+  damage:'Injuries show how closely experience depends on the brain. Damage to a tiny area of the upper brainstem can cause coma. Damage to a small area of the cortex can remove one part of experience, such as color or faces, and leave the rest.',
+  fact:'The word “conscious” comes from the Latin conscius, “knowing together with”. The related Latin word conscientia gave English both “consciousness” and “conscience”.',
+  view:{az:20,el:14}, zoom:1},
+ {id:'cs_power',kind:'mind',mode:'mind',lv:'origin',ol:'pow',group:'What is consciousness?: where experience comes from',name:'The Power Switch: Brainstem and Thalamus',short:'The power switch',color:'#ff9f1c',
+  where:'The top of the pons and the midbrain (the tegmentum), and the central (intralaminar) nuclei of the thalamus',
+  summary:'Before there can be any experience, the brain must be switched on. A small area in the upper brainstem, together with the central nuclei of the thalamus, works like a power switch for the cortex. It does not supply what you experience. It makes experience possible. Doctors call these the enabling conditions of consciousness.',
+  funcs:['Keeping the cortex switched on and ready','Carrying the brainstem’s wake-up signals to the cortex','Making it possible to be aware of anything at all'],
+  damage:'A stroke or bleed no bigger than a grape in the upper brainstem can cause coma, while much larger injuries to the cortex may not. This is why doctors check brainstem reflexes, such as how the pupils respond to light, in a patient who cannot respond.',
+  fact:'In 2016, researchers mapped strokes that caused coma and found that most hit one small area at the top of the pons. In healthy brains, that area is wired to two regions of the cortex: the anterior insula and the front of the cingulate.',
+  view:{az:60,el:10}, at:[0,-0.28,-0.1], zoom:0.9},
+ {id:'cs_content',kind:'mind',mode:'mind',lv:'origin',ol:'con',group:'What is consciousness?: where experience comes from',name:'The Contents of Experience',short:'Contents of experience',color:'#4cc9f0',
+  where:'Specialized areas of the cortex, many of them toward the back of the brain',
+  summary:'What you experience, its contents, depends on specialized areas of the cortex. One area helps you see color, another motion, another faces; others give sound, touch and words. Damage to one of them can remove that single part of experience while leaving the rest, and gently stimulating one during surgery can change it.',
+  funcs:['Color: area V4','Motion: area MT (also called V5)','Faces: the fusiform face area','Sound: the auditory cortex','Touch: the somatosensory cortex'],
+  damage:'After damage to area V4, some people see the world only in shades of grey (cerebral achromatopsia). After damage to area MT, one patient saw moving things as a series of still snapshots, so pouring tea looked like a frozen column. After damage to the face area, people may not recognize even close family by their faces (prosopagnosia).',
+  fact:'In 2012, doctors gently stimulated a patient’s face area while preparing for epilepsy surgery. He told them, “You just turned into somebody else”: the doctor’s face seemed to change, while other things in the room looked normal.',
+  view:{az:110,el:4}, at:[0,-0.08,-0.15], zoom:0.95},
+ {id:'cs_unity',kind:'mind',mode:'mind',lv:'origin',group:'What is consciousness?: where experience comes from',name:'Binding It All Together',short:'Binding it together',color:'#06d6a0',
+  where:'Loops between the thalamus and the cortex, and long fibers linking distant areas, including the corpus callosum',
+  summary:'Color, shape, motion and sound are handled in different places, yet you experience one red ball bouncing with one thud, all at once. How the brain joins them is called the binding problem. Part of the answer seems to lie in two-way loops between the thalamus and the cortex, and in groups of neurons firing in step, so that signals about the same thing are tied together in time.',
+  funcs:['Joining color, shape and motion into one object','Matching what you see with what you hear','Keeping one unified view of the world from moment to moment'],
+  damage:'In Bálint syndrome, after damage to both parietal lobes, people can see only one object at a time and struggle to tell where it is. Under anesthesia, communication between the front and the back of the cortex breaks down as awareness is lost.',
+  fact:'The brain also lines up the senses in time. Light reaches the eyes faster than sound reaches the ears, and the brain handles them at different speeds, yet a friend’s voice and moving lips usually seem perfectly in step.',
+  view:{az:30,el:22}, zoom:1},
+ {id:'cs_self',kind:'mind',mode:'mind',lv:'origin',ol:'self',group:'What is consciousness?: the self and the will',name:'The Sense of Self',short:'The sense of self',color:'#f15bb5',
+  where:'The insula, the temporoparietal junction, the premotor and parietal cortex, and the midline of the brain',
+  summary:'Part of consciousness is the sense of being a self: this body is mine, I am inside it looking out, and these thoughts are my own. The insula reads the body’s inner signals, such as heartbeat and breathing. Premotor and parietal areas combine sight and touch to tell which body is yours. The temporoparietal junction helps place you inside your body, and areas along the midline support thinking about yourself.',
+  funcs:['Feeling that your body belongs to you','Sensing your body from within: heartbeat, breathing, hunger','Feeling located inside your body','Reflecting on yourself and your own story'],
+  damage:'After some strokes on the right side of the brain, people may deny that their own arm belongs to them (somatoparaphrenia). Stimulation of, or damage to, the temporoparietal junction can cause out-of-body experiences.',
+  fact:'In 2002, doctors stimulating the right angular gyrus of a patient before epilepsy surgery found that she felt she was floating near the ceiling, looking down at her own legs.',
+  view:{az:-55,el:14}, zoom:0.95},
+ {id:'cs_will',kind:'mind',mode:'mind',lv:'origin',group:'What is consciousness?: the self and the will',name:'Choosing and Acting',short:'Choosing and acting',color:'#ffd166',
+  where:'The supplementary and pre-supplementary motor areas, the parietal cortex and the prefrontal cortex',
+  summary:'You also experience yourself as an agent: you decide, then act. The supplementary motor area, on top of the brain in front of the motor strip, helps prepare actions you start yourself. The parietal cortex helps produce the feeling of wanting to move, and the prefrontal cortex weighs choices against goals and values. Famous experiments have asked when, in the brain, a decision begins.',
+  funcs:['Preparing movements you start yourself','The feeling of intending, and of being the one who acts','Weighing options, and stopping an action before it happens'],
+  damage:'In alien hand syndrome, after damage to the supplementary motor area or the corpus callosum, a hand may do things the person did not intend, such as unbuttoning a shirt that the other hand is buttoning.',
+  fact:'In 2009, French surgeons found that gently stimulating the parietal cortex gave patients a conscious wish to move, while stimulating the premotor cortex made them move without being aware they had moved.',
+  view:{az:25,el:48}, zoom:0.95},
+ {id:'cs_seat',kind:'mind',mode:'mind',lv:'origin',group:'What is consciousness?: the big questions',name:'Searching for the Seat of Consciousness',short:'Searching for the seat',color:'#c77dff',
+  where:'Proposed over the centuries: the fluid-filled ventricles, the pineal gland, the upper brainstem, and the front or the back of the cortex',
+  summary:'For centuries thinkers asked where the mind meets the body. Ancient physicians pointed to the fluid-filled spaces of the brain, and René Descartes chose the small pineal gland. In the 1950s Wilder Penfield pointed to a central core in the upper brainstem and thalamus. Today most scientists search not for a single seat but for the patterns of activity that go along with experience, and they debate whether the front or the back of the cortex matters most.',
+  funcs:['Showing how ideas about mind and brain have changed','Explaining why no single “seat” has been found','Showing how scientists search today'],
+  hDamage:'What we have learned',
+  damage:'Each proposal taught something. The pineal gland turned out to make the sleep hormone melatonin. Penfield’s central core matches what we now know about the power switch. And while damage to the brainstem can switch consciousness off, no one has found a single small area that by itself creates all of experience.',
+  fact:'Descartes chose the pineal gland partly because it is single and sits near the middle of the brain, while most brain parts come in pairs. He reasoned that the soul, being one, should act through one place.',
+  view:{az:40,el:16}, zoom:0.95},
+ {id:'cs_hard',kind:'mind',mode:'mind',lv:'origin',group:'What is consciousness?: the big questions',name:'Mind, Brain and Soul: The Hard Problem',short:'Mind, brain and soul',color:'#90e0ef',
+  where:'The whole person',
+  summary:'Science can map which brain activity goes along with each experience, and those maps grow more detailed every year. But finding what goes along with experience is not the same as explaining why there is experience at all: why seeing red looks like anything to you. The philosopher David Chalmers called this the hard problem of consciousness. It remains unsolved, and it leads to the deep question of how mind and brain are related.',
+  funcs:['Separating what science can measure from what it has not explained','Telling apart “goes along with” and “explains”','Thinking about how mind, brain and soul relate'],
+  hDamage:'Different answers',
+  damage:'Some hold that the mind is nothing but brain activity. Others hold that the mind cannot be fully reduced to matter. Christians have long held that a person is a unity of body and soul, created by God, with the brain as the God-given instrument of thought and experience in this life.',
+  fact:'Wilder Penfield, the surgeon who mapped the human cortex by stimulating it in awake patients, concluded in his 1975 book The Mystery of the Mind that brain activity alone did not seem to explain the mind.',
+  view:{az:20,el:22}, zoom:1},
  {id:'sl_night',kind:'sleep',mode:'sleep',lv:'cycle',group:'A night of sleep',name:'A Night of Sleep',short:'A night of sleep',color:'#7c8cff',
   where:'The whole brain, over about eight hours',
   summary:'Sleep is not the brain switching off. Through the night the brain moves through repeating cycles of about 90 minutes, each passing through light sleep, deep sleep (mostly early in the night) and REM (dreaming) sleep. Each stage has its own brain waves and its own work: restoring the body, clearing waste, and filing away the day’s memories. Press play to watch a typical night.',
@@ -3483,7 +3547,7 @@ function select(id){
   if(mode==='hw' && isHW(id) && R[id].hv!==hView) setHView(R[id].hv,true);
   if(mode==='sleep' && isSL(id)){ var slSw=R[id].lv!==slv; if(slSw) setSlView(R[id].lv,true); if(R[id].stage){ if(slStageAt(slT)!==R[id].stage) slSetTime(SL_JUMP[id]); if(slSw) sleepFocus(R.sl_night); } }
   if(mode==='mind' && isCS(id)){ var csSw2=R[id].lv!==csv; if(csSw2) csSetView(R[id].lv,true); if(R[id].st){ csSetState(R[id].st); if(csSw2) mindFocus(R.cs_states); }
-    if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
+    if(R[id].ol && R[id].ol!==csOr) csSetOr(R[id].ol); if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
@@ -3506,7 +3570,7 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
-  if(mode==='mind'){ var cd={states:[20,12,[0,-0.05,-0.02],1],moment:[38,10,[0,-0.05,0.15],1.05],networks:[28,24,[0,-0.05,-0.02],1]}[csv]; tgt.az=cur.az+wrap(cd[0]*Math.PI/180-cur.az); tgt.el=cd[1]*Math.PI/180; tgt.zoom=cd[3]; CENTER_T.set(cd[2][0],cd[2][1],cd[2][2]); setSpin(false); if(selected) select(null); return; }
+  if(mode==='mind'){ var cd={states:[20,12,[0,-0.05,-0.02],1],moment:[38,10,[0,-0.05,0.15],1.05],networks:[28,24,[0,-0.05,-0.02],1],origin:[24,14,[0,-0.05,-0.05],1]}[csv]; tgt.az=cur.az+wrap(cd[0]*Math.PI/180-cur.az); tgt.el=cd[1]*Math.PI/180; tgt.zoom=cd[3]; CENTER_T.set(cd[2][0],cd[2][1],cd[2][2]); setSpin(false); if(selected) select(null); return; }
   if(mode==='sleep'){ tgt.az=cur.az+wrap(20*Math.PI/180-cur.az); tgt.el=(slv==='cycle'?14:10)*Math.PI/180; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false); if(selected) select(null); return; }
   if(mode==='hw'){ var hd=HW_DEF[hView]; tgt.az=cur.az+wrap(hd.az-cur.az); tgt.el=hd.el; tgt.zoom=1; CENTER_T.copy(HW_C[hView]); setSpin(false); if(selected) select(null); return; }
   if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
@@ -6427,7 +6491,86 @@ var CS={
   myths:[['People in a coma are just deeply asleep.','Sleep is natural, cycles through stages and ends when you are woken. A person in a coma cannot be woken, even by strong stimulation, because the systems that switch the brain on are injured or suppressed.'],
    ['Anesthesia is simply a very deep sleep.','Anesthesia is a controlled, medicine-induced state. It shares some slow rhythms with deep sleep, but it works through different mechanisms, and noise or touch will not wake you from it.'],
    ['If someone cannot respond, they cannot be aware.','Brain scans and EEG show that some patients who cannot move are aware. That is why careful, repeated testing matters.']],
-  rel:['cs_moment','cs_networks']},
+  rel:['cs_moment','cs_networks','cs_origin']},
+ cs_origin:{stats:[['~86 billion','neurons in the brain'],['~0.3 s','for a sight to reach awareness'],['3','layers: power, contents, self']],
+  how:['The power switch: the upper brainstem and the thalamus keep the cortex switched on. Without them there is no experience at all.',
+   'The contents: specialized areas of the cortex supply what the experience is about: colors, faces, sounds, words and touch.',
+   'Binding: loops with the thalamus and links between areas join these pieces into one scene.',
+   'The self: areas that read the body and reflect on oneself add the sense that it is I who see, feel and choose.'],
+  deep:['Scientists separate the level of consciousness (how awake and aware someone is) from its contents (what they are aware of). The States view explores levels; this view explores where contents and the self come from.',
+   'Most of the brain’s work never becomes conscious: keeping balance, adjusting the heartbeat, working out grammar. Awareness seems to be kept for information that needs to be shared, remembered, reported or used in a flexible choice.',
+   'The cerebellum holds about four out of five of the brain’s neurons, yet damage to it affects coordination, not awareness. Consciousness depends on how the brain is organized and connected, not simply on how many neurons it has.'],
+  terms:[['Consciousness','Inner experience: what it is like to see, hear, feel and think.'],['Level of consciousness','How awake and aware a person is, from coma to fully alert.'],
+   ['Contents of consciousness','What a person is aware of at a given moment: a sound, a face, a memory.'],['Enabling conditions','The brain activity that must be working for any experience at all, such as the brainstem arousal system.'],
+   ['Binding problem','The question of how features handled in different areas are joined into one experience.'],['Agency','The sense of being the one who chooses and acts.'],
+   ['Qualia','A philosopher’s word for the qualities of experience, such as how red looks or how coffee tastes.']],
+  myths:[['There is one spot in the brain where consciousness happens.','Many areas contribute. A power switch in the brainstem and thalamus makes experience possible, the cortex supplies its contents, and their connections bind it together.'],
+   ['The more neurons an area has, the more it adds to awareness.','The cerebellum holds most of the brain’s neurons, but losing it does not take away awareness. What matters is how areas are organized and connected.'],
+   ['Brain scans can read your private thoughts.','Researchers can decode limited information, such as which of two imagined tasks a person is doing or the gist of a story they are hearing, but only after long training in the scanner and with the person’s cooperation. Private thoughts cannot be read at will.']],
+  mile:[['2nd century','Galen links mental powers to the brain and its fluid-filled ventricles.'],['1649','René Descartes names the pineal gland as the place where soul and body meet.'],['1861','Paul Broca links speech to a small area of the left frontal lobe.'],
+   ['1870','Fritsch and Hitzig find that stimulating the cortex moves the body.'],['1950s','Wilder Penfield maps the cortex by gentle stimulation during surgery.'],['1983','Benjamin Libet times the brain’s build-up to a movement against the feeling of deciding.'],
+   ['1990','Francis Crick and Christof Koch call for a search for the neural correlates of consciousness.'],['1995','David Chalmers names the hard problem of consciousness.'],['1997','The fusiform face area is identified.'],
+   ['2002','Stimulating the temporoparietal junction triggers an out-of-body experience.'],['2016','Strokes that cause coma are traced to one small area of the upper pons.']],
+  rh:'A Christian view',
+  reflect:['Scripture says we are “fearfully and wonderfully made” (Psalm 139:14), body and soul together. The brain is part of that design: through it we see, think, love and pray in this life.',
+   'Science can trace how experience depends on the brain. The fact that there is an inner life at all, a self that knows and chooses, fits the biblical picture of people made in the image of God (Genesis 1:27), who are more than the sum of their parts.'],
+  rel:['cs_states','cs_moment','cs_networks']},
+ cs_power:{stats:[['1949','arousal system discovered'],['1','small area of the pons linked to coma'],['2','routes up to the cortex']],
+  how:['Neurons in the upper pons and midbrain send rising signals using several messenger chemicals.','Some reach the central nuclei of the thalamus, which relay them across the cortex.',
+   'Others pass through the hypothalamus and basal forebrain straight to the cortex.','With the cortex switched on, its regions can work together and experience becomes possible.'],
+  deep:['This is why consciousness is said to have a level and contents. The power switch sets the level. It does not decide what you are aware of.',
+   'In 2007, electrical stimulation of the central thalamus helped a man in a minimally conscious state, six years after a brain injury, to name objects and eat by mouth more often. Treatments like this are still experimental.',
+   'Many anesthetic drugs quiet this system and the thalamus, which is part of how they switch off awareness.'],
+  rh:'A Christian view', reflect:['A tiny area at the base of the brain can wake the whole mind or let it fall silent. It is a picture of how we depend, moment by moment, on the One who gives life: “For in him we live, and move, and have our being” (Acts 17:28).'],
+  rel:['cs_aras','cs_cthal','cs_content']},
+ cs_content:{stats:[['30+','visual areas mapped'],['1997','face area identified'],['1','feature can be lost alone']],
+  how:['Signals from the senses reach primary areas: vision at the back, hearing at the side and touch along the top.','From there they spread to specialized areas that pick out color, motion, faces, words and places.',
+   'Activity in each area goes along with the matching experience. When one is damaged, that part of experience can disappear.','Frontal areas can use and report the contents, but many scientists think the experience itself is shaped mostly toward the back of the brain.'],
+  deep:['When the same picture is sometimes seen and sometimes missed, activity in these specialized areas rises and falls with what the person reports seeing.',
+   'Damage to one area usually removes one feature. People with achromatopsia still see shape and motion; they simply see no color.',
+   'People who are blind from birth use their visual cortex when reading Braille by touch, which shows how flexibly the cortex can be used.'],
+  tryit:'Stare at the center of a brightly colored picture for about 30 seconds, then look at a white wall. You will see an afterimage in the opposite colors: red turns to green and blue to yellow. The color you now see is not on the wall. Your own visual system is producing it.',
+  rh:'A Christian view', reflect:['Every color, sound and taste we experience comes through senses God designed. “The hearing ear, and the seeing eye, the LORD hath made even both of them” (Proverbs 20:12).'],
+  rel:['cs_sweep','cs_hotzone','cs_blind']},
+ cs_unity:{stats:[['~40','waves a second (gamma) linked to binding'],['~200 million','fibers joining the two halves'],['1','unified scene']],
+  how:['Each feature of an object is handled in its own area: shape in one, color in another, motion in a third.','The thalamus sits at the center of two-way loops with nearly every area of the cortex.',
+   'Neurons that respond to the same object tend to fire in step, often in fast gamma rhythms.','Long fibers, including the corpus callosum, link the two halves so that the left and right sides of the world join into one view.'],
+  deep:['Binding sometimes fails. Glance very briefly at a red X and a blue O, and you may report a blue X. These “illusory conjunctions”, studied by Anne Treisman, show that features must be actively joined.',
+   'Whether firing in step truly causes binding, or only goes along with it, is still debated.'],
+  rh:'A Christian view', reflect:['Out of many parts the brain gives one experience, and out of many members God makes one body. “For as the body is one, and hath many members, and all the members of that one body, being many, are one body: so also is Christ” (1 Corinthians 12:12).'],
+  rel:['cs_thalcx','cs_claustrum','cs_split']},
+ cs_self:{stats:[['1998','rubber hand illusion reported'],['2002','out-of-body experience triggered'],['3','layers: body, place, story']],
+  how:['The insula builds a map of the body’s inner state: heartbeat, breathing, temperature and gut feelings.','Premotor and parietal areas combine sight, touch and the sense of position to decide which body is yours.',
+   'The temporoparietal junction helps place your point of view inside that body.','Midline areas, part of the default mode network, support your memories and thoughts about who you are.'],
+  deep:['The sense of self is usually seamless, but it can be gently disturbed in the lab, which shows that the brain is actively building it.',
+   'People with severe amnesia who lose most memories of their past still know that they are themselves. The sense of being a self does not rest on any one memory.'],
+  tryit:'With a partner: hide one of your hands behind a screen and place a rubber glove or fake hand in front of you. Your partner strokes the hidden hand and the fake hand at the same moments with two small brushes. After a little while many people feel the touch on the fake hand, and some feel that it is their own. Stroking out of step breaks the illusion.',
+  rh:'A Christian view', reflect:['God knows each person fully, from the inside: “O LORD, thou hast searched me, and known me. Thou knowest my downsitting and mine uprising, thou understandest my thought afar off” (Psalm 139:1–2).'],
+  rel:['cs_dmn','cs_sal','cs_meta']},
+ cs_will:{stats:[['~0.5 s','brain build-up before a free movement'],['~0.2 s','felt decision before moving'],['1983','Libet’s experiment']],
+  how:['In Benjamin Libet’s experiment, people flexed a wrist whenever they chose and noted on a fast clock when they first felt the urge.','A slow build-up of brain activity, the readiness potential, began about half a second before the movement.',
+   'People reported the urge only about a fifth of a second before moving.','Some concluded that the brain decides before we do, but later research has questioned that reading.'],
+  deep:['In 2012, Aaron Schurger and colleagues showed that the readiness potential may largely reflect random ups and downs of brain activity that tip a movement over a threshold, rather than a hidden decision already made.',
+   'Libet’s task involved trivial, arbitrary flicks of the wrist. Choices that matter, weighed against reasons and values, may work differently: a 2019 study found the readiness potential was much weaker or absent for meaningful decisions.',
+   'Libet himself believed people could still “veto” an urge in the last moments before acting.'],
+  rh:'A Christian view', reflect:['Scripture treats people as responsible for their choices and calls them to choose well: “choose you this day whom ye will serve; … but as for me and my house, we will serve the LORD” (Joshua 24:15).'],
+  rel:['cs_meta','cs_cen','cs_covert']},
+ cs_seat:{stats:[['1649','Descartes and the pineal gland'],['1950s','Penfield’s central core'],['1990','search for neural correlates']],
+  how:['Ancient and medieval thinkers placed mental powers in the brain’s fluid-filled ventricles.','Descartes chose the pineal gland as the meeting point of soul and body.',
+   'Penfield, after stimulating the cortex of hundreds of awake patients, proposed a central core in the upper brainstem and thalamus.','Today researchers debate a “hot zone” at the back of the cortex against networks that include the front.'],
+  deep:['Penfield noticed that stimulating the cortex could bring back sounds, scenes or movements, but it never made a patient believe or decide something. When he made a patient’s hand move, the patient said: “I didn’t do that. You did.”',
+   'Experience depends on many areas working together, which may be why no single seat has been found.'],
+  rh:'A Christian view', reflect:['Scripture speaks of the deepest life of a person as the heart: the inner self that thinks, feels and chooses. “Keep thy heart with all diligence; for out of it are the issues of life” (Proverbs 4:23).'],
+  rel:['cs_hard','cs_power','cs_hotzone']},
+ cs_hard:{stats:[['1995','hard problem named'],['1975','Penfield’s The Mystery of the Mind'],['Open','question in science today']],
+  how:['The “easy” problems: explaining how the brain sees, remembers, focuses and reports. They are hard in practice, but science knows how to tackle them.',
+   'The hard problem: why any of this processing is accompanied by inner experience at all.','Brain maps show what goes along with experience. By themselves they do not explain why it is felt.'],
+  deep:['Thought experiments sharpen the question. Imagine a scientist who knows every physical fact about color vision but has lived all her life in a black-and-white room. On first seeing red, she seems to learn something new (Frank Jackson, 1982).',
+   'Christian thinkers describe the link between soul and body in different ways, but they agree that a person is a whole, embodied creature made in God’s image. The mind’s dependence on the brain in this life does not reduce a person to a machine.',
+   'Because brain injury and illness can change how a person thinks and acts, caring for the brain and body is part of caring for the whole person.'],
+  rh:'A Christian view', reflect:['Scripture says people were formed of “the dust of the ground” and given “the breath of life” by God (Genesis 2:7). The hard problem is a reminder that the inner life is real, and that we are more than the sum of our parts.',
+   'Our understanding now is partial, but not forever: “For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known” (1 Corinthians 13:12).'],
+  rel:['cs_seat','cs_self','cs_will']},
  cs_aras:{stats:[['1949','discovered by Moruzzi and Magoun'],['5+','messenger chemicals'],['2','routes to the cortex']],
   how:['Clusters of neurons in the midbrain and upper pons make acetylcholine, noradrenaline, serotonin, dopamine and glutamate.',
    'One route climbs to the thalamus, opening its gates to the cortex.',
@@ -6498,7 +6641,7 @@ var CS={
   demo:'mask',
   myths:[['We see the world instantly and exactly as it is.','Awareness forms over about a third of a second, and the brain fills gaps and predicts. You never notice the blind spot in each eye, because the brain fills it in.'],
    ['Hidden “subliminal” messages can make people buy things.','Unseen words can have small, brief effects in the lab. The famous 1957 claim that flashing “eat popcorn” in cinemas boosted sales was later admitted to be made up.']],
-  rel:['cs_states','cs_networks']},
+  rel:['cs_states','cs_networks','cs_origin']},
  cs_sweep:{stats:[['~60 ms','to primary visual cortex'],['~150 ms','to recognize a word'],['30+','visual areas']],
   how:['The retina turns light into signals; the optic nerves cross partly at the optic chiasm.','The thalamus relay (LGN) passes them to the primary visual cortex.','Areas V2 and V4 add shape and color; the temporal lobe recognizes objects, faces and written words.'],
   demo:'spot',
@@ -6558,7 +6701,7 @@ var CS={
   myths:[['We only use 10 percent of our brains.','Brain scans show activity throughout the brain over the course of a day. Even at rest, networks such as the default mode network are busy.'],
    ['A wandering mind is always a bad thing.','On average, people report feeling a little less happy while their minds wander, but wandering also helps with planning, problem-solving and creativity. Trouble comes when it gets stuck in worry or rumination.'],
    ['People can focus fully on two demanding tasks at once.','The brain switches rapidly between them, and each switch costs time and causes more errors.']],
-  rel:['cs_states','cs_moment']},
+  rel:['cs_states','cs_moment','cs_origin']},
  cs_dmn:{stats:[['2001','named by Marcus Raichle'],['~47%','of waking moments mind-wandering'],['5','main hub areas']],
   how:['Hubs along the midline, the medial prefrontal cortex and the posterior cingulate, are linked with the angular gyrus, lateral temporal cortex and hippocampus.','They rise together when attention turns inward.','They quiet when a demanding outside task begins.'],
   tryit:'Sit quietly for one minute and focus only on your breathing. Each time you notice your mind has wandered, count it and gently come back. Most people wander several times. Brain scans suggest that the moment of noticing involves the salience network.',
@@ -6591,6 +6734,7 @@ var CS={
 };
 var CS_VERSE={cs_states:['“And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.”','Genesis 2:7 (KJV)'],
  cs_moment:['“The spirit of man is the candle of the LORD, searching all the inward parts of the belly.”','Proverbs 20:27 (KJV)'],
+ cs_origin:['“But there is a spirit in man: and the inspiration of the Almighty giveth them understanding.”','Job 32:8 (KJV)'],
  cs_networks:['“And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.”','Romans 12:2 (KJV)']};
 // the states map: wakefulness (x) and awareness (y), typical complexity after a zap (pci, null when not measured)
 var CS_ST={
@@ -6635,7 +6779,8 @@ var CS_ACT=(function(){
   a.base=base; return a;
 })();
 var CS_IDS=REGIONS.filter(function(r){ return r.mode==='mind'; }).map(function(r){ return r.id; });
-var CS_OVER={states:'cs_states',moment:'cs_moment',networks:'cs_networks'}, CS_OVERS=['cs_states','cs_moment','cs_networks'];
+var CS_OVER={states:'cs_states',moment:'cs_moment',networks:'cs_networks',origin:'cs_origin'}, CS_OVERS=['cs_states','cs_moment','cs_networks','cs_origin'];
+var CS_OR={pow:['cs_power','The power switch','Brainstem and thalamus switch the cortex on.'],con:['cs_content','The contents','Cortex areas for color, motion, faces, sound, touch.'],self:['cs_self','The self','Areas that make experience feel like your own.']};
 var PRIORITY_CS=CS_IDS.filter(function(id){ return CS_OVERS.indexOf(id)<0; }).concat(CS_OVERS);
 // a moment of awareness: what the bar says at each point of the trial (ms)
 var CS_PHASE=[[0,'Light from the word reaches the eyes','The retina turns it into nerve signals'],[25,'Signals travel to the thalamus','The optic nerves carry them to the LGN relay'],
@@ -6646,7 +6791,7 @@ var CS_PHASE_UNSEEN={280:['No ignition: the mask won the race','The activity sta
 var csv='states', csBuilt=false, csG=new THREE.Group(), csPick=[], csPaths=[], csMeshes=[], csStn=[], csStStn=[], csPhStn=[], csAnch={}, csXrayBefore=false;
 var csState='wake', csAct={}, csMoving=true, csColDirty=true, csColT=0, csSigWas=null, csZapT=-1, csRipple=null, csZapTarget=null, csCard=null, csCardTex={};
 var csT=0, csPlaying=false, csSeen=true, csWaveKey='', csMapKey='', csMoTxt='', csCardKey='';
-var csNwKey='', csIn=true, csSw=1, csSwFrom=1, csSwP=1, csSal=0, csbar=$('#csbar');
+var csOr='pow', csOrStn=[], csNwKey='', csIn=true, csSw=1, csSwFrom=1, csSwP=1, csSal=0, csbar=$('#csbar');
 csG.visible=false; scene.add(csG);
 function isCS(id){ return !!(id && R[id] && R[id].mode==='mind'); }
 function csSel(){ return (isCS(selected) && CS_OVERS.indexOf(selected)<0 && !R[selected].st)?selected:null; }
@@ -6821,6 +6966,46 @@ function buildMind(){
   put('cs_covert','p',arc(AUD,PPA(1),0.009,HOM,0.1,1.2),xo({kind:'path'})); put('cs_covert','p',arc(AUD,PPC(1),0.009,HOM,0.1,1.2),xo({kind:'path'}));
   flush();
 
+  /* ---------- what is consciousness? view */
+  var FFA=sp([0.42,-0.88,-0.42],-1), S1=cxp('sensory'), M1=cxp('motor'), PIN=[0,0.03,-0.26], PSMA=function(s){ return sp([0.12,0.97,0.34],s,-0.03); };
+  var POW=R.cs_power.color, SLF=R.cs_self.color, UNI=R.cs_unity.color, WIL=R.cs_will.color, SEA=R.cs_seat.color, HRD=R.cs_hard.color;
+  var CON=[[V4(1),'#ff5d8f','Color (V4)'],[MT(1),'#4cc9f0','Motion (MT)'],[FFA,'#ffd166','Faces (fusiform face area)'],[AUD,'#06d6a0','Sound (auditory cortex)'],[S1,'#b388ff','Touch (somatosensory cortex)']];
+  function oo(o){ return Object.assign({lv:'origin'},o||{}); }
+  // power: the upper brainstem core and the central thalamus, and their rising paths
+  [1,-1].forEach(function(s){
+    for(var t=0.06;t<=0.4;t+=0.07) put('cs_power','n',ball(S(t,s*0.3,-0.4),0.02,POW,0.6),oo({net:'pow'}));
+    put('cs_power','n',ball(CM(s),0.035,POW,0.7),oo({net:'pow'}));
+    put('cs_power','p',pulse([S(0.34,s*0.3,-0.4),S(0.12,s*0.35,-0.35),[s*0.1,0.0,-0.08],CM(s)],0.011,POW,0.12,1.2),oo({kind:'path',net:'pow'}));
+    [CX.pf(s),CX.pa(s),CX.oc(s),CX.te(s)].forEach(function(p){ put('cs_power','p',arc(CM(s),p,0.008,POW,0.12,1.2),oo({kind:'path',net:'pow'})); });
+  });
+  put('cs_power','g',ball(S(0.2,0,-0.25),0.11,POW,0.4),oo({net:'pow',op:0.16,nopick:true,ro:8}));
+  // contents: one area for each feature
+  CON.forEach(function(c){ put('cs_content','n'+c[1],ball(c[0],0.05,c[1],0.7),oo({net:'con'})); put('cs_content','g'+c[1],ball(c[0],0.09,c[1],0.4),oo({net:'con',op:0.18,nopick:true,ro:8})); });
+  put('cs_content','p',arc(V1(1),V4(1),0.008,'#ff5d8f',0.1,1.2),oo({kind:'path',net:'con'})); put('cs_content','p2',arc(V1(1),MT(1),0.008,'#4cc9f0',0.1,1.2),oo({kind:'path',net:'con'}));
+  put('cs_content','p3',arc(V1(-1),FFA,0.008,'#ffd166',0.1,1.2),oo({kind:'path',net:'con'})); put('cs_content','v',ball(V1(1),0.03,'#e9f1fb',0.4),oo({net:'con'})); put('cs_content','v',ball(V1(-1),0.03,'#e9f1fb',0.4),oo({net:'con'}));
+  // self: body inside (insula), body ownership (premotor), being in the body (TPJ), the story (midline)
+  [AINS(1),AINS(-1),CX.pm(1),TPJ,MPFC(1),PCC(1)].forEach(function(p){ put('cs_self','n',ball(p,0.042,SLF,0.65),oo({net:'self'})); });
+  put('cs_self','g',ball(TPJ,0.085,SLF,0.4),oo({net:'self',op:0.18,nopick:true,ro:8}));
+  [[MPFC(1),PCC(1)],[AINS(1),CX.pm(1)],[AINS(-1),TPJ],[PCC(1),TPJ]].forEach(function(e){ put('cs_self','p',arc(e[0],e[1],0.009,SLF,0.12,1),oo({kind:'path',net:'self'})); });
+  // binding: loops from the thalamus to each content area, and across the corpus callosum
+  put('cs_unity','t',ball(THAL(1),0.05,UNI,0.7),xo({lv:'origin'})); put('cs_unity','t',ball(THAL(-1),0.05,UNI,0.7),xo({lv:'origin'}));
+  CON.forEach(function(c){ put('cs_unity','p',arc(V(c[0]).x<0?THAL(-1):THAL(1),c[0],0.009,UNI,0.1,1.4),xo({kind:'path',lv:'origin'})); put('cs_unity','n',ball(c[0],0.036,c[1],0.6),xo({lv:'origin'})); });
+  [0.42,0.02,-0.38].forEach(function(u){ put('cs_unity','c',arc(sp(lat(u,0.55),1),sp(lat(u,0.55),-1),0.009,UNI,0.1,1.4),xo({kind:'path',lv:'origin'})); });
+  put('cs_unity','p',arc(V4(1),MT(1),0.008,UNI,0.1,1.4),xo({kind:'path',lv:'origin'})); put('cs_unity','p',arc(MT(1),AUD,0.008,UNI,0.1,1.4),xo({kind:'path',lv:'origin'}));
+  // will: prefrontal choice, parietal intention, SMA preparation, motor action
+  [1,-1].forEach(function(s){ put('cs_will','s',ball(SMA(s),0.045,WIL,0.7),xo({lv:'origin'})); put('cs_will','s',ball(PSMA(s),0.038,WIL,0.6),xo({lv:'origin'})); });
+  put('cs_will','g',ball(SMA(1),0.09,WIL,0.4),xo({lv:'origin',op:0.18,nopick:true,ro:8}));
+  [DLPFC(1),PPC(1),M1].forEach(function(p){ put('cs_will','n',ball(p,0.04,WIL,0.6),xo({lv:'origin'})); });
+  [[DLPFC(1),PSMA(1)],[PSMA(1),SMA(1)],[SMA(1),M1],[PPC(1),SMA(1)]].forEach(function(e){ put('cs_will','p',arc(e[0],e[1],0.01,WIL,0.1,1.3),xo({kind:'path',lv:'origin'})); });
+  // the seat: places proposed over the centuries
+  put('cs_seat','pin',ball(PIN,0.04,SEA,0.8),xo({lv:'origin'})); put('cs_seat','g',ball(PIN,0.09,SEA,0.4),xo({lv:'origin',op:0.2,nopick:true,ro:8}));
+  put('cs_seat','core',ball(S(0.12,0,-0.2),0.05,SEA,0.6),xo({lv:'origin'})); put('cs_seat','core',ball(THAL(-1),0.045,SEA,0.6),xo({lv:'origin'}));
+  put('cs_seat','hz',ball(CX.pa(1),0.05,HZ,0.6),xo({lv:'origin'})); put('cs_seat','hz',ball(CX.oc(1),0.05,HZ,0.6),xo({lv:'origin'})); put('cs_seat','fr',ball(CX.pf(1),0.05,GO,0.6),xo({lv:'origin'}));
+  // the hard problem: every correlate can be mapped
+  [V4(1),MT(1),AUD,S1,AINS(-1),PCC(1),DLPFC(1),CM(1),FFA].forEach(function(p){ put('cs_hard','n',ball(p,0.032,HRD,0.6),xo({lv:'origin'})); });
+  [[V4(1),DLPFC(1)],[AUD,PCC(1)],[S1,CM(1)],[FFA,AINS(-1)]].forEach(function(e){ put('cs_hard','p',arc(e[0],e[1],0.007,HRD,0.12,0.9),xo({kind:'path',lv:'origin'})); });
+  flush();
+
   /* ---------- label points and stations */
   function A(id,p){ csAnch[id]={p:V(p),n:null}; }
   A('cs_states',[0,0.8,0]); A('cs_aras',S(0.2,1.6,-0.4)); A('cs_cthal',[0.09,0.22,-0.04]); A('cs_pci',cc.clone().add(nrm.clone().multiplyScalar(0.1)));
@@ -6844,6 +7029,18 @@ function buildMind(){
   stations('cs_sal',[['Anterior insula',AINS(-1)],['Dorsal anterior cingulate',DACC(1)],['Switches the networks',[0.3,0.35,0.15]]]);
   stations('cs_dan',[['Frontal eye field',FEF(-1)],['Intraparietal sulcus',IPS(1)],['Temporoparietal junction (right)',TPJ],['Inferior frontal (right)',IFG]]);
   stations('cs_meta',[['Frontopolar cortex',FPC(-1)],['Works with the cingulate',DACC(1)]]);
+  A('cs_origin',[0,0.85,0]); A('cs_power',S(0.1,1.7,-0.45)); A('cs_content',MT(1)); A('cs_self',TPJ); A('cs_unity',[0.14,0.3,-0.05]); A('cs_will',SMA(1)); A('cs_seat',[0,0.5,-0.15]); A('cs_hard',sp([0.05,0.85,0.55],-1));
+  stations('cs_power',[['Upper brainstem core (top of the pons)',S(0.2,0.5,-0.4)],['Central thalamus',CM(-1)],['Signals switch on the cortex',CX.pa(1)]]);
+  stations('cs_content',CON.map(function(c){ return [c[2],c[0]]; }));
+  stations('cs_unity',[['Thalamus: hub of the loops',THAL(-1)],['Loops to each area',MT(1)],['Corpus callosum: joining both halves',[0,0.48,0.1]]]);
+  stations('cs_self',[['Insula: the body from within',AINS(-1)],['Temporoparietal junction: being in your body',TPJ],['Premotor: this body is mine',CX.pm(1)],['Midline: your own story',MPFC(1)]]);
+  stations('cs_will',[['Prefrontal: weighing choices',DLPFC(1)],['Pre-SMA and SMA: preparing to act',SMA(-1)],['Parietal: the wish to move',PPC(1)],['Motor cortex: the movement',M1]]);
+  stations('cs_seat',[['Pineal gland (Descartes, 1649)',PIN],['Upper brainstem and thalamus (Penfield, 1950s)',S(0.12,0,-0.2)],['Back of the cortex: the “hot zone”',CX.oc(1)],['Front of the cortex',CX.pf(1)]]);
+  stations('cs_hard',[['Activity here goes along with experience',V4(1)],['… and here, and here',DLPFC(1)],['Yet why is it felt?',[0,0.95,0.1]]]);
+  // labels for each layer of the origin view
+  var orl={pow:[['Upper brainstem core',S(0.2,0.5,-0.4),POW],['Central thalamus',CM(1),POW]],con:CON.map(function(c){ return [c[2],c[0],c[1]]; }),
+    self:[['Insula: the body from within',AINS(-1),SLF],['Temporoparietal junction',TPJ,SLF],['Premotor: this body is mine',CX.pm(1),SLF],['Midline: thinking about yourself',PCC(1),SLF]]};
+  Object.keys(orl).forEach(function(k){ orl[k].forEach(function(st){ csOrStn.push({el:lbl(st[0],st[2]),p:V(st[1]),n:null,ly:k}); }); });
   // labels for each state
   var stl={wake:[['Prefrontal and parietal: richly connected','prefrontal'],['Thalamus: gate open',THAL(1)],['Arousal system: on',S(0.25,1.4,-0.3)]],
     lis:[['Front of the pons: motor pathways cut',S(0.36,0.4,0.9)],['Cortex: fully aware','parietal'],['Midbrain: eye movements spared',S(0.02,1.3,0.4)]],
@@ -6922,6 +7119,7 @@ function csLevel(u){
     if(u.net==='sal') return 0.35+0.65*csSal;
     if(u.net==='salsw') return csSal;
     return 0.55; }
+  if(csv==='origin') return u.net===csOr?1:0.12;
   return 0.5;
 }
 function applyMindColors(){
@@ -6954,8 +7152,8 @@ function csSetState(k){
 function csZap(){ if(!csBuilt) return; csZapT=0; csColDirty=true; kick(2500); }
 function csSetView(v,keep){
   if(v===csv) return; csv=v;
-  [['#cvSt','states'],['#cvMo','moment'],['#cvNw','networks']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
-  app.classList.toggle('cv-states',v==='states'); app.classList.toggle('cv-moment',v==='moment'); app.classList.toggle('cv-networks',v==='networks');
+  [['#cvSt','states'],['#cvMo','moment'],['#cvNw','networks'],['#cvOr','origin']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  app.classList.toggle('cv-states',v==='states'); app.classList.toggle('cv-moment',v==='moment'); app.classList.toggle('cv-networks',v==='networks'); app.classList.toggle('cv-origin',v==='origin');
   if(v!=='moment') csPlaying=false; if(v!=='states'){ csZapT=-1; if(csRipple) csRipple.visible=false; } if(v!=='networks' && csSwP<1){ csSwP=1; csSw=csIn?1:0; csSal=0; }
   setCSAnchors();
   if(!keep && isCS(selected) && R[selected].lv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
@@ -6963,6 +7161,9 @@ function csSetView(v,keep){
   if(keep) return;
   if(sideLayout()) select(CS_OVER[v]); else resetView();
 }
+function csSetOr(k){ if(!CS_OR[k]) return; csOr=k;
+  [['#csPow','pow'],['#csCon','con'],['#csSelf','self']].forEach(function(b){ var on=b[1]===k; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  $('#csOrT').textContent=CS_OR[k][1]; $('#csOrS').textContent=CS_OR[k][2]; csColDirty=true; kick(); }
 function csSetIn(v,instant){ csIn=v; $('#csIn').classList.toggle('on',v); $('#csOut').classList.toggle('on',!v); $('#csIn').setAttribute('aria-selected',v?'true':'false'); $('#csOut').setAttribute('aria-selected',v?'false':'true');
   $('#csNwT').textContent=v?'Looking inward: the default mode network':'Focusing outward: executive and attention networks';
   $('#csNwS').textContent=v?'Remembering, imagining and reflecting; task networks quiet down.':'Working on a task and attending to the world; the default mode network quiets.';
@@ -7031,7 +7232,7 @@ function csFrame(dt){
     if(csPlaying){ csT+=dt*60; if(csT>=600){ csT=600; csPlaying=false; csSetPlayIcon(); csColDirty=true; } recolor=true; csUpdateMoText(); }
     var wk=Math.round(csT)+(csSeen?'s':'u'); if(wk!==csWaveKey){ csWaveKey=wk; csDrawWave(); }
     if(csCard){ var tex=csT<=0 && !csPlaying?csCardTex.blank:(csSeen?(csT<100?csCardTex.word:csCardTex.blank):(csT<33?csCardTex.word:(csT<200?csCardTex.mask:csCardTex.blank))); if(csCard.material.map!==tex){ csCard.material.map=tex; csCard.material.needsUpdate=true; } }
-  } else {
+  } else if(csv==='networks'){
     if(csSwP<1){ csSwP=Math.min(1,csSwP+dt/1.6); var e=csSwP<0.35?0:(csSwP-0.35)/0.65, sm=e*e*(3-2*e); csSw=csSwFrom+((csIn?1:0)-csSwFrom)*sm; csSal=Math.sin(Math.PI*Math.min(1,csSwP/0.75)); recolor=true; if(csSwP>=1) csColDirty=true; }
     else if(csSal!==0){ csSal=0; csColDirty=true; }
     var nk=Math.round(csSw*100)+'|'+(csSal>0.2); if(nk!==csNwKey){ csNwKey=nk; $('#csDmnF').style.width=Math.round(8+92*csSw)+'%'; $('#csCenF').style.width=Math.round(8+92*(1-csSw))+'%'; $('#csSalI').classList.toggle('on',csSal>0.2); }
@@ -7039,13 +7240,14 @@ function csFrame(dt){
   csColT+=dt; if(recolor && (csColT>0.045 || csColDirty)){ csColT=0; csColDirty=false; applyMindColors(); }
   if(signalsOn){ for(var j=0;j<csPaths.length;j++){ var p=csPaths[j], u=p.userData; if(p.visible && u.tex && u.on>0.25) u.tex.offset.x-=dt*u.spd*(0.4+u.on); } }
 }
-function csBusy(){ return csv==='states'?(csMoving || csZapT>=0):(csv==='moment'?csPlaying:csSwP<1); }
+function csBusy(){ return csv==='states'?(csMoving || csZapT>=0):(csv==='moment'?csPlaying:(csv==='networks'?csSwP<1:false)); }
 function applyMindVis(){ if(!csBuilt) return; csG.visible=(mode==='mind'); if(csCard) csCard.visible=(mode==='mind' && csv==='moment'); }
 function updateMindStations(taken){
   var sel=csSel();
   var lists=[[csStn,function(st){ return mode==='mind' && st.id===selected && R[st.id].lv===csv; }],
     [csStStn,function(st){ return mode==='mind' && csv==='states' && !sel && st.st===csState; }],
-    [csPhStn,function(st){ return mode==='mind' && csv==='moment' && !sel && (csT>0 || csPlaying) && csT>=st.a && csT<=st.b && (st.cond==='both' || (st.cond==='seen')===csSeen); }]];
+    [csPhStn,function(st){ return mode==='mind' && csv==='moment' && !sel && (csT>0 || csPlaying) && csT>=st.a && csT<=st.b && (st.cond==='both' || (st.cond==='seen')===csSeen); }],
+    [csOrStn,function(st){ return mode==='mind' && csv==='origin' && !sel && st.ly===csOr; }]];
   lists.forEach(function(L){ L[0].forEach(function(st){
     if(!showLabels || !L[1](st)){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
@@ -7058,6 +7260,7 @@ function updateMindStations(taken){
 function csPickAt(){
   var h=rc.intersectObjects(csPick.filter(function(m){ return m.visible && m.userData.on>0.12; }),false); if(h.length) return h[0].object.userData.region;
   if(csv==='networks') return null;
+  if(csv==='origin') return null;
   var hits=rc.intersectObjects(pickables.filter(function(m){ return m.visible; }),false); if(!hits.length) return null;
   if(csv==='states') return CS_ST[csState].id;
   if(csT<=0 && !csPlaying) return 'cs_moment';
@@ -7070,17 +7273,17 @@ function mindFocus(r){
 }
 function enterMind(){
   buildMind(); csXrayBefore=xray; xrayTo(true);
-  csbar.hidden=false; app.classList.add('bar-sl','bar-cs'); app.classList.toggle('cv-states',csv==='states'); app.classList.toggle('cv-moment',csv==='moment'); app.classList.toggle('cv-networks',csv==='networks');
+  csbar.hidden=false; app.classList.add('bar-sl','bar-cs'); app.classList.toggle('cv-states',csv==='states'); app.classList.toggle('cv-moment',csv==='moment'); app.classList.toggle('cv-networks',csv==='networks'); app.classList.toggle('cv-origin',csv==='origin');
   for(var ci=0;ci<csMeshes.length;ci++) csMeshes[ci].userData.key=null;
-  csAct={}; csMoving=true; csColDirty=true; csMoTxt=''; csSetState(csState); csSetIn(csIn,true); csSetSeen(csSeen); csSetPlayIcon(); setCSAnchors();
+  csAct={}; csMoving=true; csColDirty=true; csMoTxt=''; csSetState(csState); csSetIn(csIn,true); csSetSeen(csSeen); csSetOr(csOr); csSetPlayIcon(); setCSAnchors();
   app.style.setProperty('--dbh',csbar.offsetHeight+'px'); csWaveKey='';
 }
-function leaveMind(){ csPlaying=false; csZapT=-1; if(csRipple) csRipple.visible=false; xrayTo(csXrayBefore); csbar.hidden=true; app.classList.remove('bar-sl','bar-cs','cv-states','cv-moment','cv-networks'); }
+function leaveMind(){ csPlaying=false; csZapT=-1; if(csRipple) csRipple.visible=false; xrayTo(csXrayBefore); csbar.hidden=true; app.classList.remove('bar-sl','bar-cs','cv-states','cv-moment','cv-networks','cv-origin'); }
 function fillMind(r){
   var d=CS[r.id]||{}, tree=$('#pTree'); tree.hidden=false;
   if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
   senseList(r.hFuncs||'What it does',r.funcs);
-  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks|covert|split)$/.test(r.id));
+  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks|covert|split|origin|power|will)$/.test(r.id));
   if(d.signs) senseList('What doctors look for',d.signs);
   if(d.deep) senseList('A deeper look',d.deep);
   if(d.theories){ tree.appendChild(el('h3',null,'Leading theories compared'));
@@ -7143,6 +7346,11 @@ function csMaskDemo(tree){
 $('#cvSt').addEventListener('click',function(){ csSetView('states'); });
 $('#cvMo').addEventListener('click',function(){ csSetView('moment'); });
 $('#cvNw').addEventListener('click',function(){ csSetView('networks'); });
+$('#cvOr').addEventListener('click',function(){ csSetView('origin'); });
+$('#csPow').addEventListener('click',function(){ csSetOr('pow'); });
+$('#csCon').addEventListener('click',function(){ csSetOr('con'); });
+$('#csSelf').addEventListener('click',function(){ csSetOr('self'); });
+$('#csOrInfo').addEventListener('click',function(){ select(CS_OR[csOr][0]); });
 $('#csInfo').addEventListener('click',function(){ select(CS_ST[csState].id); });
 $('#csZap').addEventListener('click',function(){ csZap(); });
 $('#csPlay').addEventListener('click',function(){ if(csT>=600) csT=0; csPlaying=!csPlaying; csMoTxt=''; csSetPlayIcon(); csColDirty=true; kick(); });
@@ -7395,7 +7603,7 @@ function frame(now){
   cur.az+=(tgt.az-cur.az)*k; cur.el+=(tgt.el-cur.el)*k; cur.zoom+=(tgt.zoom-cur.zoom)*k;
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
-  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:0.82)):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
+  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:(csv==='origin'?0.6:0.82))):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
   for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }

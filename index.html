@@ -140,7 +140,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-mind .sv.mind-only{display:inline-flex!important}
 #csMap{display:block;width:100%;height:100px;margin-top:6px;touch-action:none;cursor:pointer}
 #csWave{display:block;width:100%;height:86px;margin-top:4px;touch-action:none;cursor:pointer}
-.cv-states .cs-mo,.cv-states .cs-nw,.cv-moment .cs-st,.cv-moment .cs-nw,.cv-networks .cs-st,.cv-networks .cs-mo,.cs-or,.cv-origin .cs-st,.cv-origin .cs-mo,.cv-origin .cs-nw{display:none}
+.cv-states .cs-mo,.cv-states .cs-nw,.cv-moment .cs-st,.cv-moment .cs-nw,.cv-networks .cs-st,.cv-networks .cs-mo,.cs-or,.cv-origin .cs-st,.cv-origin .cs-mo,.cv-origin .cs-nw,.cs-mw,.cv-mindw .cs-st,.cv-mindw .cs-mo,.cv-mindw .cs-nw{display:none}
+.cv-mindw .cs-mw{display:block}
+.cs-mw .db-top{flex-wrap:wrap;row-gap:6px} .cs-mw .db-view{flex:1 0 100%;display:flex} .cs-mw .db-view button{flex:1 1 0;min-width:0;padding-left:4px;padding-right:4px;overflow:hidden;text-overflow:ellipsis} .cs-mw .db-stage{flex:1 1 0}
 .cv-origin .cs-or{display:block}
 @media (max-width:560px){ .cs-or .db-top{flex-wrap:wrap;row-gap:4px} .cs-or .db-stage{order:3;flex:1 0 100%} }
 .cs-pci{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)}
@@ -209,7 +211,8 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .mode-spine .sv.spine-only{display:inline-flex!important}
 .label.lvl{pointer-events:none!important;font-size:10.5px;padding:2px 7px;background:rgba(239,231,214,.92);color:#3e2723;box-shadow:none}
 .modes{max-width:100%;overflow-x:auto;scrollbar-width:none}
-.modes::-webkit-scrollbar{display:none}
+.sv.mind-only{max-width:100%;overflow-x:auto;scrollbar-width:none}
+.modes::-webkit-scrollbar,.sv.mind-only::-webkit-scrollbar{display:none}
 .mode{white-space:nowrap}
 .sv{pointer-events:auto;padding:3px;border-radius:999px;background:var(--chip);border:1px solid var(--line);backdrop-filter:blur(8px)}
 .sv button{border:0;background:none;padding:8px 12px;border-radius:999px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
@@ -412,7 +415,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="sv think-only" role="tablist" aria-label="Thinking organ"><button id="tvCer" class="on" role="tab" aria-selected="true">Cerebrum</button><button id="tvNeo" role="tab" aria-selected="false">Neocortex</button><button id="tvCb" role="tab" aria-selected="false">Cerebellum</button></div>
       <div class="sv hw-only" role="tablist" aria-label="Hardware view"><button id="hvNeu" class="on" role="tab" aria-selected="true">Neuron</button><button id="hvDen" role="tab" aria-selected="false">Dendrites</button><button id="hvMat" role="tab" aria-selected="false"><span class="tl">Grey &amp; white</span><span class="ts">Matter</span></button><button id="hvNet" role="tab" aria-selected="false">Network</button></div>
       <div class="sv sleep-only" role="tablist" aria-label="Sleep view"><button id="slvCyc" class="on" role="tab" aria-selected="true"><span class="tl">A night of sleep</span><span class="ts">Night</span></button><button id="slvCir" role="tab" aria-selected="false"><span class="tl">Sleep circuits</span><span class="ts">Circuits</span></button></div>
-      <div class="sv mind-only" role="tablist" aria-label="Consciousness view"><button id="cvSt" class="on" role="tab" aria-selected="true"><span class="tl">States of consciousness</span><span class="ts">States</span></button><button id="cvMo" role="tab" aria-selected="false"><span class="tl">A moment of awareness</span><span class="ts">Moment</span></button><button id="cvNw" role="tab" aria-selected="false"><span class="tl">Networks of the mind</span><span class="ts">Networks</span></button><button id="cvOr" role="tab" aria-selected="false"><span class="tl">What is consciousness?</span><span class="ts">Origin</span></button></div>
+      <div class="sv mind-only" role="tablist" aria-label="Consciousness view"><button id="cvSt" class="on" role="tab" aria-selected="true"><span class="tl">States of consciousness</span><span class="ts">States</span></button><button id="cvMo" role="tab" aria-selected="false"><span class="tl">A moment of awareness</span><span class="ts">Moment</span></button><button id="cvNw" role="tab" aria-selected="false"><span class="tl">Networks of the mind</span><span class="ts">Networks</span></button><button id="cvOr" role="tab" aria-selected="false"><span class="tl">What is consciousness?</span><span class="ts">Origin</span></button><button id="cvMw" role="tab" aria-selected="false"><span class="tl">How the mind works</span><span class="ts">Levels</span></button></div>
       <div class="dd">
         <button id="ddBtn" class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ddMenu">
           <i class="dot"></i><span id="ddLabel">Choose a part</span><span class="dd-count" id="ddCount"></span>
@@ -476,6 +479,9 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="db-top"><div class="db-view" role="tablist" aria-label="Direction of attention"><button id="csIn" class="on" role="tab" aria-selected="true">Inward</button><button id="csOut" role="tab" aria-selected="false">Outward</button></div><div class="db-stage"><b id="csNwT"></b><span id="csNwS"></span></div></div>
       <div class="cs-see"><span>Default mode</span><div class="cs-track"><i id="csDmnF"></i></div><span>Executive and attention</span><div class="cs-track"><i id="csCenF"></i></div></div>
       <span id="csSalI" class="cs-sal">Salience network switching</span>
+    </div>
+    <div class="cs-mw">
+      <div class="db-top"><div class="db-view" role="tablist" aria-label="Level, from molecules to mind"><button id="csL0" class="on" role="tab" aria-selected="true"><span class="tl">Molecules</span><span class="ts">Chem</span></button><button id="csL1" role="tab" aria-selected="false"><span class="tl">Neurons</span><span class="ts">Cells</span></button><button id="csL2" role="tab" aria-selected="false"><span class="tl">Circuits</span><span class="ts">Loops</span></button><button id="csL3" role="tab" aria-selected="false"><span class="tl">Networks</span><span class="ts">Nets</span></button><button id="csL4" role="tab" aria-selected="false"><span class="tl">Mind</span><span class="ts">Mind</span></button></div><div class="db-stage"><b id="csMlT"></b><span id="csMlS"></span></div><button id="csMlInfo" class="db-info" aria-label="About this level">i</button></div>
     </div>
     <div class="cs-or">
       <div class="db-top"><div class="db-view" role="tablist" aria-label="Layer of consciousness"><button id="csPow" class="on" role="tab" aria-selected="true">Power</button><button id="csCon" role="tab" aria-selected="false">Contents</button><button id="csSelf" role="tab" aria-selected="false">Self</button></div><div class="db-stage"><b id="csOrT"></b><span id="csOrS"></span></div><button id="csOrInfo" class="db-info" aria-label="About this layer">i</button></div>
@@ -2228,6 +2234,85 @@ var REGIONS = [
   damage:'Some hold that the mind is nothing but brain activity. Others hold that the mind cannot be fully reduced to matter. Christians have long held that a person is a unity of body and soul, created by God, with the brain as the God-given instrument of thought and experience in this life.',
   fact:'Wilder Penfield, the surgeon who mapped the human cortex by stimulating it in awake patients, concluded in his 1975 book The Mystery of the Mind that brain activity alone did not seem to explain the mind.',
   view:{az:20,el:22}, zoom:1},
+ {id:'cs_mind',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works',name:'How the Mind Works',short:'How the mind works',color:'#e9c46a',
+  where:'The whole brain, from molecules to networks',
+  summary:'Your mind is everything you do inwardly: perceiving, remembering, imagining, feeling, reasoning and choosing. In this life all of it depends on the brain, which is organized in levels, like letters forming words, words forming sentences and sentences forming a story. Chemical messengers pass signals between neurons; neurons form circuits; circuits join into brain-wide networks; and the networks work together as one mind. Use the buttons below to move up through the levels.',
+  funcs:['Taking in the world: perceiving and paying attention','Keeping the past: learning and remembering','Thinking ahead: imagining, planning and predicting','Feeling and valuing: emotions that guide choices','Deciding and acting'],
+  hDamage:'When it goes wrong',
+  damage:'Because the mind depends on every level, problems at any level can affect it: a chemical imbalance, the loss of neurons in dementia, a damaged circuit after a stroke, or poorly coordinated networks in some mental illnesses. Many of these can be treated, and the brain can often adapt.',
+  fact:'The brain is only about 2 percent of the body’s weight, yet it uses about 20 percent of the body’s energy, even at rest.',
+  view:{az:20,el:14}, zoom:1},
+ {id:'cs_lvmol',kind:'mind',mode:'mind',lv:'mindw',ml:'mol',group:'How the mind works: from molecules to mind',name:'Level 1: Molecules and Synapses',short:'Molecules and synapses',color:'#80ed99',
+  where:'At the synapses: tiny gaps where one neuron passes a signal to the next',
+  summary:'At the smallest level, the mind runs on chemistry. When a neuron fires, it releases chemical messengers called neurotransmitters into the synapse, the tiny gap between it and the next neuron. Glutamate usually excites the next cell, and GABA usually calms it. Others, such as dopamine and serotonin, tune whole regions. Learning changes the strength of synapses.',
+  funcs:['Passing signals from neuron to neuron','Exciting (glutamate) or calming (GABA) the next cell','Tuning mood, alertness and motivation (dopamine, serotonin, noradrenaline)','Storing learning as stronger or weaker synapses'],
+  damage:'Many medicines for the mind work at this level. Antidepressants, anxiety medicines and anesthetics change how particular messengers are released, received or cleared. Some poisons and drugs of abuse act here too.',
+  fact:'There are roughly 100 trillion synapses in the adult brain, more than a thousand times the number of stars in our galaxy by some estimates.',
+  view:{az:60,el:24}, zoom:0.9},
+ {id:'cs_lvneu',kind:'mind',mode:'mind',lv:'mindw',ml:'neu',group:'How the mind works: from molecules to mind',name:'Level 2: Neurons',short:'Neurons',color:'#4cc9f0',
+  where:'About 86 billion neurons throughout the brain, each linked to thousands of others',
+  summary:'Each neuron adds up the thousands of signals it receives. If the total crosses a threshold, it fires a brief electrical spike down its axon; if not, it stays quiet. A single neuron does not think or feel. Yet the pattern of which neurons fire, and when, carries information about sights, sounds, memories and plans.',
+  funcs:['Adding up thousands of inputs','Firing all-or-none spikes, up to hundreds a second','Sending signals at up to about 120 meters per second','Coding information in patterns of firing'],
+  damage:'When neurons are lost, as in Alzheimer’s or Parkinson’s disease, the abilities their circuits supported decline. The brain can compensate for a time, which is why symptoms often appear only after much damage has occurred.',
+  fact:'In 2005, researchers recording from single neurons in patients awaiting epilepsy surgery found a neuron that fired for many different pictures of one particular actress, and even for her written name. Such “concept cells” respond to an idea, not just an image.',
+  view:{az:30,el:20}, zoom:1},
+ {id:'cs_lvcir',kind:'mind',mode:'mind',lv:'mindw',ml:'cir',group:'How the mind works: from molecules to mind',name:'Level 3: Circuits',short:'Circuits',color:'#ff9f1c',
+  where:'Local circuits in the cortex, and loops through the hippocampus, basal ganglia, thalamus and cerebellum',
+  summary:'Neurons work in small teams called circuits. A circuit in the hippocampus maps where you are; a loop through the basal ganglia selects which action to take; a loop through the cerebellum fine-tunes movements and timing. Each circuit does a job no single neuron could do.',
+  funcs:['Mapping places and finding the way (hippocampus)','Choosing between actions and forming habits (basal ganglia)','Timing and smoothing movements and thoughts (cerebellum)','Processing details in columns of the cortex'],
+  damage:'When one circuit fails, a specific ability is affected. In Parkinson’s disease, the loss of dopamine in the basal ganglia loop makes it hard to start movements, while understanding stays intact.',
+  fact:'In 1971 John O’Keefe found “place cells” in the hippocampus that fire when an animal is in a particular spot. In 2005 May-Britt and Edvard Moser found “grid cells” that work like the lines on a map. They shared the 2014 Nobel Prize.',
+  view:{az:40,el:14}, zoom:0.95},
+ {id:'cs_lvnet',kind:'mind',mode:'mind',lv:'mindw',ml:'net',group:'How the mind works: from molecules to mind',name:'Level 4: Networks',short:'Networks',color:'#b388ff',
+  where:'Sets of distant regions linked by long fibers of white matter',
+  summary:'Circuits in distant parts of the brain join into large networks that rise and fall together. One network turns attention to the outside world, another supports memory and reflection, another notices what matters and switches between them. Networks coordinate through long white-matter fibers and through shared rhythms, like musicians keeping time.',
+  funcs:['Combining many circuits into one task','Directing attention outward or inward','Switching between modes of thinking','Keeping distant regions in step'],
+  damage:'Changes in how networks connect are found in depression, ADHD, autism and schizophrenia. Damage to the white matter, for example in multiple sclerosis or after a head injury, can slow thinking even when the regions themselves are intact.',
+  fact:'The brain’s white matter, the wiring between regions, contains well over 100,000 kilometers of fibers: enough to wrap around the Earth more than twice.',
+  view:{az:28,el:24}, zoom:1},
+ {id:'cs_lvall',kind:'mind',mode:'mind',lv:'mindw',ml:'all',group:'How the mind works: from molecules to mind',name:'Level 5: The Whole Mind',short:'The whole mind',color:'#f4978e',
+  where:'The whole brain, working in the whole person',
+  summary:'At the top level, all of this works together as one mind. Reading this sentence uses vision, language, memory, attention and understanding at once, coordinated so smoothly that it feels like a single act. The mind also reaches beyond the skull: it is shaped by the body, by relationships and by what we learn and love.',
+  funcs:['Integrating perception, memory, emotion and thought','Understanding meaning, not just signals','Reasoning, imagining and choosing','Knowing ourselves and relating to others'],
+  damage:'Because the mind belongs to the whole person, its health depends on sleep, exercise, food, relationships, purpose and rest, not only on the brain itself.',
+  fact:'Expert chess players can glance at a board from a real game for five seconds and recall most of the pieces, because they see meaningful patterns rather than single pieces. With pieces placed at random, their advantage largely disappears.',
+  view:{az:20,el:16}, zoom:1},
+ {id:'cs_predict',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: key principles',name:'The Predicting Brain',short:'The predicting brain',color:'#4895ef',
+  where:'Across the cortex, with feedback from higher to lower areas, and the cerebellum and dopamine system',
+  summary:'The brain does not simply wait for information. It constantly predicts what will happen next and compares the prediction with what arrives. When they match, little needs to change; when they do not, a “prediction error” grabs attention and updates the brain’s model of the world. Much of what we perceive is the brain’s best guess, checked against the senses.',
+  funcs:['Anticipating sights, sounds and movements','Noticing surprises quickly','Learning from the gap between what was expected and what happened','Filling in missing information'],
+  damage:'Some researchers think that hallucinations and delusions may partly reflect predictions that are given too much weight, and that some features of autism may reflect predictions given too little. These ideas are still being tested.',
+  fact:'You cannot tickle yourself. Your cerebellum predicts the touch from your own movement and dampens the feeling. A 1998 study showed that adding a small delay between a person’s movement and the touch made it feel more ticklish.',
+  view:{az:115,el:14}, zoom:0.95},
+ {id:'cs_learn',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: key principles',name:'Learning and Plasticity',short:'Learning and plasticity',color:'#06d6a0',
+  where:'Synapses throughout the brain, especially in the hippocampus, cortex, basal ganglia and cerebellum',
+  summary:'The brain changes with experience. When neurons are active together, the connections between them strengthen; unused connections weaken. This plasticity is how we learn facts, skills and habits. It is strongest in childhood, but it continues throughout life.',
+  funcs:['Strengthening connections that are used together','Weakening or pruning unused connections','Building new skills with practice','Recovering after injury by rerouting functions'],
+  damage:'After a stroke, rehabilitation helps healthy areas take over lost functions. Plasticity can also work against us, as when pain pathways become oversensitive or harmful habits become ingrained.',
+  fact:'London taxi drivers, who must memorize thousands of streets, were found in a 2000 study to have a larger rear part of the hippocampus than other people, and the longer they had driven, the larger it tended to be.',
+  view:{az:50,el:14}, zoom:0.95},
+ {id:'cs_auto',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: key principles',name:'Many Tasks at Once: Habits and Automatic Processing',short:'Habits and automatic processing',color:'#ffd166',
+  where:'The basal ganglia, the cerebellum and specialized areas of the cortex, working in parallel',
+  summary:'Most of the brain’s work happens automatically and in parallel, without our noticing. Practiced skills move from slow, effortful control by the prefrontal cortex to fast, automatic routines in the basal ganglia and cerebellum. This frees the conscious mind for new problems.',
+  funcs:['Running practiced skills automatically','Handling many streams of information at once','Forming habits from repeated actions','Freeing attention for what is new or important'],
+  damage:'Damage to the basal ganglia can disrupt habits and the smooth starting of actions. Overly rigid habits are part of obsessive-compulsive disorder and of addiction.',
+  fact:'When you first learn to drive, every action takes effort. After practice, you can drive a familiar route while talking, and sometimes arrive without remembering the trip.',
+  view:{az:30,el:10}, at:[0,-0.08,0], zoom:0.95},
+ {id:'cs_feel',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: key principles',name:'Reason and Emotion Together',short:'Reason and emotion',color:'#ef476f',
+  where:'The amygdala, the insula, and the ventromedial prefrontal cortex just above the eyes',
+  summary:'Emotion and reason are not opposites in the brain; they work together. The amygdala flags what may matter, especially threats. The insula reports how the body feels. The ventromedial prefrontal cortex combines these signals with goals and values, so that choices carry a sense of what is good or bad for us. The prefrontal cortex can also calm strong emotions.',
+  funcs:['Flagging what matters, especially danger','Turning body feelings into emotions','Giving choices a sense of value','Calming and guiding strong feelings'],
+  damage:'People with damage to the ventromedial prefrontal cortex can keep their intelligence and knowledge, yet make poor decisions in real life, because their choices are no longer guided by feelings about likely outcomes.',
+  fact:'In the 1990s, Antonio Damasio described a patient, “Elliot”, who after surgery for a brain tumor could discuss options intelligently but could spend a long time choosing even where to eat, and whose life decisions went badly.',
+  view:{az:70,el:6}, at:[0,-0.08,0.1], zoom:0.9},
+ {id:'cs_emerge',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: the big question',name:'Does the Mind Emerge from the Brain?',short:'Does the mind emerge?',color:'#90e0ef',
+  where:'A question about the whole person',
+  summary:'Scientists often say that the mind emerges from the brain: the whole has abilities that the parts lack, the way a melody is more than separate notes, or a sentence means more than its letters. No neuron understands a joke, yet a person does. Emergence describes how levels build on each other. Whether it fully explains thought, meaning and the self is a deeper question, and here science meets philosophy and faith.',
+  funcs:['Explaining how levels build on each other','Showing why no single part “has” the mind','Leading to deeper questions about meaning, reason and the soul'],
+  hDamage:'Different answers',
+  damage:'Scientists and philosophers hold different views. Some think the mind is entirely produced by the brain. Others think emergence describes how the mind works through the brain but does not explain inner experience, meaning or free choice. Christians see the brain as God’s wonderfully ordered design, and the mind as belonging to the whole person, body and soul, made in God’s image.',
+  fact:'In his 1947 book Miracles, C. S. Lewis argued that if our thoughts were only the result of physical causes, we would have no reason to trust them, including the thought that they are only physical. Philosophers still debate this “argument from reason”.',
+  view:{az:20,el:22}, zoom:1},
  {id:'sl_night',kind:'sleep',mode:'sleep',lv:'cycle',group:'A night of sleep',name:'A Night of Sleep',short:'A night of sleep',color:'#7c8cff',
   where:'The whole brain, over about eight hours',
   summary:'Sleep is not the brain switching off. Through the night the brain moves through repeating cycles of about 90 minutes, each passing through light sleep, deep sleep (mostly early in the night) and REM (dreaming) sleep. Each stage has its own brain waves and its own work: restoring the body, clearing waste, and filing away the day’s memories. Press play to watch a typical night.',
@@ -3547,7 +3632,7 @@ function select(id){
   if(mode==='hw' && isHW(id) && R[id].hv!==hView) setHView(R[id].hv,true);
   if(mode==='sleep' && isSL(id)){ var slSw=R[id].lv!==slv; if(slSw) setSlView(R[id].lv,true); if(R[id].stage){ if(slStageAt(slT)!==R[id].stage) slSetTime(SL_JUMP[id]); if(slSw) sleepFocus(R.sl_night); } }
   if(mode==='mind' && isCS(id)){ var csSw2=R[id].lv!==csv; if(csSw2) csSetView(R[id].lv,true); if(R[id].st){ csSetState(R[id].st); if(csSw2) mindFocus(R.cs_states); }
-    if(R[id].ol && R[id].ol!==csOr) csSetOr(R[id].ol); if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
+    if(R[id].ol && R[id].ol!==csOr) csSetOr(R[id].ol); if(R[id].ml && R[id].ml!==csMl) csSetMl(R[id].ml); if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
@@ -3570,7 +3655,7 @@ function step(d){
   select(list[(i+d+list.length)%list.length]);
 }
 function resetView(){
-  if(mode==='mind'){ var cd={states:[20,12,[0,-0.05,-0.02],1],moment:[38,10,[0,-0.05,0.15],1.05],networks:[28,24,[0,-0.05,-0.02],1],origin:[24,14,[0,-0.05,-0.05],1]}[csv]; tgt.az=cur.az+wrap(cd[0]*Math.PI/180-cur.az); tgt.el=cd[1]*Math.PI/180; tgt.zoom=cd[3]; CENTER_T.set(cd[2][0],cd[2][1],cd[2][2]); setSpin(false); if(selected) select(null); return; }
+  if(mode==='mind'){ var cd={states:[20,12,[0,-0.05,-0.02],1],moment:[38,10,[0,-0.05,0.15],1.05],networks:[28,24,[0,-0.05,-0.02],1],origin:[24,14,[0,-0.05,-0.05],1],mindw:[22,16,[0,-0.05,-0.02],1]}[csv]; tgt.az=cur.az+wrap(cd[0]*Math.PI/180-cur.az); tgt.el=cd[1]*Math.PI/180; tgt.zoom=cd[3]; CENTER_T.set(cd[2][0],cd[2][1],cd[2][2]); setSpin(false); if(selected) select(null); return; }
   if(mode==='sleep'){ tgt.az=cur.az+wrap(20*Math.PI/180-cur.az); tgt.el=(slv==='cycle'?14:10)*Math.PI/180; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false); if(selected) select(null); return; }
   if(mode==='hw'){ var hd=HW_DEF[hView]; tgt.az=cur.az+wrap(hd.az-cur.az); tgt.el=hd.el; tgt.zoom=1; CENTER_T.copy(HW_C[hView]); setSpin(false); if(selected) select(null); return; }
   if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
@@ -6491,7 +6576,7 @@ var CS={
   myths:[['People in a coma are just deeply asleep.','Sleep is natural, cycles through stages and ends when you are woken. A person in a coma cannot be woken, even by strong stimulation, because the systems that switch the brain on are injured or suppressed.'],
    ['Anesthesia is simply a very deep sleep.','Anesthesia is a controlled, medicine-induced state. It shares some slow rhythms with deep sleep, but it works through different mechanisms, and noise or touch will not wake you from it.'],
    ['If someone cannot respond, they cannot be aware.','Brain scans and EEG show that some patients who cannot move are aware. That is why careful, repeated testing matters.']],
-  rel:['cs_moment','cs_networks','cs_origin']},
+  rel:['cs_moment','cs_networks','cs_origin','cs_mind']},
  cs_origin:{stats:[['~86 billion','neurons in the brain'],['~0.3 s','for a sight to reach awareness'],['3','layers: power, contents, self']],
   how:['The power switch: the upper brainstem and the thalamus keep the cortex switched on. Without them there is no experience at all.',
    'The contents: specialized areas of the cortex supply what the experience is about: colors, faces, sounds, words and touch.',
@@ -6514,7 +6599,7 @@ var CS={
   rh:'A Christian view',
   reflect:['Scripture says we are “fearfully and wonderfully made” (Psalm 139:14), body and soul together. The brain is part of that design: through it we see, think, love and pray in this life.',
    'Science can trace how experience depends on the brain. The fact that there is an inner life at all, a self that knows and chooses, fits the biblical picture of people made in the image of God (Genesis 1:27), who are more than the sum of their parts.'],
-  rel:['cs_states','cs_moment','cs_networks']},
+  rel:['cs_states','cs_moment','cs_networks','cs_mind']},
  cs_power:{stats:[['1949','arousal system discovered'],['1','small area of the pons linked to coma'],['2','routes up to the cortex']],
   how:['Neurons in the upper pons and midbrain send rising signals using several messenger chemicals.','Some reach the central nuclei of the thalamus, which relay them across the cortex.',
    'Others pass through the hypothalamus and basal forebrain straight to the cortex.','With the cortex switched on, its regions can work together and experience becomes possible.'],
@@ -6571,6 +6656,99 @@ var CS={
   rh:'A Christian view', reflect:['Scripture says people were formed of “the dust of the ground” and given “the breath of life” by God (Genesis 2:7). The hard problem is a reminder that the inner life is real, and that we are more than the sum of our parts.',
    'Our understanding now is partial, but not forever: “For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known” (1 Corinthians 13:12).'],
   rel:['cs_seat','cs_self','cs_will']},
+ cs_mind:{stats:[['~86 billion','neurons'],['~100 trillion','synapses'],['5','levels from molecules to mind']],
+  how:['Molecules: chemical messengers carry signals across synapses, and learning changes their strength.',
+   'Neurons: each cell adds up its inputs and fires, or stays quiet.',
+   'Circuits: small teams of neurons do specific jobs, such as mapping places or choosing actions.',
+   'Networks: distant circuits join into brain-wide teams for attention, memory and control.',
+   'The whole mind: all of these work together in one person who perceives, understands and chooses.'],
+  deep:['Each level depends on the one below, but it cannot simply be read off from it. Knowing every chemical in a synapse does not tell you what a person is thinking, just as knowing the ink does not tell you the meaning of a letter.',
+   'Higher levels also shape lower ones. A decision to practice the piano changes which synapses strengthen; a calming thought changes the body’s stress hormones.',
+   'The brain is busy all the time. Even at rest it uses almost as much energy as during a demanding task, organizing memories and preparing for what comes next.'],
+  terms:[['Mind','Everything we do inwardly: perceiving, remembering, imagining, feeling, reasoning and choosing.'],['Neurotransmitter','A chemical messenger released at a synapse.'],
+   ['Synapse','The tiny junction where one neuron passes a signal to another.'],['Circuit','A small team of linked neurons that does a particular job.'],
+   ['Network','A set of distant brain regions that work together.'],['Plasticity','The brain’s ability to change its connections with experience.'],
+   ['Prediction error','The difference between what the brain expected and what actually happened.'],['Emergence','When a whole has properties or abilities that its parts, taken one by one, do not have.']],
+  myths:[['We only use 10 percent of our brains.','Brain scans show activity throughout the brain over a day, and damage to almost any area causes some loss. The brain is too costly in energy to carry unused parts.'],
+   ['People are either “left-brained” or “right-brained”.','The two halves have some specializations, such as language mostly on the left, but large studies have found no evidence that people rely on one half more than the other overall.'],
+   ['The adult brain cannot change.','Plasticity continues throughout life. Adults learn new skills and languages, and the brain can reorganize after injury, though more slowly than in childhood.'],
+   ['Listening to classical music makes babies smarter.','The 1993 “Mozart effect” study tested college students and found only a brief improvement on one type of puzzle. Later studies largely failed to confirm even that.']],
+  mile:[['1873','Camillo Golgi’s staining method makes individual neurons visible.'],['1888','Santiago Ramón y Cajal shows that the brain is made of separate cells.'],
+   ['1921','Otto Loewi shows that nerves signal with chemicals.'],['1949','Donald Hebb proposes that connections strengthen when neurons fire together.'],
+   ['1952','Hodgkin and Huxley explain how neurons fire electrical spikes.'],['1971','Place cells are discovered in the hippocampus.'],
+   ['1973','Long-term strengthening of synapses (LTP) is discovered.'],['1997','Dopamine is shown to signal reward prediction errors.'],
+   ['2005','Grid cells and “concept cells” are reported.'],['2024','A complete wiring map of an adult fruit fly brain, about 140,000 neurons, is published.']],
+  rh:'A Christian view',
+  reflect:['Scripture calls us to love God “with all thy mind” (Mark 12:30). The mind is a gift to be used, trained and offered back to God, not merely a machine to be explained.',
+   'Every level of the brain shows remarkable order, from the chemistry of a synapse to networks spanning the whole brain. Christians see in that order the work of a wise Creator, and in the person who thinks, loves and chooses, a being made in His image.'],
+  rel:['cs_origin','cs_networks','cs_moment']},
+ cs_lvmol:{stats:[['~100 trillion','synapses'],['100+','known chemical messengers'],['~1 ms','to cross a synapse']],
+  how:['A spike reaches the end of the axon.','Tiny packets release neurotransmitter into the synaptic gap.','The molecules fit receptors on the next neuron like keys in locks, opening channels that excite or calm it.','The messenger is quickly cleared away or recycled, ready for the next signal.'],
+  deep:['In 1973, Tim Bliss and Terje Lømo found that bursts of activity could strengthen synapses in the hippocampus for hours or longer. This long-term potentiation is a leading model of how memories are stored.',
+   'A single synapse is unreliable, often failing to release its messenger. Reliable thought comes from many synapses working together.'],
+  rh:'A Christian view', reflect:['The chemistry of every synapse is finely balanced. “O LORD, how manifold are thy works! in wisdom hast thou made them all: the earth is full of thy riches” (Psalm 104:24).'],
+  rel:['cs_lvneu','cs_learn','cs_aras']},
+ cs_lvneu:{stats:[['~86 billion','neurons'],['~7,000','connections each, on average'],['~120 m/s','fastest signals']],
+  how:['Signals arrive on the branching dendrites.','The cell body adds up the excitement and calming.','If the total crosses a threshold, a spike races down the axon.','At the end, the spike releases messengers to the next neurons.'],
+  deep:['Neurons are supported by glial cells, which insulate axons with myelin, feed neurons, clear waste and even help to shape synapses.',
+   'Information is carried not only by how often neurons fire but also by their precise timing, and by which neurons fire together.'],
+  rh:'A Christian view', reflect:['Each of us was carefully formed: “Thine eyes did see my substance, yet being unperfect; and in thy book all my members were written, which in continuance were fashioned, when as yet there was none of them” (Psalm 139:16).'],
+  rel:['cs_lvmol','cs_lvcir','cs_mind']},
+ cs_lvcir:{stats:[['1971','place cells found'],['2005','grid cells found'],['2014','Nobel Prize']],
+  how:['Excitatory neurons pass a signal forward.','Calming (inhibitory) neurons sharpen it and keep activity in check.','Loops send the result back, so the circuit can hold, compare or repeat information.','The circuit’s output becomes input for other circuits.'],
+  deep:['The cortex is built from repeating layers and columns. The same basic circuit design, used in different places with different inputs, can handle vision, touch, language or planning.',
+   'During sleep, hippocampal circuits replay the day’s paths in fast-forward, which helps store them as memories.'],
+  rh:'A Christian view', reflect:['Small teams do what one alone cannot. “And if one prevail against him, two shall withstand him; and a threefold cord is not quickly broken” (Ecclesiastes 4:12).'],
+  rel:['cs_lvneu','cs_lvnet','cs_auto']},
+ cs_lvnet:{stats:[['4+','major networks'],['100,000+ km','of wiring'],['~200 million','fibers joining the two halves']],
+  how:['Long white-matter fibers link distant regions.','Regions that work together tend to rise and fall in activity together.','Shared rhythms help them time their signals.','Hubs, such as the parietal and prefrontal cortex, connect several networks.'],
+  deep:['Brain networks are “small-world”: most connections are local, but a few long links let any region reach any other in a few steps, like a well-planned road system.',
+   'See the Networks of the mind view for the default mode, executive, salience and attention networks in detail.'],
+  rh:'A Christian view', reflect:['Many parts, each with its own role, working as one: “For as we have many members in one body, and all members have not the same office: So we, being many, are one body in Christ, and every one members one of another” (Romans 12:4–5).'],
+  rel:['cs_networks','cs_dmn','cs_lvall']},
+ cs_lvall:{stats:[['1','person'],['Many','abilities working at once'],['~20%','of the body’s energy']],
+  how:['Senses bring in information, which attention filters.','Memory supplies what it means and what happened before.','Emotion signals what matters, and reasoning weighs the options.','A choice is made and carried out, and the result is learned from.'],
+  deep:['The mind is shaped by the body: hunger, tiredness and illness change how we think, and posture, breathing and exercise can change how we feel.',
+   'The mind is also shaped by others. Language, culture and relationships fill our minds with words, ideas and examples we could never have invented alone.'],
+  tryit:'Read this: “The cat sat on the …”. Your mind probably supplied “mat” before you reached the end. In that moment, vision, language, memory and prediction all worked together, at every level from molecules to networks.',
+  rh:'A Christian view', reflect:['The whole person is called to love God: “And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment” (Mark 12:30).'],
+  rel:['cs_emerge','cs_feel','cs_origin']},
+ cs_predict:{stats:[['1997','reward prediction error shown'],['1998','self-tickling study'],['~0.1 s','delays the brain makes up for']],
+  how:['Higher areas send predictions down to lower ones.','Lower areas compare them with what the senses report.','Only the mismatch, the prediction error, is passed back up.','The brain updates its model, so next time it predicts better.'],
+  deep:['Dopamine neurons fire more when a reward is better than expected, less when it is worse, and hardly change when it is exactly as expected. In 1997 Wolfram Schultz and colleagues showed that this matches a prediction error used for learning.',
+   'Signals from the senses take time to process, so the brain partly predicts the present. This is how a batter can hit a fast ball.'],
+  tryit:'Look at the inside of a hollow mask, or search for a picture of the “hollow mask illusion”. The face seems to bulge outward even though it is hollow. Your brain strongly expects faces to stick out, and that prediction wins over the evidence.',
+  rh:'A Christian view', reflect:['We plan and predict, but our future rests with God: “A man’s heart deviseth his way: but the LORD directeth his steps” (Proverbs 16:9).'],
+  rel:['cs_recur','cs_learn','cs_cbl']},
+ cs_learn:{stats:[['1949','Hebb’s rule'],['1973','LTP discovered'],['2000','taxi driver study']],
+  how:['Practice makes the same neurons fire together again and again.','Their synapses strengthen and new connections can grow.','Unused connections weaken and may be pruned.','With sleep, new memories are replayed and made more stable.'],
+  deep:['Donald Hebb proposed in 1949 that connections strengthen when one neuron repeatedly helps to fire another. The neuroscientist Carla Shatz later summed this up as “cells that fire together wire together”.',
+   'A child’s brain makes far more synapses than it keeps; during childhood and adolescence many are pruned, leaving the connections that are used.',
+   'Fatty myelin insulation on axons keeps developing into the mid-twenties, especially in the prefrontal cortex, speeding up signals.'],
+  rh:'A Christian view', reflect:['What we practice shapes who we become: “Train up a child in the way he should go: and when he is old, he will not depart from it” (Proverbs 22:6).'],
+  rel:['cs_lvmol','cs_auto','cs_predict']},
+ cs_auto:{stats:[['Most','processing happens without awareness'],['~40%','of daily actions are habits (one estimate)'],['2','systems: effortful and automatic']],
+  how:['A new task is handled slowly by the prefrontal cortex, with full attention.','With repetition, the basal ganglia link the situation to the action.','The cerebellum fine-tunes the timing.','The skill becomes automatic, leaving attention free.'],
+  deep:['Psychologists often describe two modes of thinking: fast, automatic and intuitive, and slow, effortful and deliberate. Both are needed, and good judgment knows when to slow down.',
+   'Breaking a habit is easier when you change the situation that triggers it and practice a new response in its place.'],
+  rh:'A Christian view', reflect:['Good habits are trained by practice: “But strong meat belongeth to them that are of full age, even those who by reason of use have their senses exercised to discern both good and evil” (Hebrews 5:14).'],
+  rel:['cs_lvcir','cs_learn','cs_cbl']},
+ cs_feel:{stats:[['1994','Descartes’ Error published'],['2','almond-shaped amygdalae'],['~0.1 s','for the amygdala to react to a threat']],
+  how:['The amygdala quickly flags something that may matter, such as a threat.','The insula reports changes in the body: a racing heart, a tight stomach.','The ventromedial prefrontal cortex weighs these feelings against goals and past outcomes.','The prefrontal cortex can reframe the situation and calm the reaction.'],
+  deep:['In a card game designed in 1994, healthy people began to avoid risky decks, and their skin showed signs of stress before risky choices, even before they could say why. Patients with ventromedial prefrontal damage kept choosing badly.',
+   'Naming a feeling, such as “I feel anxious”, has been found in brain scans to reduce amygdala activity.'],
+  rh:'A Christian view', reflect:['Emotions are part of how God made us, and they can be guided well: “Be ye angry, and sin not: let not the sun go down upon your wrath” (Ephesians 4:26).'],
+  rel:['cs_sal','cs_meta','cs_lvall']},
+ cs_emerge:{stats:[['5','levels, each built on the one below'],['0','neurons that understand a joke'],['1','person who does']],
+  how:['At each level, parts combine into something with new abilities: molecules into neurons, neurons into circuits, circuits into networks.',
+   'The higher level can be studied in its own terms: we speak of memories and choices, not just of spikes.',
+   'Scientists call this emergence. It describes how the levels relate.',
+   'Whether emergence also explains inner experience, meaning and free choice is still deeply debated.'],
+  deep:['Some examples of emergence are simple: a flock of birds turns as one without a leader, and water is wet although no single molecule is. The mind seems to be far more than these, because it understands, values and knows itself.',
+   'Christian thinkers describe the relation of soul and body in different ways. They agree that the brain is truly involved in every thought, and that a person is nevertheless more than a mechanism: a whole, created being, able to know truth and to love.'],
+  rh:'A Christian view', reflect:['The order at every level of the brain points beyond itself: “And he is before all things, and by him all things consist” (Colossians 1:17).',
+   'Our minds can grasp truth because they were made by the One who is Truth. That is why it makes sense to study the brain carefully, and to give thanks for it.'],
+  rel:['cs_hard','cs_seat','cs_lvall']},
  cs_aras:{stats:[['1949','discovered by Moruzzi and Magoun'],['5+','messenger chemicals'],['2','routes to the cortex']],
   how:['Clusters of neurons in the midbrain and upper pons make acetylcholine, noradrenaline, serotonin, dopamine and glutamate.',
    'One route climbs to the thalamus, opening its gates to the cortex.',
@@ -6641,7 +6819,7 @@ var CS={
   demo:'mask',
   myths:[['We see the world instantly and exactly as it is.','Awareness forms over about a third of a second, and the brain fills gaps and predicts. You never notice the blind spot in each eye, because the brain fills it in.'],
    ['Hidden “subliminal” messages can make people buy things.','Unseen words can have small, brief effects in the lab. The famous 1957 claim that flashing “eat popcorn” in cinemas boosted sales was later admitted to be made up.']],
-  rel:['cs_states','cs_networks','cs_origin']},
+  rel:['cs_states','cs_networks','cs_origin','cs_mind']},
  cs_sweep:{stats:[['~60 ms','to primary visual cortex'],['~150 ms','to recognize a word'],['30+','visual areas']],
   how:['The retina turns light into signals; the optic nerves cross partly at the optic chiasm.','The thalamus relay (LGN) passes them to the primary visual cortex.','Areas V2 and V4 add shape and color; the temporal lobe recognizes objects, faces and written words.'],
   demo:'spot',
@@ -6701,7 +6879,7 @@ var CS={
   myths:[['We only use 10 percent of our brains.','Brain scans show activity throughout the brain over the course of a day. Even at rest, networks such as the default mode network are busy.'],
    ['A wandering mind is always a bad thing.','On average, people report feeling a little less happy while their minds wander, but wandering also helps with planning, problem-solving and creativity. Trouble comes when it gets stuck in worry or rumination.'],
    ['People can focus fully on two demanding tasks at once.','The brain switches rapidly between them, and each switch costs time and causes more errors.']],
-  rel:['cs_states','cs_moment','cs_origin']},
+  rel:['cs_states','cs_moment','cs_origin','cs_mind']},
  cs_dmn:{stats:[['2001','named by Marcus Raichle'],['~47%','of waking moments mind-wandering'],['5','main hub areas']],
   how:['Hubs along the midline, the medial prefrontal cortex and the posterior cingulate, are linked with the angular gyrus, lateral temporal cortex and hippocampus.','They rise together when attention turns inward.','They quiet when a demanding outside task begins.'],
   tryit:'Sit quietly for one minute and focus only on your breathing. Each time you notice your mind has wandered, count it and gently come back. Most people wander several times. Brain scans suggest that the moment of noticing involves the salience network.',
@@ -6735,6 +6913,7 @@ var CS={
 var CS_VERSE={cs_states:['“And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.”','Genesis 2:7 (KJV)'],
  cs_moment:['“The spirit of man is the candle of the LORD, searching all the inward parts of the belly.”','Proverbs 20:27 (KJV)'],
  cs_origin:['“But there is a spirit in man: and the inspiration of the Almighty giveth them understanding.”','Job 32:8 (KJV)'],
+ cs_mind:['“For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.”','2 Timothy 1:7 (KJV)'],
  cs_networks:['“And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.”','Romans 12:2 (KJV)']};
 // the states map: wakefulness (x) and awareness (y), typical complexity after a zap (pci, null when not measured)
 var CS_ST={
@@ -6779,7 +6958,8 @@ var CS_ACT=(function(){
   a.base=base; return a;
 })();
 var CS_IDS=REGIONS.filter(function(r){ return r.mode==='mind'; }).map(function(r){ return r.id; });
-var CS_OVER={states:'cs_states',moment:'cs_moment',networks:'cs_networks',origin:'cs_origin'}, CS_OVERS=['cs_states','cs_moment','cs_networks','cs_origin'];
+var CS_OVER={states:'cs_states',moment:'cs_moment',networks:'cs_networks',origin:'cs_origin',mindw:'cs_mind'}, CS_OVERS=['cs_states','cs_moment','cs_networks','cs_origin','cs_mind'];
+var CS_ML={mol:['cs_lvmol','Molecules and synapses','Chemical messengers pass signals across about 100 trillion synapses.'],neu:['cs_lvneu','Neurons','About 86 billion cells, each adding up its inputs and firing or staying quiet.'],cir:['cs_lvcir','Circuits','Small teams of neurons, looping through the cortex and deep structures.'],net:['cs_lvnet','Networks','Distant regions working together across the whole brain.'],all:['cs_lvall','The whole mind','Every level at once: perceiving, remembering, feeling and choosing.']}, CS_ML_K=['mol','neu','cir','net','all'];
 var CS_OR={pow:['cs_power','The power switch','Brainstem and thalamus switch the cortex on.'],con:['cs_content','The contents','Cortex areas for color, motion, faces, sound, touch.'],self:['cs_self','The self','Areas that make experience feel like your own.']};
 var PRIORITY_CS=CS_IDS.filter(function(id){ return CS_OVERS.indexOf(id)<0; }).concat(CS_OVERS);
 // a moment of awareness: what the bar says at each point of the trial (ms)
@@ -6791,7 +6971,7 @@ var CS_PHASE_UNSEEN={280:['No ignition: the mask won the race','The activity sta
 var csv='states', csBuilt=false, csG=new THREE.Group(), csPick=[], csPaths=[], csMeshes=[], csStn=[], csStStn=[], csPhStn=[], csAnch={}, csXrayBefore=false;
 var csState='wake', csAct={}, csMoving=true, csColDirty=true, csColT=0, csSigWas=null, csZapT=-1, csRipple=null, csZapTarget=null, csCard=null, csCardTex={};
 var csT=0, csPlaying=false, csSeen=true, csWaveKey='', csMapKey='', csMoTxt='', csCardKey='';
-var csOr='pow', csOrStn=[], csNwKey='', csIn=true, csSw=1, csSwFrom=1, csSwP=1, csSal=0, csbar=$('#csbar');
+var csOr='pow', csOrStn=[], csMl='mol', csMlStn=[], csNwKey='', csIn=true, csSw=1, csSwFrom=1, csSwP=1, csSal=0, csbar=$('#csbar');
 csG.visible=false; scene.add(csG);
 function isCS(id){ return !!(id && R[id] && R[id].mode==='mind'); }
 function csSel(){ return (isCS(selected) && CS_OVERS.indexOf(selected)<0 && !R[selected].st)?selected:null; }
@@ -7006,6 +7186,58 @@ function buildMind(){
   [[V4(1),DLPFC(1)],[AUD,PCC(1)],[S1,CM(1)],[FFA,AINS(-1)]].forEach(function(e){ put('cs_hard','p',arc(e[0],e[1],0.007,HRD,0.12,0.9),xo({kind:'path',lv:'origin'})); });
   flush();
 
+  /* ---------- how the mind works view */
+  var ML={mol:R.cs_lvmol.color,neu:R.cs_lvneu.color,cir:R.cs_lvcir.color,net:R.cs_lvnet.color}, GAB='#4361ee';
+  function mo(o){ return Object.assign({lv:'mindw'},o||{}); }
+  function rdir(){ var u,v; do { u=rr(-0.85,0.85); v=rr(-0.35,0.85); } while(u*u+v*v>0.92); return lat(u,v); }
+  // level 1: a patch of cortex magnified, sprinkled with synapses
+  var PATCH=sp(lat(0.25,0.6),1,0.01), PN=V(PATCH).sub(BRAIN_C).normalize();
+  for(var mi=0;mi<70;mi++){ var off=new THREE.Vector3(rr(-1,1),rr(-1,1),rr(-1,1)); off.sub(PN.clone().multiplyScalar(off.dot(PN))); if(off.length()>1) off.normalize(); off.multiplyScalar(0.13);
+    put('cs_lvmol',mi%3?'g':'b',ball(V(PATCH).add(off),0.009,mi%3?ML.mol:GAB,0.8),mo({net:'mol'})); }
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(0.16,0.008,8,48),tmat(ML.mol,{emissive:ML.mol,emissiveIntensity:0.6})); ring.position.copy(V(PATCH)); ring.lookAt(V(PATCH).add(PN));
+  put('cs_lvmol','r',ring,mo({net:'mol'}));
+  put('cs_lvmol','h',ball(PATCH,0.15,ML.mol,0.3),mo({net:'mol',op:0.12,nopick:true,ro:8}));
+  // level 2: neurons scattered through the cortex, a few signalling
+  var NP=[]; for(var ni=0;ni<56;ni++){ var p=sp(rdir(),ni%2?1:-1,-0.04); NP.push(V(p)); put('cs_lvneu','n',ball(p,0.016,ML.neu,0.6),mo({net:'neu'})); }
+  for(var nj=0;nj<NP.length;nj+=3){ var a=NP[nj], best=null, bd=9; NP.forEach(function(q){ var d=a.distanceTo(q); if(d>0.05 && d<bd){ bd=d; best=q; } }); if(best && bd<0.5) put('cs_lvneu','p',pulse([a,a.clone().lerp(best,0.5).lerp(BRAIN_C,0.06),best],0.006,ML.neu,0.08,1.6),mo({kind:'path',net:'neu'})); }
+  // level 3: circuits (hippocampal loop, basal ganglia loop, cerebellar loop)
+  var ENT=function(s){ return [s*0.32,-0.25,0.0]; }, PONS=S(0.3,0,0.6), CBN=[cbc.x+0.2,cbc.y+0.05,cbc.z];
+  [1,-1].forEach(function(s){
+    put('cs_lvcir','p',pulse([HIP(s),[s*0.34,-0.2,-0.12],ENT(s),[s*0.26,-0.12,-0.08],HIP(s)],0.011,ML.cir,0.1,1.2),mo({kind:'path',net:'cir'}));
+    put('cs_lvcir','n',ball(HIP(s),0.035,ML.cir,0.6),mo({net:'cir'})); put('cs_lvcir','n',ball(ENT(s),0.028,ML.cir,0.6),mo({net:'cir'}));
+    put('cs_lvcir','p',pulse([CX.pm(s),STR(s),THAL(s),CX.pm(s)],0.011,ML.cir,0.1,1.2),mo({kind:'path',net:'cir'}));
+    put('cs_lvcir','n',ball(STR(s),0.035,ML.cir,0.6),mo({net:'cir'})); put('cs_lvcir','n',ball(THAL(s),0.035,ML.cir,0.6),mo({net:'cir'}));
+  });
+  put('cs_lvcir','p',pulse([CX.pm(-1),[-0.1,0.0,0.05],PONS,CBN,[-0.1,0.02,-0.15],THAL(-1),CX.pm(-1)],0.011,ML.cir,0.1,1.2),mo({kind:'path',net:'cir'}));
+  put('cs_lvcir','n',ball(CBN,0.04,ML.cir,0.6),mo({net:'cir'}));
+  // level 4: long-range networks
+  [1,-1].forEach(function(s){ [[MPFC(s),PCC(s)],[DLPFC(s),PPC(s)],[AINS(s),DACC(s)],[FEF(s),IPS(s)],[PCC(s),ANG(s)]].forEach(function(e){ put('cs_lvnet','l',arc(e[0],e[1],0.011,ML.net,0.12,1),mo({kind:'path',net:'net'})); });
+    [MPFC(s),PCC(s),DLPFC(s),PPC(s),AINS(s),FEF(s)].forEach(function(p){ put('cs_lvnet','n',ball(p,0.03,ML.net,0.6),mo({net:'net'})); }); });
+  [0.4,-0.1].forEach(function(u){ put('cs_lvnet','c',arc(sp(lat(u,0.6),1),sp(lat(u,0.6),-1),0.01,ML.net,0.12,1),mo({kind:'path',net:'net'})); });
+  // principles, shown when selected
+  var PRC=R.cs_predict.color, LRN=R.cs_learn.color, AUT=R.cs_auto.color, FEL=R.cs_feel.color, EMG=R.cs_emerge.color, VTA=function(s){ return S(0.06,s*0.25,0.35); }, VMPFC=function(s){ return [s*0.08,-0.02,0.8]; };
+  // prediction: top-down predictions and bottom-up errors, the cerebellum and the dopamine system
+  [1,-1].forEach(function(s){ put('cs_predict','d',pulse([DLPFC(s),PPC(s),V2(s),V1(s)],0.011,PRC,0.12,1.2),xo({kind:'path',lv:'mindw'})); put('cs_predict','u',pulse([V1(s),V4(s),LTC(s),DLPFC(s)],0.008,GO,0.1,1.6),xo({kind:'path',lv:'mindw'}));
+    put('cs_predict','n',ball(DLPFC(s),0.04,PRC,0.6),xo({lv:'mindw'})); put('cs_predict','n',ball(V1(s),0.035,PRC,0.6),xo({lv:'mindw'}));
+    put('cs_predict','v',ball(VTA(s),0.03,GO,0.7),xo({lv:'mindw'})); put('cs_predict','p',pulse([VTA(s),[s*0.15,0.0,0.15],STR(s)],0.009,GO,0.1,1.4),xo({kind:'path',lv:'mindw'})); });
+  put('cs_predict','c',ball(CBN,0.05,PRC,0.6),xo({lv:'mindw'}));
+  // learning: hippocampus, motor cortex, cerebellum and strengthening links
+  [1,-1].forEach(function(s){ put('cs_learn','h',ball(HIP(s),0.045,LRN,0.7),xo({lv:'mindw'})); put('cs_learn','g',ball(HIP(s),0.085,LRN,0.4),xo({lv:'mindw',op:0.18,nopick:true,ro:8}));
+    put('cs_learn','p',arc(HIP(s),CX.te(s),0.012,LRN,0.1,1.4),xo({kind:'path',lv:'mindw'})); put('cs_learn','p',arc(HIP(s),CX.pf(s),0.01,LRN,0.1,1.4),xo({kind:'path',lv:'mindw'})); });
+  put('cs_learn','m',ball(M1,0.04,LRN,0.6),xo({lv:'mindw'})); put('cs_learn','m',ball(CBN,0.045,LRN,0.6),xo({lv:'mindw'}));
+  // habits: prefrontal hands over to the basal ganglia and cerebellum
+  [1,-1].forEach(function(s){ put('cs_auto','b',ball(STR(s),0.05,AUT,0.7),xo({lv:'mindw'})); put('cs_auto','g',ball(STR(s),0.09,AUT,0.4),xo({lv:'mindw',op:0.18,nopick:true,ro:8}));
+    put('cs_auto','p',pulse([CX.pm(s),STR(s),THAL(s),CX.pm(s)],0.011,AUT,0.1,1.4),xo({kind:'path',lv:'mindw'})); put('cs_auto','f',ball(DLPFC(s),0.035,'#90a4ae',0.3),xo({lv:'mindw'})); });
+  put('cs_auto','c',ball(CBN,0.05,AUT,0.6),xo({lv:'mindw'}));
+  // reason and emotion: amygdala, insula and ventromedial prefrontal cortex
+  [1,-1].forEach(function(s){ put('cs_feel','a',ball(AMY(s),0.045,FEL,0.7),xo({lv:'mindw'})); put('cs_feel','v',ball(VMPFC(s),0.045,'#ffd166',0.7),xo({lv:'mindw'})); put('cs_feel','i',ball(AINS(s),0.038,'#f15bb5',0.6),xo({lv:'mindw'}));
+    put('cs_feel','p',arc(AMY(s),VMPFC(s),0.011,FEL,0.1,1.4),xo({kind:'path',lv:'mindw'})); put('cs_feel','p',arc(AINS(s),VMPFC(s),0.009,'#f15bb5',0.1,1.4),xo({kind:'path',lv:'mindw'})); });
+  // emergence: one point from each level, joined
+  var EP=[PATCH,NP[4],NP[11],HIP(1),STR(-1),MPFC(1),PCC(-1),DLPFC(1),PPC(-1)];
+  EP.forEach(function(p,i){ put('cs_emerge','n',ball(p,i<3?0.025:0.035,EMG,0.6),xo({lv:'mindw'})); });
+  for(var ei=0;ei<EP.length-1;ei++) put('cs_emerge','p',arc(EP[ei],EP[ei+1],0.008,EMG,0.12,1),xo({kind:'path',lv:'mindw'}));
+  flush();
+
   /* ---------- label points and stations */
   function A(id,p){ csAnch[id]={p:V(p),n:null}; }
   A('cs_states',[0,0.8,0]); A('cs_aras',S(0.2,1.6,-0.4)); A('cs_cthal',[0.09,0.22,-0.04]); A('cs_pci',cc.clone().add(nrm.clone().multiplyScalar(0.1)));
@@ -7041,6 +7273,21 @@ function buildMind(){
   var orl={pow:[['Upper brainstem core',S(0.2,0.5,-0.4),POW],['Central thalamus',CM(1),POW]],con:CON.map(function(c){ return [c[2],c[0],c[1]]; }),
     self:[['Insula: the body from within',AINS(-1),SLF],['Temporoparietal junction',TPJ,SLF],['Premotor: this body is mine',CX.pm(1),SLF],['Midline: thinking about yourself',PCC(1),SLF]]};
   Object.keys(orl).forEach(function(k){ orl[k].forEach(function(st){ csOrStn.push({el:lbl(st[0],st[2]),p:V(st[1]),n:null,ly:k}); }); });
+  A('cs_mind',[0,0.85,0]); A('cs_lvmol',PATCH.clone?PATCH.clone().add(PN.clone().multiplyScalar(0.05)):PATCH); A('cs_lvneu',NP[6]); A('cs_lvcir',[0.1,0.34,-0.05]); A('cs_lvnet',PPC(-1)); A('cs_lvall',[0,0.95,-0.1]);
+  A('cs_predict',V1(1)); A('cs_learn',CX.te(1)); A('cs_auto',STR(-1)); A('cs_feel',AMY(1)); A('cs_emerge',sp([0.05,0.85,0.55],1));
+  stations('cs_lvmol',[['Synapses: about 100 trillion',PATCH],['Glutamate excites (green), GABA calms (blue)',V(PATCH).add(PN.clone().multiplyScalar(0.02)).add(new THREE.Vector3(0,-0.15,0))]]);
+  stations('cs_lvneu',[['Neurons fire, or stay quiet',NP[2]],['Signals pass to neighbors',NP[9]]]);
+  stations('cs_lvcir',[['Hippocampal loop: places and memories',HIP(-1)],['Basal ganglia loop: choosing actions',STR(1)],['Thalamus',THAL(1)],['Cerebellar loop: timing',CBN]]);
+  stations('cs_lvnet',[['Default mode: memory and reflection',PCC(1)],['Executive: tasks and goals',DLPFC(-1)],['Salience: what matters',AINS(1)],['Attention',FEF(-1)]]);
+  stations('cs_predict',[['Predictions flow down',PPC(1)],['Errors flow up',LTC(-1)],['Cerebellum: predicts your own movements',CBN],['Dopamine: better or worse than expected',VTA(1)]]);
+  stations('cs_learn',[['Hippocampus: new memories',HIP(-1)],['Stored in the cortex',CX.te(1)],['Motor cortex and cerebellum: skills',M1]]);
+  stations('cs_auto',[['Basal ganglia: habits',STR(1)],['Prefrontal: needed less with practice',DLPFC(-1)],['Cerebellum: smooth timing',CBN]]);
+  stations('cs_feel',[['Amygdala: what matters',AMY(-1)],['Insula: body feelings',AINS(1)],['Ventromedial prefrontal: value and choice',VMPFC(-1)]]);
+  stations('cs_emerge',[['Molecules',PATCH],['Neurons',NP[11]],['Circuits',HIP(1)],['Networks',PCC(-1)]]);
+  var mll={neu:[['Firing neuron',NP[2],ML.neu],['Quiet neuron',NP[17],ML.neu]],
+    cir:[['Hippocampal loop',HIP(1),ML.cir],['Basal ganglia loop',STR(1),ML.cir],['Cerebellar loop',CBN,ML.cir]],
+    net:[['Default mode',PCC(1),ML.net],['Executive',DLPFC(-1),ML.net],['Salience',AINS(1),ML.net]]};
+  Object.keys(mll).forEach(function(k){ mll[k].forEach(function(st){ csMlStn.push({el:lbl(st[0],st[2]),p:V(st[1]),n:null,ly:k}); }); });
   // labels for each state
   var stl={wake:[['Prefrontal and parietal: richly connected','prefrontal'],['Thalamus: gate open',THAL(1)],['Arousal system: on',S(0.25,1.4,-0.3)]],
     lis:[['Front of the pons: motor pathways cut',S(0.36,0.4,0.9)],['Cortex: fully aware','parietal'],['Midbrain: eye movements spared',S(0.02,1.3,0.4)]],
@@ -7064,6 +7311,7 @@ function csLabelOK(id){
   var s=csSel(); if(s) return s===id;
   if(csv==='moment' && csT>0) return selected===id;
   if(id==='cs_pci') return selected===id || csZapT>=0;
+  if(csv==='mindw' && csMl!=='all') return R[id].ml===csMl || selected===id;
   return CS_OVERS.indexOf(id)<0 || selected===id;
 }
 // activity of brain regions during the moment of awareness
@@ -7120,6 +7368,7 @@ function csLevel(u){
     if(u.net==='salsw') return csSal;
     return 0.55; }
   if(csv==='origin') return u.net===csOr?1:0.12;
+  if(csv==='mindw') return csMl==='all'?0.7:(u.net===csMl?1:0.1);
   return 0.5;
 }
 function applyMindColors(){
@@ -7152,8 +7401,8 @@ function csSetState(k){
 function csZap(){ if(!csBuilt) return; csZapT=0; csColDirty=true; kick(2500); }
 function csSetView(v,keep){
   if(v===csv) return; csv=v;
-  [['#cvSt','states'],['#cvMo','moment'],['#cvNw','networks'],['#cvOr','origin']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
-  app.classList.toggle('cv-states',v==='states'); app.classList.toggle('cv-moment',v==='moment'); app.classList.toggle('cv-networks',v==='networks'); app.classList.toggle('cv-origin',v==='origin');
+  [['#cvSt','states'],['#cvMo','moment'],['#cvNw','networks'],['#cvOr','origin'],['#cvMw','mindw']].forEach(function(b){ var on=b[1]===v; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
+  app.classList.toggle('cv-states',v==='states'); app.classList.toggle('cv-moment',v==='moment'); app.classList.toggle('cv-networks',v==='networks'); app.classList.toggle('cv-origin',v==='origin'); app.classList.toggle('cv-mindw',v==='mindw');
   if(v!=='moment') csPlaying=false; if(v!=='states'){ csZapT=-1; if(csRipple) csRipple.visible=false; } if(v!=='networks' && csSwP<1){ csSwP=1; csSw=csIn?1:0; csSal=0; }
   setCSAnchors();
   if(!keep && isCS(selected) && R[selected].lv!==v){ selected=null; panel.classList.remove('open'); app.classList.remove('panel-open'); }
@@ -7164,6 +7413,9 @@ function csSetView(v,keep){
 function csSetOr(k){ if(!CS_OR[k]) return; csOr=k;
   [['#csPow','pow'],['#csCon','con'],['#csSelf','self']].forEach(function(b){ var on=b[1]===k; $(b[0]).classList.toggle('on',on); $(b[0]).setAttribute('aria-selected',on?'true':'false'); });
   $('#csOrT').textContent=CS_OR[k][1]; $('#csOrS').textContent=CS_OR[k][2]; csColDirty=true; kick(); }
+function csSetMl(k){ if(!CS_ML[k]) return; csMl=k;
+  CS_ML_K.forEach(function(x,i){ var b=$('#csL'+i), on=x===k; b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false'); });
+  $('#csMlT').textContent=(CS_ML_K.indexOf(k)+1)+'. '+CS_ML[k][1]; $('#csMlS').textContent=CS_ML[k][2]; csColDirty=true; kick(); }
 function csSetIn(v,instant){ csIn=v; $('#csIn').classList.toggle('on',v); $('#csOut').classList.toggle('on',!v); $('#csIn').setAttribute('aria-selected',v?'true':'false'); $('#csOut').setAttribute('aria-selected',v?'false':'true');
   $('#csNwT').textContent=v?'Looking inward: the default mode network':'Focusing outward: executive and attention networks';
   $('#csNwS').textContent=v?'Remembering, imagining and reflecting; task networks quiet down.':'Working on a task and attending to the world; the default mode network quiets.';
@@ -7247,7 +7499,8 @@ function updateMindStations(taken){
   var lists=[[csStn,function(st){ return mode==='mind' && st.id===selected && R[st.id].lv===csv; }],
     [csStStn,function(st){ return mode==='mind' && csv==='states' && !sel && st.st===csState; }],
     [csPhStn,function(st){ return mode==='mind' && csv==='moment' && !sel && (csT>0 || csPlaying) && csT>=st.a && csT<=st.b && (st.cond==='both' || (st.cond==='seen')===csSeen); }],
-    [csOrStn,function(st){ return mode==='mind' && csv==='origin' && !sel && st.ly===csOr; }]];
+    [csOrStn,function(st){ return mode==='mind' && csv==='origin' && !sel && st.ly===csOr; }],
+    [csMlStn,function(st){ return mode==='mind' && csv==='mindw' && !sel && st.ly===csMl; }]];
   lists.forEach(function(L){ L[0].forEach(function(st){
     if(!showLabels || !L[1](st)){ setLbl(st.el,false); return; }
     if(st.n){ tmpD.copy(camera.position).sub(st.p).normalize(); if(st.n.dot(tmpD)<0.1){ setLbl(st.el,false); return; } }
@@ -7260,7 +7513,7 @@ function updateMindStations(taken){
 function csPickAt(){
   var h=rc.intersectObjects(csPick.filter(function(m){ return m.visible && m.userData.on>0.12; }),false); if(h.length) return h[0].object.userData.region;
   if(csv==='networks') return null;
-  if(csv==='origin') return null;
+  if(csv==='origin' || csv==='mindw') return null;
   var hits=rc.intersectObjects(pickables.filter(function(m){ return m.visible; }),false); if(!hits.length) return null;
   if(csv==='states') return CS_ST[csState].id;
   if(csT<=0 && !csPlaying) return 'cs_moment';
@@ -7273,17 +7526,17 @@ function mindFocus(r){
 }
 function enterMind(){
   buildMind(); csXrayBefore=xray; xrayTo(true);
-  csbar.hidden=false; app.classList.add('bar-sl','bar-cs'); app.classList.toggle('cv-states',csv==='states'); app.classList.toggle('cv-moment',csv==='moment'); app.classList.toggle('cv-networks',csv==='networks'); app.classList.toggle('cv-origin',csv==='origin');
+  csbar.hidden=false; app.classList.add('bar-sl','bar-cs'); app.classList.toggle('cv-states',csv==='states'); app.classList.toggle('cv-moment',csv==='moment'); app.classList.toggle('cv-networks',csv==='networks'); app.classList.toggle('cv-origin',csv==='origin'); app.classList.toggle('cv-mindw',csv==='mindw');
   for(var ci=0;ci<csMeshes.length;ci++) csMeshes[ci].userData.key=null;
-  csAct={}; csMoving=true; csColDirty=true; csMoTxt=''; csSetState(csState); csSetIn(csIn,true); csSetSeen(csSeen); csSetOr(csOr); csSetPlayIcon(); setCSAnchors();
+  csAct={}; csMoving=true; csColDirty=true; csMoTxt=''; csSetState(csState); csSetIn(csIn,true); csSetSeen(csSeen); csSetOr(csOr); csSetMl(csMl); csSetPlayIcon(); setCSAnchors();
   app.style.setProperty('--dbh',csbar.offsetHeight+'px'); csWaveKey='';
 }
-function leaveMind(){ csPlaying=false; csZapT=-1; if(csRipple) csRipple.visible=false; xrayTo(csXrayBefore); csbar.hidden=true; app.classList.remove('bar-sl','bar-cs','cv-states','cv-moment','cv-networks','cv-origin'); }
+function leaveMind(){ csPlaying=false; csZapT=-1; if(csRipple) csRipple.visible=false; xrayTo(csXrayBefore); csbar.hidden=true; app.classList.remove('bar-sl','bar-cs','cv-states','cv-moment','cv-networks','cv-origin','cv-mindw'); }
 function fillMind(r){
   var d=CS[r.id]||{}, tree=$('#pTree'); tree.hidden=false;
   if(d.stats){ var fx=el('div','facts'); d.stats.forEach(function(s){ var c=el('div'); c.appendChild(el('b',null,s[0])); c.appendChild(el('span',null,s[1])); fx.appendChild(c); }); tree.appendChild(fx); }
   senseList(r.hFuncs||'What it does',r.funcs);
-  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks|covert|split|origin|power|will)$/.test(r.id));
+  if(d.how) senseList('How it works',d.how,/^cs_(moment|pci|ignite|sweep|states|networks|covert|split|origin|power|will|mind|lvmol|lvneu|lvcir|predict|learn|auto|feel|emerge)$/.test(r.id));
   if(d.signs) senseList('What doctors look for',d.signs);
   if(d.deep) senseList('A deeper look',d.deep);
   if(d.theories){ tree.appendChild(el('h3',null,'Leading theories compared'));
@@ -7347,6 +7600,9 @@ $('#cvSt').addEventListener('click',function(){ csSetView('states'); });
 $('#cvMo').addEventListener('click',function(){ csSetView('moment'); });
 $('#cvNw').addEventListener('click',function(){ csSetView('networks'); });
 $('#cvOr').addEventListener('click',function(){ csSetView('origin'); });
+$('#cvMw').addEventListener('click',function(){ csSetView('mindw'); });
+CS_ML_K.forEach(function(k,i){ $('#csL'+i).addEventListener('click',function(){ csSetMl(k); }); });
+$('#csMlInfo').addEventListener('click',function(){ select(CS_ML[csMl][0]); });
 $('#csPow').addEventListener('click',function(){ csSetOr('pow'); });
 $('#csCon').addEventListener('click',function(){ csSetOr('con'); });
 $('#csSelf').addEventListener('click',function(){ csSetOr('self'); });
@@ -7603,7 +7859,7 @@ function frame(now){
   cur.az+=(tgt.az-cur.az)*k; cur.el+=(tgt.el-cur.el)*k; cur.zoom+=(tgt.zoom-cur.zoom)*k;
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
-  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:(csv==='origin'?0.6:0.82))):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
+  cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:(csv==='origin'?0.6:(csv==='mindw'?0.6:0.82)))):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
   for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }

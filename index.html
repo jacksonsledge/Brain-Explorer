@@ -144,7 +144,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .cv-mindw .cs-mw{display:block}
 .cs-mw .db-top{flex-wrap:wrap;row-gap:6px} .cs-mw .db-view{flex:1 0 100%;display:flex} .cs-mw .db-view button{flex:1 1 0;min-width:0;padding-left:4px;padding-right:4px;overflow:hidden;text-overflow:ellipsis} .cs-mw .db-stage{flex:1 1 0}
 .cv-origin .cs-or{display:block}
-@media (max-width:560px){ .cs-or .db-top{flex-wrap:wrap;row-gap:4px} .cs-or .db-stage{order:3;flex:1 0 100%} }
+@media (max-width:560px){ .cs-or .db-top{flex-wrap:wrap;row-gap:4px} .cs-or .db-stage{order:3;flex:1 0 100%} .cs-or .db-stage span,.cs-mw .db-stage span{white-space:normal} .cs-nw .db-top{flex-wrap:wrap;row-gap:4px} .cs-nw .db-stage{order:3;flex:1 0 100%} }
 .cs-pci{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)}
 .cs-pci b{color:var(--ink);font-weight:700;white-space:nowrap}
 .cs-track{position:relative;flex:1;height:8px;border-radius:99px;background:var(--soft);min-width:40px}
@@ -536,7 +536,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#128066;</span><span>Open Senses of the mind to see how each sense is detected, how its signals reach the brain, and how the brain makes sense of them.</span></li>
         <li><span class="ic">&#128161;</span><span>Open Thinking organs of the mind to look closely at the cerebrum, the six layers of the neocortex and the cerebellum, and see how they work.</span></li>
         <li><span class="ic">&#128268;</span><span>Open The hardware of the mind to see a neuron up close, dendrites at work in a network, grey and white matter, and how the whole brain communicates.</span></li>
-        <li><span class="ic">&#10024;</span><span>Open Consciousness and the brain to explore states of consciousness, watch a moment of awareness ignite across the brain, and turn the mind’s networks inward or outward.</span></li>
+        <li><span class="ic">&#10024;</span><span>Open Consciousness and the brain to explore states of consciousness, watch a moment of awareness ignite across the brain, turn the mind’s networks inward or outward, discover what consciousness is and where it comes from, and climb the levels from molecules to mind.</span></li>
         <li><span class="ic">&#127769;</span><span>Open Sleep and the brain to play through a night of sleep stage by stage, and see the circuits that switch the brain between waking and sleeping.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
       </ul>
@@ -7805,9 +7805,14 @@ function updateLevelLabels(taken){
     if(taken.some(function(t){ return Math.abs(x-t.x)<(w+t.w)/2 && Math.abs(y-t.y)<22; })){ setLbl(e.el,false); return; }
     setLbl(e.el,true,x,y); });
 }
-var labTop=0, labBot=1e9, toolsL=1e9, toolsB=-1, toolsEl=$('#tools');
+var labTop=0, labBot=1e9, toolsL=1e9, toolsB=-1, toolsEl=$('#tools'), zoomEl=$('#zoom');
 function updateLabels(){
-  toolsL=toolsEl.offsetLeft||1e9; toolsB=toolsEl.offsetTop+toolsEl.offsetHeight;
+  // the buttons can wrap into two columns on small phones, so measure each one
+  // the buttons can wrap into several columns or a row on small phones, so measure each one
+  toolsL=1e9; toolsB=-1; var ar=app.getBoundingClientRect(), blocks=[];
+  [toolsEl,zoomEl].forEach(function(box){ for(var ti=0;ti<box.children.length;ti++){ var tr=box.children[ti].getBoundingClientRect(); if(!tr.width) continue;
+    if(box===toolsEl){ toolsL=Math.min(toolsL,tr.left-ar.left); toolsB=Math.max(toolsB,tr.bottom-ar.top); }
+    for(var ty=tr.top+12;ty<tr.bottom;ty+=24) blocks.push({x:(tr.left+tr.right)/2-ar.left,y:ty-ar.top,w:tr.width}); } });
   labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?H-panel.offsetHeight:1e9;
   var items={};
   REGIONS.forEach(function(r){
@@ -7836,7 +7841,7 @@ function updateLabels(){
     }
     if(!show) setLbl(labelEls[r.id],false);
   });
-  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='hw'?PRIORITY_HW:mode==='sleep'?PRIORITY_SL:mode==='mind'?PRIORITY_CS:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=[];
+  var pri=mode==='diseases'?dPri:mode==='senses'?PRIORITY_SE:mode==='think'?PRIORITY_TH:mode==='hw'?PRIORITY_HW:mode==='sleep'?PRIORITY_SL:mode==='mind'?PRIORITY_CS:mode==='spine'?PRIORITY_SP:mode==='nerves'?PRIORITY_N:(mode==='sections'?PRIORITY_S:PRIORITY), order=selected?[selected].concat(pri):pri, taken=blocks;
   order.forEach(function(id){
     var it=items[id]; if(!it || it.done) return; it.done=true;
     var el=labelEls[id], w=(el._w||80)+6, hit=false; it.x=lblX(el,it.x,it.y);

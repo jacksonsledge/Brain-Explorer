@@ -11,6 +11,9 @@
 <meta name="theme-color" content="#d0daee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#070b1a" media="(prefers-color-scheme: dark)">
 <title>Brain Explorer</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -591,6 +594,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
         <li><span class="ic">&#10024;</span><span>Open Consciousness and the brain to explore states of consciousness, watch a moment of awareness ignite across the brain, turn the mind’s networks inward or outward, discover what consciousness is and where it comes from, and climb the levels from molecules to mind.</span></li>
         <li><span class="ic">&#127769;</span><span>Open Sleep and the brain to play through a night of sleep stage by stage, and see the circuits that switch the brain between waking and sleeping.</span></li>
         <li><span class="ic">&#10084;&#65039;</span><span>Show or hide the blood vessels and their flow with the buttons on the right.</span></li>
+        <li><span class="ic">&#128241;</span><span>After your first visit, Brain Explorer works offline. Add it to your home screen to use it like an app.</span></li>
       </ul>
       <div class="facts">
         <div><b>86 billion</b><span>nerve cells</span></div>
@@ -3936,6 +3940,8 @@ $('#meClose').addEventListener('click',function(){ closeMe(); });
 meEl.addEventListener('click',function(e){ if(e.target===meEl) closeMe(); });
 meEl.addEventListener('keydown',function(e){ if(e.key!=='Tab') return; var f=meEl.querySelectorAll('button:not([disabled]),[href],textarea,input:not([hidden])'); if(!f.length) return; var a=f[0], z=f[f.length-1];
   if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); } });
+// keep the app working offline (sw.js sits next to this page)
+if('serviceWorker' in navigator && window.isSecureContext && /^https?:$/.test(location.protocol)) window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 $('#goBtn').addEventListener('click',function(){ intro.classList.add('hidden'); canvas.focus({preventScroll:true}); });
 $('#infoBtn').addEventListener('click',function(){ intro.classList.remove('hidden'); $('#goBtn').focus(); });
 window.addEventListener('keydown',function(e){

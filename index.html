@@ -433,6 +433,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .go{width:100%;margin-top:14px;min-height:48px;border:0;border-radius:14px;background:var(--accent);color:var(--onaccent);
   font:700 16px var(--head);cursor:pointer}
 .note{margin:10px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.note a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 #fallback{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:24px;text-align:center;background:var(--bg2)}
 #fallback[hidden]{display:none}
 </style>
@@ -598,7 +599,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       </div>
       <div class="verse">&ldquo;I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works.&rdquo;<small>Psalm 139:14 (KJV)</small></div>
       <button class="go" id="goBtn">Start exploring</button>
-      <p class="note">A simplified model for learning, not a medical atlas.</p>
+      <p class="note">A simplified model for learning, not a medical atlas. Facts checked against <a href="https://openstax.org/details/books/anatomy-and-physiology-2e" target="_blank" rel="noopener">OpenStax Anatomy and Physiology 2e</a>.</p>
     </div>
   </div>
 
@@ -763,7 +764,7 @@ var REGIONS = [
   summary:'Essential for turning today\u2019s experiences into lasting memories, and for building your mental map of places.',
   funcs:['Forming new long-term memories','Spatial memory and navigation','Linking memories to where and when they happened'],
   damage:'Can make it very hard to form new memories. It is one of the first areas affected in Alzheimer\u2019s disease.',
-  fact:'Patient H.M. had both hippocampi removed in 1953 to treat seizures. He could no longer form new lasting memories, yet he could still learn new physical skills.',
+  fact:'Patient H.M. had most of both hippocampi and nearby tissue removed in 1953 to treat seizures. He could no longer form new lasting memories, yet he could still learn new physical skills.',
   view:{az:20,el:-5}},
  {id:'amygdala',kind:'deep',name:'Amygdala',short:'Amygdala',color:'#ff4d6d',
   where:'Almond-shaped cluster in front of the hippocampus',
@@ -823,7 +824,7 @@ var REGIONS = [
   summary:'The main supply line for the front and middle of the brain. Each one carries oxygen-rich blood up from the heart and feeds the anterior and middle cerebral arteries.',
   funcs:['Carry oxygen-rich blood from the heart to the brain','Supply the eyes through a small branch','Feed the anterior and middle cerebral arteries'],
   damage:'Narrowing from fatty plaque can lead to a stroke. A sudden blockage may cause one-sided weakness, trouble speaking, or loss of vision in one eye.',
-  fact:'You can feel the pulse of the carotid artery at the side of your neck, just below the jaw.',
+  fact:'You can feel your pulse in the common carotid artery, which feeds this one, at the side of your neck just below the jaw.',
   view:{az:40,el:-15}},
  {id:'vertebral',kind:'vessel',name:'Vertebral and Basilar Arteries',short:'Vertebral and basilar',color:'#c1121f',
   where:'Two arteries climbing through the neck bones that join into one basilar artery on the front of the brainstem',
@@ -1255,7 +1256,7 @@ var REGIONS = [
  {id:'sc_drg',kind:'sc',mode:'spine',sv:'cross',group:'Roots and nerves',name:'Dorsal Root Ganglion',short:'Dorsal root ganglion',color:'#ffb74d',
   where:'Swelling on the dorsal root, in the opening between vertebrae',
   summary:'Holds the cell bodies of sensory neurons. Each has one long branch running out to the skin or muscle and another running into the cord.',
-  funcs:['Houses the sensory nerve cell bodies','Relays every sensation from the body into the cord'],
+  funcs:['Houses the sensory nerve cell bodies','Its neurons carry sensations from the body and limbs into the cord'],
   damage:'The chickenpox virus can hide here for decades and later reactivate as shingles.',
   fact:'These neurons have a single stem that splits in two, a shape called pseudounipolar.',
   view:{az:20,el:25},at:[0.8,-0.12,-0.36],zoom:0.45},
@@ -1367,7 +1368,7 @@ var REGIONS = [
  {id:'sc_cervical',kind:'sc',mode:'spine',sv:'whole',group:'Whole cord',name:'Cervical Cord',short:'Cervical (C1\u2013C8)',color:'#64b5f6',
   where:'Neck section, inside vertebrae C1 to C7',
   summary:'Eight pairs of cervical nerves leave here. The cervical enlargement (C5\u2013T1) is wider because it holds the many nerve cells for the arms and hands, which form the brachial plexus. Segments C3\u2013C5 also supply the diaphragm.',
-  funcs:['Controls the neck, shoulders, arms and hands','Supplies the diaphragm for breathing (C3\u2013C5)','Carries every signal between the brain and the rest of the body'],
+  funcs:['Controls the neck, shoulders, arms and hands','Supplies the diaphragm for breathing (C3\u2013C5)','Carries signals between the brain and everything below the neck'],
   damage:'An injury here can affect all four limbs (tetraplegia). Injuries at C3 or above can stop a person from breathing on their own.',
   fact:'There are 8 cervical nerves but only 7 cervical vertebrae: C1 to C7 leave above their vertebra, and C8 leaves below C7.',
   view:{az:15,el:5},at:[0,1.5,-0.06],zoom:0.35},
@@ -1446,7 +1447,7 @@ var REGIONS = [
   summary:'Supplies the lower belly wall, groin and the front and inner thigh.',
   funcs:['Forms the femoral and obturator nerves','Hip flexing and knee straightening','Feeling in the front of the thigh'],
   damage:'Damage weakens hip flexing and knee straightening and numbs the thigh.',
-  fact:'Its roots leave the spine through the lower lumbar openings, well below the cord segments they come from.',
+  fact:'Its roots leave the spine through the lumbar openings, well below the cord segments they come from.',
   view:{az:30,el:5},at:[0.21,0.37,-0.05],zoom:0.4},
  {id:'sc_pl_sacr',kind:'sc',mode:'spine',sv:'whole',group:'Plexuses',name:'Sacral Plexus',short:'Sacral plexus (L4\u2013S4)',color:'#ce93d8',
   where:'Formed by L4 to S4 on the back wall of the pelvis',
@@ -1701,7 +1702,7 @@ var REGIONS = [
   summary:'The paravermis compares the movement you intended with signals from the spinal cord about the movement actually happening, and corrects the arms and legs while they move.',
   funcs:['Correcting limb movements as they happen','Receives position signals from the spinal cord','Sends output through the interposed nuclei (emboliform and globose)'],
   damage:'Damage makes limb movements overshoot or undershoot (dysmetria) and causes a tremor that worsens near the target (intention tremor).',
-  fact:'The finger-to-nose test, where you touch your nose and then a doctor’s finger, checks how well this part of the cerebellum is working.',
+  fact:'The finger-to-nose test, where you touch your nose and then a doctor’s finger, checks how well the cerebellum guides the arm, work shared by this zone and the lateral hemispheres.',
   view:{az:-75,el:40}, zoom:0.85},
  {id:'th_cb_lat',kind:'think',mode:'think',tv:'cerebellum',group:'Cerebellum: parts',name:'Cerebellar Hemispheres (Lateral Zone)',short:'Hemispheres',color:'#a78bfa',
   where:'The large outer parts on the left and right',
@@ -1771,7 +1772,7 @@ var REGIONS = [
   summary:'A neuron is a nerve cell built to receive, combine and send signals. Dendrites gather input, the cell body keeps the cell alive and adds the signals up, and a single axon carries the result, as an electrical pulse, to other cells. This model shows one typical neuron, greatly enlarged.',
   funcs:['Receiving signals from thousands of other neurons','Deciding, by adding signals up, whether to fire','Sending electrical pulses along the axon, sometimes a meter or more','Passing the message on with chemical messengers at synapses','Changing its connections as you learn'],
   damage:'Most neurons in the brain are not replaced when they die, so damage from a stroke, injury or a disease such as Alzheimer’s is usually permanent. The brain can partly compensate by re-routing signals and strengthening other connections.',
-  fact:'The brain has about 86 billion neurons, and about as many glial cells that support them. Each neuron connects to roughly a thousand others on average, making more than 100 trillion connections.',
+  fact:'The brain has about 86 billion neurons, and about as many glial cells that support them. Each neuron connects to thousands of others, making around 100 trillion connections or more.',
   view:{az:90,el:12}, zoom:1},
  {id:'hw_soma',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Cell Body (Soma)',short:'Cell body',color:'#ff8fa3',
   where:'The rounded center of the neuron, 5 to 100 micrometers across',
@@ -1810,10 +1811,10 @@ var REGIONS = [
   view:{az:90,el:15}, at:[0.72,0,0], zoom:0.4},
  {id:'hw_axon',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Axon',short:'Axon',color:'#f4a261',
   where:'The single long fiber leaving the cell body',
-  summary:'The axon is the neuron’s output cable. It carries the action potential, a brief electrical pulse, away from the cell body without fading, and branches at its end to reach other cells. Most axons in the brain are shorter than a millimeter; some reach from the brain to the base of the spine.',
+  summary:'The axon is the neuron’s output cable. It carries the action potential, a brief electrical pulse, away from the cell body without fading, and branches at its end to reach other cells. Some axons in the brain are shorter than a millimeter; others reach from the brain all the way down the spinal cord.',
   funcs:['Carrying action potentials at a steady strength','Transporting proteins and vesicles along internal tracks (axonal transport)','Branching to reach many target cells'],
   damage:'A cut axon in a nerve of the arm or leg can regrow about a millimeter a day. Axons inside the brain and spinal cord usually do not regrow, which is why spinal cord injuries are so serious.',
-  fact:'The longest axons in the body run from the base of the spine to the toes, about a meter long, yet only about 10 micrometers wide.',
+  fact:'Some of the longest axons run from the lower spinal cord to the toes, about a meter long, yet only about 10 micrometers wide.',
   view:{az:90,el:12}, at:[-0.6,0,0], zoom:0.75},
  {id:'hw_myelin',kind:'hw',mode:'hw',hv:'neuron',group:'Neuron: parts',name:'Myelin Sheath',short:'Myelin',color:'#f3ecd8',
   where:'Fatty wrapping around the axon, in segments',
@@ -1868,7 +1869,7 @@ var REGIONS = [
   where:'Starts at the axon hillock and travels down the axon',
   summary:'The action potential is the neuron’s signal: a brief electrical pulse about a millisecond long. At rest the inside of the cell is about −70 millivolts. If inputs push it to about −55 mV, sodium channels snap open, the inside swings positive, and potassium flowing out resets it. The pulse is all-or-none: it either happens fully or not at all.',
   funcs:['Carrying information along the axon without fading','Coding strength as how often pulses fire, not how big they are','Travelling at 1 to 120 meters per second depending on myelin'],
-  damage:'Local anesthetics such as lidocaine block the sodium channels, so pain signals cannot start. Some poisons, such as tetrodotoxin from pufferfish, block them permanently and are deadly.',
+  damage:'Local anesthetics such as lidocaine block the sodium channels, so pain signals cannot start. Some poisons, such as tetrodotoxin from pufferfish, block them so strongly that the breathing muscles stop, which can be deadly.',
   fact:'Alan Hodgkin and Andrew Huxley worked out how the action potential works using the giant axon of a squid. They won a Nobel Prize in 1963.',
   view:{az:90,el:12}, at:[-0.4,0,0], zoom:0.85},
 
@@ -1895,7 +1896,7 @@ var REGIONS = [
   view:{az:90,el:15}, at:[0,0.15,0], zoom:0.55},
  {id:'hw_sum',kind:'hw',mode:'hw',hv:'dendrites',group:'Dendrites at work: parts',name:'Summation: Adding It All Up',short:'Summation',color:'#ff9f1c',
   where:'Across the dendrites and at the cell body',
-  summary:'A neuron fires only if enough excitation arrives close together in time and space. Signals arriving at the same moment add up (temporal summation), and signals from neighboring branches add up as they flow toward the cell body (spatial summation). The sum is read at the axon hillock.',
+  summary:'A neuron fires only if enough excitation arrives close together in time and space. Signals arriving in quick succession at the same spot add up (temporal summation), and signals arriving at different places on the dendrites add up as they flow toward the cell body (spatial summation). The sum is read at the axon hillock.',
   funcs:['Combining hundreds of small signals into one decision','Weighing timing: signals arriving together count for more','Weighing position: inputs near the cell body count for more','Dendrites can also produce their own local spikes, adding a layer of computation'],
   damage:'Drugs that change ion channels in dendrites change how signals add up. This is one way some epilepsy and migraine medicines work.',
   fact:'A single excitatory input moves the cell body by less than a millivolt. Reaching threshold typically needs dozens of inputs within a few milliseconds.',
@@ -1931,7 +1932,7 @@ var REGIONS = [
   view:{az:90,el:10}, at:[0,0.1,0], zoom:0.8},
  {id:'hw_white',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: parts',name:'White Matter',short:'White matter',color:'#f3ecd8',
   where:'Beneath the cortex and between the deep nuclei',
-  summary:'White matter is made of millions of myelinated axons bundled into tracts, with the oligodendrocytes that wrap them. It carries no cell bodies of its own: it is pure wiring. Three kinds of tracts run through it: association fibers within a hemisphere, commissural fibers between the hemispheres and projection fibers to and from the body.',
+  summary:'White matter is made of millions of myelinated axons bundled into tracts, with the oligodendrocytes that wrap them. It has almost no neuron cell bodies: it is mostly wiring. Three kinds of tracts run through it: association fibers within a hemisphere, commissural fibers between the hemispheres and projection fibers to and from the body.',
   funcs:['Carrying signals quickly between distant regions','Linking the two hemispheres through the corpus callosum','Connecting the cortex with the thalamus, brainstem and spinal cord','Timing signals so distant areas can work together'],
   damage:'Multiple sclerosis, small-vessel disease and traumatic brain injury all damage white matter. The result is slowed processing, poor coordination between regions and, when severe, dementia.',
   fact:'White matter keeps maturing into the forties. Its volume peaks later than grey matter, and this is one reason judgment often improves with age.',
@@ -1946,7 +1947,7 @@ var REGIONS = [
  {id:'hw_block',kind:'hw',mode:'hw',hv:'matter',group:'Grey and white matter: up close',name:'Up Close: What They Are Made Of',short:'Up close',color:'#ffd166',
   where:'A tiny block at the border of grey and white matter, enlarged',
   summary:'Under the microscope the difference is clear. In grey matter, cell bodies, dendrites and thin unmyelinated axons are packed together with countless synapses and many small blood vessels. In white matter, myelinated axons run in parallel bundles, like cables in a conduit, with glial cells between them.',
-  funcs:['Grey matter: about 100,000 neurons and a billion synapses per cubic millimeter of cortex','White matter: hundreds of thousands of axons per square millimeter in a tract','Both: supported by glia and fed by a dense web of capillaries'],
+  funcs:['Grey matter: tens of thousands of neurons and about a billion synapses per cubic millimeter of cortex','White matter: hundreds of thousands of axons per square millimeter in a tract','Both: supported by glia and fed by a dense web of capillaries'],
   damage:'Concussion stretches and tears axons at the junction of grey and white matter, because the two tissues have different densities and move differently when the head is jolted.',
   fact:'A cubic millimeter of cortex, the size of a grain of sand, contains about 4 kilometers of axons and about a billion synapses.',
   view:{az:90,el:12}, at:[1.62,0.42,0], zoom:0.5},
@@ -2303,7 +2304,7 @@ var REGIONS = [
   summary:'At the smallest level, the mind runs on chemistry. When a neuron fires, it releases chemical messengers called neurotransmitters into the synapse, the tiny gap between it and the next neuron. Glutamate usually excites the next cell, and GABA usually calms it. Others, such as dopamine and serotonin, tune whole regions. Learning changes the strength of synapses.',
   funcs:['Passing signals from neuron to neuron','Exciting (glutamate) or calming (GABA) the next cell','Tuning mood, alertness and motivation (dopamine, serotonin, noradrenaline)','Storing learning as stronger or weaker synapses'],
   damage:'Many medicines for the mind work at this level. Antidepressants, anxiety medicines and anesthetics change how particular messengers are released, received or cleared. Some poisons and drugs of abuse act here too.',
-  fact:'There are roughly 100 trillion synapses in the adult brain, more than a thousand times the number of stars in our galaxy by some estimates.',
+  fact:'There are roughly 100 trillion or more synapses in the adult brain, hundreds of times the number of stars in our galaxy.',
   view:{az:60,el:24}, zoom:0.9},
  {id:'cs_lvneu',kind:'mind',mode:'mind',lv:'mindw',ml:'neu',group:'How the mind works: from molecules to mind',name:'Level 2: Neurons',short:'Neurons',color:'#4cc9f0',
   where:'About 86 billion neurons throughout the brain, each linked to thousands of others',
@@ -2338,7 +2339,7 @@ var REGIONS = [
   summary:'The brain does not simply wait for information. It constantly predicts what will happen next and compares the prediction with what arrives. When they match, little needs to change; when they do not, a “prediction error” grabs attention and updates the brain’s model of the world. Much of what we perceive is the brain’s best guess, checked against the senses.',
   funcs:['Anticipating sights, sounds and movements','Noticing surprises quickly','Learning from the gap between what was expected and what happened','Filling in missing information'],
   damage:'Some researchers think that hallucinations and delusions may partly reflect predictions that are given too much weight, and that some features of autism may reflect predictions given too little. These ideas are still being tested.',
-  fact:'You cannot tickle yourself. Your cerebellum predicts the touch from your own movement and dampens the feeling. A 1998 study showed that adding a small delay between a person’s movement and the touch made it feel more ticklish.',
+  fact:'You cannot tickle yourself. Your cerebellum predicts the touch from your own movement and dampens the feeling. A 1999 study showed that adding a small delay between a person’s movement and the touch made it feel more ticklish.',
   view:{az:115,el:14}, zoom:0.95},
  {id:'cs_learn',kind:'mind',mode:'mind',lv:'mindw',group:'How the mind works: key principles',name:'Learning and Plasticity',short:'Learning and plasticity',color:'#06d6a0',
   where:'Synapses throughout the brain, especially in the hippocampus, cortex, basal ganglia and cerebellum',
@@ -5916,11 +5917,11 @@ var HW={
   deep:['Each terminal holds a few hundred vesicles, but only a handful are released per pulse. Strong synapses release more.'], rel:['hw_synapse','hw_receptors']},
  hw_receptors:{how:['Ionotropic receptors are channels: the messenger opens them and ions flow in within a millisecond.','Metabotropic receptors start chemical cascades inside the cell that last much longer.','Glutamate receptors (AMPA and NMDA) excite; GABA receptors quiet.'],
   deep:['The NMDA receptor acts as a coincidence detector: it opens only when the messenger arrives and the receiving cell is already active. This is the key step in strengthening a synapse.'], rel:['hw_synapse','hw_ltp']},
- hw_potential:{how:['At rest, pumps keep sodium outside and potassium inside, so the inside sits at about −70 mV.','Inputs push the voltage up. At about −55 mV, sodium channels open and sodium floods in, swinging the inside to about +40 mV.','Sodium channels shut and potassium channels open. Potassium flows out and the voltage falls back, briefly undershooting.','The pulse regenerates at each node of Ranvier and leaps down the axon.','Pumps restore the balance, ready for the next pulse within a few milliseconds.'],
+ hw_potential:{how:['At rest, pumps keep sodium outside and potassium inside, so the inside sits at about −70 mV.','Inputs push the voltage up. At about −55 mV, sodium channels open and sodium floods in, swinging the inside to about +30 mV.','Sodium channels shut and potassium channels open. Potassium flows out and the voltage falls back, briefly undershooting.','The pulse regenerates at each node of Ranvier and leaps down the axon.','Sodium channels recover within a few milliseconds, ready for the next pulse, while pumps work steadily in the background to keep the ion balance.'],
   deep:['Because every pulse is the same size, the neuron codes information in timing and rate: a stronger stimulus means more pulses per second.','The pulses in the model show this: watch them appear at each node as they travel.'],
   with:['hw_hillock','hw_axon','hw_node','hw_terminal'], rel:['hw_hillock','hw_node','hw_speed']},
 
- hw_network:{stats:[['~1,000','connections per neuron, on average'],['4 : 1','excitatory to inhibitory synapses'],['billions','of such circuits']],
+ hw_network:{stats:[['1,000s','connections per neuron'],['4 : 1','excitatory to inhibitory synapses'],['billions','of such circuits']],
   how:['Axons from other cells end in boutons on the central neuron’s dendrites.','Excitatory inputs (green) push the cell toward firing. Inhibitory inputs (red) hold it back.','The dendrites carry all these small signals toward the cell body, where they add up.','If the sum crosses the threshold, the neuron fires and its axon carries the pulse to the next cell in the chain.'],
   deep:['Networks in the cortex are mostly local: most of a neuron’s connections come from cells within a millimeter. A smaller number of long axons link distant regions.',
    'Feedback is everywhere. Signals loop back onto earlier cells, which lets networks hold activity, compare predictions with reality and keep time.',
@@ -6151,7 +6152,7 @@ function buildHW(){
   stations('hw_synapse','neuron',[['Sending terminal (presynaptic)',[preC[0],preC[1]+0.28,preC[2]]],['Synaptic cleft: 20–40 nm',[SC[0]+0.05,SC[1]-0.2,SC[2]]],['Receiving spine (postsynaptic)',[postC[0],postC[1]-0.24,postC[2]]],['Mitochondrion',[preC[0]-0.2,preC[1]+0.14,preC[2]]]]);
   stations('hw_vesicles','neuron',[['Vesicles full of messenger',[preC[0]-0.05,preC[1]+0.1,preC[2]]],['Docked at the active zone',[preC[0]+0.27,preC[1]+0.08,preC[2]]],['Messenger crossing the gap',[preC[0]+0.34,preC[1]-0.12,preC[2]]]]);
   stations('hw_receptors','neuron',[['Receptors catch the messenger',[postC[0]-0.2,postC[1]+0.1,postC[2]]],['Postsynaptic density',[postC[0]-0.17,postC[1]-0.14,postC[2]]]]);
-  stations('hw_potential','neuron',[['1. Inputs add up at the hillock',[0.7,0.16,0]],['2. Threshold −55 mV: sodium rushes in',[0.25,-0.16,0]],['3. Peak about +40 mV',up(nodes[0],0.34)],['4. Potassium flows out: reset',up(nodes[1],-0.34)],['5. Leaps from node to node',up(nodes[3],0.16)],['6. Reaches the terminals',[END.x,END.y-0.16,END.z]]]);
+  stations('hw_potential','neuron',[['1. Inputs add up at the hillock',[0.7,0.16,0]],['2. Threshold −55 mV: sodium rushes in',[0.25,-0.16,0]],['3. Peak about +30 mV',up(nodes[0],0.34)],['4. Potassium flows out: reset',up(nodes[1],-0.34)],['5. Leaps from node to node',up(nodes[3],0.16)],['6. Reaches the terminals',[END.x,END.y-0.16,END.z]]]);
 
   /* ---------------- 2. dendrites at work: a small network */
   var NETM=tmat('#9fb3d1',{roughness:0.5}), NETAX=R.hw_network.color, TREEM=tmat(R.hw_tree.color,{roughness:0.45}), EXM=tmat('#2ec4b6',{roughness:0.4,emissive:'#2ec4b6',emissiveIntensity:0.3}), INM=tmat('#ef476f',{roughness:0.4,emissive:'#ef476f',emissiveIntensity:0.3});
@@ -6906,7 +6907,7 @@ var CS={
    'A single synapse is unreliable, often failing to release its messenger. Reliable thought comes from many synapses working together.'],
   rh:'A Christian view', reflect:['The chemistry of every synapse is finely balanced. “O LORD, how manifold are thy works! in wisdom hast thou made them all: the earth is full of thy riches” (Psalm 104:24).'],
   rel:['cs_lvneu','cs_learn','cs_aras']},
- cs_lvneu:{stats:[['~86 billion','neurons'],['~7,000','connections each, on average'],['~120 m/s','fastest signals']],
+ cs_lvneu:{stats:[['~86 billion','neurons'],['1,000s','connections each'],['~120 m/s','fastest signals']],
   how:['Signals arrive on the branching dendrites.','The cell body adds up the excitement and calming.','If the total crosses a threshold, a spike races down the axon.','At the end, the spike releases messengers to the next neurons.'],
   deep:['Neurons are supported by glial cells, which insulate axons with myelin, feed neurons, clear waste and even help to shape synapses.',
    'Information is carried not only by how often neurons fire but also by their precise timing, and by which neurons fire together.'],
@@ -6931,7 +6932,7 @@ var CS={
   tryit:'Read this: “The cat sat on the …”. Your mind probably supplied “mat” before you reached the end. In that moment, vision, language, memory and prediction all worked together, at every level from molecules to networks.',
   rh:'A Christian view', reflect:['The whole person is called to love God: “And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment” (Mark 12:30).'],
   rel:['cs_emerge','cs_feel','cs_origin']},
- cs_predict:{stats:[['1997','reward prediction error shown'],['1998','self-tickling study'],['~0.1 s','delays the brain makes up for']],
+ cs_predict:{stats:[['1997','reward prediction error shown'],['1999','self-tickling delay study'],['~0.1 s','delays the brain makes up for']],
   how:['Higher areas send predictions down to lower ones.','Lower areas compare them with what the senses report.','Only the mismatch, the prediction error, is passed back up.','The brain updates its model, so next time it predicts better.'],
   deep:['Dopamine neurons fire more when a reward is better than expected, less when it is worse, and hardly change when it is exactly as expected. In 1997 Wolfram Schultz and colleagues showed that this matches a prediction error used for learning.',
    'Signals from the senses take time to process, so the brain partly predicts the present. This is how a batter can hit a fast ball.'],

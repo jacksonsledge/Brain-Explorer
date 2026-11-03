@@ -8665,7 +8665,8 @@ function glowing(m){
   return g.boundingSphere.radius*Math.max(glowV.x,glowV.y,glowV.z)<0.2;
 }
 function renderGlow(){
-  glowSetup(); var any=false; glowHid.length=0; glowSwap.length=0;
+  var any=false; glowHid.length=0; glowSwap.length=0;
+  try{ glowSetup();
   scene.traverseVisible(function(o){
     if(o.isMesh){ if(glowing(o)){ any=true; return; }
       if(o.material && !Array.isArray(o.material) && (!o.material.transparent || o.material.opacity>0.9) && o.material.depthWrite!==false){ glowSwap.push(o,o.material); o.material=glowDark; }
@@ -8680,9 +8681,11 @@ function renderGlow(){
     glowQuad.material.uniforms.tGlow.value=glowBloom.renderTargetsHorizontal[0].texture; glowQuad.material.uniforms.amt.value=slDark()?1:0.7;
     renderer.setRenderTarget(null); var ac=renderer.autoClear; renderer.autoClear=false; glowQuad.render(renderer); renderer.autoClear=ac;
     renderer.setClearColor(oc,oa);
-    glowHid.forEach(function(o){ o.visible=true; });
+  } } finally {
+    // always put everything back, even if the glow could not be drawn
+    for(var i=0;i<glowSwap.length;i+=2) glowSwap[i].material=glowSwap[i+1];
+    if(any){ glowHid.forEach(function(o){ o.visible=true; }); try{ renderer.setRenderTarget(null); }catch(e){} }
   }
-  for(var i=0;i<glowSwap.length;i+=2) glowSwap[i].material=glowSwap[i+1];
 }
 function kick(ms){ renderUntil=Math.max(renderUntil,performance.now()+(ms||900)); }
 ['pointerdown','pointermove','pointerup','wheel','keydown','click','input','change','touchstart'].forEach(function(t){ window.addEventListener(t,function(){ kick(); },{passive:true,capture:true}); });

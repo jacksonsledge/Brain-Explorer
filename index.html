@@ -598,7 +598,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       </div>
       <div class="verse">&ldquo;I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works.&rdquo;<small>Psalm 139:14 (KJV)</small></div>
       <button class="go" id="goBtn">Start exploring</button>
-      <p class="note">A simplified model for learning, not a medical atlas.</p>
+      <p class="note">A simplified model for learning, not a medical atlas. Visits are counted anonymously, without cookies or personal data.</p>
     </div>
   </div>
 
@@ -3775,6 +3775,15 @@ $('#bSignals').addEventListener('click',function(){ setSignals(!signalsOn); });
 $('#pJump').addEventListener('click',function(){ var j=MEN_N[selected]; setMode('brain'); if(j){ setMeninges(true); select(j); } });
 $('#bFlow').addEventListener('click',function(){ if(!vesselsOn) setVessels(true); setFlow(!flowOn); });
 
+/* ------------------------------------------------------------------ anonymous visit counts (GoatCounter) */
+// Set GC_CODE to the site's GoatCounter code (the "code" in code.goatcounter.com) to switch counting on. No cookies or personal data are used,
+// and nothing is counted when the browser asks not to be tracked.
+var GC_CODE='', gcSent={};
+var gcOn=!!GC_CODE && navigator.doNotTrack!=='1' && navigator.globalPrivacyControl!==true && /^https?:$/.test(location.protocol);
+if(gcOn){ var gcs=document.createElement('script'); gcs.async=true; gcs.src='https://gc.zgo.at/count.js'; gcs.setAttribute('data-goatcounter','https://'+GC_CODE+'.goatcounter.com/count'); document.head.appendChild(gcs); }
+// count an event at most once per visit, so a busy session does not inflate the totals
+function gcEvent(path,title){ if(!gcOn || gcSent[path]) return; gcSent[path]=1; try{ if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:path,title:title,event:true}); else gcSent[path]=0; }catch(e){} }
+
 /* ------------------------------------------------------------------ my learning: saved on this device */
 // All saved data passes through Store, so a cloud service with sign-in can later sync it by listening to onChange and calling replace().
 var Store=(function(){
@@ -3802,12 +3811,12 @@ function syncMine(){
   var on=!!d.fav[id]; favEl.setAttribute('aria-pressed',on?'true':'false'); favEl.lastChild.textContent=on?'Saved to favorites':'Save to favorites';
   if(id!==mineId){ mineId=id; noteEl.value=(d.notes[id] && d.notes[id].t)||''; noteEl.setAttribute('aria-label','My notes on '+R[id].name); mineSeen=null; }
   // count a part as explored once its details are actually showing
-  setTimeout(function(){ if(mineId===id && mineSeen!==id && panel.classList.contains('open')){ mineSeen=id; if(!d.viewed[id]) d.viewed[id]=Date.now(); d.opens[id]=(d.opens[id]||0)+1; d.days[dayKey()]=1; Store.save(); } },0);
+  setTimeout(function(){ if(mineId===id && mineSeen!==id && panel.classList.contains('open')){ mineSeen=id; gcEvent('part/'+id,R[id].name); if(!d.viewed[id]) d.viewed[id]=Date.now(); d.opens[id]=(d.opens[id]||0)+1; d.days[dayKey()]=1; Store.save(); } },0);
 }
 var _fillPanel=fillPanel; fillPanel=function(r){ _fillPanel(r); syncMine(); };
 var _fillDPanel=fillDPanel; fillDPanel=function(){ _fillDPanel(); syncMine(); };
 var _closeDetails=closeDetails; closeDetails=function(){ _closeDetails(); syncMine(); };
-var _setMode=setMode; setMode=function(m){ var was=mode; _setMode(m); if(mode!==was){ var d=Store.get(); d.modes[mode]=(d.modes[mode]||0)+1; d.days[dayKey()]=1; Store.save(); } };
+var _setMode=setMode; setMode=function(m){ var was=mode; _setMode(m); if(mode!==was){ gcEvent('mode/'+mode,modeName(mode)); var d=Store.get(); d.modes[mode]=(d.modes[mode]||0)+1; d.days[dayKey()]=1; Store.save(); } };
 favEl.addEventListener('click',function(){ var id=mineId; if(!id) return; var d=Store.get(); if(d.fav[id]) delete d.fav[id]; else d.fav[id]=Date.now(); Store.save(); syncMine(); });
 noteEl.addEventListener('input',function(){ var id=mineId; if(!id) return; var d=Store.get(), t=noteEl.value; if(t.trim()) d.notes[id]={t:t,ts:Date.now()}; else delete d.notes[id]; Store.save(); });
 function goPart(id){ closeMe(true); var m=modeOf(id); if(m!==mode) setMode(m); select(id); }
@@ -3852,7 +3861,7 @@ function closeMe(keepFocus){ if(meEl.classList.contains('hidden')) return; meEl.
 function streak(days){ var n=0, t=new Date(); if(!days[dayKey(t)]) t.setDate(t.getDate()-1); while(days[dayKey(t)]){ n++; t.setDate(t.getDate()-1); } return n; }
 function renderMe(){
   var d=Store.get(); meBody.innerHTML=''; $('#meTitle').textContent='My learning';
-  meBody.appendChild(h('p','mine-sub','Your progress, favorites, notes and quiz scores are saved only on this device. Download a backup to keep them safe or move them to another device.'));
+  meBody.appendChild(h('p','mine-sub','Your progress, favorites, notes and quiz scores are saved only on this device. Download a backup to keep them safe or move them to another device. The site counts visits and the modes and parts people open anonymously, with no cookies and nothing that identifies you.'));
   // progress
   meBody.appendChild(h('h2',null,'Progress'));
   var all=REGIONS.length, got=REGIONS.filter(function(r){ return d.viewed[r.id]; }).length, big=h('div','me-big');
@@ -3924,7 +3933,7 @@ function renderQuiz(){
     Array.prototype.forEach.call(opts.children,function(b,i){ var o=q.opts[i]; if(o===q.id) b.classList.add('right'); else if(o===id) b.classList.add('wrong'); b.setAttribute('aria-disabled','true'); });
     fb.textContent=(ok?'Correct! ':'Not quite. The answer is '+R[q.id].name+'. ')+(R[q.id].where?'Where: '+R[q.id].where+'.':'');
     var last=quiz.i===quiz.qs.length-1, nx=btn(last?'See my score':'Next question',function(){ if(last){ quiz.done=true; var d=Store.get(), s=d.quiz[quiz.m]||{best:0,of:quiz.qs.length,n:0};
-        s.n++; s.last=quiz.right; s.of=quiz.qs.length; if(quiz.right>=s.best) s.best=quiz.right; s.ts=Date.now(); d.quiz[quiz.m]=s; d.days[dayKey()]=1; Store.save(); } else quiz.i++; renderQuiz(); },'primary');
+        s.n++; s.last=quiz.right; s.of=quiz.qs.length; if(quiz.right>=s.best) s.best=quiz.right; s.ts=Date.now(); d.quiz[quiz.m]=s; gcEvent('quiz/'+quiz.m,'Quiz finished: '+(quiz.m==='all'?'every mode':modeName(quiz.m))); d.days[dayKey()]=1; Store.save(); } else quiz.i++; renderQuiz(); },'primary');
     foot.insertBefore(nx,foot.firstChild); nx.focus(); })); });
   var foot=h('div','me-btns me-q-foot'); foot.appendChild(btn('Stop quiz',function(){ quiz=null; renderMe(); $('#meClose').focus(); }));
   meBody.appendChild(opts); meBody.appendChild(fb); meBody.appendChild(foot);

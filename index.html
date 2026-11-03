@@ -367,6 +367,56 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #intro{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:calc(16px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));
   background:rgba(6,11,28,.5);backdrop-filter:blur(7px)}
 #intro.hidden{display:none}
+.bar-btns{display:flex;gap:8px}
+.icon-btn svg{width:18px;height:18px;fill:currentColor}
+#me{position:absolute;inset:0;z-index:21;display:flex;align-items:center;justify-content:center;padding:calc(16px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));background:rgba(6,11,28,.5);backdrop-filter:blur(7px)}
+#me.hidden{display:none}
+.me-card{position:relative;max-width:520px}
+.me-x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:var(--soft);color:var(--ink);font-size:15px;cursor:pointer}
+.me-card h1{padding-right:44px}
+.me-card h2{margin:20px 0 8px;font:700 17px/1.2 var(--head)}
+.me-card .mine-sub{color:var(--muted);font-size:13.5px;margin:0 0 6px}
+.me-bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+.me-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.me-big{display:flex;align-items:baseline;gap:8px;margin:2px 0 8px}
+.me-big{flex-wrap:wrap}
+.me-big b{font:700 28px/1 var(--head);white-space:nowrap}
+.me-big span{color:var(--muted);font-size:14px}
+.me-rows{display:grid;gap:4px}
+.me-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 58px;align-items:center;gap:10px;width:100%;border:0;background:none;padding:7px 8px;border-radius:12px;color:var(--ink);font-weight:600;font-size:14px;font-family:inherit;text-align:left;cursor:pointer}
+.me-row:hover,.me-row:focus-visible{background:var(--soft)}
+.me-row small{color:var(--muted);font-weight:600;font-size:12.5px;white-space:nowrap;text-align:right}
+.me-chips{display:flex;flex-wrap:wrap;gap:6px}
+.me-chips button,.me-btns button,.me-q-opts button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:999px;padding:8px 12px;font-weight:600;font-size:13.5px;font-family:inherit;cursor:pointer}
+.me-chips button:hover,.me-btns button:hover{border-color:var(--accent)}
+.me-note{display:block;width:100%;text-align:left;border:0;background:var(--soft);color:var(--ink);border-radius:12px;padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit}
+.me-note b{display:block;font-size:14px}
+.me-note span{display:block;color:var(--muted);font-size:13px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me-btns{display:flex;flex-wrap:wrap;gap:6px}
+.me-btns button small{color:var(--muted);font-weight:600;margin-left:4px}
+.me-btns button.primary{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+.me-btns button.danger{color:#e63946}
+.me-empty{color:var(--muted);font-size:14px;margin:0}
+.me-top{margin:0;padding:0 0 0 20px;font-size:14px;line-height:1.6}
+.me-top small{color:var(--muted)}
+.me-q-head{color:var(--muted);font-size:13px;font-weight:700;margin:4px 0 8px}
+.me-q-text{font-size:16px;line-height:1.45;margin:0 0 4px}
+.me-q-quote{border-left:3px solid var(--accent);padding:6px 10px;margin:8px 0 12px;background:var(--soft);border-radius:0 10px 10px 0;font-size:15px;line-height:1.45}
+.me-q-opts{display:grid;gap:8px}
+.me-q-opts button{border-radius:12px;text-align:left;padding:11px 13px;font-size:14.5px}
+.me-q-opts button.right{border-color:#2a9d8f;background:rgba(42,157,143,.18)}
+.me-q-opts button.wrong{border-color:#e63946;background:rgba(230,57,70,.15)}
+.me-q-fb{margin:12px 0 0;font-size:14px;line-height:1.45}
+.me-q-foot{margin-top:12px}
+#pMine{margin-top:18px}
+#pMine h3{margin-bottom:6px}
+#pNote{width:100%;box-sizing:border-box;min-height:70px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--soft);color:var(--ink);font-size:15px;line-height:1.45;font-family:inherit}
+#pNote:focus{outline:2px solid var(--accent);outline-offset:1px}
+.mine-hint{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+.p-fav{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:999px;padding:5px 11px 5px 8px;font-weight:600;font-size:13px;font-family:inherit;cursor:pointer}
+.p-fav svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.p-fav[aria-pressed="true"] svg{fill:#ffc145;stroke:#e0a100}
+@media (max-width:420px){ .me-row{grid-template-columns:minmax(0,1fr) 54px 48px;gap:8px;padding:7px 4px} }
 .card{width:100%;max-width:440px;max-height:100%;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;
   padding:24px 22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .card h1{margin:0 0 8px;font:700 30px/1.05 var(--head);letter-spacing:-.02em}
@@ -395,7 +445,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   <div id="top">
     <div class="bar">
       <div class="brand"><h1>Brain Explorer</h1><p>Tap any part to learn more</p></div>
-      <button class="icon-btn" id="infoBtn" aria-label="About this app">i</button>
+      <div class="bar-btns"><button class="icon-btn" id="meBtn" aria-label="My learning: progress, favorites, notes and quizzes" title="My learning"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg></button><button class="icon-btn" id="infoBtn" aria-label="About this app">i</button></div>
     </div>
     <div class="ctrl">
       <div class="modes" role="tablist" aria-label="Choose a model">
@@ -510,7 +560,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <div class="grab" id="grab" aria-hidden="true"></div>
     <button id="close" aria-label="Close details">&#10005;</button>
     <div class="scroll" id="scroll">
-      <div class="p-head"><span class="swatch"></span><div><h2 id="pName"></h2><p class="p-where" id="pWhere"></p><span class="badge" id="pBadge" hidden>Deep structure, shown in X-ray view</span></div></div>
+      <div class="p-head"><span class="swatch"></span><div><h2 id="pName"></h2><button id="pFav" class="p-fav" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg><span>Save to favorites</span></button><p class="p-where" id="pWhere"></p><span class="badge" id="pBadge" hidden>Deep structure, shown in X-ray view</span></div></div>
       <p class="summary" id="pSummary"></p>
       <div id="pTree" hidden></div>
       <h3 id="hFuncs">What it does</h3><ul id="pFuncs"></ul>
@@ -518,6 +568,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <h3 id="hDamage">If it is damaged</h3><p class="dmg" id="pDamage"></p>
       <div class="fact"><b>Did you know?</b><p id="pFact"></p></div>
       <button class="jump" id="pJump" hidden>Explore its parts in Brain mode</button>
+      <div id="pMine" hidden><h3><label for="pNote">My notes</label></h3><textarea id="pNote" rows="3" placeholder="Write your own notes about this part…"></textarea><p class="mine-hint">Saved on this device. See all your notes under the star at the top.</p></div>
     </div>
     <div class="nav"><button id="bPrev">Previous part</button><button id="bNext">Next part</button></div>
   </aside>
@@ -550,6 +601,11 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <p class="note">A simplified model for learning, not a medical atlas.</p>
     </div>
   </div>
+
+  <div id="me" class="hidden" role="dialog" aria-modal="true" aria-labelledby="meTitle">
+    <div class="card me-card"><button id="meClose" class="me-x" aria-label="Close">&#10005;</button><h1 id="meTitle">My learning</h1><div id="meBody"></div></div>
+  </div>
+  <input type="file" id="meFile" accept="application/json,.json" hidden>
 
   <div id="fallback" hidden><div><h2>The 3D engine could not load</h2><p>Check your connection and reload this page.</p></div></div>
 </div>
@@ -3718,10 +3774,172 @@ $('#bTracts').addEventListener('click',function(){ setTracts(!tractsOn); });
 $('#bSignals').addEventListener('click',function(){ setSignals(!signalsOn); });
 $('#pJump').addEventListener('click',function(){ var j=MEN_N[selected]; setMode('brain'); if(j){ setMeninges(true); select(j); } });
 $('#bFlow').addEventListener('click',function(){ if(!vesselsOn) setVessels(true); setFlow(!flowOn); });
+
+/* ------------------------------------------------------------------ my learning: saved on this device */
+// All saved data passes through Store, so a cloud service with sign-in can later sync it by listening to onChange and calling replace().
+var Store=(function(){
+  var KEY='brainExplorer.v1', subs=[], tmr=0;
+  function blank(){ return {v:1,viewed:{},fav:{},notes:{},quiz:{},opens:{},modes:{},days:{}}; }
+  function clean(d){ var b=blank(); if(!d || typeof d!=='object' || d.v!==1) return null; Object.keys(b).forEach(function(k){ if(k!=='v' && d[k] && typeof d[k]==='object' && !Array.isArray(d[k])) b[k]=d[k]; }); return b; }
+  function load(){ try{ var t=localStorage.getItem(KEY); if(t){ var d=clean(JSON.parse(t)); if(d) return d; } }catch(e){} return blank(); }
+  var data=load();
+  function flush(){ clearTimeout(tmr); tmr=0; try{ localStorage.setItem(KEY,JSON.stringify(data)); }catch(e){} }
+  function save(){ clearTimeout(tmr); tmr=setTimeout(flush,400); subs.forEach(function(f){ f(data); }); }
+  window.addEventListener('pagehide',function(){ if(tmr) flush(); });
+  return {get:function(){ return data; }, save:save, flush:flush, clean:clean, onChange:function(f){ subs.push(f); },
+    replace:function(d){ data=d; flush(); subs.forEach(function(f){ f(data); }); }, clear:function(){ data=blank(); try{ localStorage.removeItem(KEY); }catch(e){} subs.forEach(function(f){ f(data); }); }};
+})();
+var MODE_BTN={brain:'mBrain',nerves:'mNerves',spine:'mSpine',sections:'mSections',diseases:'mDiseases',senses:'mSenses',think:'mThink',hw:'mHW',sleep:'mSleep',mind:'mMind'};
+var MODE_ORDER=['brain','nerves','spine','sections','diseases','senses','think','hw','sleep','mind'];
+function modeOf(id){ var r=R[id]; return r.kind==='disease'?'diseases':(r.mode||'brain'); }
+function modeName(m){ var b=$('#'+MODE_BTN[m]), t=b && b.querySelector('.tl'); return (t||b).textContent; }
+function dayKey(t){ var d=t?new Date(t):new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+var mineId=null, mineSeen=null, meEl=$('#me'), meBody=$('#meBody'), noteEl=$('#pNote'), favEl=$('#pFav');
+function minePart(){ var id=mode==='diseases'?(selected||curDisease):selected; return id && R[id]?id:null; }
+function syncMine(){
+  var id=minePart(), d=Store.get();
+  favEl.hidden=$('#pMine').hidden=!id; if(!id){ mineId=null; return; }
+  var on=!!d.fav[id]; favEl.setAttribute('aria-pressed',on?'true':'false'); favEl.lastChild.textContent=on?'Saved to favorites':'Save to favorites';
+  if(id!==mineId){ mineId=id; noteEl.value=(d.notes[id] && d.notes[id].t)||''; noteEl.setAttribute('aria-label','My notes on '+R[id].name); mineSeen=null; }
+  // count a part as explored once its details are actually showing
+  setTimeout(function(){ if(mineId===id && mineSeen!==id && panel.classList.contains('open')){ mineSeen=id; if(!d.viewed[id]) d.viewed[id]=Date.now(); d.opens[id]=(d.opens[id]||0)+1; d.days[dayKey()]=1; Store.save(); } },0);
+}
+var _fillPanel=fillPanel; fillPanel=function(r){ _fillPanel(r); syncMine(); };
+var _fillDPanel=fillDPanel; fillDPanel=function(){ _fillDPanel(); syncMine(); };
+var _closeDetails=closeDetails; closeDetails=function(){ _closeDetails(); syncMine(); };
+var _setMode=setMode; setMode=function(m){ var was=mode; _setMode(m); if(mode!==was){ var d=Store.get(); d.modes[mode]=(d.modes[mode]||0)+1; d.days[dayKey()]=1; Store.save(); } };
+favEl.addEventListener('click',function(){ var id=mineId; if(!id) return; var d=Store.get(); if(d.fav[id]) delete d.fav[id]; else d.fav[id]=Date.now(); Store.save(); syncMine(); });
+noteEl.addEventListener('input',function(){ var id=mineId; if(!id) return; var d=Store.get(), t=noteEl.value; if(t.trim()) d.notes[id]={t:t,ts:Date.now()}; else delete d.notes[id]; Store.save(); });
+function goPart(id){ closeMe(true); var m=modeOf(id); if(m!==mode) setMode(m); select(id); }
+
+// quizzes, made from the descriptions of the parts
+function quizPool(m){
+  var parts=REGIONS.filter(function(r){ return modeOf(r.id)===m && r.kind!=='disease'; }), seen={}, qs=[];
+  parts.forEach(function(r){ (r.funcs||[]).forEach(function(f){ seen[f]=(seen[f]||0)+1; }); });
+  // words that name just one part, so a question that mentions another part's name can be left out as ambiguous
+  var nw=function(r){ return (r.name+' '+(r.short||'')).toLowerCase().split(/[^a-z]+/).filter(function(w){ return w.length>4; }); }, cnt={};
+  parts.forEach(function(r){ nw(r).filter(function(w,i,a){ return a.indexOf(w)===i; }).forEach(function(w){ cnt[w]=(cnt[w]||0)+1; }); });
+  // facts that share several long words with another part's fact are too close to tell apart
+  var fw=function(t){ return (t||'').toLowerCase().split(/[^a-z]+/).filter(function(w,i,a){ return w.length>5 && a.indexOf(w)===i; }); };
+  function twin(r){ var a=fw(r.fact); return parts.some(function(o){ if(o===r) return false; var b=fw(o.fact); return a.filter(function(w){ return b.indexOf(w)>=0; }).length>=3; }); }
+  function other(r,t){ t=t.toLowerCase(); return /not shown/.test(t) || parts.some(function(o){ return o!==r && nw(o).some(function(w){ return cnt[w]===1 && t.indexOf(w)>=0; }); }); }
+  parts.forEach(function(r){
+    (r.funcs||[]).forEach(function(f){ if(seen[f]===1 && f.length>12 && !/^(It|They|This|The signal)\b/.test(f) && !other(r,f)) qs.push({id:r.id,kind:'f',text:f}); });
+    var fact=r.fact||'', low=fact.toLowerCase(), names=[r.name,r.short||''].join(' ').toLowerCase().split(/[^a-z]+/).filter(function(w){ return w.length>4; });
+    if(fact.length>30 && !/^(It|They|This|These)\b/.test(fact) && !names.some(function(w){ return low.indexOf(w)>=0; }) && !other(r,fact) && !twin(r)) qs.push({id:r.id,kind:'x',text:fact});
+  });
+  return {parts:parts,qs:qs};
+}
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function label(id){ return R[id].short||R[id].name; }
+function makeQuiz(m){
+  var ms=m==='all'?MODE_ORDER:[m], qs=[], pools={};
+  ms.forEach(function(k){ var p=quizPool(k); pools[k]=p; if(p.parts.length>=4) p.qs.forEach(function(q){ q.m=k; qs.push(q); }); });
+  shuffle(qs); var out=[], used={};
+  for(var i=0;i<qs.length && out.length<10;i++){ var q=qs[i]; if(used[q.id]) continue; used[q.id]=1;
+    var others=shuffle(pools[q.m].parts.filter(function(r){ return r.id!==q.id && label(r.id)!==label(q.id); }).map(function(r){ return r.id; }));
+    var opts=[q.id], labs={}; labs[label(q.id)]=1; others.forEach(function(o){ if(opts.length<4 && !labs[label(o)]){ labs[label(o)]=1; opts.push(o); } });
+    if(opts.length===4) out.push({id:q.id,kind:q.kind,text:q.text,opts:shuffle(opts)}); }
+  return out;
+}
+function quizModes(){ return MODE_ORDER.filter(function(m){ var p=quizPool(m); return p.parts.length>=4 && p.qs.length>=4; }); }
+
+// the My learning window
+function h(tag,cls,txt){ var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+function btn(txt,fn,cls){ var b=h('button',cls||null,txt); b.type='button'; b.addEventListener('click',fn); return b; }
+function openMe(){ renderMe(); meEl.classList.remove('hidden'); $('#meClose').focus(); }
+function closeMe(keepFocus){ if(meEl.classList.contains('hidden')) return; meEl.classList.add('hidden'); quiz=null; if(!keepFocus) $('#meBtn').focus(); }
+function streak(days){ var n=0, t=new Date(); if(!days[dayKey(t)]) t.setDate(t.getDate()-1); while(days[dayKey(t)]){ n++; t.setDate(t.getDate()-1); } return n; }
+function renderMe(){
+  var d=Store.get(); meBody.innerHTML=''; $('#meTitle').textContent='My learning';
+  meBody.appendChild(h('p','mine-sub','Your progress, favorites, notes and quiz scores are saved only on this device. Download a backup to keep them safe or move them to another device.'));
+  // progress
+  meBody.appendChild(h('h2',null,'Progress'));
+  var all=REGIONS.length, got=REGIONS.filter(function(r){ return d.viewed[r.id]; }).length, big=h('div','me-big');
+  big.appendChild(h('b',null,String(got))); big.appendChild(h('span',null,'of '+all+' parts explored ('+(got && got/all<0.01?'<1':Math.round(got/all*100))+'%)')); meBody.appendChild(big);
+  var bar=h('div','me-bar'), bi=h('i'); bi.style.width=(got/all*100)+'%'; bar.appendChild(bi); bar.setAttribute('role','img'); bar.setAttribute('aria-label',got+' of '+all+' parts explored'); meBody.appendChild(bar);
+  var rows=h('div','me-rows'); rows.style.marginTop='10px';
+  MODE_ORDER.forEach(function(m){ var ps=REGIONS.filter(function(r){ return modeOf(r.id)===m; }), n=ps.filter(function(r){ return d.viewed[r.id]; }).length;
+    var b=btn('',function(){ closeMe(true); setMode(m); }, 'me-row'); b.appendChild(h('span',null,modeName(m)));
+    var mb=h('div','me-bar'), mi=h('i'); mi.style.width=(n/ps.length*100)+'%'; mb.appendChild(mi); b.appendChild(mb); b.appendChild(h('small',null,n+' / '+ps.length));
+    b.setAttribute('aria-label',modeName(m)+': '+n+' of '+ps.length+' parts explored. Open this mode.'); rows.appendChild(b); });
+  meBody.appendChild(rows);
+  // favorites
+  var favs=Object.keys(d.fav).filter(function(id){ return R[id]; }).sort(function(a,b){ return d.fav[b]-d.fav[a]; });
+  meBody.appendChild(h('h2',null,'Favorites'+(favs.length?' ('+favs.length+')':'')));
+  if(!favs.length) meBody.appendChild(h('p','me-empty','Tap “Save to favorites” on any part to keep it here.'));
+  else { var fc=h('div','me-chips'); favs.forEach(function(id){ fc.appendChild(btn('★ '+R[id].name,function(){ goPart(id); })); }); meBody.appendChild(fc); }
+  // notes
+  var notes=Object.keys(d.notes).filter(function(id){ return R[id]; }).sort(function(a,b){ return d.notes[b].ts-d.notes[a].ts; });
+  meBody.appendChild(h('h2',null,'My notes'+(notes.length?' ('+notes.length+')':'')));
+  if(!notes.length) meBody.appendChild(h('p','me-empty','Open any part and write in “My notes” at the end of its details.'));
+  else notes.forEach(function(id){ var b=btn('',function(){ goPart(id); },'me-note'); b.appendChild(h('b',null,R[id].name)); b.appendChild(h('span',null,d.notes[id].t)); meBody.appendChild(b); });
+  // quizzes
+  meBody.appendChild(h('h2',null,'Quizzes'));
+  meBody.appendChild(h('p','mine-sub','Ten questions made from the parts of each mode. Your best score is saved.'));
+  var qb=h('div','me-btns');
+  ['all'].concat(quizModes()).forEach(function(m){ var s=d.quiz[m], b=btn(m==='all'?'Mixed: every mode':modeName(m),function(){ startQuiz(m); },m==='all'?'primary':null);
+    if(s) b.appendChild(h('small',null,'best '+s.best+'/'+s.of)); qb.appendChild(b); });
+  meBody.appendChild(qb);
+  // activity
+  meBody.appendChild(h('h2',null,'Your activity'));
+  var days=Object.keys(d.days).length, opens=0; Object.keys(d.opens).forEach(function(k){ opens+=d.opens[k]; });
+  var fx=h('div','facts'); [[String(days),days===1?'day exploring':'days exploring'],[String(streak(d.days)),'day streak'],[String(opens),'times parts opened']].forEach(function(f){ var c=h('div'); c.appendChild(h('b',null,f[0])); c.appendChild(h('span',null,f[1])); fx.appendChild(c); });
+  meBody.appendChild(fx);
+  var top=Object.keys(d.opens).filter(function(id){ return R[id]; }).sort(function(a,b){ return d.opens[b]-d.opens[a]; }).slice(0,5);
+  var mm=Object.keys(d.modes).filter(function(m){ return MODE_BTN[m]; }).sort(function(a,b){ return d.modes[b]-d.modes[a]; })[0];
+  if(mm) meBody.appendChild(h('p','mine-sub','Mode you open most: '+modeName(mm)+'.'));
+  if(top.length){ meBody.appendChild(h('p','mine-sub','Parts you open most:')); var ol=h('ol','me-top'); top.forEach(function(id){ var li=h('li',null,R[id].name+' '); li.appendChild(h('small',null,'('+d.opens[id]+')')); ol.appendChild(li); }); meBody.appendChild(ol); }
+  // data
+  meBody.appendChild(h('h2',null,'Your data'));
+  var db=h('div','me-btns');
+  db.appendChild(btn('Download backup',downloadBackup)); db.appendChild(btn('Restore from backup',function(){ $('#meFile').click(); }));
+  db.appendChild(btn('Clear my data',function(){ if(window.confirm('Delete all your progress, favorites, notes and quiz scores on this device? This cannot be undone.')){ Store.clear(); mineId=null; syncMine(); renderMe(); $('#meClose').focus(); } },'danger'));
+  meBody.appendChild(db);
+}
+function downloadBackup(){
+  Store.flush(); var blob=new Blob([JSON.stringify(Store.get(),null,1)],{type:'application/json'}), a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='brain-explorer-backup-'+dayKey()+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+}
+$('#meFile').addEventListener('change',function(){ var f=this.files && this.files[0]; this.value=''; if(!f) return; var rd=new FileReader();
+  rd.onload=function(){ var d=null; try{ d=Store.clean(JSON.parse(rd.result)); }catch(e){}
+    if(!d){ window.alert('That file is not a Brain Explorer backup.'); return; }
+    if(window.confirm('Replace your saved progress, favorites, notes and quiz scores on this device with this backup?')){ Store.replace(d); mineId=null; syncMine(); renderMe(); $('#meClose').focus(); } };
+  rd.readAsText(f); });
+var quiz=null;
+function startQuiz(m){ var qs=makeQuiz(m); if(qs.length<4){ window.alert('Not enough questions for this quiz yet.'); return; } quiz={m:m,qs:qs,i:0,right:0,done:false}; renderQuiz(); }
+function renderQuiz(){
+  var q=quiz.qs[quiz.i]; meBody.innerHTML=''; $('#meTitle').textContent='Quiz: '+(quiz.m==='all'?'every mode':modeName(quiz.m));
+  if(quiz.done){ var d=Store.get(), n=quiz.qs.length, s=d.quiz[quiz.m];
+    var big=h('div','me-big'); big.appendChild(h('b',null,quiz.right+' / '+n)); big.appendChild(h('span',null,quiz.right===n?'Perfect score!':(quiz.right>=n*0.7?'Well done!':'Keep exploring and try again.'))); meBody.appendChild(big);
+    if(s) meBody.appendChild(h('p','mine-sub','Best score: '+s.best+' / '+s.of+' · quizzes taken: '+s.n));
+    var b=h('div','me-btns'); b.appendChild(btn('Try another',function(){ startQuiz(quiz.m); },'primary')); b.appendChild(btn('Back to My learning',function(){ quiz=null; renderMe(); $('#meClose').focus(); })); meBody.appendChild(b);
+    b.firstChild.focus(); return; }
+  meBody.appendChild(h('p','me-q-head','Question '+(quiz.i+1)+' of '+quiz.qs.length+' · '+quiz.right+' right so far'));
+  meBody.appendChild(h('p','me-q-text',q.kind==='f'?'Which part does this?':'Which part is this about?'));
+  meBody.appendChild(h('p','me-q-quote',q.text));
+  var opts=h('div','me-q-opts'), fb=h('p','me-q-fb'); fb.setAttribute('aria-live','polite');
+  q.opts.forEach(function(id){ opts.appendChild(btn(R[id].name,function(){
+    if(q.answered) return; q.answered=true; var ok=id===q.id; if(ok) quiz.right++;
+    Array.prototype.forEach.call(opts.children,function(b,i){ var o=q.opts[i]; if(o===q.id) b.classList.add('right'); else if(o===id) b.classList.add('wrong'); b.setAttribute('aria-disabled','true'); });
+    fb.textContent=(ok?'Correct! ':'Not quite. The answer is '+R[q.id].name+'. ')+(R[q.id].where?'Where: '+R[q.id].where+'.':'');
+    var last=quiz.i===quiz.qs.length-1, nx=btn(last?'See my score':'Next question',function(){ if(last){ quiz.done=true; var d=Store.get(), s=d.quiz[quiz.m]||{best:0,of:quiz.qs.length,n:0};
+        s.n++; s.last=quiz.right; s.of=quiz.qs.length; if(quiz.right>=s.best) s.best=quiz.right; s.ts=Date.now(); d.quiz[quiz.m]=s; d.days[dayKey()]=1; Store.save(); } else quiz.i++; renderQuiz(); },'primary');
+    foot.insertBefore(nx,foot.firstChild); nx.focus(); })); });
+  var foot=h('div','me-btns me-q-foot'); foot.appendChild(btn('Stop quiz',function(){ quiz=null; renderMe(); $('#meClose').focus(); }));
+  meBody.appendChild(opts); meBody.appendChild(fb); meBody.appendChild(foot);
+  opts.firstChild.focus();
+}
+$('#meBtn').addEventListener('click',openMe);
+$('#meClose').addEventListener('click',function(){ closeMe(); });
+meEl.addEventListener('click',function(e){ if(e.target===meEl) closeMe(); });
+meEl.addEventListener('keydown',function(e){ if(e.key!=='Tab') return; var f=meEl.querySelectorAll('button:not([disabled]),[href],textarea,input:not([hidden])'); if(!f.length) return; var a=f[0], z=f[f.length-1];
+  if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); } });
 $('#goBtn').addEventListener('click',function(){ intro.classList.add('hidden'); canvas.focus({preventScroll:true}); });
 $('#infoBtn').addEventListener('click',function(){ intro.classList.remove('hidden'); $('#goBtn').focus(); });
 window.addEventListener('keydown',function(e){
-  if(e.target && e.target.tagName==='INPUT' && e.key!=='Escape') return;
+  if(e.target && (e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') && e.key!=='Escape') return;
+  if(!meEl.classList.contains('hidden')){ if(e.key==='Escape'){ e.preventDefault(); closeMe(); } return; }
   if(e.ctrlKey || e.metaKey || e.altKey) return;
   if(/^Arrow/.test(e.key) && e.target && e.target.closest && e.target.closest('[role=tab],[role=slider]')) return;
   if(e.key==='Escape'){ if(!ddMenu.hidden) closeDD(); else if(!intro.classList.contains('hidden')) $('#goBtn').click(); else closeDetails(); }

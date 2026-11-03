@@ -1,14 +1,14 @@
 /* Brain Explorer service worker: keeps the app working offline after the first visit.
    The page itself is fetched from the network first so updates arrive straight away;
    the cached copy is used when there is no connection or the network is too slow. */
-const CACHE = 'brain-explorer-v1';
-const THREE = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+const CACHE = 'brain-explorer-v2';
+const LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.1.0/fuse.min.js'];
 const CORE = ['./', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all([
     c.addAll(CORE),
-    c.add(new Request(THREE, { mode: 'cors' })).catch(() => {})
+    ...LIBS.map(u => c.add(new Request(u, { mode: 'cors' })).catch(() => {}))
   ])).then(() => self.skipWaiting()));
 });
 
@@ -46,7 +46,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (req.mode === 'navigate' && url.origin === location.origin) { e.respondWith(page(req)); return; }
-  if (url.href === THREE || url.hostname === 'fonts.gstatic.com') { e.respondWith(cacheFirst(req)); return; }
+  if (url.hostname === 'cdnjs.cloudflare.com' || url.hostname === 'fonts.gstatic.com') { e.respondWith(cacheFirst(req)); return; }
   if (url.hostname === 'fonts.googleapis.com' || url.origin === location.origin) { e.respondWith(staleWhileRevalidate(req, e)); return; }
   // anything else (such as visit counting) goes straight to the network
 });

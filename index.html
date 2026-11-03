@@ -374,6 +374,19 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .icon-btn svg{width:18px;height:18px;fill:currentColor}
 #me{position:absolute;inset:0;z-index:21;display:flex;align-items:center;justify-content:center;padding:calc(16px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));background:rgba(6,11,28,.5);backdrop-filter:blur(7px)}
 #me.hidden{display:none}
+#find{position:absolute;inset:0;z-index:21;display:flex;align-items:flex-start;justify-content:center;padding:calc(56px + var(--sat)) calc(16px + var(--sar)) calc(16px + var(--sab)) calc(16px + var(--sal));background:rgba(6,11,28,.5);backdrop-filter:blur(7px)}
+#find.hidden{display:none}
+.find-card{position:relative;max-width:520px}
+.find-card h1{padding-right:44px;font-size:24px}
+#findIn{width:100%;box-sizing:border-box;margin:4px 0 6px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--soft);color:var(--ink);font-size:16px;font-family:inherit}
+#findIn:focus{outline:2px solid var(--accent);outline-offset:1px}
+#findList{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
+.find-item{display:block;width:100%;box-sizing:border-box;text-align:left;border:0;background:none;color:var(--ink);border-radius:12px;padding:9px 10px;cursor:pointer;font-family:inherit}
+.find-item:hover,.find-item:focus-visible{background:var(--soft)}
+.find-item b{display:flex;align-items:center;gap:8px;font-size:15px}
+.find-item b i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.find-item span{display:block;color:var(--muted);font-size:13px;line-height:1.4;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.find-head{margin:10px 0 2px;font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .me-card{position:relative;max-width:520px}
 .me-x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:var(--soft);color:var(--ink);font-size:15px;cursor:pointer}
 .me-card h1{padding-right:44px}
@@ -386,13 +399,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .me-big b{font:700 28px/1 var(--head);white-space:nowrap}
 .me-big span{color:var(--muted);font-size:14px}
 .me-rows{display:grid;gap:4px}
-.me-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 58px;align-items:center;gap:10px;width:100%;border:0;background:none;padding:7px 8px;border-radius:12px;color:var(--ink);font-weight:600;font-size:14px;font-family:inherit;text-align:left;cursor:pointer}
+.me-row{box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 92px 58px;align-items:center;gap:10px;width:100%;border:0;background:none;padding:7px 8px;border-radius:12px;color:var(--ink);font-weight:600;font-size:14px;font-family:inherit;text-align:left;cursor:pointer}
 .me-row:hover,.me-row:focus-visible{background:var(--soft)}
 .me-row small{color:var(--muted);font-weight:600;font-size:12.5px;white-space:nowrap;text-align:right}
 .me-chips{display:flex;flex-wrap:wrap;gap:6px}
 .me-chips button,.me-btns button,.me-q-opts button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:999px;padding:8px 12px;font-weight:600;font-size:13.5px;font-family:inherit;cursor:pointer}
 .me-chips button:hover,.me-btns button:hover{border-color:var(--accent)}
-.me-note{display:block;width:100%;text-align:left;border:0;background:var(--soft);color:var(--ink);border-radius:12px;padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit}
+.me-note{display:block;width:100%;box-sizing:border-box;text-align:left;border:0;background:var(--soft);color:var(--ink);border-radius:12px;padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit}
 .me-note b{display:block;font-size:14px}
 .me-note span{display:block;color:var(--muted);font-size:13px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .me-btns{display:flex;flex-wrap:wrap;gap:6px}
@@ -449,7 +462,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   <div id="top">
     <div class="bar">
       <div class="brand"><h1>Brain Explorer</h1><p>Tap any part to learn more</p></div>
-      <div class="bar-btns"><button class="icon-btn" id="meBtn" aria-label="My learning: progress, favorites, notes and quizzes" title="My learning"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg></button><button class="icon-btn" id="infoBtn" aria-label="About this app">i</button></div>
+      <div class="bar-btns"><button class="icon-btn" id="findBtn" aria-label="Search every part" title="Search (press /)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.9 12.1l4.3 4.3-1.4 1.4-4.3-4.3A7.5 7.5 0 1 1 10.5 3zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/></svg></button><button class="icon-btn" id="meBtn" aria-label="My learning: progress, favorites, notes and quizzes" title="My learning"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg></button><button class="icon-btn" id="infoBtn" aria-label="About this app">i</button></div>
     </div>
     <div class="ctrl">
       <div class="modes" role="tablist" aria-label="Choose a model">
@@ -611,11 +624,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <div class="card me-card"><button id="meClose" class="me-x" aria-label="Close">&#10005;</button><h1 id="meTitle">My learning</h1><div id="meBody"></div></div>
   </div>
   <input type="file" id="meFile" accept="application/json,.json" hidden>
+  <div id="find" class="hidden" role="dialog" aria-modal="true" aria-labelledby="findTitle">
+    <div class="card me-card find-card"><button id="findClose" class="me-x" aria-label="Close">&#10005;</button><h1 id="findTitle">Search</h1>
+      <input id="findIn" type="search" placeholder="Search every part, e.g. hippocampus" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="findHint" aria-controls="findList">
+      <p id="findHint" class="mine-sub" aria-live="polite"></p><div id="findList"></div></div>
+  </div>
 
   <div id="fallback" hidden><div><h2>The 3D engine could not load</h2><p>Check your connection and reload this page.</p></div></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.1.0/fuse.min.js"></script>
 <script>
 (function(){
 'use strict';
@@ -3940,6 +3959,45 @@ $('#meClose').addEventListener('click',function(){ closeMe(); });
 meEl.addEventListener('click',function(e){ if(e.target===meEl) closeMe(); });
 meEl.addEventListener('keydown',function(e){ if(e.key!=='Tab') return; var f=meEl.querySelectorAll('button:not([disabled]),[href],textarea,input:not([hidden])'); if(!f.length) return; var a=f[0], z=f[f.length-1];
   if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); } });
+
+/* ------------------------------------------------------------------ search every part (Fuse.js, with a simple fallback) */
+var findEl=$('#find'), findIn=$('#findIn'), findList=$('#findList'), findHint=$('#findHint'), fuse=null, findDocs=null, findT=0;
+function findData(){ if(findDocs) return findDocs;
+  findDocs=REGIONS.map(function(r){ return {id:r.id,name:r.name,short:r.short||'',where:r.where||'',group:(r.group||'').split(': ').pop(),funcs:(r.funcs||[]).join(' · '),summary:r.summary||''}; });
+  return findDocs; }
+function findSearch(q){
+  var docs=findData();
+  if(!fuse && window.Fuse) fuse=new window.Fuse(docs,{keys:[{name:'name',weight:3},{name:'short',weight:2},{name:'group',weight:1},{name:'where',weight:1},{name:'funcs',weight:0.8},{name:'summary',weight:0.4}],threshold:0.34,ignoreLocation:true,minMatchCharLength:2});
+  if(fuse) return fuse.search(q,{limit:20}).map(function(x){ return x.item.id; });
+  // the library did not load (for example offline on a first visit): plain word matching instead
+  var words=q.toLowerCase().split(/\s+/).filter(Boolean);
+  return docs.map(function(d){ var sc=0; words.forEach(function(w){ if(d.name.toLowerCase().indexOf(w)>=0) sc+=3; if(d.short.toLowerCase().indexOf(w)>=0) sc+=2; if((d.where+' '+d.group).toLowerCase().indexOf(w)>=0) sc+=1; if((d.funcs+' '+d.summary).toLowerCase().indexOf(w)>=0) sc+=0.5; }); return [d.id,sc]; })
+    .filter(function(x){ return x[1]>0; }).sort(function(a,b){ return b[1]-a[1]; }).slice(0,20).map(function(x){ return x[0]; });
+}
+function findItem(id){ var r=R[id], b=btn('',function(){ closeFind(true); goPart(id); },'find-item'), t=h('b'), dot=h('i');
+  dot.style.background=r.color||'var(--accent)'; t.appendChild(dot); t.appendChild(document.createTextNode(r.name)); b.appendChild(t);
+  b.appendChild(h('span',null,modeName(modeOf(id))+(r.where?' · '+r.where:''))); b.setAttribute('aria-label',r.name+', in '+modeName(modeOf(id))); return b; }
+function renderFind(){
+  var q=findIn.value.trim(); findList.innerHTML='';
+  if(q.length<2){ var d=Store.get(), rec=Object.keys(d.viewed).filter(function(id){ return R[id]; }).sort(function(a,b){ return d.viewed[b]-d.viewed[a]; }).slice(0,6);
+    findHint.textContent='Type a name, a place or what a part does, such as “memory” or “balance”.'+(window.Fuse?' Spelling mistakes are fine.':'');
+    if(rec.length){ findList.appendChild(h('p','find-head','Recently explored')); rec.forEach(function(id){ findList.appendChild(findItem(id)); }); }
+    return; }
+  var ids=findSearch(q);
+  findHint.textContent=ids.length?(ids.length===20?'Top 20 results':ids.length+(ids.length===1?' result':' results')):'No parts match “'+q+'”. Try another word.';
+  ids.forEach(function(id){ findList.appendChild(findItem(id)); });
+}
+function openFind(){ closeMe(true); findEl.classList.remove('hidden'); findIn.value=''; renderFind(); findIn.focus(); }
+function closeFind(keepFocus){ if(findEl.classList.contains('hidden')) return; findEl.classList.add('hidden'); if(!keepFocus) $('#findBtn').focus(); }
+findIn.addEventListener('input',function(){ clearTimeout(findT); findT=setTimeout(renderFind,90); });
+findIn.addEventListener('keydown',function(e){ if(e.key==='ArrowDown' || e.key==='Enter'){ var f=findList.querySelector('.find-item'); if(f){ e.preventDefault(); if(e.key==='Enter') f.click(); else f.focus(); } } });
+findList.addEventListener('keydown',function(e){ var items=Array.prototype.slice.call(findList.querySelectorAll('.find-item')), i=items.indexOf(document.activeElement); if(i<0) return;
+  if(e.key==='ArrowDown'){ e.preventDefault(); (items[i+1]||items[i]).focus(); } else if(e.key==='ArrowUp'){ e.preventDefault(); if(i>0) items[i-1].focus(); else findIn.focus(); } });
+$('#findBtn').addEventListener('click',openFind);
+$('#findClose').addEventListener('click',function(){ closeFind(); });
+findEl.addEventListener('click',function(e){ if(e.target===findEl) closeFind(); });
+findEl.addEventListener('keydown',function(e){ if(e.key!=='Tab') return; var f=findEl.querySelectorAll('button,input'); var a=f[0], z=f[f.length-1];
+  if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); } });
 // keep the app working offline (sw.js sits next to this page)
 if('serviceWorker' in navigator && window.isSecureContext && /^https?:$/.test(location.protocol)) window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 $('#goBtn').addEventListener('click',function(){ intro.classList.add('hidden'); canvas.focus({preventScroll:true}); });
@@ -3947,6 +4005,8 @@ $('#infoBtn').addEventListener('click',function(){ intro.classList.remove('hidde
 window.addEventListener('keydown',function(e){
   if(e.target && (e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') && e.key!=='Escape') return;
   if(!meEl.classList.contains('hidden')){ if(e.key==='Escape'){ e.preventDefault(); closeMe(); } return; }
+  if(!findEl.classList.contains('hidden')){ if(e.key==='Escape'){ e.preventDefault(); closeFind(); } return; }
+  if(e.key==='/' && intro.classList.contains('hidden')){ e.preventDefault(); openFind(); return; }
   if(e.ctrlKey || e.metaKey || e.altKey) return;
   if(/^Arrow/.test(e.key) && e.target && e.target.closest && e.target.closest('[role=tab],[role=slider]')) return;
   if(e.key==='Escape'){ if(!ddMenu.hidden) closeDD(); else if(!intro.classList.contains('hidden')) $('#goBtn').click(); else closeDetails(); }

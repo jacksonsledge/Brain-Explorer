@@ -1,0 +1,12 @@
+{
+  "name": "brain-explorer",
+  "private": true,
+  "description": "Type checking for Brain Explorer. The site itself needs no build: index.html is served as is.",
+  "scripts": {
+    "typecheck": "node scripts/typecheck.mjs"
+  },
+  "devDependencies": {
+    "@types/three": "0.128.0",
+    "typescript": "6.0.3"
+  }
+}

@@ -4491,8 +4491,8 @@ function downloadBackup(){
   Store.flush(); var blob=new Blob([JSON.stringify(Store.get(),null,1)],{type:'application/json'}), a=document.createElement('a');
   a.href=URL.createObjectURL(blob); a.download='brain-explorer-backup-'+dayKey()+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
 }
-$('#meFile').addEventListener('change',function(){ var f=this.files && this.files[0]; this.value=''; if(!f) return; var rd=new FileReader();
-  rd.onload=function(){ var d=null; try{ d=Store.clean(JSON.parse(rd.result)); }catch(e){}
+$('#meFile').addEventListener('change',function(){ var inp=/** @type {HTMLInputElement} */(this), f=inp.files && inp.files[0]; inp.value=''; if(!f) return; var rd=new FileReader();
+  rd.onload=function(){ var d=null; try{ d=Store.clean(JSON.parse(String(rd.result))); }catch(e){}
     if(!d){ window.alert('That file is not a Brain Explorer backup.'); return; }
     if(window.confirm('Replace your saved progress, favorites, notes and quiz scores on this device with this backup?')){ Store.replace(d); mineId=null; syncMine(); renderMe(); $('#meClose').focus(); } };
   rd.readAsText(f); });

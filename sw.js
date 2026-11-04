@@ -1,20 +1,23 @@
 /* Brain Explorer service worker: keeps the app working offline after the first visit.
    The page itself is fetched from the network first so updates arrive straight away;
    the cached copy is used when there is no connection or the network is too slow. */
+/// <reference lib="webworker" />
+/** @type {ServiceWorkerGlobalScope} */
+const sw = /** @type {any} */ (self);
 const CACHE = 'brain-explorer-v2';
 const LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.1.0/fuse.min.js'];
 const CORE = ['./', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
-self.addEventListener('install', e => {
+sw.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all([
     c.addAll(CORE),
     ...LIBS.map(u => c.add(new Request(u, { mode: 'cors' })).catch(() => {}))
-  ])).then(() => self.skipWaiting()));
+  ])).then(() => sw.skipWaiting()));
 });
 
-self.addEventListener('activate', e => {
+sw.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
-    .then(() => self.clients.claim()));
+    .then(() => sw.clients.claim()));
 });
 
 // the page: network first, falling back to the cached copy after a few seconds or when offline
@@ -33,6 +36,7 @@ function cacheFirst(req) {
   }));
 }
 // everything else we keep: answer from the cache, then refresh it in the background
+/** @param {Request} req @param {ExtendableEvent} e */
 function staleWhileRevalidate(req, e) {
   return caches.open(CACHE).then(c => c.match(req).then(m => {
     const net = fetch(req).then(r => { if (r.ok || r.type === 'opaque') c.put(req, r.clone()); return r; });
@@ -41,7 +45,7 @@ function staleWhileRevalidate(req, e) {
   }));
 }
 
-self.addEventListener('fetch', e => {
+sw.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);

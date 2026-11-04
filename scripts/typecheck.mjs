@@ -23,7 +23,8 @@ function check(configFile) {
   const cfg = ts.getParsedCommandLineOfConfigFile(path.join(root, configFile), {}, { ...ts.sys, onUnRecoverableConfigFileDiagnostic: d => { throw new Error(ts.flattenDiagnosticMessageText(d.messageText, '\n')); } });
   const program = ts.createProgram(cfg.fileNames, cfg.options);
   return ts.getPreEmitDiagnostics(program).map(d => {
-    const msg = ts.flattenDiagnosticMessageText(d.messageText, ' ');
+    // messages can name files by full path, which differs between computers, so make paths relative
+    const msg = ts.flattenDiagnosticMessageText(d.messageText, ' ').split(root + path.sep).join('');
     if (!d.file) return { where: configFile, line: 0, code: d.code, msg, text: '' };
     const { line } = d.file.getLineAndCharacterOfPosition(d.start);
     const text = d.file.text.split('\n')[line].trim().slice(0, 160);

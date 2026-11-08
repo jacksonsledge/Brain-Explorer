@@ -8833,11 +8833,12 @@ function glowSetup(){
   var w=Math.max(2,Math.round(W*pixelRatio/2)), h=Math.max(2,Math.round(H*pixelRatio/2));
   if(glowRT && w===glowW && h===glowH) return; glowW=w; glowH=h;
   if(!glowRT){ glowRT=new THREE.WebGLRenderTarget(w,h,{minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter,format:THREE.RGBAFormat});
-    glowBloom=new THREE.UnrealBloomPass(new THREE.Vector2(w,h),1,0.55,0);
+    glowBloom=new THREE.UnrealBloomPass(new THREE.Vector2(w,h),0.85,0.45,0);
     glowQuad=new THREE.FullScreenQuad(new THREE.ShaderMaterial({uniforms:{tGlow:{value:null},amt:{value:1}},transparent:true,depthTest:false,depthWrite:false,
       blending:THREE.CustomBlending,blendEquation:THREE.AddEquation,blendSrc:THREE.OneFactor,blendDst:THREE.OneFactor,
       vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
-      fragmentShader:'uniform sampler2D tGlow; uniform float amt; varying vec2 vUv; void main(){ vec3 c=texture2D(tGlow,vUv).rgb*amt; gl_FragColor=vec4(c,clamp(max(c.r,max(c.g,c.b)),0.0,1.0)); }'})); }
+      // soft limit: one glow shows clearly, but many overlapping glows level off instead of adding up to a white blob
+      fragmentShader:'uniform sampler2D tGlow; uniform float amt; varying vec2 vUv; void main(){ vec3 c=texture2D(tGlow,vUv).rgb; c=amt*(vec3(1.0)-exp(-1.6*c)); gl_FragColor=vec4(c,clamp(max(c.r,max(c.g,c.b)),0.0,1.0)); }'})); }
   else { glowRT.setSize(w,h); glowBloom.setSize(w,h); }
 }
 function glowing(m){
@@ -8862,7 +8863,7 @@ function renderGlow(){
     var oc=renderer.getClearColor(new THREE.Color()), oa=renderer.getClearAlpha();
     renderer.setRenderTarget(glowRT); renderer.setClearColor(0x000000,0); renderer.clear(); renderer.render(scene,camera);
     glowBloom.render(renderer,null,glowRT,0,false);
-    glowQuad.material.uniforms.tGlow.value=glowBloom.renderTargetsHorizontal[0].texture; glowQuad.material.uniforms.amt.value=slDark()?1:0.7;
+    glowQuad.material.uniforms.tGlow.value=glowBloom.renderTargetsHorizontal[0].texture; glowQuad.material.uniforms.amt.value=slDark()?0.5:0.38;
     renderer.setRenderTarget(null); var ac=renderer.autoClear; renderer.autoClear=false; glowQuad.render(renderer); renderer.autoClear=ac;
     renderer.setClearColor(oc,oa);
   } } finally {

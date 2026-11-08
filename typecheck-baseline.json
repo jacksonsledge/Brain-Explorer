@@ -76,7 +76,7 @@
  "index.html | 2339 | Property 'clientX' does not exist on type 'Event'. | else if(t==='gesturechange'){ var c=canvasXY(e.clientX,e.clientY); zoomAt(gScale/e.scale,c[0],c[1]); gScale=e.scale; kick(); }": 1,
  "index.html | 2339 | Property 'clientY' does not exist on type 'Event'. | else if(t==='gesturechange'){ var c=canvasXY(e.clientX,e.clientY); zoomAt(gScale/e.scale,c[0],c[1]); gScale=e.scale; kick(); }": 1,
  "index.html | 2339 | Property 'scale' does not exist on type 'Event'. | else if(t==='gesturechange'){ var c=canvasXY(e.clientX,e.clientY); zoomAt(gScale/e.scale,c[0],c[1]); gScale=e.scale; kick(); }": 2,
- "index.html | 2339 | Property 'isMesh' does not exist on type 'Object3D'. | if(o.isMesh){ if(glowing(o)){ any=true; return; }": 1,
+ "index.html | 2339 | Property 'isMesh' does not exist on type 'Object3D'. | if(o.isMesh){ if(o.userData.cutHelper){ glowHid.push(o); return; } if(glowing(o)){ any=true; return; }": 1,
  "index.html | 2339 | Property 'material' does not exist on type 'Object3D'. | if(o.material && !Array.isArray(o.material) && (!o.material.transparent || o.material.opacity>0.9) && o.material.depthWrite!==false){ glowSwap.push(o,o.material": 7,
  "index.html | 2339 | Property 'isLine' does not exist on type 'Object3D'. | else if(o.isLine || o.isPoints || o.isSprite) glowHid.push(o);": 1,
  "index.html | 2339 | Property 'isPoints' does not exist on type 'Object3D'. | else if(o.isLine || o.isPoints || o.isSprite) glowHid.push(o);": 1,

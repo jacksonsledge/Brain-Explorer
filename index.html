@@ -57,7 +57,7 @@ button{font:inherit;color:inherit;touch-action:manipulation}
 button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #app{position:fixed;inset:0;overflow:hidden}
 #c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab;outline:none}
-#c,#top,#tools,#labels,#layers,#dbar,#slbar,#csbar,#zoom,#hint{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#c,#top,#tools,#labels,#layers,#slicer,#dbar,#slbar,#csbar,#zoom,#hint{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #c.panning{cursor:move}
 
 /* top bar */
@@ -239,6 +239,18 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .ly-row.sel .ly-name span{font-weight:800}
 .ly-actions{display:flex;gap:6px;padding:6px 2px 2px}
 .ly-actions button{flex:1;min-height:34px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-weight:600;font-size:12.5px;cursor:pointer;color:var(--ink)}
+#slicer{position:absolute;left:calc(12px + var(--sal));top:calc(var(--topui,100px) + 6px);z-index:6;width:min(250px,calc(100% - 96px));padding:6px;border-radius:16px;
+  background:var(--panel);border:1px solid var(--line);box-shadow:0 8px 24px rgba(6,11,28,.25);backdrop-filter:blur(12px)}
+.sc-dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:2px 2px 6px}
+.sc-dir button{min-height:34px;border-radius:10px;border:1px solid var(--line);background:var(--soft);font-weight:600;font-size:13px;cursor:pointer;color:var(--ink)}
+.sc-dir button[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:#fff}
+#scPos{display:block;width:calc(100% - 8px);margin:4px 4px 0;accent-color:var(--accent)}
+.sc-ends{display:flex;justify-content:space-between;padding:0 6px;font-size:11.5px;color:var(--muted)}
+.sc-note{margin:6px 6px 4px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.sc-key{display:flex;flex-wrap:wrap;gap:4px 12px;padding:0 6px 2px;font-size:12px;color:var(--muted)}
+.sc-key i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
+@media (max-width:599px), (max-height:520px){ .sc-note,.sc-key{display:none} }
+@media (max-width:599px){ #slicer{top:auto;bottom:calc(12px + var(--sab));width:auto;right:calc(78px + var(--sar))} .panel-open #slicer{display:none} }
 .ts{display:none}
 @media (max-width:560px), (max-height:520px){ .tl{display:none} .ts{display:inline} }
 @media (max-width:560px){ .mode{padding:8px 8px} }
@@ -501,6 +513,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
   <div id="tools">
     <button class="tool" id="bReset" aria-label="Reset view"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 4 3 9 8 9"/></svg>Reset</button>
     <button class="tool brain-only dz-x" id="bXray" aria-pressed="false" aria-label="Toggle X-ray view"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>X-ray</button>
+    <button class="tool brain-only" id="bSlice" aria-pressed="false" aria-label="Slice the brain open"><svg viewBox="0 0 24 24"><path d="M12 3a8 9 0 0 0 0 18"/><path d="M12 3a8 9 0 0 1 0 18" stroke-dasharray="2.5 2.5"/><path d="M12 1v22"/></svg>Slice</button>
     <button class="tool" id="bLabels" aria-pressed="true" aria-label="Toggle name labels"><svg viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>Labels</button>
     <button class="tool" id="bSpin" aria-pressed="false" aria-label="Toggle auto-rotate"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg>Spin</button>
     <button class="tool brain-only" id="bVessels" aria-pressed="true" aria-label="Show or hide blood vessels"><svg viewBox="0 0 24 24"><path d="M12 22V12M12 12L6 6M12 12l6-5M6 6L4 2M6 6L2 8M18 7l2-4M18 7l3 3"/></svg>Vessels</button>
@@ -518,6 +531,17 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div class="ly-row" data-layer="arachnoid"><button class="ly-sw" aria-pressed="true" aria-label="Show or hide the arachnoid mater"><span></span></button><button class="ly-name"><i class="dot" style="--c:#e8eef6"></i><span>Arachnoid mater</span><small>middle</small></button></div>
       <div class="ly-row" data-layer="pia"><button class="ly-sw" aria-pressed="true" aria-label="Show or hide the pia mater"><span></span></button><button class="ly-name"><i class="dot" style="--c:#f4a6ad"></i><span>Pia mater</span><small>inner</small></button></div>
       <div class="ly-actions"><button id="lyPeel">Peel next layer</button><button id="lyAll">Show all</button></div>
+    </div>
+  </div>
+  <div id="slicer" hidden>
+    <button class="ly-head" id="scHead" aria-expanded="true"><span id="scName">Coronal slice</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <div class="ly-body" id="scBody">
+      <div class="sc-dir" role="group" aria-label="Direction of the cut"><button data-ax="z" aria-pressed="true">Front</button><button data-ax="x" aria-pressed="false">Side</button><button data-ax="y" aria-pressed="false">Top</button></div>
+      <input id="scPos" type="range" min="0" max="1" step="0.005" value="0.5" aria-label="Where to cut">
+      <div class="sc-ends"><span id="scA">Front</span><span id="scB">Back</span></div>
+      <p class="sc-note" id="scNote"></p>
+      <div class="sc-key"><span><i style="--c:#9a8c96"></i>Grey matter</span><span><i style="--c:#efe7d8"></i>White matter</span></div>
+      <div class="ly-actions"><button id="scFlip">Show other half</button><button id="scOff">Close slice</button></div>
     </div>
   </div>
   <div id="dbar" hidden>
@@ -577,7 +601,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <div class="grab" id="grab" aria-hidden="true"></div>
     <button id="close" aria-label="Close details">&#10005;</button>
     <div class="scroll" id="scroll">
-      <div class="p-head"><span class="swatch"></span><div><h2 id="pName"></h2><button id="pFav" class="p-fav" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg><span>Save to favorites</span></button><p class="p-where" id="pWhere"></p><span class="badge" id="pBadge" hidden>Deep structure, shown in X-ray view</span></div></div>
+      <div class="p-head"><span class="swatch"></span><div><h2 id="pName"></h2><button id="pFav" class="p-fav" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L12 16.5l-5.3 2.9 1.2-5.9L3.4 9.4l6-.7z"/></svg><span>Save to favorites</span></button><p class="p-where" id="pWhere"></p><span class="badge" id="pBadge" hidden>Deep structure, shown in X-ray and Slice views</span></div></div>
       <p class="summary" id="pSummary"></p>
       <div id="pTree" hidden></div>
       <h3 id="hFuncs">What it does</h3><ul id="pFuncs"></ul>
@@ -3626,6 +3650,7 @@ function menOpacity(){
   });
 }
 function setMeninges(on){
+  if(on && cutOn) setCut(false);
   meningesOn=on; if(on) layerCollapsed=false; $('#bMen').setAttribute('aria-pressed',on?'true':'false'); applyVisibility();
   if(!on && selected && R[selected].kind==='cover') select(null);
 }
@@ -4153,6 +4178,7 @@ function layout(){
 if(window.ResizeObserver){ var ro=new ResizeObserver(layout); ro.observe(app); ro.observe(topEl); ro.observe($('#dbar')); ro.observe($('#slbar')); ro.observe($('#csbar')); } else { window.addEventListener('resize',layout); }
 
 function setXray(on){
+  if(on && cutOn) setCut(false);
   xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false');
   if(!on && selected && R[selected].kind==='deep') select(null);
   if(!on && mode==='think' && selected && R[selected].inner) select(null);
@@ -4176,6 +4202,7 @@ function applyModeChips(){
 }
 function setMode(m){
   if(m===mode) return;
+  if(cutOn) setCut(false);
   if(mode==='diseases') leaveDiseases(); else select(null);
   if(mode==='senses') leaveSenses();
   if(mode==='think') leaveThink();
@@ -4213,7 +4240,7 @@ function fillPanel(r){
   $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think'||r.kind==='hw'||r.kind==='sleep'||r.kind==='mind');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
   panel.style.setProperty('--rc',r.color);
-  $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray view':''); bd.hidden=!bd.textContent;
+  $('#pName').textContent=r.name; $('#pWhere').textContent=r.where; var bd=$('#pBadge'); bd.textContent=r.badge||(r.kind==='deep'?'Deep structure, shown in X-ray and Slice views':''); bd.hidden=!bd.textContent;
   $('#pSummary').textContent=r.summary; $('#pDamage').textContent=r.damage; $('#pFact').textContent=r.fact; $('#pJump').hidden=!r.jump;
   var tree=$('#pTree'); tree.innerHTML='';
   if(r.kind==='section'){
@@ -4265,6 +4292,7 @@ function focusOn(r){
   if(r.mode==='hw'){ hwFocus(r); return; }
   if(r.mode==='sleep'){ sleepFocus(r); return; }
   if(r.mode==='mind'){ mindFocus(r); return; }
+  if(cutOn && mode==='brain'){ cutFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
   if(r.mode==='nerves'||r.mode==='sections'||r.mode==='spine'){ var at=r.at||(r.mode==='spine'?(r.sv==='whole'?[0,0.82,-0.1]:[0.35,-0.08,0.05]):[0,0,0]); tgt.zoom=r.zoom||0.6; CENTER_T.set(at[0],at[1],at[2]); }
@@ -4280,7 +4308,7 @@ function select(id){
   if(mode==='mind' && isCS(id)){ var csSw2=R[id].lv!==csv; if(csSw2) csSetView(R[id].lv,true); if(R[id].st){ csSetState(R[id].st); if(csSw2) mindFocus(R.cs_states); }
     if(R[id].ol && R[id].ol!==csOr) csSetOr(R[id].ol); if(R[id].ml && R[id].ml!==csMl) csSetMl(R[id].ml); if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
-  if(id && R[id].kind==='deep' && !xray) setXray(true);
+  if(id && R[id].kind==='deep' && !xray && !cutOn) setXray(true);
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
   if(id && R[id].kind==='cover' && !meningesOn) setMeninges(true);
   selected=id;
@@ -4305,6 +4333,7 @@ function resetView(){
   if(mode==='sleep'){ tgt.az=cur.az+wrap(20*Math.PI/180-cur.az); tgt.el=(slv==='cycle'?14:10)*Math.PI/180; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false); if(selected) select(null); return; }
   if(mode==='hw'){ var hd=HW_DEF[hView]; tgt.az=cur.az+wrap(hd.az-cur.az); tgt.el=hd.el; tgt.zoom=1; CENTER_T.copy(HW_C[hView]); setSpin(false); if(selected) select(null); return; }
   if(mode==='think'){ var td=TH_DEF[tView]; tgt.az=cur.az+wrap(td.az-cur.az); tgt.el=td.el; tgt.zoom=1; CENTER_T.copy(TH_C[tView]); setSpin(false); if(selected) select(null); return; }
+  if(cutOn && mode==='brain'){ cutAim(); if(selected) select(null); return; }
   var dv=mode==='spine'?(sView==='whole'?DEF_W:DEF_X):(bodyView()?DEFN:((mode==='senses' && seView==='head')?DEF_SE:DEF)); tgt.az=cur.az+wrap(dv.az-cur.az); tgt.el=dv.el; tgt.zoom=1;
   CENTER_T.copy(mode==='spine'?(sView==='whole'?WHOLE_C:CROSS_C):(bodyView()?BODY_C:((mode==='senses' && seView==='head')?SENSE_C:BRAIN_C))); setSpin(false);
   if(selected) select(null);
@@ -8514,6 +8543,160 @@ $('#lyPeel').addEventListener('click',function(){
   if(next) setLayer(next,false); else { MEN_LAYERS.forEach(function(l){ layerOn[l]=true; }); applyVisibility(); }
 });
 
+/* ------------------------------------------------------------ slice view */
+// Cuts the brain with one flat plane. Each solid part gets a filled face where it is cut
+// (drawn with the stencil buffer), so the cut looks like a real brain slice:
+// grey matter outside, white matter inside, and deep parts in their own colors.
+var cutOn=false, cutAx='z', cutPos={z:0.5,x:0.5,y:0.4}, cutFlip=false, cutPlane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
+var cutG=null, cutBox=null, cutParts=[], cutCaps=[], cutMats=[], cutAt={}, cutCollapsed=false, cutCard=$('#slicer');
+var CUT_GREY='#9a8c96', CUT_WHITE='#efe7d8';
+var CUT_INFO={
+  z:{name:'Coronal slice',a:'Front',b:'Back',note:'Cuts from front to back, like slicing a loaf of bread. Slide to move the cut.'},
+  x:{name:'Sagittal slice',a:'Left side',b:'Right side',note:'Cuts between left and right. In the middle you see the inner face of one half.'},
+  y:{name:'Horizontal slice',a:'Top',b:'Bottom',note:'Cuts from the top down, like lifting off the layers of a cake.'}
+};
+var cutTM=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshBasicMaterial({side:THREE.DoubleSide})), cutRC=new THREE.Raycaster(), cutHits=[], cutDir=new THREE.Vector3(), cutP=new THREE.Vector3(), cutQ=new THREE.Quaternion(), cutZ=new THREE.Vector3(0,0,1), cutOne=new THREE.Vector3(1,1,1), cutCol=new THREE.Color(), cutWhite=new THREE.Color(1,1,1);
+function cutStencilMat(side,op){
+  return new THREE.MeshBasicMaterial({side:side,colorWrite:false,depthWrite:false,depthTest:false,stencilWrite:true,stencilFunc:THREE.AlwaysStencilFunc,stencilFail:op,stencilZFail:op,stencilZPass:op,clippingPlanes:[cutPlane]});
+}
+function cutBuild(){
+  if(cutG) return;
+  renderer.localClippingEnabled=true;
+  cutG=new THREE.Group(); cutG.visible=false; scene.add(cutG);
+  brain.updateMatrixWorld(true);
+  var capGeo=new THREE.PlaneGeometry(8,8), order=20;
+  function add(src,id,color,scale,side){
+    var m=src.matrixWorld.clone();
+    if(scale!==1){
+      if(!src.geometry.boundingBox) src.geometry.computeBoundingBox();
+      var c=src.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(src.matrixWorld);
+      m=new THREE.Matrix4().makeTranslation(c.x,c.y,c.z).multiply(new THREE.Matrix4().makeScale(scale,scale,scale)).multiply(new THREE.Matrix4().makeTranslation(-c.x,-c.y,-c.z)).multiply(m);
+    }
+    [cutStencilMat(THREE.BackSide,THREE.IncrementWrapStencilOp),cutStencilMat(THREE.FrontSide,THREE.DecrementWrapStencilOp)].forEach(function(mat){
+      var h=new THREE.Mesh(src.geometry,mat); h.matrixAutoUpdate=false; h.matrix.copy(m); h.renderOrder=order; h.userData.cutHelper=true; h.frustumCulled=false; cutG.add(h);
+    });
+    var cap=new THREE.Mesh(capGeo,new THREE.MeshBasicMaterial({color:color,side:THREE.DoubleSide,stencilWrite:true,stencilRef:0,stencilFunc:THREE.NotEqualStencilFunc,stencilFail:THREE.ReplaceStencilOp,stencilZFail:THREE.ReplaceStencilOp,stencilZPass:THREE.ReplaceStencilOp}));
+    cap.matrixAutoUpdate=false; cap.renderOrder=order+1; cap.userData.cutHelper=true; cap.frustumCulled=false; cutG.add(cap); cutCaps.push(cap);
+    cap.userData.base=new THREE.Color(color); cap.userData.region=(scale===1 && id)?id:null;
+    order+=2;
+    if(scale!==1) return;
+    // world positions, to find which parts the plane passes through
+    var pa=src.geometry.attributes.position, wp=new Float32Array(pa.count*3), v=new THREE.Vector3();
+    for(var i=0;i<pa.count;i++){ v.fromBufferAttribute(pa,i).applyMatrix4(m); wp[i*3]=v.x; wp[i*3+1]=v.y; wp[i*3+2]=v.z; }
+    cutParts.push({src:src,id:id,wp:wp,side:side||0,cut:false});
+  }
+  // the cerebrum and the cerebellum: a thin grey rim of cortex around white matter
+  [[leftHemi,1],[rightHemi,-1]].forEach(function(h){ add(h[0],null,CUT_GREY,1,h[1]); add(h[0],null,CUT_WHITE,0.93); });
+  R.cerebellum.meshes.forEach(function(m){ add(m,'cerebellum',CUT_GREY,1); add(m,'cerebellum',CUT_WHITE,0.82); });
+  // the brainstem and the deep parts, in their own colors
+  ['midbrain','pons','medulla'].forEach(function(id){ R[id].meshes.forEach(function(m){ add(m,id,R[id].color,1); }); });
+  deepMeshes.forEach(function(m){ add(m,m.userData.region,R[m.userData.region].color,1); });
+  cutBox=new THREE.Box3(); cutParts.forEach(function(p){ for(var i=0;i<p.wp.length;i+=3) cutBox.expandByPoint(cutP.set(p.wp[i],p.wp[i+1],p.wp[i+2])); });
+  cutBox.expandByScalar(0.01);
+  brain.traverse(function(o){ var mo=/** @type {any} */(o); if(mo.isMesh && mo.material && !Array.isArray(mo.material) && cutMats.indexOf(mo.material)<0) cutMats.push(mo.material); });
+  cutMats.push(glowDark);
+}
+function cutUpdate(){
+  if(!cutBox) return;
+  var a=cutAx, lo=cutBox.min[a], hi=cutBox.max[a], v=hi-(hi-lo)*cutPos[a];
+  cutPlane.normal.set(0,0,0); cutPlane.normal[a]=-1; cutPlane.constant=v;
+  if(cutFlip) cutPlane.negate();
+  cutPlane.coplanarPoint(cutP); cutQ.setFromUnitVectors(cutZ,cutPlane.normal);
+  cutCaps.forEach(function(c){ c.matrix.compose(cutP,cutQ,cutOne); c.matrixWorldNeedsUpdate=true; });
+  // which parts are cut, and where to put their names
+  var best={};
+  cutAt={};
+  cutParts.forEach(function(p){
+    var lo2=1e9, hi2=-1e9, sx=0, sy=0, sz=0, n=0, w=p.wp, nx=cutPlane.normal.x, ny=cutPlane.normal.y, nz=cutPlane.normal.z, k=cutPlane.constant;
+    for(var i=0;i<w.length;i+=3){ var d=nx*w[i]+ny*w[i+1]+nz*w[i+2]+k; if(d<lo2) lo2=d; if(d>hi2) hi2=d; if(d>-0.03 && d<0.03){ sx+=w[i]; sy+=w[i+1]; sz+=w[i+2]; n++; } }
+    p.cut=lo2<0 && hi2>0;
+    if(p.cut && p.id && n && n>(best[p.id]||0)){ best[p.id]=n; cutAt[p.id]=cutPlane.projectPoint(new THREE.Vector3(sx/n,sy/n,sz/n),new THREE.Vector3()); }
+  });
+  kick(600);
+}
+function cutAim(){
+  var az={z:Math.PI/2+0.35,x:0.35,y:Math.PI/2}[cutAx], el=cutAx==='y'?1.15:0.22;
+  if(cutFlip){ if(cutAx==='y') el=-1.15; else az+=Math.PI; }
+  tgt.az=cur.az+wrap(az-cur.az); tgt.el=el; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false);
+}
+function setCut(on){
+  if(on && mode!=='brain') return;
+  if(on===cutOn) return;
+  cutBuild(); cutOn=on;
+  if(on){ if(xray) setXray(false); if(meningesOn) setMeninges(false); dismissHint(); }
+  cutMats.forEach(function(m){ m.clippingPlanes=on?[cutPlane]:null; m.needsUpdate=true; });
+  cutG.visible=on;
+  $('#bSlice').setAttribute('aria-pressed',on?'true':'false');
+  if(on){ cutUpdate(); cutAim(); }
+  else if(selected && R[selected].kind==='deep') select(null);
+  updateCutCard(); kick(1200);
+}
+function setCutAxis(a){ if(a===cutAx) return; cutAx=a; cutFlip=false; cutUpdate(); cutAim(); updateCutCard(); }
+function updateCutCard(){
+  var show=cutOn && mode==='brain'; cutCard.hidden=!show; if(!show) return;
+  var inf=CUT_INFO[cutAx];
+  $('#scName').textContent=inf.name; $('#scA').textContent=inf.a; $('#scB').textContent=inf.b; $('#scNote').textContent=inf.note;
+  $('#scPos').value=String(cutPos[cutAx]);
+  $('#scPos').setAttribute('aria-valuetext',inf.name+', '+Math.round(cutPos[cutAx]*100)+'% of the way from '+inf.a.toLowerCase()+' to '+inf.b.toLowerCase());
+  $('#scBody').hidden=cutCollapsed; $('#scHead').setAttribute('aria-expanded',cutCollapsed?'false':'true');
+  Array.prototype.forEach.call(cutCard.querySelectorAll('.sc-dir button'),function(b){ b.setAttribute('aria-pressed',b.dataset.ax===cutAx?'true':'false'); });
+}
+// the region of the cerebrum under a point inside one half, using the same map as the surface
+function cutLobe(P,side){
+  var dx=(side*P.x-0.34)/0.5, dy=(P.y-0.15)/0.62, dz=P.z/1.05;
+  if(dy<0) dy/=0.72;
+  var l=Math.hypot(dx,dy,dz)||1;
+  return CORTEX_IDS[CIDX[classify(dz/l,dy/l,dx/l,side)]];
+}
+function cutInside(p,P){
+  cutTM.geometry=p.src.geometry; cutTM.matrixWorld.copy(p.src.matrixWorld);
+  cutDir.copy(cutPlane.normal).add(cutP.set(0.013,0.017,0.011)).normalize();
+  cutRC.set(P,cutDir); cutHits.length=0; cutTM.raycast(cutRC,cutHits);
+  return cutHits.length%2===1;
+}
+// a tap on the cut face: the part whose cut face is drawn there
+function cutPickAt(near){
+  var P=rc.ray.intersectPlane(cutPlane,new THREE.Vector3());
+  if(!P) return null;
+  if(near && near.distance<rc.ray.origin.distanceTo(P)-1e-3) return null;
+  for(var i=cutParts.length-1;i>=0;i--){
+    var p=cutParts[i]; if(!p.cut || !cutInside(p,P)) continue;
+    return p.side?cutLobe(P,p.side):p.id;
+  }
+  return null;
+}
+// where a part's name goes while slicing: on its cut face, at its usual place, or hidden (false)
+function cutLbl(r,a){
+  if(cutAt[r.id] && r.kind!=='cortex') return cutAt[r.id];
+  if(r.kind==='deep' || (r.kind==='vessel' && r.id!==selected)) return false;
+  if(cutPlane.distanceToPoint(a.p)<0) return false;
+  return null;
+}
+// picking a part while slicing: move the cut so it can be seen, then face the cut
+function cutFocus(r){
+  var a=anchors[r.id];
+  if(r.kind==='deep' && !cutAt[r.id]){
+    var bb=new THREE.Box3(); r.meshes.forEach(function(m){ bb.expandByObject(m); });
+    var c=bb.getCenter(new THREE.Vector3())[cutAx], lo=cutBox.min[cutAx], hi=cutBox.max[cutAx];
+    cutPos[cutAx]=clamp((hi-c)/(hi-lo),0.02,0.98); cutUpdate(); updateCutCard();
+  } else if(r.kind!=='deep' && !cutAt[r.id] && a && cutPlane.distanceToPoint(a.p)<0){ cutFlip=!cutFlip; cutUpdate(); }
+  cutAim(); tgt.zoom=Math.min(tgt.zoom,r.zoom||0.9);
+}
+function cutFrame(){
+  for(var i=0;i<cutCaps.length;i++){
+    var c=cutCaps[i], id=c.userData.region, st=id?(R[id]._vs||'normal'):'normal';
+    cutCol.copy(c.userData.base);
+    if(st==='sel') cutCol.lerp(cutWhite,0.35); else if(st==='hov') cutCol.lerp(cutWhite,0.18); else if(st==='dim') cutCol.multiplyScalar(0.55);
+    c.material.color.copy(cutCol);
+  }
+}
+$('#bSlice').addEventListener('click',function(){ setCut(!cutOn); });
+$('#scOff').addEventListener('click',function(){ setCut(false); });
+$('#scFlip').addEventListener('click',function(){ cutFlip=!cutFlip; cutUpdate(); cutAim(); });
+$('#scHead').addEventListener('click',function(){ cutCollapsed=!cutCollapsed; updateCutCard(); });
+$('#scPos').addEventListener('input',function(){ cutPos[cutAx]=+this.value; cutUpdate(); updateCutCard(); });
+Array.prototype.forEach.call(cutCard.querySelectorAll('.sc-dir button'),function(b){ b.addEventListener('click',function(){ setCutAxis(b.dataset.ax); }); });
+
 /* ------------------------------------------------------------ picking */
 var rc=new THREE.Raycaster(), ndc=new THREE.Vector2();
 function pickAt(cx,cy){
@@ -8526,6 +8709,7 @@ function pickAt(cx,cy){
   if(mode==='mind') return csPickAt();
   var list=(mode==='senses'?(seView==='head'?sensePickHead:sensePickBody):mode==='spine'?(sView==='whole'?wholePick:crossPick):(bodyView()?nervePickables:pickables)).filter(function(m){ return m.visible; });
   var hits=rc.intersectObjects(list,false).filter(function(x){ return !(x.object.material && x.object.material.userData && x.object.material.userData.faded); });
+  if(cutOn && mode==='brain'){ hits=hits.filter(function(x){ return cutPlane.distanceToPoint(x.point)>-0.002; }); var cf=cutPickAt(hits[0]); if(cf) return cf; }
   if(!hits.length) return null;
   var h=null;
   if((mode==='brain' || mode==='diseases') && xrayT>0.5) h=hits.filter(function(x){ return x.object.userData.deep; })[0];
@@ -8668,7 +8852,7 @@ function renderGlow(){
   var any=false; glowHid.length=0; glowSwap.length=0;
   try{ glowSetup();
   scene.traverseVisible(function(o){
-    if(o.isMesh){ if(glowing(o)){ any=true; return; }
+    if(o.isMesh){ if(o.userData.cutHelper){ glowHid.push(o); return; } if(glowing(o)){ any=true; return; }
       if(o.material && !Array.isArray(o.material) && (!o.material.transparent || o.material.opacity>0.9) && o.material.depthWrite!==false){ glowSwap.push(o,o.material); o.material=glowDark; }
       else glowHid.push(o); }
     else if(o.isLine || o.isPoints || o.isSprite) glowHid.push(o);
@@ -8712,6 +8896,7 @@ function updateLabels(){
   [toolsEl,zoomEl].forEach(function(box){ for(var ti=0;ti<box.children.length;ti++){ var tr=box.children[ti].getBoundingClientRect(); if(!tr.width) continue;
     if(box===toolsEl){ toolsL=Math.min(toolsL,tr.left-ar.left); toolsB=Math.max(toolsB,tr.bottom-ar.top); }
     for(var ty=tr.top+12;ty<tr.bottom;ty+=24) blocks.push({x:(tr.left+tr.right)/2-ar.left,y:ty-ar.top,w:tr.width}); } });
+  if(!cutCard.hidden){ var cr=cutCard.getBoundingClientRect(); if(cr.width) for(var cy=cr.top+12;cy<cr.bottom+12;cy+=24) blocks.push({x:(cr.left+cr.right)/2-ar.left,y:cy-ar.top,w:cr.width}); }
   labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?H-panel.offsetHeight:1e9;
   var items={};
   REGIONS.forEach(function(r){
@@ -8721,12 +8906,15 @@ function updateLabels(){
     var a=anchors[r.id], show=showLabels && !!a;
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
-      else if(r.kind==='deep') show=xrayT>0.6;
+      else if(r.kind==='deep') show=xrayT>0.6 || (cutOn && mode==='brain' && !!cutAt[r.id]);
       else if(r.kind==='vessel') show=vesselsOn;
       else if(r.kind==='cover') show=menVisible() && layerOn[r.id];
     }
     if(show && layerOf(r.id) && !layerOn[layerOf(r.id)]) show=false;
-    if(show){
+    var cp=(show && cutOn && mode==='brain')?cutLbl(r,a):null;
+    if(cp===false) show=false;
+    if(show && cp){ tmpV.copy(cp); }
+    else if(show){
       tmpV.copy(a.p);
       if(a.n){
         tmpD.copy(camera.position).sub(a.p).normalize();
@@ -8766,6 +8954,7 @@ function frame(now){
   cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:(csv==='origin'?0.6:(csv==='mindw'?0.6:0.82)))):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
   var vis=xrayT>0.02;
   for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
+  if(cutOn) cutFrame();
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
   if(mode==='think') thFrame(dt);

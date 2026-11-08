@@ -9,6 +9,7 @@ declare global {
   interface Window {
     Fuse?: any;        // Fuse.js, loaded asynchronously from cdnjs for search
     goatcounter?: any; // GoatCounter, loaded only when visit counting is switched on
+    MeshBVHLib?: any;  // three-mesh-bvh, inlined in index.html for faster tapping
   }
   interface Navigator {
     globalPrivacyControl?: boolean;

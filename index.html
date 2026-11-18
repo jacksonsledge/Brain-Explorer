@@ -2090,6 +2090,62 @@ var REGIONS = [
   damage:'A clot in a sinus can cause severe headaches, raised pressure inside the skull and seizures.',
   fact:'Unlike most veins in the body, the brain\u2019s venous sinuses have no valves.',
   view:{az:-40,el:35}},
+ {id:'bp_motor',kind:'bpath',group:'Pathways',name:'Voluntary Movement Pathway',short:'Movement pathway',color:'#ffd166',
+  where:'Motor cortex to the spinal cord (the corticospinal tract)',hFuncs:'Step by step',
+  summary:'When you decide to move, nerve cells in the motor cortex send signals down long axons through the brainstem to the spinal cord. Most of these fibers cross to the other side in the medulla, so each side of the brain controls the muscles on the opposite side of the body.',
+  funcs:['Motor cortex: large pyramidal neurons fire to start the movement','Internal capsule: the fibers squeeze through a narrow band of white matter between the thalamus and the basal ganglia','Midbrain and pons: they run down the front of the brainstem','Medulla: most fibers cross to the other side at the pyramids','Spinal cord: they reach motor neurons that carry the command out to the muscles'],
+  damage:'A small stroke in the internal capsule, where these fibers are packed tightly together, can weaken the whole opposite side of the body.',
+  fact:'The axons that move your legs run from the top of the brain to the lower spinal cord, so a single nerve cell can be around half a meter long.',
+  rel:['motor','midbrain','pons','medulla'], view:{az:35,el:6}, zoom:0.95},
+ {id:'bp_touch',kind:'bpath',group:'Pathways',name:'Touch and Body Position Pathway',short:'Touch pathway',color:'#4dabf7',
+  where:'Spinal cord to the sensory cortex (the dorsal column pathway)',hFuncs:'Step by step',
+  summary:'Fine touch, vibration and the sense of where your limbs are travel up the back of the spinal cord to the medulla. There the signal is passed to a new nerve cell and crosses to the other side, then rises through the brainstem to the thalamus, which sends it on to the sensory cortex.',
+  funcs:['Spinal cord: the signal rises on the same side it entered, in the back columns','Medulla: it is passed to a second nerve cell, which crosses to the other side','Pons and midbrain: it climbs in a ribbon of fibers called the medial lemniscus','Thalamus: a third nerve cell relays it','Sensory cortex: you feel the touch, mapped to the right part of the body'],
+  damage:'Damage along this route can make it hard to tell where a limb is with your eyes closed, or to recognize an object by touch alone.',
+  fact:'Because the route crosses over, a touch on your right hand is felt first by the left side of your brain.',
+  rel:['medulla','pons','midbrain','thalamus','sensory'], view:{az:30,el:6}, zoom:0.95},
+ {id:'bp_pain',kind:'bpath',group:'Pathways',name:'Pain and Temperature Pathway',short:'Pain pathway',color:'#ff6b6b',
+  where:'Spinal cord to the thalamus and cortex (the spinothalamic tract)',hFuncs:'Step by step',
+  summary:'Pain and temperature signals cross to the other side in the spinal cord soon after they enter, then rise straight to the thalamus. From there the signal splits: the sensory cortex works out where it hurts and how much, while the insula and the cingulate cortex make it feel unpleasant and urge you to act.',
+  funcs:['Spinal cord: the signal crosses over almost as soon as it enters','Brainstem: it rises along the side of the medulla, pons and midbrain','Thalamus: a relay sends it on to several areas at once','Sensory cortex: where it hurts and how strongly','Insula and cingulate cortex: how unpleasant it feels, and the drive to do something about it'],
+  damage:'Damage to one side of this pathway in the spinal cord can leave a person unable to feel pain or temperature on the opposite side of the body below that level.',
+  fact:'The brain can turn pain down. Pathways running back down from the brainstem can block pain signals in the spinal cord, which is one reason an injury may not hurt at first in an emergency.',
+  rel:['medulla','pons','midbrain','thalamus','sensory','insula','cingulate'], view:{az:30,el:8}, zoom:0.95},
+ {id:'bp_memory',kind:'bpath',group:'Pathways',name:'Memory Circuit (Papez Circuit)',short:'Memory circuit',color:'#38d9a9',
+  where:'Hippocampus, mammillary bodies, thalamus and cingulate cortex',hFuncs:'Step by step',
+  summary:'This loop links the hippocampus with the rest of the brain. Signals leave the hippocampus through an arching bundle called the fornix, reach the mammillary bodies at the base of the brain, pass to the front of the thalamus, then to the cingulate cortex, and return to the hippocampus. It helps hold a new experience together long enough for it to become a lasting memory.',
+  funcs:['Hippocampus: ties what, where and when together into a new memory','Fornix: an arching bundle carries the signal over the thalamus','Mammillary bodies: two small bumps at the base of the brain relay it','Front of the thalamus: passes it up to the cortex','Cingulate cortex: links the memory with emotion and attention, then sends it back to the hippocampus'],
+  damage:'Damage to parts of this loop can make it very hard to form new memories. In Korsakoff syndrome, a severe lack of vitamin B1 (thiamine) damages the mammillary bodies and the thalamus.',
+  fact:'The loop is named after the American scientist James Papez, who described it in 1937. He thought it was mainly for emotion; today it is known to matter most for memory.',
+  rel:['hippocampus','hypothalamus','thalamus','cingulate'], view:{az:12,el:12}, zoom:0.85},
+ {id:'bp_reward',kind:'bpath',group:'Pathways',name:'Reward Pathway (Dopamine)',short:'Reward pathway',color:'#c77dff',
+  where:'Midbrain to the nucleus accumbens and the prefrontal cortex',hFuncs:'Step by step',
+  summary:'Dopamine nerve cells in a small area of the midbrain, the ventral tegmental area, send signals forward to the nucleus accumbens, deep in the brain, and to the prefrontal cortex. These signals help you learn which actions lead to good things and motivate you to seek them again.',
+  funcs:['Ventral tegmental area (midbrain): dopamine cells fire when something turns out better than expected','Nucleus accumbens: dopamine here drives wanting and motivation','Prefrontal cortex: dopamine here helps with planning, focus and decisions','Learning: next time, the signs that came before the reward release dopamine by themselves'],
+  damage:'Addictive drugs push dopamine in this pathway far above normal, which can teach the brain to crave them. Too little activity here is linked to low motivation.',
+  fact:'Dopamine is less about pleasure itself and more about wanting and learning. Dopamine cells fire most when a reward is better than expected, and go quiet when it is worse.',
+  rel:['midbrain','basal','prefrontal'], view:{az:12,el:10}, zoom:0.85},
+ {id:'bp_bg',kind:'bpath',group:'Pathways',name:'Movement Selection Loop (Basal Ganglia)',short:'Movement loop',color:'#ff922b',
+  where:'Cortex, basal ganglia, substantia nigra and thalamus',hFuncs:'Step by step',
+  summary:'Before you move, a loop through the basal ganglia helps choose which movement to make and holds back the others. The cortex sends plans to the striatum, dopamine from the substantia nigra tunes the loop, and the result passes through the thalamus and back to the motor cortex.',
+  funcs:['Cortex: sends possible movement plans to the striatum','Substantia nigra: dopamine sets how easily movements get started','Striatum and globus pallidus: release the chosen movement and hold back the others','Thalamus: passes the go-ahead back up to the cortex','Motor and premotor cortex: start the chosen movement'],
+  damage:'In Parkinson’s disease the dopamine cells of the substantia nigra slowly die. Movements become slow and hard to start, and a tremor at rest is common.',
+  fact:'Parkinson’s symptoms usually appear only after more than half of these dopamine cells are gone, because the rest of the loop makes up for the loss for years.',
+  rel:['snigra','basal','thalamus','premotor','motor'], view:{az:35,el:12}, zoom:0.85},
+ {id:'bp_language',kind:'bpath',group:'Pathways',name:'Language Pathway',short:'Language pathway',color:'#f783ac',
+  where:'Left hemisphere: auditory cortex, Wernicke’s area and Broca’s area',hFuncs:'Step by step',
+  summary:'To repeat a word you hear, the signal goes from the auditory cortex to Wernicke’s area, which recognizes the word, then along a curved bundle called the arcuate fasciculus to Broca’s area, which plans the speech, and on to the motor cortex, which moves the lips, tongue and voice box. In most people this network is in the left hemisphere.',
+  funcs:['Auditory cortex: hears the sounds of the word','Wernicke’s area: recognizes the word and its meaning','Arcuate fasciculus: a curved bundle of fibers carries it forward','Broca’s area: plans the sounds and grammar of the reply','Motor cortex: moves the lips, tongue and voice box'],
+  damage:'Damage to the arcuate fasciculus can cause conduction aphasia: the person understands and can speak, but has great trouble repeating what they hear.',
+  fact:'In about 95 out of 100 right-handed people, language is handled mainly by the left hemisphere.',
+  rel:['auditory','wernicke','broca','motor'], view:{az:4,el:8}, zoom:0.9},
+ {id:'bp_fear',kind:'bpath',group:'Pathways',name:'Fear Pathway',short:'Fear pathway',color:'#fa5252',
+  where:'Thalamus, amygdala, hypothalamus and brainstem',hFuncs:'Step by step',
+  summary:'When something might be dangerous, the thalamus sends a quick, rough signal straight to the amygdala and a slower, detailed one through the cortex. The amygdala then sets off the hypothalamus and the brainstem, which speed up the heart, release stress hormones and get the body ready to act.',
+  funcs:['Thalamus: sends a fast, rough copy of what you sensed straight to the amygdala','Sensory cortex: a slower route works out exactly what it is','Amygdala: judges whether it is a threat','Hypothalamus and pituitary: release stress hormones','Brainstem: speeds up the heart and breathing, or makes you freeze'],
+  damage:'People with damage to both amygdalae may not feel fear in the usual way and can miss real danger. An overactive fear pathway is linked to anxiety.',
+  fact:'The fast route is why you can jump back from a stick that looks like a snake before you know what it is. A moment later the slow route tells you it is only a stick.',
+  rel:['thalamus','auditory','amygdala','hypothalamus','pituitary','midbrain','medulla'], view:{az:30,el:6}, zoom:0.9},
  {id:'n_brain',kind:'nerve',mode:'nerves',group:'Central nervous system',name:'Brain',short:'Brain',color:'#f4a7b9',
   where:'Inside the skull',
   summary:'The control center of the nervous system. Together with the spinal cord it forms the central nervous system, which takes in information, makes sense of it and sends out commands.',
@@ -4671,6 +4727,53 @@ var PRIORITY_SP=['sc_t_lcst','sc_t_stt','sc_t_grac','sc_t_cun','sc_t_dsct','sc_t
 var PRIORITY_N=['n_brain','n_cord','n_spinal','n_enteric','n_dura','n_arachnoid','n_pia','n_sciatic','n_brachial','n_vagus','n_median','n_ulnar','n_radial','n_femoral','n_tibial','n_fibular','n_intercostal','n_phrenic','n_cranial','n_sympathetic','n_cauda','n_axillary','n_musculo','n_lumbar','n_sacral','n_obturator'];
 var LABEL_OFFSET={};
 
+/* ---- brain pathways: glowing routes that signals take through the brain (left side shown; +x is the left) */
+// Each route is a list of segments; signals flow from the first point to the last. 's' marks relay stations.
+var BP_ROUTES={
+  bp_motor:{segs:[[[0.52,0.58,0.05],[0.36,0.42,0.04],[0.22,0.18,0.02],[0.08,-0.12,0.08],[0.07,-0.42,0.09],[0.05,-0.72,-0.08],[0,-0.93,-0.22],[-0.05,-1.0,-0.28],[-0.06,-1.09,-0.33]]],
+    s:[[0.52,0.58,0.05],[-0.06,-1.09,-0.33]], lab:[0.36,0.42,0.04]},
+  bp_touch:{segs:[[[-0.05,-1.09,-0.36],[-0.05,-0.96,-0.32],[0,-0.88,-0.24],[0.05,-0.8,-0.18],[0.05,-0.46,-0.06],[0.06,-0.17,-0.03],[0.17,0.08,-0.08],[0.3,0.3,-0.08],[0.6,0.5,-0.1]]],
+    s:[[-0.05,-0.96,-0.32],[0.17,0.08,-0.08],[0.6,0.5,-0.1]], lab:[0.3,0.3,-0.08]},
+  bp_pain:{segs:[[[0.08,-1.09,-0.3],[0.09,-0.8,-0.15],[0.1,-0.46,-0.02],[0.1,-0.17,0.0],[0.16,0.06,-0.04]],
+      [[0.16,0.06,-0.04],[0.3,0.32,-0.06],[0.6,0.5,-0.1]],[[0.16,0.06,-0.04],[0.4,0.05,0.04],[0.56,0.0,0.08]],[[0.16,0.06,-0.04],[0.1,0.25,0.05],[0.07,0.42,0.12]]],
+    s:[[0.16,0.06,-0.04],[0.6,0.5,-0.1],[0.56,0.0,0.08],[0.07,0.42,0.12]], lab:[0.1,-0.46,-0.02]},
+  bp_memory:{segs:[[[0.28,-0.12,-0.2],[0.2,0.0,-0.45],[0.08,0.22,-0.3],[0.04,0.27,-0.05],[0.04,0.15,0.13],[0.05,-0.06,0.15]],
+      [[0.05,-0.06,0.15],[0.08,0.05,0.08],[0.12,0.17,0.04]],[[0.12,0.17,0.04],[0.09,0.33,0.06],[0.06,0.47,0.0]],
+      [[0.06,0.47,0.0],[0.06,0.47,-0.35],[0.1,0.3,-0.55],[0.2,0.05,-0.52],[0.27,-0.1,-0.3]]],
+    s:[[0.28,-0.12,-0.2],[0.05,-0.06,0.15],[0.12,0.17,0.04],[0.06,0.47,0.0]], lab:[0.08,0.22,-0.3]},
+  bp_reward:{segs:[[[0.03,-0.13,0.07],[0.08,-0.08,0.15],[0.15,-0.04,0.22]],[[0.03,-0.13,0.07],[0.05,0.0,0.2],[0.15,0.15,0.4],[0.45,0.25,0.72]]],
+    s:[[0.03,-0.13,0.07],[0.15,-0.04,0.22],[0.45,0.25,0.72]], lab:[0.06,-0.36,0.1]},
+  bp_bg:{segs:[[[0.06,-0.12,0.04],[0.14,-0.02,0.06],[0.27,0.1,0.1]],[[0.27,0.1,0.1],[0.22,0.04,0.05],[0.15,0.1,-0.02]],
+      [[0.15,0.1,-0.02],[0.3,0.35,0.0],[0.52,0.55,0.15]],[[0.52,0.55,0.15],[0.45,0.4,0.2],[0.3,0.18,0.18],[0.27,0.1,0.12]]],
+    s:[[0.06,-0.12,0.04],[0.27,0.1,0.1],[0.15,0.1,-0.02],[0.52,0.55,0.15]], lab:[0.3,0.35,0.0]},
+  bp_language:{segs:[[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.66,0.3,-0.25],[0.64,0.36,0.05],[0.68,0.28,0.35],[0.7,0.13,0.47],[0.7,0.32,0.2]]],
+    s:[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.7,0.13,0.47],[0.7,0.32,0.2]], lab:[0.64,0.36,0.05]},
+  bp_fear:{segs:[[[0.15,0.08,-0.02],[0.25,-0.05,0.08],[0.33,-0.19,0.17]],[[0.15,0.08,-0.02],[0.4,0.1,0.0],[0.72,0.04,0.06],[0.55,-0.1,0.12],[0.33,-0.19,0.17]],
+      [[0.33,-0.19,0.17],[0.2,-0.12,0.22],[0.07,-0.05,0.2],[0.02,-0.18,0.21],[0.0,-0.25,0.22]],[[0.33,-0.19,0.17],[0.2,-0.2,0.08],[0.06,-0.3,0.0],[0.05,-0.6,-0.08],[0.04,-0.85,-0.2]]],
+    s:[[0.15,0.08,-0.02],[0.72,0.04,0.06],[0.33,-0.19,0.17],[0.07,-0.05,0.2],[0.04,-0.85,-0.2]], lab:[0.4,0.1,0.0]}
+};
+var bpMeshes=[], bpTex=[], bpShown=null;
+Object.keys(BP_ROUTES).forEach(function(id){
+  var B=BP_ROUTES[id], col=R[id].color, V=function(a){ return new THREE.Vector3(a[0],a[1],a[2]); };
+  // drawn last and on top, so the whole route stays in view through the parts it passes
+  function keep(m){ m.userData={region:id,deep:true,bpath:true}; m.visible=false; m.renderOrder=30; m.material.transparent=true; m.material.depthTest=false; m.material.depthWrite=false; R[id].meshes.push(m); brain.add(m); bpMeshes.push(m); pickables.push(m); return m; }
+  B.segs.forEach(function(pts){
+    var c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength();
+    var tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; tex.repeat.set(Math.max(1,Math.round(L/0.16)),1); bpTex.push(tex);
+    keep(new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(16,Math.round(L*70)),0.018,8,false),new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.55,emissiveMap:tex,roughness:0.5})));
+  });
+  var sm=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.5,roughness:0.5});
+  B.s.forEach(function(q){ var m=keep(new THREE.Mesh(new THREE.SphereGeometry(0.03,16,12),sm)); m.position.set(q[0],q[1],q[2]); });
+  anchors[id]={p:V(B.lab).add(new THREE.Vector3(0,0.1,0)),n:null}; // just above the route, so the name does not hide it
+});
+// show only the chosen pathway, and only in the Brain view
+function bpSync(){
+  var on=(mode==='brain' && selected && R[selected] && R[selected].kind==='bpath')?selected:null;
+  if(on===bpShown) return; bpShown=on;
+  bpMeshes.forEach(function(m){ m.visible=(m.userData.region===on); });
+  applyVisibility(); // the blood vessels step aside while a pathway is shown
+}
+
 /* ---------------------------------------------------------------- UI build */
 var chipEls={}, labelEls={}, lastGrp=null;
 REGIONS.forEach(function(r,i){
@@ -4710,7 +4813,7 @@ function applyColors(){
     col.needsUpdate=true;
   });
   REGIONS.forEach(function(r){
-    if(r.kind==='cortex' || r.kind==='section' || (mode==='sections' && r.mode==='nerves')) return;
+    if(r.kind==='cortex' || r.kind==='section' || r.kind==='bpath' || (mode==='sections' && r.mode==='nerves')) return;
     var s='normal'; if(selected) s=(r.id===selected)?'sel':'dim'; if(hovered===r.id) s=(selected===r.id)?'sel':'hov';
     r._vs=s; var c=stateColors[r.id][s], k=(s==='sel')?0.3:(s==='hov'?0.12:0);
     var seen=[];
@@ -4741,6 +4844,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
+  bpSync();
   if(mode==='spine' || mode==='senses' || mode==='think' || mode==='hw' || mode==='sleep' || mode==='mind') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
@@ -4785,12 +4889,12 @@ if(window.ResizeObserver){ var ro=new ResizeObserver(layout); ro.observe(app); r
 function setXray(on){
   if(on && cutOn) setCut(false);
   xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false');
-  if(!on && selected && R[selected].kind==='deep') select(null);
+  if(!on && selected && (R[selected].kind==='deep' || R[selected].kind==='bpath')) select(null);
   if(!on && mode==='think' && selected && R[selected].inner) select(null);
 }
 function setVessels(on){
   vesselsOn=on; $('#bVessels').setAttribute('aria-pressed',on?'true':'false'); $('#bFlow').classList.toggle('off',!on);
-  vesselMeshes.forEach(function(m){ m.visible=on; });
+  vesselMeshes.forEach(function(m){ m.visible=on && !bpShown; });
   if(!on && selected && R[selected].kind==='vessel') select(null);
   if(!on && hovered && R[hovered].kind==='vessel') setHover(null);
 }
@@ -4873,7 +4977,7 @@ function fillPanel(r){
     var mp=document.createElement('p'); mp.className='dmg';
     mp.textContent=SECTION_MEMBERS[r.id].map(function(n){ return R[n].short; }).join(', ')+'.';
     tree.appendChild(mp);
-  } else if(r.kind==='path'){
+  } else if(r.kind==='path' || r.kind==='bpath'){
     tree.hidden=false;
     var hp=document.createElement('h3'); hp.textContent='Parts this pathway uses'; tree.appendChild(hp);
     var kp=document.createElement('div'); kp.className='kids';
@@ -4914,6 +5018,7 @@ function select(id){
     if(R[id].ol && R[id].ol!==csOr) csSetOr(R[id].ol); if(R[id].ml && R[id].ml!==csMl) csSetMl(R[id].ml); if(id==='cs_pci') csZap(); if(id==='cs_dmn' && !csIn) csSetIn(true); if((id==='cs_cen' || id==='cs_dan') && csIn) csSetIn(false); }
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray && !cutOn) setXray(true);
+  if(id && R[id].kind==='bpath'){ if(cutOn) setCut(false); if(!xray) setXray(true); }
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
   if(id && R[id].kind==='cover' && !meningesOn) setMeninges(true);
   selected=id;
@@ -5048,7 +5153,7 @@ function quizPool(m){
   function twin(r){ var a=fw(r.fact); return parts.some(function(o){ if(o===r) return false; var b=fw(o.fact); return a.filter(function(w){ return b.indexOf(w)>=0; }).length>=3; }); }
   function other(r,t){ t=t.toLowerCase(); return /not shown/.test(t) || parts.some(function(o){ return o!==r && nw(o).some(function(w){ return cnt[w]===1 && t.indexOf(w)>=0; }); }); }
   parts.forEach(function(r){
-    (r.funcs||[]).forEach(function(f){ if(seen[f]===1 && f.length>12 && !/^(It|They|This|The signal)\b/.test(f) && !other(r,f)) qs.push({id:r.id,kind:'f',text:f}); });
+    (r.kind==='bpath'?[]:(r.funcs||[])).forEach(function(f){ if(seen[f]===1 && f.length>12 && !/^(It|They|This|The signal)\b/.test(f) && !other(r,f)) qs.push({id:r.id,kind:'f',text:f}); });
     var fact=r.fact||'', low=fact.toLowerCase(), names=[r.name,r.short||''].join(' ').toLowerCase().split(/[^a-z]+/).filter(function(w){ return w.length>4; });
     if(fact.length>30 && !/^(It|They|This|These)\b/.test(fact) && !names.some(function(w){ return low.indexOf(w)>=0; }) && !other(r,fact) && !twin(r)) qs.push({id:r.id,kind:'x',text:fact});
   });
@@ -5615,7 +5720,7 @@ function applyVisibility(){
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && mode!=='mind' && vesselsOn); });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && mode!=='mind' && vesselsOn && !bpShown); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
   Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
   applySenseVis(); applyThinkVis(); applyHWVis(); applySleepVis(); applyMindVis();
@@ -9523,7 +9628,7 @@ function olSetup(){
 function olShown(o){ for(var x=o; x; x=x.parent){ if(!x.visible) return false; } return true; }
 function olMeshes(){
   olList.length=0;
-  var r=selected && R[selected]; if(!r || r.kind==='cortex') return olList;
+  var r=selected && R[selected]; if(!r || r.kind==='cortex' || r.kind==='bpath') return olList; // a pathway's own glow is its highlight
   var ids=(r.kind==='section' && SECTION_MEMBERS[r.id])?SECTION_MEMBERS[r.id]:[r.id];
   ids.forEach(function(id){ var q=R[id]; if(q && q.meshes) q.meshes.forEach(function(m){ var mm=/** @type {any} */(m); if(mm.isMesh && !Array.isArray(mm.material) && olShown(mm)) olList.push(mm); }); });
   return olList;
@@ -9596,10 +9701,13 @@ function updateLabels(){
     if(show && mode!=='diseases'){
       if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
       else if(r.kind==='deep') show=xrayT>0.6 || (cutOn && mode==='brain' && !!cutAt[r.id]);
+      else if(r.kind==='bpath') show=r.id===selected;
       else if(r.kind==='vessel') show=vesselsOn;
       else if(r.kind==='cover') show=menVisible() && layerOn[r.id];
     }
     if(show && layerOf(r.id) && !layerOn[layerOf(r.id)]) show=false;
+    // while a pathway is shown, name only the pathway and the parts it passes through
+    if(bpShown && mode==='brain') show=showLabels && !!a && (r.id===bpShown || R[bpShown].rel.indexOf(r.id)>=0);
     var cp=(show && cutOn && mode==='brain')?cutLbl(r,a):null;
     if(cp===false) show=false;
     if(show && cp){ tmpV.copy(cp); }
@@ -9644,6 +9752,7 @@ function frame(now){
   var vis=xrayT>0.02;
   for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(cutOn) cutFrame();
+  if(bpShown){ for(var bi=0;bi<bpTex.length;bi++) bpTex[bi].offset.x-=dt*0.7; }
   if(mode==='spine' && signalsOn){ for(var pi=0;pi<pathTubes.length;pi++){ var pm=pathTubes[pi]; if(pm.visible && pm.userData.tex) pm.userData.tex.offset.x-=dt*0.8; } }
   if(mode==='diseases' && D) dFrame(dt);
   if(mode==='think') thFrame(dt);
@@ -9685,7 +9794,7 @@ function frame(now){
   var moving=Math.abs(tgt.az-cur.az)+Math.abs(tgt.el-cur.el)+Math.abs(tgt.zoom-cur.zoom)+Math.abs(tgt.pm-cur.pm)+Math.abs(tgt.fit-cur.fit)*0.2
     +(Math.abs(tgt.ox-cur.ox)+Math.abs(tgt.oy-cur.oy))*0.002+CENTER.distanceTo(CENTER_T)+Math.abs((xray?1:0)-xrayT)>0.0015;
   var busy=moving || autoSpin || pointers.size>0 || now<renderUntil || (mode==='diseases' && (dPlaying || dSnap!==null));
-  var anim=(mode==='brain' && vesselsOn && flowOn) || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle'?(slPlaying || slMoving || signalsOn):signalsOn)) || (mode==='mind' && (csBusy() || signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
+  var anim=(mode==='brain' && vesselsOn && flowOn) || !!bpShown || (bodyView() && signalsOn) || ((mode==='senses'||mode==='think'||mode==='hw') && signalsOn) || (mode==='sleep' && (slv==='cycle'?(slPlaying || slMoving || signalsOn):signalsOn)) || (mode==='mind' && (csBusy() || signalsOn)) || (mode==='spine' && signalsOn && sView==='cross' && (showAllPaths || (selected && R[selected].kind==='path'))) ||
     (mode==='diseases' && D && ((D.dopamine && dView==='brain') || (D.tremor && dView==='body' && stageT>1.4) || ((D.wave||D.vessels||D.meninges) && dView==='brain' && stageT>1.3 && stageT<3.7)));
   if(busy || (anim && now-lastRender>=32)){
     if(busy && lastRender){ perfAcc+=now-lastRender; perfN++; if(perfN>=90){ var avg=perfAcc/perfN; perfAcc=0; perfN=0; if(avg>30 && pixelRatio>1){ pixelRatio=Math.max(1,pixelRatio-0.25); renderer.setPixelRatio(pixelRatio); renderer.setSize(W,H,false); } } }

@@ -2093,7 +2093,7 @@ var REGIONS = [
  {id:'bp_motor',kind:'bpath',group:'Pathways',name:'Voluntary Movement Pathway',short:'Movement pathway',color:'#ffd166',
   where:'Motor cortex to the spinal cord (the corticospinal tract)',hFuncs:'Step by step',
   summary:'When you decide to move, nerve cells in the motor cortex send signals down long axons through the brainstem to the spinal cord. Most of these fibers cross to the other side in the medulla, so each side of the brain controls the muscles on the opposite side of the body.',
-  funcs:['Motor cortex: large pyramidal neurons fire to start the movement','Internal capsule: the fibers squeeze through a narrow band of white matter between the thalamus and the basal ganglia','Midbrain and pons: they run down the front of the brainstem','Medulla: most fibers cross to the other side at the pyramids','Spinal cord: they reach motor neurons that carry the command out to the muscles'],
+  funcs:['Motor cortex: large pyramidal neurons fire to start the movement','Internal capsule: the fibers squeeze through a narrow band of white matter between the thalamus and the lentiform nucleus of the basal ganglia','Midbrain and pons: they run down the front of the brainstem','Medulla: most fibers cross to the other side at the pyramids','Spinal cord: they reach motor neurons that carry the command out to the muscles'],
   damage:'A small stroke in the internal capsule, where these fibers are packed tightly together, can weaken the whole opposite side of the body.',
   fact:'The axons that move your legs run from the top of the brain to the lower spinal cord, so a single nerve cell can be around half a meter long.',
   rel:['motor','midbrain','pons','medulla'], view:{az:35,el:6}, zoom:0.95},
@@ -2114,7 +2114,7 @@ var REGIONS = [
  {id:'bp_memory',kind:'bpath',group:'Pathways',name:'Memory Circuit (Papez Circuit)',short:'Memory circuit',color:'#38d9a9',
   where:'Hippocampus, mammillary bodies, thalamus and cingulate cortex',hFuncs:'Step by step',
   summary:'This loop links the hippocampus with the rest of the brain. Signals leave the hippocampus through an arching bundle called the fornix, reach the mammillary bodies at the base of the brain, pass to the front of the thalamus, then to the cingulate cortex, and return to the hippocampus. It helps hold a new experience together long enough for it to become a lasting memory.',
-  funcs:['Hippocampus: ties what, where and when together into a new memory','Fornix: an arching bundle carries the signal over the thalamus','Mammillary bodies: two small bumps at the base of the brain relay it','Front of the thalamus: passes it up to the cortex','Cingulate cortex: links the memory with emotion and attention, then sends it back to the hippocampus'],
+  funcs:['Hippocampus: ties what, where and when together into a new memory','Fornix: an arching bundle carries the signal over the thalamus','Mammillary bodies: two small bumps at the base of the brain relay it','Front of the thalamus: passes it up to the cortex','Cingulate cortex: links the memory with emotion and attention, then sends it back through the cingulum bundle and the entorhinal cortex to the hippocampus'],
   damage:'Damage to parts of this loop can make it very hard to form new memories. In Korsakoff syndrome, a severe lack of vitamin B1 (thiamine) damages the mammillary bodies and the thalamus.',
   fact:'The loop is named after the American scientist James Papez, who described it in 1937. He thought it was mainly for emotion; today it is known to matter most for memory.',
   rel:['hippocampus','hypothalamus','thalamus','cingulate'], view:{az:12,el:12}, zoom:0.85},
@@ -2130,19 +2130,19 @@ var REGIONS = [
   summary:'Before you move, a loop through the basal ganglia helps choose which movement to make and holds back the others. The cortex sends plans to the striatum, dopamine from the substantia nigra tunes the loop, and the result passes through the thalamus and back to the motor cortex.',
   funcs:['Cortex: sends possible movement plans to the striatum','Substantia nigra: dopamine sets how easily movements get started','Striatum and globus pallidus: release the chosen movement and hold back the others','Thalamus: passes the go-ahead back up to the cortex','Motor and premotor cortex: start the chosen movement'],
   damage:'In Parkinson’s disease the dopamine cells of the substantia nigra slowly die. Movements become slow and hard to start, and a tremor at rest is common.',
-  fact:'Parkinson’s symptoms usually appear only after more than half of these dopamine cells are gone, because the rest of the loop makes up for the loss for years.',
+  fact:'By the time Parkinson’s symptoms appear, the striatum has usually lost well over half of its dopamine, because the rest of the loop can make up for the loss for years.',
   rel:['snigra','basal','thalamus','premotor','motor'], view:{az:35,el:12}, zoom:0.85},
  {id:'bp_language',kind:'bpath',group:'Pathways',name:'Language Pathway',short:'Language pathway',color:'#f783ac',
   where:'Left hemisphere: auditory cortex, Wernicke’s area and Broca’s area',hFuncs:'Step by step',
   summary:'To repeat a word you hear, the signal goes from the auditory cortex to Wernicke’s area, which recognizes the word, then along a curved bundle called the arcuate fasciculus to Broca’s area, which plans the speech, and on to the motor cortex, which moves the lips, tongue and voice box. In most people this network is in the left hemisphere.',
   funcs:['Auditory cortex: hears the sounds of the word','Wernicke’s area: recognizes the word and its meaning','Arcuate fasciculus: a curved bundle of fibers carries it forward','Broca’s area: plans the sounds and grammar of the reply','Motor cortex: moves the lips, tongue and voice box'],
   damage:'Damage to the arcuate fasciculus can cause conduction aphasia: the person understands and can speak, but has great trouble repeating what they hear.',
-  fact:'In about 95 out of 100 right-handed people, language is handled mainly by the left hemisphere.',
+  fact:'In roughly 9 out of 10 right-handed people, language is handled mainly by the left hemisphere. Left-handed people are more likely to share it between both sides.',
   rel:['auditory','wernicke','broca','motor'], view:{az:4,el:8}, zoom:0.9},
  {id:'bp_fear',kind:'bpath',group:'Pathways',name:'Fear Pathway',short:'Fear pathway',color:'#fa5252',
   where:'Thalamus, amygdala, hypothalamus and brainstem',hFuncs:'Step by step',
   summary:'When something might be dangerous, the thalamus sends a quick, rough signal straight to the amygdala and a slower, detailed one through the cortex. The amygdala then sets off the hypothalamus and the brainstem, which speed up the heart, release stress hormones and get the body ready to act.',
-  funcs:['Thalamus: sends a fast, rough copy of what you sensed straight to the amygdala','Sensory cortex: a slower route works out exactly what it is','Amygdala: judges whether it is a threat','Hypothalamus and pituitary: release stress hormones','Brainstem: speeds up the heart and breathing, or makes you freeze'],
+  funcs:['Thalamus: sends a fast, rough copy of what you sensed straight to the amygdala','Sensory cortex: a slower route works out exactly what it is','Amygdala: judges whether it is a threat','Hypothalamus and pituitary: release stress hormones','Brainstem: the midbrain’s periaqueductal grey can make you freeze, and the medulla speeds up the heart and breathing'],
   damage:'People with damage to both amygdalae may not feel fear in the usual way and can miss real danger. An overactive fear pathway is linked to anxiety.',
   fact:'The fast route is why you can jump back from a stick that looks like a snake before you know what it is. A moment later the slow route tells you it is only a stick.',
   rel:['thalamus','auditory','amygdala','hypothalamus','pituitary','midbrain','medulla'], view:{az:30,el:6}, zoom:0.9},
@@ -4729,28 +4729,39 @@ var LABEL_OFFSET={};
 
 /* ---- brain pathways: glowing routes that signals take through the brain (left side shown; +x is the left) */
 // Each route is a list of segments; signals flow from the first point to the last. 's' marks relay stations.
+// Points are placed on the model itself: S() is a spot in the brainstem at height y, offset from its centre line
+// (dx: + is the left side, dz: + is the front); ON() is the centre of a curved part where it crosses depth z.
+function S(y,dx,dz){ var lo=0,hi=1,q=new THREE.Vector3(); for(var k=0;k<30;k++){ var m=(lo+hi)/2; stemCurve.getPoint(m,q); if(q.y>y) lo=m; else hi=m; } stemCurve.getPoint((lo+hi)/2,q); return [q.x+dx,y,q.z+dz]; }
+function ON(id,z,dy){ var sx=0,sy=0,sz=0,n=0,v=new THREE.Vector3(); brain.updateMatrixWorld(true);
+  R[id].meshes.forEach(function(m){ var pa=m.geometry.attributes.position; for(var k=0;k<pa.count;k++){ v.fromBufferAttribute(pa,k).applyMatrix4(m.matrixWorld); if(v.x>0 && Math.abs(v.z-z)<0.03){ sx+=v.x; sy+=v.y; sz+=v.z; n++; } } });
+  return n?[sx/n,sy/n+(dy||0),sz/n]:[0.06,0.45,z]; }
 var BP_ROUTES={
-  bp_motor:{segs:[[[0.52,0.58,0.05],[0.36,0.42,0.04],[0.22,0.18,0.02],[0.08,-0.12,0.08],[0.07,-0.42,0.09],[0.05,-0.72,-0.08],[0,-0.93,-0.22],[-0.05,-1.0,-0.28],[-0.06,-1.09,-0.33]]],
-    s:[[0.52,0.58,0.05],[-0.06,-1.09,-0.33]], lab:[0.36,0.42,0.04]},
-  bp_touch:{segs:[[[-0.05,-1.09,-0.36],[-0.05,-0.96,-0.32],[0,-0.88,-0.24],[0.05,-0.8,-0.18],[0.05,-0.46,-0.06],[0.06,-0.17,-0.03],[0.17,0.08,-0.08],[0.3,0.3,-0.08],[0.6,0.5,-0.1]]],
-    s:[[-0.05,-0.96,-0.32],[0.17,0.08,-0.08],[0.6,0.5,-0.1]], lab:[0.3,0.3,-0.08]},
-  bp_pain:{segs:[[[0.08,-1.09,-0.3],[0.09,-0.8,-0.15],[0.1,-0.46,-0.02],[0.1,-0.17,0.0],[0.16,0.06,-0.04]],
-      [[0.16,0.06,-0.04],[0.3,0.32,-0.06],[0.6,0.5,-0.1]],[[0.16,0.06,-0.04],[0.4,0.05,0.04],[0.56,0.0,0.08]],[[0.16,0.06,-0.04],[0.1,0.25,0.05],[0.07,0.42,0.12]]],
-    s:[[0.16,0.06,-0.04],[0.6,0.5,-0.1],[0.56,0.0,0.08],[0.07,0.42,0.12]], lab:[0.1,-0.46,-0.02]},
-  bp_memory:{segs:[[[0.28,-0.12,-0.2],[0.2,0.0,-0.45],[0.08,0.22,-0.3],[0.04,0.27,-0.05],[0.04,0.15,0.13],[0.05,-0.06,0.15]],
-      [[0.05,-0.06,0.15],[0.08,0.05,0.08],[0.12,0.17,0.04]],[[0.12,0.17,0.04],[0.09,0.33,0.06],[0.06,0.47,0.0]],
-      [[0.06,0.47,0.0],[0.06,0.47,-0.35],[0.1,0.3,-0.55],[0.2,0.05,-0.52],[0.27,-0.1,-0.3]]],
-    s:[[0.28,-0.12,-0.2],[0.05,-0.06,0.15],[0.12,0.17,0.04],[0.06,0.47,0.0]], lab:[0.08,0.22,-0.3]},
-  bp_reward:{segs:[[[0.03,-0.13,0.07],[0.08,-0.08,0.15],[0.15,-0.04,0.22]],[[0.03,-0.13,0.07],[0.05,0.0,0.2],[0.15,0.15,0.4],[0.45,0.25,0.72]]],
-    s:[[0.03,-0.13,0.07],[0.15,-0.04,0.22],[0.45,0.25,0.72]], lab:[0.06,-0.36,0.1]},
-  bp_bg:{segs:[[[0.06,-0.12,0.04],[0.14,-0.02,0.06],[0.27,0.1,0.1]],[[0.27,0.1,0.1],[0.22,0.04,0.05],[0.15,0.1,-0.02]],
-      [[0.15,0.1,-0.02],[0.3,0.35,0.0],[0.52,0.55,0.15]],[[0.52,0.55,0.15],[0.45,0.4,0.2],[0.3,0.18,0.18],[0.27,0.1,0.12]]],
-    s:[[0.06,-0.12,0.04],[0.27,0.1,0.1],[0.15,0.1,-0.02],[0.52,0.55,0.15]], lab:[0.3,0.35,0.0]},
-  bp_language:{segs:[[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.66,0.3,-0.25],[0.64,0.36,0.05],[0.68,0.28,0.35],[0.7,0.13,0.47],[0.7,0.32,0.2]]],
-    s:[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.7,0.13,0.47],[0.7,0.32,0.2]], lab:[0.64,0.36,0.05]},
+  // motor cortex -> posterior limb of the internal capsule -> cerebral peduncle -> basilar pons -> pyramid -> crosses -> lateral corticospinal tract
+  bp_motor:{segs:[[[0.52,0.58,0.05],[0.36,0.42,0.03],[0.245,0.14,-0.02],S(-0.12,0.08,0.07),S(-0.42,0.06,0.08),S(-0.72,0.04,0.06),S(-0.93,0,0.03),S(-1.0,-0.04,-0.01),S(-1.08,-0.05,-0.02)]],
+    s:[[0.52,0.58,0.05],S(-1.08,-0.05,-0.02)], lab:[0.36,0.42,0.03]},
+  // dorsal columns (right side) -> gracile and cuneate nuclei -> cross -> medial lemniscus -> VPL of the thalamus -> postcentral gyrus
+  bp_touch:{segs:[[S(-1.08,-0.04,-0.05),S(-0.97,-0.045,-0.05),S(-0.88,0,-0.01),S(-0.8,0.03,0),S(-0.46,0.045,-0.04),S(-0.17,0.07,-0.03),[0.18,0.08,-0.09],[0.3,0.3,-0.08],[0.6,0.5,-0.1]]],
+    s:[S(-0.97,-0.045,-0.05),[0.18,0.08,-0.09],[0.6,0.5,-0.1]], lab:[0.3,0.3,-0.08]},
+  // spinothalamic tract (already crossed in the cord) up the side of the brainstem -> thalamus -> sensory cortex, insula, anterior cingulate
+  bp_pain:{segs:[[S(-1.08,0.05,0),S(-0.8,0.065,-0.01),S(-0.46,0.09,-0.02),S(-0.17,0.1,0),[0.16,0.06,-0.04]],
+      [[0.16,0.06,-0.04],[0.3,0.32,-0.06],[0.6,0.5,-0.1]],[[0.16,0.06,-0.04],[0.4,0.05,0.04],[0.56,0.0,0.08]],[[0.16,0.06,-0.04],[0.1,0.25,0.07],ON('cingulate',0.2)]],
+    s:[[0.16,0.06,-0.04],[0.6,0.5,-0.1],[0.56,0.0,0.08],ON('cingulate',0.2)], lab:S(-0.46,0.09,-0.02)},
+  // hippocampus -> fornix (over the thalamus) -> mammillary body -> mammillothalamic tract -> anterior thalamus -> cingulate -> cingulum -> back to the hippocampus
+  bp_memory:{segs:[[[0.28,-0.12,-0.2],[0.2,0.0,-0.45],[0.08,0.22,-0.3],[0.04,0.27,-0.05],[0.04,0.15,0.13],[0.06,-0.05,0.17]],
+      [[0.06,-0.05,0.17],[0.08,0.05,0.08],[0.12,0.17,0.04]],[[0.12,0.17,0.04],[0.09,0.33,0.04],ON('cingulate',0.0)],
+      [ON('cingulate',0.0),ON('cingulate',-0.3),[0.1,0.3,-0.55],[0.2,0.05,-0.52],[0.27,-0.1,-0.3]]],
+    s:[[0.28,-0.12,-0.2],[0.06,-0.05,0.17],[0.12,0.17,0.04],ON('cingulate',0.0)], lab:[0.08,0.22,-0.3]},
+  // ventral tegmental area -> (medial forebrain bundle) -> nucleus accumbens, and -> prefrontal cortex
+  bp_reward:{segs:[[[0.03,-0.13,0.07],[0.1,-0.07,0.15],[0.255,0.02,0.2]],[[0.03,-0.13,0.07],[0.06,0.0,0.22],[0.15,0.15,0.4],[0.45,0.25,0.72]]],
+    s:[[0.03,-0.13,0.07],[0.255,0.02,0.2],[0.45,0.25,0.72]], lab:[0.06,-0.36,0.1]},
+  bp_bg:{segs:[[[0.06,-0.12,0.04],[0.14,-0.02,0.06],[0.27,0.1,0.1]],[[0.27,0.1,0.1],[0.23,0.05,0.06],[0.14,0.12,0.05]],
+      [[0.14,0.12,0.05],[0.3,0.36,0.06],[0.52,0.55,0.15]],[[0.52,0.55,0.15],[0.45,0.4,0.2],[0.3,0.18,0.18],[0.27,0.1,0.12]]],
+    s:[[0.06,-0.12,0.04],[0.27,0.1,0.1],[0.14,0.12,0.05],[0.52,0.55,0.15]], lab:[0.3,0.36,0.06]},
+  bp_language:{segs:[[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.66,0.3,-0.25],[0.64,0.36,0.05],[0.68,0.28,0.35],[0.7,0.13,0.47],[0.72,0.3,0.12]]],
+    s:[[0.72,0.04,0.06],[0.7,0.12,-0.32],[0.7,0.13,0.47],[0.72,0.3,0.12]], lab:[0.64,0.36,0.05]},
   bp_fear:{segs:[[[0.15,0.08,-0.02],[0.25,-0.05,0.08],[0.33,-0.19,0.17]],[[0.15,0.08,-0.02],[0.4,0.1,0.0],[0.72,0.04,0.06],[0.55,-0.1,0.12],[0.33,-0.19,0.17]],
-      [[0.33,-0.19,0.17],[0.2,-0.12,0.22],[0.07,-0.05,0.2],[0.02,-0.18,0.21],[0.0,-0.25,0.22]],[[0.33,-0.19,0.17],[0.2,-0.2,0.08],[0.06,-0.3,0.0],[0.05,-0.6,-0.08],[0.04,-0.85,-0.2]]],
-    s:[[0.15,0.08,-0.02],[0.72,0.04,0.06],[0.33,-0.19,0.17],[0.07,-0.05,0.2],[0.04,-0.85,-0.2]], lab:[0.4,0.1,0.0]}
+      [[0.33,-0.19,0.17],[0.2,-0.12,0.22],[0.07,-0.05,0.2],[0.02,-0.09,0.21],[0.005,-0.16,0.21],[0.0,-0.25,0.22]],[[0.33,-0.19,0.17],[0.2,-0.17,0.05],[0.04,-0.15,-0.08],[0.04,-0.5,-0.13],[0.04,-0.84,-0.24]]],
+    s:[[0.15,0.08,-0.02],[0.72,0.04,0.06],[0.33,-0.19,0.17],[0.07,-0.05,0.2],[0.04,-0.15,-0.08],[0.04,-0.84,-0.24]], lab:[0.4,0.1,0.0]}
 };
 var bpMeshes=[], bpTex=[], bpShown=null;
 Object.keys(BP_ROUTES).forEach(function(id){

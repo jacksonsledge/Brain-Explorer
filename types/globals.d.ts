@@ -4,7 +4,7 @@ import * as THREE_NS from 'three';
 declare global {
   // three.js r128 is loaded from cdnjs as a global; the glow code (inlined from three.js examples) adds these to it.
   const THREE: typeof THREE_NS & {
-    Pass: any; FullScreenQuad: any; UnrealBloomPass: any; CopyShader: any; LuminosityHighPassShader: any;
+    Pass: any; FullScreenQuad: any; UnrealBloomPass: any; OutlinePass: any; CopyShader: any; LuminosityHighPassShader: any;
   };
   interface Window {
     Fuse?: any;        // Fuse.js, loaded asynchronously from cdnjs for search

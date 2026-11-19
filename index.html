@@ -5006,7 +5006,7 @@ function layout(){
 if(window.ResizeObserver){ var ro=new ResizeObserver(layout); ro.observe(app); ro.observe(topEl); ro.observe($('#dbar')); ro.observe($('#slbar')); ro.observe($('#csbar')); } else { window.addEventListener('resize',layout); }
 
 function setXray(on){
-  if(on && cutOn) setCut(false);
+  if(on && cutOn) setCut(false,true);
   xray=on; $('#bXray').setAttribute('aria-pressed',on?'true':'false');
   if(!on && selected && (R[selected].kind==='deep' || R[selected].kind==='bpath')) select(null);
   if(!on && mode==='think' && selected && R[selected].inner) select(null);
@@ -5443,10 +5443,22 @@ var findEl=$('#find'), findIn=$('#findIn'), findList=$('#findList'), findHint=$(
 function findData(){ if(findDocs) return findDocs;
   findDocs=REGIONS.map(function(r){ return {id:r.id,name:r.name,short:r.short||'',where:r.where||'',group:(r.group||'').split(': ').pop(),funcs:(r.funcs||[]).join(' · '),summary:r.summary||''}; });
   return findDocs; }
-function findSearch(q){
+// a part whose name matches what was typed comes first: exact name, then names that start with it, then a word that does
+// (so "pons" finds the Pons before "Unresponsive"), keeping the search's own order within each group
+function findRank(ids,q){
+  q=q.toLowerCase().trim();
+  var tier=function(id){ var r=R[id], ns=[r.name,r.short||''].map(function(x){ return x.toLowerCase(); });
+    if(ns.some(function(n){ return n===q; })) return 0;
+    if(ns.some(function(n){ return n.indexOf(q)===0; })) return 1;
+    if(ns.some(function(n){ return (' '+n).indexOf(' '+q)>=0; })) return 2;
+    return 3; };
+  return ids.map(function(id,i){ return [id,tier(id),i]; }).sort(function(a,b){ return a[1]-b[1] || a[2]-b[2]; }).map(function(x){ return x[0]; });
+}
+function findSearch(q){ return findRank(findSearch0(q),q); }
+function findSearch0(q){
   var docs=findData();
   if(!fuse && window.Fuse) fuse=new window.Fuse(docs,{keys:[{name:'name',weight:3},{name:'short',weight:2},{name:'group',weight:1},{name:'where',weight:1},{name:'funcs',weight:0.8},{name:'summary',weight:0.4}],threshold:0.34,ignoreLocation:true,minMatchCharLength:2});
-  if(fuse) return fuse.search(q,{limit:20}).map(function(x){ return x.item.id; });
+  if(fuse) return fuse.search(q,{limit:40}).map(function(x){ return x.item.id; });
   // the library did not load (for example offline on a first visit): plain word matching instead
   var words=q.toLowerCase().split(/\s+/).filter(Boolean);
   return docs.map(function(d){ var sc=0; words.forEach(function(w){ if(d.name.toLowerCase().indexOf(w)>=0) sc+=3; if(d.short.toLowerCase().indexOf(w)>=0) sc+=2; if((d.where+' '+d.group).toLowerCase().indexOf(w)>=0) sc+=1; if((d.funcs+' '+d.summary).toLowerCase().indexOf(w)>=0) sc+=0.5; }); return [d.id,sc]; })
@@ -5461,14 +5473,14 @@ function renderFind(){
     findHint.textContent='Type a name, a place or what a part does, such as “memory” or “balance”.'+(window.Fuse?' Spelling mistakes are fine.':'');
     if(rec.length){ findList.appendChild(h('p','find-head','Recently explored')); rec.forEach(function(id){ findList.appendChild(findItem(id)); }); }
     return; }
-  var ids=findSearch(q);
+  var ids=findSearch(q).slice(0,20);
   findHint.textContent=ids.length?(ids.length===20?'Top 20 results':ids.length+(ids.length===1?' result':' results')):'No parts match “'+q+'”. Try another word.';
   ids.forEach(function(id){ findList.appendChild(findItem(id)); });
 }
 function openFind(){ closeMe(true); findEl.classList.remove('hidden'); findIn.value=''; renderFind(); findIn.focus(); }
 function closeFind(keepFocus){ if(findEl.classList.contains('hidden')) return; findEl.classList.add('hidden'); if(!keepFocus) $('#findBtn').focus(); }
-findIn.addEventListener('input',function(){ clearTimeout(findT); findT=setTimeout(renderFind,90); });
-findIn.addEventListener('keydown',function(e){ if(e.key==='ArrowDown' || e.key==='Enter'){ var f=findList.querySelector('.find-item'); if(f){ e.preventDefault(); if(e.key==='Enter') f.click(); else f.focus(); } } });
+findIn.addEventListener('input',function(){ clearTimeout(findT); findT=setTimeout(function(){ findT=0; renderFind(); },90); });
+findIn.addEventListener('keydown',function(e){ if(e.key==='ArrowDown' || e.key==='Enter'){ if(findT){ clearTimeout(findT); findT=0; renderFind(); } /* act on what is typed now, not on results still waiting to refresh */ var f=findList.querySelector('.find-item'); if(f){ e.preventDefault(); if(e.key==='Enter') f.click(); else f.focus(); } } });
 findList.addEventListener('keydown',function(e){ var items=Array.prototype.slice.call(findList.querySelectorAll('.find-item')), i=items.indexOf(document.activeElement); if(i<0) return;
   if(e.key==='ArrowDown'){ e.preventDefault(); (items[i+1]||items[i]).focus(); } else if(e.key==='ArrowUp'){ e.preventDefault(); if(i>0) items[i-1].focus(); else findIn.focus(); } });
 $('#findBtn').addEventListener('click',openFind);
@@ -9430,7 +9442,7 @@ $('#lyPeel').addEventListener('click',function(){
 // Cuts the brain with one flat plane. Each solid part gets a filled face where it is cut
 // (drawn with the stencil buffer), so the cut looks like a real brain slice:
 // grey matter outside, white matter inside, and deep parts in their own colors.
-var cutOn=false, cutAx='z', cutPos={z:0.5,x:0.5,y:0.4}, cutFlip=false, cutPlane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
+var cutPickId=null, cutOn=false, cutAx='z', cutPos={z:0.5,x:0.5,y:0.4}, cutFlip=false, cutPlane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
 var cutG=null, cutBox=null, cutParts=[], cutCaps=[], cutMats=[], cutAt={}, cutCollapsed=false, cutCard=$('#slicer');
 var CUT_GREY='#9a8c96', CUT_WHITE='#efe7d8';
 var CUT_INFO={
@@ -9502,16 +9514,17 @@ function cutAim(){
   if(cutFlip){ if(cutAx==='y') el=-1.15; else az+=Math.PI; }
   tgt.az=cur.az+wrap(az-cur.az); tgt.el=el; tgt.zoom=1; CENTER_T.copy(BRAIN_C); setSpin(false);
 }
-function setCut(on){
+function setCut(on,keep){
   if(on && mode!=='brain') return;
   if(on===cutOn) return;
   cutBuild(); cutOn=on;
-  if(on){ if(xray) setXray(false); if(meningesOn) setMeninges(false); dismissHint(); }
+  // turning X-ray off here keeps a chosen deep part, which the slice can show; a pathway cannot be sliced, so it closes
+  if(on){ if(xray){ xray=false; $('#bXray').setAttribute('aria-pressed','false'); } if(selected && R[selected].kind==='bpath') select(null); if(meningesOn) setMeninges(false); dismissHint(); }
   cutMats.forEach(function(m){ m.clippingPlanes=on?[cutPlane]:null; m.needsUpdate=true; });
   cutG.visible=on;
   $('#bSlice').setAttribute('aria-pressed',on?'true':'false');
-  if(on){ cutUpdate(); cutAim(); }
-  else if(selected && R[selected].kind==='deep') select(null);
+  if(on){ cutUpdate(); if(selected && R[selected].kind==='deep') cutFocus(R[selected]); else cutAim(); }
+  else if(!keep && selected && R[selected].kind==='deep') select(null);
   updateCutCard(); kick(1200);
 }
 function setCutAxis(a){ if(a===cutAx) return; cutAx=a; cutFlip=false; cutUpdate(); cutAim(); updateCutCard(); }
@@ -9539,12 +9552,13 @@ function cutInside(p,P){
 }
 // a tap on the cut face: the part whose cut face is drawn there
 function cutPickAt(near){
+  cutPickId=null;
   var P=rc.ray.intersectPlane(cutPlane,new THREE.Vector3());
   if(!P) return null;
   if(near && near.distance<rc.ray.origin.distanceTo(P)-1e-3) return null;
   for(var i=cutParts.length-1;i>=0;i--){
     var p=cutParts[i]; if(!p.cut || !cutInside(p,P)) continue;
-    return p.side?cutLobe(P,p.side):p.id;
+    cutPickId=p.side?cutLobe(P,p.side):p.id; return cutPickId;
   }
   return null;
 }
@@ -9562,7 +9576,8 @@ function cutFocus(r){
     var bb=new THREE.Box3(); r.meshes.forEach(function(m){ bb.expandByObject(m); });
     var c=bb.getCenter(new THREE.Vector3())[cutAx], lo=cutBox.min[cutAx], hi=cutBox.max[cutAx];
     cutPos[cutAx]=clamp((hi-c)/(hi-lo),0.02,0.98); cutUpdate(); updateCutCard();
-  } else if(r.kind!=='deep' && !cutAt[r.id] && a && cutPlane.distanceToPoint(a.p)<0){ cutFlip=!cutFlip; cutUpdate(); }
+  } else if(r.kind!=='deep' && r.id!==cutPickId && !cutAt[r.id] && a && cutPlane.distanceToPoint(a.p)<0){ cutFlip=!cutFlip; cutUpdate(); }
+  cutPickId=null;
   cutAim(); tgt.zoom=Math.min(tgt.zoom,r.zoom||0.9);
 }
 function cutFrame(){
@@ -9621,7 +9636,8 @@ function pickAt(cx,cy){
   if(cutOn && mode==='brain'){ hits=hits.filter(function(x){ return cutPlane.distanceToPoint(x.point)>-0.002; }); var cf=cutPickAt(hits[0]); if(cf) return cf; }
   if(!hits.length) return null;
   var h=null;
-  if((mode==='brain' || mode==='diseases') && xrayT>0.5) h=hits.filter(function(x){ return x.object.userData.deep; })[0];
+  if(bpShown && mode==='brain') h=hits.filter(function(x){ return x.object.userData.bpath && x.object.userData.region===bpShown; })[0]||null; // drawn on top, so it wins the tap
+  if(!h && (mode==='brain' || mode==='diseases') && xrayT>0.5) h=hits.filter(function(x){ return x.object.userData.deep; })[0];
   if(!h) h=hits.filter(function(x){ return !x.object.userData.deep; })[0];
   var thin=function(x){ var rg=x.object.userData.region; return MEN_N[rg] || rg==='sc_csf' || rg==='sc_sac' || (mode==='diseases' && MEN_LAYERS.indexOf(rg)>=0); };
   if(h && (bodyView()||mode==='spine'||mode==='diseases') && thin(h)){ var alt=hits.filter(function(x){ return !thin(x); })[0]; if(alt) h=alt; }

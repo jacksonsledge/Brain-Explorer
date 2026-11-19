@@ -458,6 +458,15 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .facts span{display:block;margin-top:3px;font-size:11.5px;color:var(--muted);line-height:1.25}
 .verse{margin:14px 0 4px;padding:2px 0 2px 14px;border-left:4px solid var(--accent);font-size:14.5px;line-height:1.5;font-style:italic}
 .verse small{display:block;font-style:normal;color:var(--muted);margin-top:3px;font-size:12.5px}
+.wonder{margin:16px 0 4px;padding:14px 16px 10px;border-radius:16px;border:1px solid var(--line);background:var(--soft)}
+.wonder .w-head{display:flex;align-items:center;gap:7px;color:var(--accent);font-family:var(--head);font-size:15px}
+.wonder .w-head svg{width:18px;height:18px;fill:currentColor}
+.wonder p{margin:8px 0 0;line-height:1.5}
+.wonder .verse{margin-top:10px}
+.me-wonder{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.me-wonder button{box-sizing:border-box;text-align:left;border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:9px 11px;color:var(--ink);cursor:pointer;font:inherit;font-weight:700;font-size:13.5px;min-width:0}
+.me-wonder button:hover,.me-wonder button:focus-visible{border-color:var(--accent)}
+.me-wonder small{display:block;font-weight:500;color:var(--muted);font-size:12px;margin-top:2px}
 .go{width:100%;margin-top:14px;min-height:48px;border:0;border-radius:14px;background:var(--accent);color:var(--onaccent);
   font:700 16px var(--head);cursor:pointer}
 .note{margin:10px 0 0;font-size:12px;color:var(--muted);text-align:center}
@@ -608,6 +617,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
       <div id="pMore" hidden></div>
       <h3 id="hDamage">If it is damaged</h3><p class="dmg" id="pDamage"></p>
       <div class="fact"><b>Did you know?</b><p id="pFact"></p></div>
+      <div class="wonder" id="pWonder" hidden><div class="w-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 6.3L20.5 10l-6.3 2.2L12 18.5l-2.2-6.3L3.5 10l6.3-1.7z"/></svg><b>Wonder</b></div><p id="pWonderT"></p><div class="verse" id="pWonderV"></div></div>
       <button class="jump" id="pJump" hidden>Explore its parts in Brain mode</button>
       <div id="pMine" hidden><h3><label for="pNote">My notes</label></h3><textarea id="pNote" rows="3" placeholder="Write your own notes about this part…"></textarea><p class="mine-hint">Saved on this device. See all your notes under the star at the top.</p></div>
     </div>
@@ -4955,7 +4965,54 @@ function setMode(m){
 function setSpin(on){ autoSpin=on; $('#bSpin').setAttribute('aria-pressed',on?'true':'false'); }
 function setLabels(on){ showLabels=on; $('#bLabels').setAttribute('aria-pressed',on?'true':'false'); }
 
+/* ---- wonder cards: one detail of each part's design, with a verse from the King James Bible (each checked word for word) */
+var WONDER={
+ prefrontal:["Your prefrontal cortex is one of the last parts of the brain to finish maturing, still developing into your mid-twenties as self-control and judgment grow.", "Proverbs 4:7", "Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding."],
+ premotor:["Before you reach for a cup, your premotor cortex is already planning the movement, so the action comes out smooth instead of jerky.", "Psalm 90:17", "And let the beauty of the LORD our God be upon us: and establish thou the work of our hands upon us; yea, the work of our hands establish thou it."],
+ motor:["Your hands and lips take up a large share of the motor cortex, far more than your back or legs, because they need such fine control.", "Colossians 3:23", "And whatsoever ye do, do it heartily, as to the Lord, and not unto men;"],
+ sensory:["Your fingertips are so sensitive that you can feel a ridge on a surface far finer than a human hair.", "1 John 1:1", "That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked upon, and our hands have handled, of the Word of life;"],
+ parietal:["The parietal lobe keeps a map of the space around you, which lets you reach for something without looking at your hand.", "Psalm 139:3", "Thou compassest my path and my lying down, and art acquainted with all my ways."],
+ occipital:["The image on the back of each eye is upside down and split between two eyes, yet the occipital lobe and its neighbors turn it into one steady, upright world.", "Psalm 19:1", "The heavens declare the glory of God; and the firmament sheweth his handywork."],
+ temporal:["The temporal lobe can recognize a familiar face in a fraction of a second, even in poor light or from a new angle.", "Numbers 6:25", "The LORD make his face shine upon thee, and be gracious unto thee:"],
+ auditory:["Your auditory cortex is laid out like a piano keyboard, with low and high pitches arranged in order across it.", "Psalm 98:4", "Make a joyful noise unto the LORD, all the earth: make a loud noise, and rejoice, and sing praise."],
+ broca:["When you speak, Broca’s area helps coordinate about 100 muscles in your lips, tongue, jaw, throat and chest.", "Psalm 19:14", "Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer."],
+ wernicke:["You often understand a spoken word before the speaker has finished it, because Wernicke’s area and its neighbors start predicting meaning from the first sounds.", "James 1:19", "Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath:"],
+ cerebellum:["Every movement you make is quietly corrected by the cerebellum, which compares what you meant to do with what actually happened, many times a second.", "Psalm 18:36", "Thou hast enlarged my steps under me, that my feet did not slip."],
+ midbrain:["A reflex center in the midbrain turns your eyes and head toward a sudden flash or sound before you even decide to look.", "Proverbs 4:25", "Let thine eyes look right on, and let thine eyelids look straight before thee."],
+ pons:["The pons helps time each breath so it flows smoothly from breathing in to breathing out, all night long while you sleep.", "Job 33:4", "The Spirit of God hath made me, and the breath of the Almighty hath given me life."],
+ medulla:["Without a single thought from you, the medulla drives your breathing, about 20,000 breaths a day, and adjusts your heart rate to what your body needs.", "Job 12:10", "In whose hand is the soul of every living thing, and the breath of all mankind."],
+ thalamus:["Every sense except smell passes through the thalamus, which works like a gatekeeper: it lets through what matters and quiets the rest.", "Psalm 101:3", "I will set no wicked thing before mine eyes: I hate the work of them that turn aside; it shall not cleave to me."],
+ hypothalamus:["About the size of an almond, the hypothalamus keeps your body close to 37 °C (98.6 °F), whether you are out in the snow or the summer heat.", "Genesis 8:22", "While the earth remaineth, seedtime and harvest, and cold and heat, and summer and winter, and day and night shall not cease."],
+ pituitary:["The pea-sized pituitary gland sends out hormones that guide growth, energy and much more, which is why it is often called the master gland.", "Luke 2:52", "And Jesus increased in wisdom and stature, and in favour with God and man."],
+ basal:["Practice hands a skill over to the basal ganglia, so that tying your shoes or riding a bike becomes smooth and automatic.", "Isaiah 28:10", "For precept must be upon precept, precept upon precept; line upon line, line upon line; here a little, and there a little:"],
+ snigra:["The substantia nigra looks dark because its cells hold neuromelanin, a pigment related to the melanin in skin and hair.", "Psalm 139:12", "Yea, the darkness hideth not from thee; but the night shineth as the day: the darkness and the light are both alike to thee."],
+ hippocampus:["The hippocampus builds an inner map of places: some of its cells, called place cells, fire only when you are at one particular spot.", "Psalm 103:2", "Bless the LORD, O my soul, and forget not all his benefits:"],
+ amygdala:["The amygdala helps you remember emotional moments vividly, which is why important days often stay so clear in your memory.", "Isaiah 41:10", "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness."],
+ cingulate:["The cingulate cortex notices when you make a mistake, often within a tenth of a second, so you can correct course.", "1 John 1:9", "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness."],
+ insula:["The insula senses your body from the inside, such as your heartbeat, hunger and thirst, and helps you feel what others are feeling.", "Galatians 6:2", "Bear ye one another's burdens, and so fulfil the law of Christ."],
+ callosum:["About 200 million nerve fibers in the corpus callosum let the two halves of your brain share what they know and work as one.", "Ecclesiastes 4:9", "Two are better than one; because they have a good reward for their labour."],
+ dura:["The dura mater is so tough that its Latin name means “tough mother”.", "Psalm 91:4", "He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler."],
+ arachnoid:["The arachnoid is named for its spider-web look. Its fine threads help hold the brain in a cushion of fluid.", "Psalm 46:1", "God is our refuge and strength, a very present help in trouble."],
+ pia:["The pia mater is thinner than tissue paper, yet it follows every fold and groove of the brain. Its name means “tender mother”.", "Isaiah 66:13", "As one whom his mother comforteth, so will I comfort you; and ye shall be comforted in Jerusalem."],
+ carotid:["Your brain is only about 2% of your body weight, yet it uses about 20% of your oxygen, much of it carried by the carotid arteries.", "Leviticus 17:11", "For the life of the flesh is in the blood: and I have given it to you upon the altar to make an atonement for your souls: for it is the blood that maketh an atonement for the soul."],
+ vertebral:["The two vertebral arteries join into one, the basilar artery, which feeds the brainstem that keeps you breathing.", "Psalm 36:9", "For with thee is the fountain of life: in thy light shall we see light."],
+ willis:["The circle of Willis joins the brain’s main arteries in a ring, so if one slowly narrows, blood can often reach the brain another way.", "Proverbs 3:6", "In all thy ways acknowledge him, and he shall direct thy paths."],
+ aca:["The anterior cerebral arteries feed the inner faces of the frontal lobes, including the areas that move your legs and feet.", "Psalm 18:33", "He maketh my feet like hinds' feet, and setteth me upon my high places."],
+ mca:["The middle cerebral artery is the largest branch to the cerebrum. It supplies most of its outer surface, including the main language areas.", "Isaiah 40:31", "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."],
+ pca:["The posterior cerebral arteries feed the occipital lobes, where what you see is put together.", "Matthew 6:22", "The light of the body is the eye: if therefore thine eye be single, thy whole body shall be full of light."],
+ veins:["Every minute, about three quarters of a liter of blood flows through your brain and drains back out through its veins.", "Revelation 22:1", "And he shewed me a pure river of water of life, clear as crystal, proceeding out of the throne of God and of the Lamb."],
+ bp_motor:["A command from your brain can travel down to the lower spinal cord in roughly a hundredth of a second along these long, insulated fibers.", "Psalm 147:15", "He sendeth forth his commandment upon earth: his word runneth very swiftly."],
+ bp_touch:["Touch travels on some of the fastest nerve fibers in the body, so you feel a light tap almost the instant it happens.", "Matthew 8:3", "And Jesus put forth his hand, and touched him, saying, I will; be thou clean. And immediately his leprosy was cleansed."],
+ bp_pain:["Pain is a protective warning. People born unable to feel pain often hurt themselves without knowing it, which shows how valuable this pathway is.", "Revelation 21:4", "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away."],
+ bp_memory:["Sleep helps this circuit settle new memories into long-term storage, which is one reason a good night’s rest helps you remember what you learned.", "Psalm 119:11", "Thy word have I hid in mine heart, that I might not sin against thee."],
+ bp_reward:["The reward pathway learns from what turns out better than expected, so what we desire can be trained toward what is truly good.", "Psalm 37:4", "Delight thyself also in the LORD; and he shall give thee the desires of thine heart."],
+ bp_bg:["This loop helps you stop as well as start: holding back an unwanted movement is part of its job.", "Proverbs 16:32", "He that is slow to anger is better than the mighty; and he that ruleth his spirit than he that taketh a city."],
+ bp_language:["Babies are ready from birth to learn the sounds and grammar of the language around them, and pick them up with remarkable ease.", "Colossians 4:6", "Let your speech be alway with grace, seasoned with salt, that ye may know how ye ought to answer every man."],
+ bp_fear:["The same pathway that keeps you safe in danger can be calmed: slow breathing and a sense of safety turn down its alarm.", "Psalm 56:3", "What time I am afraid, I will trust in thee."]
+};
 function fillPanel(r){
+  var wd=WONDER[r.id]; $('#pWonder').hidden=!wd;
+  if(wd){ $('#pWonderT').textContent=wd[0]; var wv=$('#pWonderV'); wv.textContent='\u201c'+wd[2]+'\u201d'; var ws=document.createElement('small'); ws.textContent=wd[1]+' (KJV)'; wv.appendChild(ws); }
   $('#hFuncs').textContent=r.hFuncs||'What it does'; $('#hDamage').textContent=r.hDamage||'If it is damaged';
   $('#hFuncs').hidden=$('#pFuncs').hidden=(r.kind==='sense'||r.kind==='think'||r.kind==='hw'||r.kind==='sleep'||r.kind==='mind');
   $('#bPrev').textContent='Previous part'; $('#bNext').textContent='Next part'; $('#bPrev').disabled=false; $('#bNext').disabled=false;
@@ -5209,6 +5266,12 @@ function renderMe(){
   meBody.appendChild(h('h2',null,'Favorites'+(favs.length?' ('+favs.length+')':'')));
   if(!favs.length) meBody.appendChild(h('p','me-empty','Tap “Save to favorites” on any part to keep it here.'));
   else { var fc=h('div','me-chips'); favs.forEach(function(id){ fc.appendChild(btn('★ '+R[id].name,function(){ goPart(id); })); }); meBody.appendChild(fc); }
+  // wonder cards
+  var wids=Object.keys(WONDER).filter(function(id){ return R[id]; }), wfound=wids.filter(function(id){ return d.viewed[id]; });
+  meBody.appendChild(h('h2',null,'Wonder cards ('+wfound.length+' of '+wids.length+')'));
+  meBody.appendChild(h('p','mine-sub','Every part in the Brain view has a wonder card: one detail of how it is made, with a verse from the King James Bible. Open a part to find its card.'));
+  if(!wfound.length) meBody.appendChild(h('p','me-empty','Open any part in the Brain view to find your first card.'));
+  else { var wg=h('div','me-wonder'); wfound.forEach(function(id){ var b=btn(R[id].short||R[id].name,function(){ goPart(id); }); b.appendChild(h('small',null,WONDER[id][1])); b.setAttribute('aria-label',(R[id].short||R[id].name)+', '+WONDER[id][1]+'. Open this part.'); wg.appendChild(b); }); meBody.appendChild(wg); }
   // notes
   var notes=Object.keys(d.notes).filter(function(id){ return R[id]; }).sort(function(a,b){ return d.notes[b].ts-d.notes[a].ts; });
   meBody.appendChild(h('h2',null,'My notes'+(notes.length?' ('+notes.length+')':'')));

@@ -463,6 +463,11 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .wonder .w-head svg{width:18px;height:18px;fill:currentColor}
 .wonder p{margin:8px 0 0;line-height:1.5}
 .wonder .verse{margin-top:10px}
+.bp-hint{margin:4px 0 8px;font-size:13.5px;line-height:1.45;color:var(--muted)}
+.bp-sites .chip[aria-pressed="true"]{background:#e03131;border-color:#e03131;color:#fff}
+.bp-out{margin-top:12px;padding:10px 12px;border-left:4px solid #e03131;border-radius:10px;background:var(--soft)}
+.bp-out b{display:block;font-size:14px}
+.bp-out p{margin:4px 0 0;font-size:14.5px;line-height:1.5}
 .me-wonder{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .me-wonder button{box-sizing:border-box;text-align:left;border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:9px 11px;color:var(--ink);cursor:pointer;font:inherit;font-weight:700;font-size:13.5px;min-width:0}
 .me-wonder button:hover,.me-wonder button:focus-visible{border-color:var(--accent)}
@@ -4778,20 +4783,113 @@ Object.keys(BP_ROUTES).forEach(function(id){
   var B=BP_ROUTES[id], col=R[id].color, V=function(a){ return new THREE.Vector3(a[0],a[1],a[2]); };
   // drawn last and on top, so the whole route stays in view through the parts it passes
   function keep(m){ m.userData={region:id,deep:true,bpath:true}; m.visible=false; m.renderOrder=30; m.material.transparent=true; m.material.depthTest=false; m.material.depthWrite=false; R[id].meshes.push(m); brain.add(m); bpMeshes.push(m); pickables.push(m); return m; }
-  B.segs.forEach(function(pts){
-    var c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength();
+  B.curves=[]; B.tubes=[]; B.dots=[]; B.u=[];
+  B.segs.forEach(function(pts,si){
+    var c=new THREE.CatmullRomCurve3(pts.map(V),false,'centripetal'), L=c.getLength(); B.curves.push(c);
+    // where each control point sits along the tube (0 to 1), for placing blocks
+    B.u.push(pts.map(function(a,k){ if(k===0) return 0; var q=V(a), bu=0, bd=1e9; for(var t=0;t<=1.0001;t+=0.004){ var d=c.getPointAt(Math.min(1,t)).distanceToSquared(q); if(d<bd){ bd=d; bu=Math.min(1,t); } } return k===pts.length-1?Math.max(0,bu-0.08):bu; }));
     var tex=pulseTex.clone(); tex.needsUpdate=true; tex.wrapS=THREE.RepeatWrapping; tex.repeat.set(Math.max(1,Math.round(L/0.16)),1); bpTex.push(tex);
-    keep(new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(16,Math.round(L*70)),0.018,8,false),new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.55,emissiveMap:tex,roughness:0.5})));
+    var tm=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.55,emissiveMap:tex,roughness:0.5});
+    // beyond a block (uCut, measured along the tube) the route turns grey: no signal gets there
+    tm.userData.uCut={value:1.01};
+    tm.onBeforeCompile=function(sh){ sh.uniforms.uCut=tm.userData.uCut;
+      sh.vertexShader=sh.vertexShader.replace('void main() {','varying float vRawU;\nvoid main() {').replace('#include <uv_vertex>','#include <uv_vertex>\n\tvRawU=uv.x;');
+      sh.fragmentShader=sh.fragmentShader.replace('void main() {','uniform float uCut;\nvarying float vRawU;\nvoid main() {').replace('#include <dithering_fragment>','#include <dithering_fragment>\n\tif(vRawU>uCut){ float g=dot(gl_FragColor.rgb,vec3(0.3,0.59,0.11)); gl_FragColor.rgb=vec3(0.1+0.25*g); }'); };
+    B.tubes.push(keep(new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(16,Math.round(L*70)),0.018,8,false),tm)));
   });
-  var sm=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.5,roughness:0.5});
-  B.s.forEach(function(q){ var m=keep(new THREE.Mesh(new THREE.SphereGeometry(0.03,16,12),sm)); m.position.set(q[0],q[1],q[2]); });
+  B.s.forEach(function(q){ var m=keep(new THREE.Mesh(new THREE.SphereGeometry(0.03,16,12),new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:0.5,roughness:0.5}))); m.position.set(q[0],q[1],q[2]);
+    // which segment and how far along it each station sits, so it can go grey when cut off
+    var bs=0, bu=0, bd=1e9, qv=V(q); B.curves.forEach(function(c,i){ for(var t=0;t<=1.0001;t+=0.01){ var d=c.getPointAt(Math.min(1,t)).distanceToSquared(qv); if(d<bd-1e-9){ bd=d; bs=i; bu=Math.min(1,t); } } });
+    m.userData.seg=bs; m.userData.u=bu; m.userData.col=new THREE.Color(col); B.dots.push(m); });
   anchors[id]={p:V(B.lab).add(new THREE.Vector3(0,0.1,0)),n:null}; // just above the route, so the name does not hide it
 });
+/* ---- what if it is damaged? Places along each pathway where damage really happens, and what follows.
+   at: [segment, control point] where the signal is blocked; cuts: extra blocks for damage that stops more than one route. */
+var BP_DAMAGE={
+  bp_motor:[
+    {name:'Motor cortex',at:[0,0],txt:'A stroke in the left motor cortex weakens the right side of the body. Because the motor cortex is laid out like a map of the body, a small injury may weaken only the face, the arm or the leg.'},
+    {name:'Internal capsule',at:[0,2],txt:'Here the fibers for the face, arm and leg are packed tightly together, so even a small stroke can weaken the whole right side of the body. This is called hemiparesis.'},
+    {name:'Pons, before the crossing',at:[0,4],txt:'The fibers have not crossed yet, so damage on the left side of the pons still weakens the right side of the body.'},
+    {name:'Spinal cord, after the crossing',at:[0,7],txt:'After crossing in the medulla, the fibers run down the right side of the spinal cord. Damage here weakens the right side of the body below that level, on the same side as the injury.'}],
+  bp_touch:[
+    {name:'Back of the spinal cord',at:[0,0],txt:'The fibers have not crossed yet, so damage to the right back column of the spinal cord takes away fine touch, vibration and position sense on the right side of the body below that level. With eyes closed, the person may not know where that foot is.'},
+    {name:'Brainstem, after the crossing',at:[0,4],txt:'Once the fibers have crossed in the medulla, damage on the left side of the brainstem dulls touch and position sense on the right side of the body.'},
+    {name:'Thalamus',at:[0,6],txt:'A small stroke in the left thalamus can cause numbness over the whole right side of the body. Weeks later, some people develop a constant burning pain there (thalamic pain syndrome).'},
+    {name:'Sensory cortex',at:[0,7],txt:'Damage to the left sensory cortex dulls touch on the right side. The person may not recognize an object in their hand by feel alone, or be able to tell exactly where they were touched.'}],
+  bp_pain:[
+    {name:'Spinal cord',at:[0,0],txt:'These fibers have already crossed in the spinal cord, so damage to the left side of the cord takes away pain and temperature on the right side of the body below the injury. A person could then be burned on that side without feeling it.'},
+    {name:'Thalamus',at:[0,4],txt:'Damage to the left thalamus can take away pain and temperature feeling on the right side of the body. Later, some people develop a constant burning pain on that side (thalamic pain syndrome).'},
+    {name:'Branch to the sensory cortex',at:[1,1],txt:'Without this branch it is harder to tell exactly where the pain is and how strong it is, even though it still feels unpleasant.'},
+    {name:'Branch to the cingulate cortex',at:[3,1],txt:'Damage to the anterior cingulate cortex can leave a person able to say where a pain is and how strong it is, yet much less bothered by it.'}],
+  bp_memory:[
+    {name:'Hippocampus',at:[0,0],txt:'When the hippocampus is damaged on both sides, it becomes very hard to form new lasting memories, as with patient H.M. Memories from long before, and skills like riding a bike, mostly remain.'},
+    {name:'Fornix',at:[0,3],txt:'Damage to the fornix, for example during surgery deep in the brain, can cause serious trouble forming new memories, because the hippocampus can no longer reach the rest of the loop.'},
+    {name:'Mammillary bodies',at:[1,0],txt:'In Korsakoff syndrome, a severe lack of vitamin B1 (thiamine) damages the mammillary bodies and the thalamus. People struggle to form new memories and may fill the gaps with made-up memories they truly believe (confabulation).'}],
+  bp_reward:[
+    {name:'Ventral tegmental area',at:[0,0],cuts:[[1,0]],txt:'If these dopamine cells are damaged, motivation drops. A person may lose interest in things they used to enjoy and find it hard to get started on anything. This is called apathy.'},
+    {name:'Branch to the nucleus accumbens',at:[0,1],txt:'Without this branch it is harder to feel drawn toward rewards and to learn which choices pay off.'},
+    {name:'Branch to the prefrontal cortex',at:[1,2],txt:'With too little dopamine reaching the prefrontal cortex, it becomes harder to focus, plan ahead and hold information in mind.'}],
+  bp_bg:[
+    {name:'Substantia nigra',at:[0,0],txt:'This is what happens in Parkinson’s disease. As the dopamine cells die, movements become slow and small and are hard to start, and a tremor at rest is common.'},
+    {name:'Striatum',at:[1,0],cuts:[[3,3]],txt:'In Huntington’s disease, nerve cells in the striatum are lost. The brake on unwanted movements weakens, causing sudden, jerky, dance-like movements called chorea.'},
+    {name:'Globus pallidus',at:[1,1],txt:'Damage to the globus pallidus, for example from carbon monoxide poisoning, can make movements stiff and slow, much like Parkinson’s disease.'}],
+  bp_language:[
+    {name:'Wernicke’s area',at:[0,1],txt:'Wernicke’s aphasia: speech flows easily but makes little sense, and the person has great trouble understanding what others say. They are often unaware of the problem.'},
+    {name:'Arcuate fasciculus',at:[0,3],txt:'Conduction aphasia: understanding and everyday speech are fairly good, but repeating what someone has just said is very hard.'},
+    {name:'Broca’s area',at:[0,5],txt:'Broca’s aphasia: the person understands well but speaks slowly and with great effort, in short phrases, and knows exactly what they want to say.'},
+    {name:'Motor cortex (face)',at:[0,6],txt:'Damage to the face area of the motor cortex weakens the lips and tongue, so speech sounds slurred (dysarthria), even though the words and grammar are all correct.'}],
+  bp_fear:[
+    {name:'Fast route',at:[0,1],txt:'With only the fast route cut, the slower route through the cortex still reaches the amygdala, so the body still reacts to danger, just a little later.'},
+    {name:'Amygdala',at:[2,0],cuts:[[3,0]],txt:'With damage to both amygdalae, people may not feel fear in the usual way and can walk toward real danger without alarm. They can still understand that something is dangerous.'},
+    {name:'Hypothalamus to pituitary',at:[2,3],txt:'With this link cut, the hormone part of the stress response, which releases cortisol, cannot be switched on properly, though the heart still speeds up.'},
+    {name:'Periaqueductal grey',at:[3,2],txt:'In animal studies, damage to the periaqueductal grey in the midbrain stops the freezing response to danger, even though the threat is still noticed.'}]
+};
+var bpCut=-1, bpTapPt=null, bpMarker=null;
+// signals reach a segment only if something upstream still flows into its start
+function bpShade(){
+  var id=bpShown, B=id && BP_ROUTES[id]; if(!B) return;
+  var key=function(p){ return p.x.toFixed(3)+','+p.y.toFixed(3)+','+p.z.toFixed(3); };
+  var cut={}, site=bpCut>=0?BP_DAMAGE[id][bpCut]:null;
+  if(site) [site.at].concat(site.cuts||[]).forEach(function(c){ var u=B.u[c[0]][c[1]]; cut[c[0]]=Math.min(cut[c[0]]==null?1:cut[c[0]],u); });
+  var starts=B.curves.map(function(c){ return key(c.getPoint(0)); }), ends=B.curves.map(function(c){ return key(c.getPoint(1)); }), fed={};
+  starts.forEach(function(k){ if(ends.indexOf(k)<0) fed[k]=1; });
+  for(var pass=0;pass<B.curves.length+1;pass++) B.curves.forEach(function(c,i){ if(fed[starts[i]] && cut[i]==null) fed[ends[i]]=1; });
+  B.tubes.forEach(function(m,i){ m.material.userData.uCut.value=!fed[starts[i]]?-0.01:(cut[i]!=null?cut[i]:1.01); });
+  B.dots.forEach(function(d){ var i=d.userData.seg, on=!!fed[starts[i]] && (cut[i]==null || d.userData.u<=cut[i]+1e-4), c=d.userData.col;
+    d.material.color.copy(on?c:new THREE.Color(0.32,0.32,0.36)); d.material.emissive.copy(on?c:new THREE.Color(0,0,0)); });
+  if(bpMarker){ bpMarker.visible=!!site; if(site) bpMarker.position.copy(B.curves[site.at[0]].getPointAt(B.u[site.at[0]][site.at[1]])); }
+  var out=$('#bpOut'); if(out){ out.hidden=!site; out.innerHTML=''; if(site){ var b=document.createElement('b'); b.textContent='Blocked at: '+site.name; out.appendChild(b); var pp=document.createElement('p'); pp.textContent=site.txt; out.appendChild(pp); } }
+  Array.prototype.forEach.call(document.querySelectorAll('.bp-sites .chip'),function(b,i){ b.setAttribute('aria-pressed',i===bpCut?'true':'false'); });
+  kick(600);
+}
+function bpSetCut(i){ bpCut=i; bpShade(); }
+function bpTap(pt){
+  var B=BP_ROUTES[bpShown], S=BP_DAMAGE[bpShown], best=-1, bd=1e9;
+  S.forEach(function(s,i){ var d=B.curves[s.at[0]].getPointAt(B.u[s.at[0]][s.at[1]]).distanceTo(pt); if(d<bd){ bd=d; best=i; } });
+  bpSetCut(best===bpCut?-1:best);
+}
+function bpDamageUI(tree,id){
+  var S=BP_DAMAGE[id]; if(!S) return;
+  var old=tree.querySelector('.bp-damage'); if(old) old.remove();
+  var wrap=document.createElement('div'); wrap.className='bp-damage'; tree.appendChild(wrap); tree=wrap;
+  var hh=document.createElement('h3'); hh.textContent='What if it is damaged?'; tree.appendChild(hh);
+  var hp=document.createElement('p'); hp.className='bp-hint'; hp.textContent='Choose a place, or tap the glowing route, to block the signal there. The part of the pathway it can no longer reach turns grey.'; tree.appendChild(hp);
+  var kd=document.createElement('div'); kd.className='kids bp-sites';
+  S.forEach(function(st,i){ var b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=st.name; b.setAttribute('aria-pressed',(bpShown===id && bpCut===i)?'true':'false');
+    b.addEventListener('click',function(){ bpSetCut(bpCut===i?-1:i); }); kd.appendChild(b); });
+  tree.appendChild(kd);
+  var out=document.createElement('div'); out.className='bp-out'; out.id='bpOut'; out.setAttribute('role','status'); out.hidden=true; tree.appendChild(out);
+  if(bpShown===id && bpCut>=0) setTimeout(bpShade,0);
+}
+bpMarker=new THREE.Mesh(new THREE.SphereGeometry(0.042,20,14),new THREE.MeshStandardMaterial({color:'#ff2d2d',emissive:'#ff2d2d',emissiveIntensity:0.7,transparent:true,depthTest:false,depthWrite:false}));
+bpMarker.renderOrder=32; bpMarker.visible=false; bpMarker.userData={}; brain.add(bpMarker);
 // show only the chosen pathway, and only in the Brain view
 function bpSync(){
   var on=(mode==='brain' && selected && R[selected] && R[selected].kind==='bpath')?selected:null;
   if(on===bpShown) return; bpShown=on;
   bpMeshes.forEach(function(m){ m.visible=(m.userData.region===on); });
+  if(bpCut>=0 || !on){ var was=bpShown; bpCut=-1; Object.keys(BP_ROUTES).forEach(function(k){ bpShown=k; bpShade(); }); bpShown=was; }
+  if(bpMarker) bpMarker.visible=false;
   applyVisibility(); // the blood vessels step aside while a pathway is shown
 }
 
@@ -5052,6 +5150,7 @@ function fillPanel(r){
     r.rel.forEach(function(cid){ var c=R[cid], kb=document.createElement('button'); kb.className='chip'; kb.style.setProperty('--c',c.color);
       kb.innerHTML='<i class="dot"></i>'; kb.appendChild(document.createTextNode(c.short)); kb.addEventListener('click',function(){ select(cid); }); kp.appendChild(kb); });
     tree.appendChild(kp);
+    if(r.kind==='bpath') bpDamageUI(tree,r.id);
   } else if(r.kind==='sense') fillSense(r);
   else if(r.kind==='think') fillThink(r);
   else if(r.kind==='hw') fillHW(r);
@@ -9528,6 +9627,7 @@ function pickAt(cx,cy){
   if(h && (bodyView()||mode==='spine'||mode==='diseases') && thin(h)){ var alt=hits.filter(function(x){ return !thin(x); })[0]; if(alt) h=alt; }
   if(!h) return null;
   var ud=h.object.userData;
+  bpTapPt=(ud.bpath && ud.region===bpShown)?h.point.clone():null;
   return ud.cortex?CORTEX_IDS[ud.faceReg[h.faceIndex]]:ud.region;
 }
 
@@ -9575,7 +9675,7 @@ function endPtr(e){
     canvas.style.cursor='grab';
     if(e.type==='pointerup' && down && !down.pan && !down.moved && performance.now()-down.t<700){
       var id=pick(e.clientX,e.clientY);
-      if(id) select(id); else if(selected) select(null);
+      if(id && id===selected && id===bpShown && bpTapPt && BP_DAMAGE[id]) bpTap(bpTapPt); else if(id) select(id); else if(selected) select(null);
     }
     down=null;
   } else if(pointers.size===1){ down={x:0,y:0,t:0,moved:true}; }

@@ -5443,10 +5443,22 @@ var findEl=$('#find'), findIn=$('#findIn'), findList=$('#findList'), findHint=$(
 function findData(){ if(findDocs) return findDocs;
   findDocs=REGIONS.map(function(r){ return {id:r.id,name:r.name,short:r.short||'',where:r.where||'',group:(r.group||'').split(': ').pop(),funcs:(r.funcs||[]).join(' · '),summary:r.summary||''}; });
   return findDocs; }
-function findSearch(q){
+// a part whose name matches what was typed comes first: exact name, then names that start with it, then a word that does
+// (so "pons" finds the Pons before "Unresponsive"), keeping the search's own order within each group
+function findRank(ids,q){
+  q=q.toLowerCase().trim();
+  var tier=function(id){ var r=R[id], ns=[r.name,r.short||''].map(function(x){ return x.toLowerCase(); });
+    if(ns.some(function(n){ return n===q; })) return 0;
+    if(ns.some(function(n){ return n.indexOf(q)===0; })) return 1;
+    if(ns.some(function(n){ return (' '+n).indexOf(' '+q)>=0; })) return 2;
+    return 3; };
+  return ids.map(function(id,i){ return [id,tier(id),i]; }).sort(function(a,b){ return a[1]-b[1] || a[2]-b[2]; }).map(function(x){ return x[0]; });
+}
+function findSearch(q){ return findRank(findSearch0(q),q); }
+function findSearch0(q){
   var docs=findData();
   if(!fuse && window.Fuse) fuse=new window.Fuse(docs,{keys:[{name:'name',weight:3},{name:'short',weight:2},{name:'group',weight:1},{name:'where',weight:1},{name:'funcs',weight:0.8},{name:'summary',weight:0.4}],threshold:0.34,ignoreLocation:true,minMatchCharLength:2});
-  if(fuse) return fuse.search(q,{limit:20}).map(function(x){ return x.item.id; });
+  if(fuse) return fuse.search(q,{limit:40}).map(function(x){ return x.item.id; });
   // the library did not load (for example offline on a first visit): plain word matching instead
   var words=q.toLowerCase().split(/\s+/).filter(Boolean);
   return docs.map(function(d){ var sc=0; words.forEach(function(w){ if(d.name.toLowerCase().indexOf(w)>=0) sc+=3; if(d.short.toLowerCase().indexOf(w)>=0) sc+=2; if((d.where+' '+d.group).toLowerCase().indexOf(w)>=0) sc+=1; if((d.funcs+' '+d.summary).toLowerCase().indexOf(w)>=0) sc+=0.5; }); return [d.id,sc]; })
@@ -5461,14 +5473,14 @@ function renderFind(){
     findHint.textContent='Type a name, a place or what a part does, such as “memory” or “balance”.'+(window.Fuse?' Spelling mistakes are fine.':'');
     if(rec.length){ findList.appendChild(h('p','find-head','Recently explored')); rec.forEach(function(id){ findList.appendChild(findItem(id)); }); }
     return; }
-  var ids=findSearch(q);
+  var ids=findSearch(q).slice(0,20);
   findHint.textContent=ids.length?(ids.length===20?'Top 20 results':ids.length+(ids.length===1?' result':' results')):'No parts match “'+q+'”. Try another word.';
   ids.forEach(function(id){ findList.appendChild(findItem(id)); });
 }
 function openFind(){ closeMe(true); findEl.classList.remove('hidden'); findIn.value=''; renderFind(); findIn.focus(); }
 function closeFind(keepFocus){ if(findEl.classList.contains('hidden')) return; findEl.classList.add('hidden'); if(!keepFocus) $('#findBtn').focus(); }
-findIn.addEventListener('input',function(){ clearTimeout(findT); findT=setTimeout(renderFind,90); });
-findIn.addEventListener('keydown',function(e){ if(e.key==='ArrowDown' || e.key==='Enter'){ var f=findList.querySelector('.find-item'); if(f){ e.preventDefault(); if(e.key==='Enter') f.click(); else f.focus(); } } });
+findIn.addEventListener('input',function(){ clearTimeout(findT); findT=setTimeout(function(){ findT=0; renderFind(); },90); });
+findIn.addEventListener('keydown',function(e){ if(e.key==='ArrowDown' || e.key==='Enter'){ if(findT){ clearTimeout(findT); findT=0; renderFind(); } /* act on what is typed now, not on results still waiting to refresh */ var f=findList.querySelector('.find-item'); if(f){ e.preventDefault(); if(e.key==='Enter') f.click(); else f.focus(); } } });
 findList.addEventListener('keydown',function(e){ var items=Array.prototype.slice.call(findList.querySelectorAll('.find-item')), i=items.indexOf(document.activeElement); if(i<0) return;
   if(e.key==='ArrowDown'){ e.preventDefault(); (items[i+1]||items[i]).focus(); } else if(e.key==='ArrowUp'){ e.preventDefault(); if(i>0) items[i-1].focus(); else findIn.focus(); } });
 $('#findBtn').addEventListener('click',openFind);

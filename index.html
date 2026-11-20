@@ -2161,6 +2161,110 @@ var REGIONS = [
   damage:'People with damage to both amygdalae may not feel fear in the usual way and can miss real danger. An overactive fear pathway is linked to anxiety.',
   fact:'The fast route is why you can jump back from a stick that looks like a snake before you know what it is. A moment later the slow route tells you it is only a stick.',
   rel:['thalamus','auditory','amygdala','hypothalamus','pituitary','midbrain','medulla'], view:{az:30,el:6}, zoom:0.9},
+ {id:'cn_all',kind:'cnerve',group:'Cranial nerves',name:'The Twelve Cranial Nerves',short:'All cranial nerves',color:'#e8d48b',
+  where:'Twelve pairs leaving the underside of the brain and the brainstem',
+  summary:'Most nerves connect to the spinal cord, but twelve pairs leave the brain directly. They are numbered I to XII from front to back, in the order they leave the brain. Some carry only sensations (such as smell, sight and hearing), some only movement (such as the eye muscles and the tongue), and some carry both.',
+  funcs:['I to II leave the front of the brain: smell and sight','III to XII leave the brainstem','Five control the eyes, face, jaw and tongue','The vagus nerve reaches down to the heart, lungs and gut'],
+  damage:'Doctors test the cranial nerves one by one in a quick bedside exam. Because each nerve leaves at a known place, a problem with one or two of them helps show exactly where in the brain or skull the trouble is.',
+  fact:'Only two cranial nerves, the olfactory and the optic, leave the brain above the brainstem. The other ten come from the midbrain, pons and medulla.',
+  test:'A cranial nerve exam takes only a few minutes: smell, vision and pupils, eye movements, feeling and movement of the face, hearing and balance, swallowing and voice, shoulder shrug, and sticking out the tongue.',
+  num:'I–XII', view:{az:90,el:-62}, zoom:1.25, at:[0,-0.5,0.3]},
+ {id:'cn_olf',kind:'cnerve',group:'Cranial nerves',name:'Olfactory Nerve (I)',short:'I Olfactory',color:'#9be15d',num:'I',type:'Sensory',
+  where:'From the nose up into the olfactory bulb, under the frontal lobe',
+  summary:'Smell receptor cells in the roof of the nose send tiny nerve fibers up through small holes in the skull, the cribriform plate, into the olfactory bulb. From there the olfactory tract carries smell straight into the brain.',
+  funcs:['Smelling odors','Much of the flavor of food','Warning smells such as smoke or spoiled food'],
+  damage:'Losing the sense of smell is called anosmia. A blow to the head can tear the fine fibers where they pass through the skull. Without smell, food also tastes flat.',
+  fact:'Smell is the only sense that reaches the cortex without passing through the thalamus first.',
+  test:'With the eyes closed and one nostril blocked, the person names a familiar smell such as coffee or peppermint. Then the other side is tested.',
+  view:{az:70,el:-45}, zoom:0.7, at:[0,-0.15,0.6]},
+ {id:'cn_opt',kind:'cnerve',group:'Cranial nerves',name:'Optic Nerve (II)',short:'II Optic',color:'#5ec8ff',num:'II',type:'Sensory',
+  where:'From the back of each eye to the optic chiasm, then the optic tracts',
+  summary:'Each optic nerve leaves the back of the eye and meets its partner at the optic chiasm, just above the pituitary gland. There the fibers from the inner half of each eye cross, so each side of the brain receives the opposite half of what you see. The optic tracts then carry the signals back to the thalamus.',
+  funcs:['Sight','Carrying the light signal for the pupil reflex','Sending the right and left halves of what you see to opposite sides of the brain'],
+  damage:'Damage to one optic nerve blurs or darkens vision in that eye. A pituitary tumor pressing on the chiasm from below takes away the outer side vision of both eyes.',
+  fact:'The optic nerve is really part of the brain itself: it is wrapped in the same three meninges and made of the same kind of tissue.',
+  test:'Reading an eye chart, checking side vision by bringing a finger in from the side, and looking at the back of the eye with a light called an ophthalmoscope.',
+  view:{az:70,el:-50}, zoom:0.8, at:[0,-0.2,0.55]},
+ {id:'cn_ocul',kind:'cnerve',group:'Cranial nerves',name:'Oculomotor Nerve (III)',short:'III Oculomotor',color:'#ffb347',num:'III',type:'Motor',
+  where:'Front of the midbrain, between the cerebral peduncles',
+  summary:'The oculomotor nerve moves the eye up, down and in, using four of the six eye muscles. It also lifts the upper eyelid, makes the pupil smaller in bright light, and helps the lens focus up close.',
+  funcs:['Moving the eye up, down and toward the nose','Lifting the upper eyelid','Making the pupil smaller in bright light','Focusing on near objects'],
+  damage:'The eye turns down and out, the eyelid droops, and the pupil may be wide. Because a swelling brain can press on this nerve, a suddenly wide pupil can be an emergency sign.',
+  fact:'This one nerve controls four of the six muscles that move each eye, plus the eyelid and the pupil.',
+  test:'The person follows a finger in an H shape with their eyes, and the doctor shines a light into each eye to watch the pupils get smaller.',
+  view:{az:60,el:-40}, zoom:0.8, at:[0.15,-0.25,0.5]},
+ {id:'cn_troch',kind:'cnerve',group:'Cranial nerves',name:'Trochlear Nerve (IV)',short:'IV Trochlear',color:'#ffd166',num:'IV',type:'Motor',
+  where:'Back of the midbrain (the only cranial nerve that leaves from the back)',
+  summary:'The trochlear nerve moves one eye muscle, the superior oblique. Its tendon runs through a little pulley near the nose, so the muscle turns the eye down and toward the nose, as when you look down to read or walk down stairs.',
+  funcs:['Turning the eye down and toward the nose','Helping keep the eye level when the head tilts'],
+  damage:'Double vision when looking down, such as reading or going downstairs. People often tilt their head to the opposite side to keep the image single.',
+  fact:'It is the thinnest cranial nerve but has the longest path inside the skull, and it is the only one that crosses to the other side before leaving the brainstem.',
+  test:'The person looks down and toward the nose, and the doctor checks for double vision.',
+  view:{az:35,el:-30}, zoom:0.85, at:[0.15,-0.25,0.35]},
+ {id:'cn_trig',kind:'cnerve',group:'Cranial nerves',name:'Trigeminal Nerve (V)',short:'V Trigeminal',color:'#ff6b9d',num:'V',type:'Sensory and motor',
+  where:'Side of the pons',
+  summary:'The trigeminal nerve is the main nerve of feeling for the face. After a large ganglion it splits into three branches: the ophthalmic branch for the forehead and eye, the maxillary branch for the cheek and upper teeth, and the mandibular branch for the lower jaw and teeth, which also moves the chewing muscles.',
+  funcs:['Feeling touch, pain and temperature on the face','Feeling in the eye, nose, mouth and teeth','Moving the chewing muscles','The blink reflex when the eye is touched'],
+  damage:'Numbness in part of the face. In trigeminal neuralgia, brief attacks of severe, electric-shock-like pain shoot across one side of the face.',
+  fact:'It is the largest cranial nerve, and its name means "three twins" for its three branches.',
+  test:'Light touch on the forehead, cheek and jaw on both sides, feeling the jaw muscles while the person clenches their teeth, and a gentle touch to the eye to check the blink.',
+  view:{az:30,el:-25}, zoom:1.0, at:[0.25,-0.4,0.5]},
+ {id:'cn_abd',kind:'cnerve',group:'Cranial nerves',name:'Abducens Nerve (VI)',short:'VI Abducens',color:'#f4a261',num:'VI',type:'Motor',
+  where:'Front of the brainstem, where the pons meets the medulla',
+  summary:'The abducens nerve moves one eye muscle, the lateral rectus, which turns the eye outward, away from the nose. It climbs a long way up the base of the skull before reaching the eye.',
+  funcs:['Turning the eye outward','Working with the other eye nerves so both eyes point at the same thing'],
+  damage:'The eye cannot turn outward, causing double vision when looking to that side. Because of its long path, raised pressure inside the skull can stretch this nerve first.',
+  fact:'Its name means "leading away", because it turns the eye away from the nose.',
+  test:'The person looks to each side without moving the head, and the doctor checks that each eye turns fully outward.',
+  view:{az:50,el:-35}, zoom:0.9, at:[0.15,-0.4,0.4]},
+ {id:'cn_fac',kind:'cnerve',group:'Cranial nerves',name:'Facial Nerve (VII)',short:'VII Facial',color:'#c77dff',num:'VII',type:'Sensory and motor',
+  where:'Side of the brainstem, where the pons meets the medulla',
+  summary:'The facial nerve moves the muscles of facial expression. It passes through the skull bone near the ear, leaves just below it, and fans out across the face in five main branches. It also carries taste from the front two-thirds of the tongue and helps make tears and saliva.',
+  funcs:['Smiling, frowning, closing the eyes and raising the eyebrows','Taste on the front two-thirds of the tongue','Making tears and saliva','Softening very loud sounds in the ear'],
+  damage:'In Bell’s palsy, one whole side of the face becomes weak, including the forehead, and the eye may not close. Most people recover over weeks to months.',
+  fact:'Its five branches spread across the face like the fingers of a hand: temporal, zygomatic, buccal, mandibular and cervical.',
+  test:'The person raises their eyebrows, shuts their eyes tight, smiles, and puffs out their cheeks, while the doctor compares the two sides.',
+  view:{az:18,el:-8}, zoom:1.1, at:[0.3,-0.6,0.35]},
+ {id:'cn_vest',kind:'cnerve',group:'Cranial nerves',name:'Vestibulocochlear Nerve (VIII)',short:'VIII Vestibulocochlear',color:'#4dd0e1',num:'VIII',type:'Sensory',
+  where:'Side of the brainstem, next to the facial nerve',
+  summary:'This nerve has two parts. The cochlear part carries hearing from the coiled cochlea, and the vestibular part carries balance from the semicircular canals and the vestibule, which sense turning and tilting of the head.',
+  funcs:['Hearing','Sensing head turns and tilts','Keeping the eyes steady while the head moves'],
+  damage:'Hearing loss, ringing in the ear, or dizziness and a spinning feeling (vertigo). A slow, harmless growth on this nerve, an acoustic neuroma, often first shows as hearing loss in one ear.',
+  fact:'The cochlea is about the size of a pea and coils around about two and a half times.',
+  test:'Whispering or rubbing fingers near each ear, a tuning fork, and watching the eyes during head movements to check balance.',
+  view:{az:40,el:-12}, zoom:0.95, at:[0.25,-0.55,0.0]},
+ {id:'cn_glos',kind:'cnerve',group:'Cranial nerves',name:'Glossopharyngeal Nerve (IX)',short:'IX Glossopharyngeal',color:'#a3e635',num:'IX',type:'Sensory and motor',
+  where:'Side of the medulla, as a row of rootlets',
+  summary:'The glossopharyngeal nerve carries taste and feeling from the back third of the tongue and the throat, and it starts the gag reflex. It also carries signals from pressure and oxygen sensors in the neck and helps one throat muscle lift during swallowing.',
+  funcs:['Taste and feeling on the back third of the tongue','Feeling in the throat that starts the gag reflex','Reporting blood pressure and oxygen from sensors in the neck','Helping make saliva'],
+  damage:'Loss of the gag reflex on that side and some trouble swallowing. It is rarely damaged alone, because it leaves the skull through the same opening as the vagus and accessory nerves.',
+  fact:'Its name means "tongue and throat".',
+  test:'Gently touching the back of the throat to check the gag reflex on each side, usually together with the vagus nerve.',
+  view:{az:30,el:-8}, zoom:1.2, at:[0.15,-0.9,0.25]},
+ {id:'cn_vag',kind:'cnerve',group:'Cranial nerves',name:'Vagus Nerve (X)',short:'X Vagus',color:'#ff8a65',num:'X',type:'Sensory and motor',
+  where:'Side of the medulla, as a row of rootlets just below the glossopharyngeal nerve',
+  summary:'The vagus nerve leaves the skull and travels down the neck beside the carotid artery into the chest and abdomen. It moves the muscles of the throat and voice box, slows the heart, and helps control breathing and digestion. It also carries a great deal of information from the organs back to the brain.',
+  funcs:['Swallowing and speaking (throat and voice box muscles)','Slowing the heart','Helping control breathing and digestion','Carrying signals from the organs back to the brain'],
+  damage:'A hoarse voice, trouble swallowing, and the soft palate lifting unevenly. Damage to its branch to the voice box can leave a weak, breathy voice.',
+  fact:'Vagus means "wandering" in Latin, and about four out of five of its fibers carry information from the body to the brain.',
+  test:'The person says "ah" while the doctor checks that the uvula rises straight up in the middle. The doctor also listens to the voice and checks swallowing.',
+  view:{az:30,el:-5}, zoom:1.6, at:[0.15,-1.3,0.15]},
+ {id:'cn_acc',kind:'cnerve',group:'Cranial nerves',name:'Accessory Nerve (XI)',short:'XI Accessory',color:'#90caf9',num:'XI',type:'Motor',
+  where:'From the upper spinal cord, up into the skull and out beside the vagus nerve',
+  summary:'The accessory nerve moves two large muscles: the sternocleidomastoid, which turns and bends the head, and the trapezius, which shrugs the shoulders. Its roots rise from the upper spinal cord into the skull and then leave through the same opening as the vagus nerve.',
+  funcs:['Turning the head','Shrugging the shoulders','Helping lift the arm above the head'],
+  damage:'A weak shrug and a drooping shoulder on that side. It can be injured during surgery in the side of the neck.',
+  fact:'Most of its fibers start in the spinal cord, not the brain, yet it is still counted as a cranial nerve because it passes through the skull.',
+  test:'The person shrugs their shoulders and turns their head against the doctor’s hand.',
+  view:{az:55,el:-2}, zoom:1.25, at:[0.3,-1.2,-0.25]},
+ {id:'cn_hypo',kind:'cnerve',group:'Cranial nerves',name:'Hypoglossal Nerve (XII)',short:'XII Hypoglossal',color:'#e57373',num:'XII',type:'Motor',
+  where:'Front of the medulla, as rootlets between the pyramid and the olive',
+  summary:'The hypoglossal nerve moves the muscles of the tongue. It leaves the skull through its own small canal and curves forward under the jaw into the tongue.',
+  funcs:['Moving the tongue','Shaping sounds when speaking','Moving food while chewing and swallowing'],
+  damage:'The tongue points toward the weak side when stuck out, and over time that side may shrink. Speech and swallowing can be affected.',
+  fact:'Its name means "under the tongue".',
+  test:'The person sticks out their tongue to check that it comes out straight, then pushes it into each cheek against the doctor’s finger.',
+  view:{az:35,el:-15}, zoom:1.1, at:[0.1,-0.9,0.35]},
  {id:'n_brain',kind:'nerve',mode:'nerves',group:'Central nervous system',name:'Brain',short:'Brain',color:'#f4a7b9',
   where:'Inside the skull',
   summary:'The control center of the nervous system. Together with the spinal cord it forms the central nervous system, which takes in information, makes sense of it and sends out commands.',
@@ -3782,6 +3886,7 @@ var SECTION_MEMBERS={sec_cns:['n_brain','n_cord','n_dura','n_arachnoid','n_pia']
   sec_sympathetic:['n_sympathetic'],sec_parasympathetic:['n_vagus']};
 var SECTION_OF={n_brain:'sec_cns',n_cord:'sec_cns',n_dura:'sec_cns',n_arachnoid:'sec_cns',n_pia:'sec_cns',n_enteric:'sec_autonomic',n_spinal:'sec_pns',n_sympathetic:'sec_sympathetic',n_vagus:'sec_parasympathetic'};
 PERIPH.forEach(function(n){ if(!SECTION_OF[n]) SECTION_OF[n]='sec_somatic'; });
+REGIONS.forEach(function(r){ if(r.kind==='cnerve') r.badge=r.type?'Cranial nerve '+r.num+' · '+r.type:'Cranial nerves I to XII'; });
 var R = {}, CORTEX_IDS = ['prefrontal','premotor','motor','sensory','parietal','occipital','temporal','auditory','broca','wernicke'], CIDX = {};
 REGIONS.forEach(function(r){ R[r.id]=r; r.meshes=[]; });
 CORTEX_IDS.forEach(function(id,i){ CIDX[id]=i; });
@@ -4803,6 +4908,148 @@ Object.keys(BP_ROUTES).forEach(function(id){
     m.userData.seg=bs; m.userData.u=bu; m.userData.col=new THREE.Color(col); B.dots.push(m); });
   anchors[id]={p:V(B.lab).add(new THREE.Vector3(0,0.1,0)),n:null}; // just above the route, so the name does not hide it
 });
+/* ---- the twelve cranial nerves: detailed models on the underside of the brain (both sides; +x is the left)
+   Short stumps always show where each nerve leaves the brain. Choosing a nerve draws its whole course to what it
+   serves: eyes with their six muscles, the inner ear, the tongue, the neck muscles, the nose and the face. */
+var cnGroup=new THREE.Group(); cnGroup.visible=false; brain.add(cnGroup);
+var cnMeshes=[], cnOrgans={}, cnEyeMus={}, cnShown=null, CN_IDS=['cn_olf','cn_opt','cn_ocul','cn_troch','cn_trig','cn_abd','cn_fac','cn_vest','cn_glos','cn_vag','cn_acc','cn_hypo'];
+// fine lengthwise fibres, so the nerves read as bundles rather than plain tubes
+var CN_TEX=(function(){ var c=document.createElement('canvas'); c.width=32; c.height=32; var g=c.getContext('2d'); g.fillStyle='#ffffff'; g.fillRect(0,0,32,32);
+  for(var i=0;i<32;i++){ g.fillStyle='rgba(60,40,10,'+(0.05+0.12*((i*37)%7)/7)+')'; g.fillRect(0,i,32,1); }
+  var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t; })();
+var CN_CREAM=new THREE.Color('#f3e6b5');
+function cnMat(id){ var c=new THREE.Color(R[id].color).lerp(CN_CREAM,0.35), t=CN_TEX.clone(); t.needsUpdate=true;
+  var m=new THREE.MeshStandardMaterial({color:c,map:t,roughness:0.55,metalness:0,emissive:new THREE.Color(R[id].color),emissiveIntensity:0}); m.userData.base=c.clone(); return m; }
+// a smooth nerve that narrows along its length (r0 at the start, r1 at the end)
+function cnTube(pts,r0,r1,mat,seg){
+  var c=new THREE.CatmullRomCurve3(pts.map(function(a){ return new THREE.Vector3(a[0],a[1],a[2]); }),false,'centripetal'), L=c.getLength(), tub=seg||Math.max(24,Math.round(L*90)), rad=10;
+  var g=new THREE.TubeGeometry(c,tub,1,rad,false), p=g.attributes.position, q=new THREE.Vector3(), v=new THREE.Vector3();
+  for(var i=0;i<=tub;i++){ c.getPointAt(i/tub,q); var r=r0+(r1-r0)*(i/tub); for(var j=0;j<=rad;j++){ var k=i*(rad+1)+j; v.fromBufferAttribute(p,k).sub(q).multiplyScalar(r); p.setXYZ(k,q.x+v.x,q.y+v.y,q.z+v.z); } }
+  g.computeVertexNormals(); if(mat.map) mat.map.repeat.set(Math.max(1,Math.round(L*6)),2);
+  var m=new THREE.Mesh(g,mat); m.userData.curve=c; return m;
+}
+function cnMirror(pts,s){ return pts.map(function(a){ return [a[0]*s,a[1],a[2]]; }); }
+function cnAdd(id,mesh,full){ mesh.userData.region=id; mesh.userData.deep=false; /* on the surface: tappable without X-ray */ mesh.userData.cn=true; mesh.userData.full=!!full; cnGroup.add(mesh); R[id].meshes.push(mesh); cnMeshes.push(mesh); pickables.push(mesh); return mesh; }
+// nerve paths for the left side: [points, start radius, end radius]; stump: how much of the first path always shows
+var CN_PATHS={
+  cn_olf:{stump:1, paths:[[[[0.15,-0.25,0.3],[0.11,-0.2,0.45],[0.08,-0.13,0.62],[0.07,-0.09,0.72]],0.012,0.016]]},
+  cn_opt:{stump:0.45, paths:[[[[0.38,-0.27,0.84],[0.26,-0.24,0.62],[0.12,-0.21,0.42],[0.03,-0.2,0.31]],0.022,0.018],
+      [[[0.03,-0.2,0.29],[0.1,-0.19,0.2],[0.16,-0.15,0.08],[0.2,-0.06,-0.04],[0.21,0.04,-0.12]],0.016,0.013]]},
+  cn_ocul:{stump:0.22, paths:[[[[0.035,-0.24,0.12],[0.08,-0.27,0.24],[0.13,-0.25,0.36],[0.24,-0.26,0.52],[0.33,-0.27,0.64]],0.014,0.011]]},
+  cn_troch:{stump:0.2, paths:[[[[0.025,-0.29,-0.15],[0.1,-0.3,-0.11],[0.15,-0.27,0.0],[0.15,-0.25,0.14],[0.16,-0.23,0.34],[0.28,-0.22,0.58],[0.33,-0.21,0.66]],0.006,0.006]]},
+  cn_trig:{stump:0.5, paths:[[[[0.13,-0.43,0.0],[0.2,-0.41,0.08],[0.27,-0.39,0.17]],0.032,0.03],
+      [[[0.27,-0.39,0.17],[0.31,-0.3,0.42],[0.36,-0.18,0.72],[0.36,0.02,0.98],[0.32,0.2,1.08]],0.014,0.007],
+      [[[0.28,-0.41,0.19],[0.35,-0.45,0.5],[0.42,-0.45,0.85],[0.45,-0.48,1.04]],0.015,0.008],
+      [[[0.28,-0.43,0.17],[0.36,-0.6,0.3],[0.42,-0.8,0.55],[0.36,-0.92,0.85],[0.15,-0.97,1.02]],0.017,0.008],
+      [[[0.36,-0.6,0.3],[0.52,-0.62,0.42],[0.6,-0.7,0.55]],0.009,0.006]]},
+  cn_abd:{stump:0.18, paths:[[[[0.03,-0.62,0.03],[0.05,-0.52,0.14],[0.07,-0.4,0.2],[0.1,-0.3,0.3],[0.18,-0.27,0.46],[0.3,-0.27,0.6],[0.39,-0.27,0.66]],0.009,0.008]]},
+  cn_fac:{stump:0.2, paths:[[[[0.1,-0.6,-0.06],[0.24,-0.57,-0.04],[0.38,-0.55,-0.02],[0.45,-0.52,0.03],[0.5,-0.62,-0.05],[0.51,-0.78,-0.03],[0.58,-0.79,0.2]],0.013,0.011],
+      [[[0.58,-0.79,0.2],[0.64,-0.5,0.5],[0.62,-0.18,0.72]],0.008,0.005],[[[0.58,-0.79,0.2],[0.65,-0.55,0.66],[0.6,-0.4,0.92]],0.008,0.005],
+      [[[0.58,-0.79,0.2],[0.62,-0.68,0.7],[0.56,-0.62,0.98]],0.008,0.005],[[[0.58,-0.79,0.2],[0.58,-0.9,0.62],[0.48,-0.95,0.92]],0.008,0.005],
+      [[[0.58,-0.79,0.2],[0.56,-1.0,0.4],[0.48,-1.2,0.55]],0.008,0.005]]},
+  cn_vest:{stump:0.25, paths:[[[[0.11,-0.63,-0.1],[0.25,-0.6,-0.07],[0.38,-0.58,-0.05],[0.44,-0.58,-0.04]],0.015,0.013],
+      [[[0.44,-0.58,-0.04],[0.47,-0.6,0.0],[0.49,-0.61,0.02]],0.009,0.007],[[[0.44,-0.58,-0.04],[0.47,-0.55,-0.08],[0.5,-0.53,-0.1]],0.009,0.007]]},
+  cn_glos:{stump:0.2, paths:[[[[0.13,-0.73,-0.2],[0.25,-0.76,-0.2],[0.34,-0.8,-0.17],[0.38,-0.9,-0.05],[0.36,-0.98,0.15],[0.22,-1.02,0.45],[0.1,-1.0,0.6]],0.009,0.006],
+      [[[0.38,-0.9,-0.05],[0.36,-1.08,0.12],[0.3,-1.22,0.3]],0.006,0.004]]},
+  cn_vag:{stump:0.12, paths:[[[[0.13,-0.8,-0.22],[0.25,-0.82,-0.21],[0.34,-0.85,-0.18],[0.35,-1.0,-0.02],[0.31,-1.3,0.14],[0.28,-1.65,0.2],[0.27,-2.0,0.18],[0.26,-2.3,0.12]],0.013,0.011],
+      [[[0.34,-1.12,0.06],[0.24,-1.28,0.36],[0.1,-1.36,0.5]],0.006,0.004],[[[0.35,-0.98,-0.04],[0.25,-1.08,0.3],[0.08,-1.1,0.5]],0.005,0.004]]},
+  cn_acc:{stump:0.12, paths:[[[[0.13,-0.88,-0.26],[0.25,-0.87,-0.22],[0.34,-0.88,-0.2],[0.42,-0.98,-0.12],[0.47,-1.1,-0.05],[0.46,-1.3,-0.15],[0.45,-1.52,-0.38]],0.011,0.008],
+      [[[0.1,-1.45,-0.38],[0.1,-1.25,-0.36],[0.1,-1.07,-0.33],[0.12,-0.93,-0.28],[0.13,-0.88,-0.26]],0.006,0.009],
+      [[[0.47,-1.1,-0.05],[0.44,-1.2,0.08]],0.007,0.005]]},
+  cn_hypo:{stump:0.18, paths:[[[[0.07,-0.76,-0.06],[0.16,-0.83,-0.12],[0.24,-0.88,-0.13],[0.32,-0.98,0.0],[0.32,-1.1,0.28],[0.22,-1.06,0.5],[0.1,-1.02,0.62]],0.01,0.008]]}
+};
+// rows of fine rootlets where IX, X, XI and XII leave the medulla
+var CN_ROOTS={cn_glos:{at:[0.13,-0.73,-0.2],ys:[-0.7,-0.72,-0.74],x:0.085,z:-0.2},cn_vag:{at:[0.13,-0.8,-0.22],ys:[-0.76,-0.78,-0.8,-0.82,-0.84],x:0.085,z:-0.22},
+  cn_acc:{at:[0.13,-0.88,-0.26],ys:[-0.86,-0.88,-0.9],x:0.085,z:-0.27},cn_hypo:{at:[0.07,-0.76,-0.06],ys:[-0.72,-0.74,-0.76,-0.78,-0.8],x:0.04,z:-0.075}};
+(function(){
+  var E={x:0.42,y:-0.25,z:0.98}, RE=0.15;
+  [1,-1].forEach(function(s){
+    // ---- nerves and their stumps
+    CN_IDS.forEach(function(id){
+      var P=CN_PATHS[id], mat=cnMat(id);
+      P.paths.forEach(function(pp,pi){
+        var pts=cnMirror(pp[0],s), full=cnTube(pts,pp[1],pp[2],mat); cnAdd(id,full,true);
+        if(pi===0){ // the stump: the first part of the main path, from the brain outward
+          var c=full.userData.curve, n=Math.max(2,Math.round(8*P.stump)), sp=[]; for(var k=0;k<=n;k++){ var q=c.getPointAt(P.stump*k/n); sp.push([q.x,q.y,q.z]); }
+          var st=cnTube(sp,pp[1]*1.04,pp[1]*1.04-(pp[1]-pp[2])*P.stump,mat,16); cnAdd(id,st,false);
+        }
+      });
+      var RT=CN_ROOTS[id]; if(RT) RT.ys.forEach(function(y,k){ cnAdd(id,cnTube(cnMirror([[RT.x,y,RT.z],[(RT.x+RT.at[0])/2+0.01,(y+RT.at[1])/2,(RT.z+RT.at[2])/2],RT.at],s),0.0035,0.005,mat,12),false); });
+    });
+    // trigeminal ganglion, and the olfactory bulb
+    var tg=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),cnMat('cn_trig')); tg.scale.set(0.035,0.03,0.06); tg.position.set(0.275*s,-0.4,0.18); tg.rotation.y=0.5*s; cnAdd('cn_trig',tg,false);
+    var ob=new THREE.Mesh(new THREE.SphereGeometry(1,24,16),cnMat('cn_olf')); ob.scale.set(0.022,0.016,0.075); ob.position.set(0.07*s,-0.09,0.76); cnAdd('cn_olf',ob,false);
+    // ---- the eye and its six muscles (left eye at +x; the nose is toward smaller |x|)
+    var eye=new THREE.Group(); eye.position.set(E.x*s,E.y,E.z); cnGroup.add(eye); (cnOrgans.eye=cnOrgans.eye||[]).push(eye);
+    eye.add(new THREE.Mesh(new THREE.SphereGeometry(RE,40,28),new THREE.MeshStandardMaterial({color:'#f4f1ea',roughness:0.35})));
+    var iris=new THREE.Mesh(new THREE.CircleGeometry(0.058,40),new THREE.MeshStandardMaterial({color:'#4f7fb0',roughness:0.5})); iris.position.z=RE*0.985; eye.add(iris);
+    var pup=new THREE.Mesh(new THREE.CircleGeometry(0.024,32),new THREE.MeshBasicMaterial({color:'#0b0b0b'})); pup.position.z=RE*0.99; eye.add(pup);
+    var cor=new THREE.Mesh(new THREE.SphereGeometry(0.075,32,20,0,Math.PI*2,0,Math.PI/2.4),new THREE.MeshStandardMaterial({color:'#ffffff',transparent:true,opacity:0.25,roughness:0.05})); cor.rotation.x=Math.PI/2; cor.position.z=RE*0.82; eye.add(cor);
+    var MU=new THREE.MeshStandardMaterial({color:'#c4524a',roughness:0.6,emissive:'#ff3b30',emissiveIntensity:0}), A=[(-0.06)*s,-0.01,-0.38], sx=s;
+    function mus(key,pts,r){ var m=cnTube(pts,r,r*0.75,MU.clone(),40); m.material.map=null; eye.add(m); (cnEyeMus[key]=cnEyeMus[key]||[]).push(m); return m; }
+    mus('SR',[[A[0],A[1]+0.03,A[2]],[0,RE*0.95,-RE*0.4],[0,RE*0.98,RE*0.15],[0,RE*0.86,RE*0.5]],0.017);
+    mus('IR',[[A[0],A[1]-0.03,A[2]],[0,-RE*0.95,-RE*0.4],[0,-RE*0.98,RE*0.15],[0,-RE*0.86,RE*0.5]],0.017);
+    mus('MR',[[A[0]-0.02*sx,A[1],A[2]],[-RE*0.95*sx,0,-RE*0.4],[-RE*0.98*sx,0,RE*0.15],[-RE*0.86*sx,0,RE*0.5]],0.017);
+    mus('LR',[[A[0]+0.03*sx,A[1],A[2]],[RE*0.95*sx,0,-RE*0.4],[RE*0.98*sx,0,RE*0.15],[RE*0.86*sx,0,RE*0.5]],0.017);
+    mus('LPS',[[A[0],A[1]+0.06,A[2]],[0,RE*1.12,-RE*0.3],[0,RE*1.12,RE*0.5],[0,RE*0.95,RE*0.95]],0.011);
+    var T=[-RE*0.85*sx,RE*1.05,RE*0.95]; // the trochlea, a pulley near the upper inner corner of the orbit
+    mus('SO',[[A[0]-0.03*sx,A[1]+0.04,A[2]],[-RE*0.95*sx,RE*0.75,-RE*0.2],[-RE*0.95*sx,RE*0.95,RE*0.5],T],0.013);
+    mus('SO',[T,[-RE*0.2*sx,RE*1.02,RE*0.45],[RE*0.3*sx,RE*0.9,-RE*0.25]],0.006);
+    var tro=new THREE.Mesh(new THREE.TorusGeometry(0.012,0.004,10,20),new THREE.MeshStandardMaterial({color:'#e8e2d0'})); tro.position.set(T[0],T[1],T[2]); eye.add(tro);
+    mus('IO',[[-RE*0.85*sx,-RE*1.05,RE*0.7],[-RE*0.2*sx,-RE*1.08,RE*0.35],[RE*0.6*sx,-RE*0.75,-RE*0.3]],0.013);
+    // ---- the inner ear: cochlea, vestibule and the three semicircular canals
+    var ear=new THREE.Group(); ear.position.set(0.52*s,-0.585,-0.03); cnGroup.add(ear); (cnOrgans.ear=cnOrgans.ear||[]).push(ear);
+    var BONE=new THREE.MeshStandardMaterial({color:'#f2e9d8',roughness:0.4,transparent:true,opacity:0.92});
+    var sp=[]; for(var i=0;i<=120;i++){ var t=i/120, a=t*2.6*Math.PI*2, r=0.052*(1-t*0.72); sp.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,t*0.05)); }
+    var coch=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sp),240,0.011,10,false),BONE); coch.position.set(-0.01*s,-0.02,0.05); coch.rotation.set(0.4,1.1*s,0); ear.add(coch);
+    var ves=new THREE.Mesh(new THREE.SphereGeometry(0.024,20,14),BONE); ves.position.set(0,0.02,-0.04); ear.add(ves);
+    [[0,0,0,0.05,-0.04,-0.05],[Math.PI/2,0,0,0.0,0.05,-0.08],[0,Math.PI/2,0.5,-0.04,0.05,-0.07]].forEach(function(c){ var tor=new THREE.Mesh(new THREE.TorusGeometry(0.04,0.006,10,40,Math.PI*1.6),BONE); tor.rotation.set(c[0],c[1]*s,c[2]); tor.position.set(c[3]*s,c[4],c[5]); ear.add(tor); });
+    // ---- the neck muscles moved by the accessory nerve
+    var NM=new THREE.MeshStandardMaterial({color:'#b5544b',roughness:0.65,transparent:true,opacity:0.88}), neck=[];
+    var scm=cnTube([[0.52*s,-0.82,-0.06],[0.45*s,-1.15,0.12],[0.3*s,-1.6,0.4],[0.12*s,-1.95,0.58]],0.04,0.025,NM,60); scm.material.map=null; cnGroup.add(scm); neck.push(scm);
+    var trap=cnTube([[0.12*s,-0.95,-0.6],[0.35*s,-1.25,-0.62],[0.62*s,-1.6,-0.5],[0.88*s,-1.85,-0.28]],0.045,0.03,NM,60); cnGroup.add(trap); neck.push(trap);
+    cnOrgans.neck=(cnOrgans.neck||[]).concat(neck);
+  });
+  // ---- the tongue (one, in the middle)
+  var tongue=new THREE.Mesh(new THREE.SphereGeometry(1,40,24),new THREE.MeshStandardMaterial({color:'#e58a8a',roughness:0.6})); tongue.scale.set(0.17,0.075,0.3); tongue.position.set(0,-1.02,0.74); cnGroup.add(tongue); cnOrgans.tongue=[tongue];
+  // ---- the nose: the thin cribriform plate the smell fibres pass through, and the smell lining below it
+  var plate=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.008,0.24),new THREE.MeshStandardMaterial({color:'#efe6d2',transparent:true,opacity:0.55,roughness:0.5})); plate.position.set(0,-0.14,0.8); cnGroup.add(plate);
+  var nose=/** @type {any[]} */([plate]);
+  [1,-1].forEach(function(s){ var lin=new THREE.Mesh(new THREE.SphereGeometry(1,20,12),new THREE.MeshStandardMaterial({color:'#e7a3a0',roughness:0.6})); lin.scale.set(0.012,0.04,0.12); lin.position.set(0.035*s,-0.26,0.8); cnGroup.add(lin); nose.push(lin);
+    for(var k=0;k<7;k++){ var z=0.71+k*0.03, f=cnTube([[0.065*s,-0.1,z],[0.05*s,-0.17,z+0.005],[0.04*s,-0.24,z]],0.0035,0.0025,cnMat('cn_olf'),12); cnAdd('cn_olf',f,true); } });
+  cnOrgans.nose=nose;
+  // name positions: on the left-side course, just out from the brain
+  CN_IDS.forEach(function(id){ var c=/** @type {any} */(null); cnMeshes.forEach(function(m){ if(!c && m.userData.region===id && m.userData.full && m.userData.curve) c=m.userData.curve; }); var q=c.getPointAt(id==='cn_vag'||id==='cn_acc'?0.55:0.45); anchors[id]={p:q.clone(),n:null}; });
+  anchors.cn_all={p:new THREE.Vector3(0,-0.45,0.35),n:null};
+})();
+// which organs each nerve reaches, and which eye muscles it moves
+var CN_ORG={cn_olf:['nose'],cn_opt:['eye'],cn_ocul:['eye'],cn_troch:['eye'],cn_trig:['eye'],cn_abd:['eye'],cn_fac:['ear','tongue'],cn_vest:['ear'],cn_glos:['tongue'],cn_vag:[],cn_acc:['neck'],cn_hypo:['tongue'],cn_all:['eye','ear','tongue','neck','nose']};
+var CN_MUS={cn_ocul:['SR','IR','MR','IO','LPS'],cn_troch:['SO'],cn_abd:['LR']};
+function cnSync(){
+  var on=(mode==='brain' && selected && R[selected] && R[selected].kind==='cnerve')?selected:null, changed=on!==cnShown;
+  cnShown=on; cnGroup.visible=(mode==='brain');
+  cnMeshes.forEach(function(m){ var id=m.userData.region, mine=on && (on==='cn_all' || on===id);
+    m.visible=mode==='brain' && (m.userData.full?!!mine:true); // hidden meshes outside the Brain view, so they cannot be tapped there
+    var mt=m.material; if(!mt.userData.base) return;
+    mt.color.copy(mt.userData.base); if(on && !mine) mt.color.multiplyScalar(0.45);
+    mt.emissiveIntensity=(mine && on!=='cn_all')?0.22:0; });
+  var orgs=on?CN_ORG[on]:[]; Object.keys(cnOrgans).forEach(function(k){ cnOrgans[k].forEach(function(o){ o.visible=orgs.indexOf(k)>=0; }); });
+  var mus=on?(CN_MUS[on]||[]):[]; Object.keys(cnEyeMus).forEach(function(k){ cnEyeMus[k].forEach(function(m){ var lit=mus.indexOf(k)>=0; m.material.emissiveIntensity=lit?0.45:0; m.material.color.set(lit?'#ff6a55':'#c4524a'); }); });
+  if(changed) applyVisibility(); // the blood vessels step aside while a cranial nerve is shown
+}
+function cnFillTree(tree,r){
+  tree.hidden=false;
+  var t=document.createElement('h3'); t.textContent='How doctors test it'; tree.appendChild(t);
+  var tp=document.createElement('p'); tp.className='dmg'; tp.textContent=r.test; tree.appendChild(tp);
+  var ids=r.id==='cn_all'?CN_IDS:[];
+  if(r.id!=='cn_all'){ var lv={cn_olf:null,cn_opt:null,cn_ocul:'midbrain',cn_troch:'midbrain',cn_trig:'pons',cn_abd:'pons',cn_fac:'pons',cn_vest:'pons',cn_glos:'medulla',cn_vag:'medulla',cn_acc:'medulla',cn_hypo:'medulla'}[r.id]; if(lv) ids=[lv]; }
+  if(!ids.length) return;
+  var h=document.createElement('h3'); h.textContent=r.id==='cn_all'?'The twelve nerves':'Leaves the brain from'; tree.appendChild(h);
+  var kd=document.createElement('div'); kd.className='kids';
+  ids.forEach(function(cid){ var c=R[cid], kb=document.createElement('button'); kb.className='chip'; kb.type='button'; kb.style.setProperty('--c',c.color); kb.innerHTML='<i class="dot"></i>'; kb.appendChild(document.createTextNode(c.short)); kb.addEventListener('click',function(){ select(cid); }); kd.appendChild(kb); });
+  tree.appendChild(kd);
+}
+
 /* ---- what if it is damaged? Places along each pathway where damage really happens, and what follows.
    at: [segment, control point] where the signal is blocked; cuts: extra blocks for damage that stops more than one route. */
 var BP_DAMAGE={
@@ -4932,7 +5179,7 @@ function applyColors(){
     col.needsUpdate=true;
   });
   REGIONS.forEach(function(r){
-    if(r.kind==='cortex' || r.kind==='section' || r.kind==='bpath' || (mode==='sections' && r.mode==='nerves')) return;
+    if(r.kind==='cortex' || r.kind==='section' || r.kind==='bpath' || r.kind==='cnerve' || (mode==='sections' && r.mode==='nerves')) return;
     var s='normal'; if(selected) s=(r.id===selected)?'sel':'dim'; if(hovered===r.id) s=(selected===r.id)?'sel':'hov';
     r._vs=s; var c=stateColors[r.id][s], k=(s==='sel')?0.3:(s==='hov'?0.12:0);
     var seen=[];
@@ -4963,7 +5210,7 @@ function applySectionColors(){
   });
 }
 function refreshUI(){
-  bpSync();
+  bpSync(); cnSync();
   if(mode==='spine' || mode==='senses' || mode==='think' || mode==='hw' || mode==='sleep' || mode==='mind') applyVisibility();
   updateDD(); applyColors(); menOpacity(); updateLayerCard();
   REGIONS.forEach(function(r){
@@ -5013,7 +5260,7 @@ function setXray(on){
 }
 function setVessels(on){
   vesselsOn=on; $('#bVessels').setAttribute('aria-pressed',on?'true':'false'); $('#bFlow').classList.toggle('off',!on);
-  vesselMeshes.forEach(function(m){ m.visible=on && !bpShown; });
+  vesselMeshes.forEach(function(m){ m.visible=on && !bpShown && !cnShown; });
   if(!on && selected && R[selected].kind==='vessel') select(null);
   if(!on && hovered && R[hovered].kind==='vessel') setHover(null);
 }
@@ -5107,7 +5354,20 @@ var WONDER={
  bp_reward:["The reward pathway learns from what turns out better than expected, so what we desire can be trained toward what is truly good.", "Psalm 37:4", "Delight thyself also in the LORD; and he shall give thee the desires of thine heart."],
  bp_bg:["This loop helps you stop as well as start: holding back an unwanted movement is part of its job.", "Proverbs 16:32", "He that is slow to anger is better than the mighty; and he that ruleth his spirit than he that taketh a city."],
  bp_language:["Babies are ready from birth to learn the sounds and grammar of the language around them, and pick them up with remarkable ease.", "Colossians 4:6", "Let your speech be alway with grace, seasoned with salt, that ye may know how ye ought to answer every man."],
- bp_fear:["The same pathway that keeps you safe in danger can be calmed: slow breathing and a sense of safety turn down its alarm.", "Psalm 56:3", "What time I am afraid, I will trust in thee."]
+ bp_fear:["The same pathway that keeps you safe in danger can be calmed: slow breathing and a sense of safety turn down its alarm.", "Psalm 56:3", "What time I am afraid, I will trust in thee."],
+ cn_all:["Twelve pairs of nerves leave the brain directly, each through its own small opening in the skull, to reach the eyes, ears, face, tongue, neck and inner organs.", "Psalm 8:3", "When I consider thy heavens, the work of thy fingers, the moon and the stars, which thou hast ordained;"],
+ cn_olf:["Smell receptor cells are among the few nerve cells that are replaced throughout life, roughly every month or two.", "2 Corinthians 2:15", "For we are unto God a sweet savour of Christ, in them that are saved, and in them that perish:"],
+ cn_opt:["Each optic nerve carries about a million nerve fibers from the back of the eye to the brain.", "Psalm 94:9", "He that planted the ear, shall he not hear? he that formed the eye, shall he not see?"],
+ cn_ocul:["As you read, your eyes make several quick, precise jumps every second, each one aimed by nerves like this one.", "Psalm 121:1", "I will lift up mine eyes unto the hills, from whence cometh my help."],
+ cn_troch:["The muscle this nerve moves runs through a tiny loop of cartilage, a pulley, that turns its pull toward the nose.", "Psalm 25:15", "Mine eyes are ever toward the LORD; for he shall pluck my feet out of the net."],
+ cn_trig:["The clear front of your eye, the cornea, is one of the most sensitive tissues in the body, and all of that feeling travels in the trigeminal nerve.", "Numbers 6:26", "The LORD lift up his countenance upon thee, and give thee peace."],
+ cn_abd:["Your two eyes turn together so precisely that what you look at lands on matching spots in each eye, giving one clear picture instead of two.", "Proverbs 15:3", "The eyes of the LORD are in every place, beholding the evil and the good."],
+ cn_fac:["About 20 small muscles on each side of your face, all moved by the facial nerve, let you show joy, surprise and kindness without a word.", "Proverbs 15:13", "A merry heart maketh a cheerful countenance: but by sorrow of the heart the spirit is broken."],
+ cn_vest:["The hair cells of the inner ear can sense movements smaller than the width of an atom.", "Isaiah 30:21", "And thine ears shall hear a word behind thee, saying, This is the way, walk ye in it, when ye turn to the right hand, and when ye turn to the left."],
+ cn_glos:["Pressure sensors in your neck report your blood pressure through this nerve with every heartbeat, so the brain can keep it steady.", "Psalm 119:103", "How sweet are thy words unto my taste! yea, sweeter than honey to my mouth!"],
+ cn_vag:["The vagus nerve gently slows your heart. Without it, the heart's own pacemaker would beat at about 100 times a minute, even at rest.", "Isaiah 26:3", "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee."],
+ cn_acc:["Its main roots begin in the spinal cord, climb up into the skull, and then leave it again, a route unlike any other nerve.", "Matthew 11:29", "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls."],
+ cn_hypo:["The tongue is a group of muscles with no bone inside, shaped by the hypoglossal nerve into the sounds of speech.", "Psalm 45:1", "My heart is inditing a good matter: I speak of the things which I have made touching the king: my tongue is the pen of a ready writer."]
 };
 function fillPanel(r){
   var wd=WONDER[r.id]; $('#pWonder').hidden=!wd;
@@ -5152,7 +5412,8 @@ function fillPanel(r){
       kb.innerHTML='<i class="dot"></i>'; kb.appendChild(document.createTextNode(c.short)); kb.addEventListener('click',function(){ select(cid); }); kp.appendChild(kb); });
     tree.appendChild(kp);
     if(r.kind==='bpath') bpDamageUI(tree,r.id);
-  } else if(r.kind==='sense') fillSense(r);
+  } else if(r.kind==='cnerve') cnFillTree(tree,r);
+  else if(r.kind==='sense') fillSense(r);
   else if(r.kind==='think') fillThink(r);
   else if(r.kind==='hw') fillHW(r);
   else if(r.kind==='sleep') fillSleep(r);
@@ -5169,6 +5430,7 @@ function focusOn(r){
   if(r.mode==='hw'){ hwFocus(r); return; }
   if(r.mode==='sleep'){ sleepFocus(r); return; }
   if(r.mode==='mind'){ mindFocus(r); return; }
+  if(r.kind==='cnerve'){ tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az); tgt.el=r.view.el*Math.PI/180; tgt.zoom=r.zoom||1; CENTER_T.set(r.at[0],r.at[1],r.at[2]); return; } // seen from below, framed to include what the nerve reaches
   if(cutOn && mode==='brain'){ cutFocus(r); return; }
   tgt.az=tgt.az+wrap(r.view.az*Math.PI/180-tgt.az);
   tgt.el=r.view.el*Math.PI/180;
@@ -5187,6 +5449,7 @@ function select(id){
   if(mode==='think' && isThink(id)){ if(R[id].tv!==tView) setTView(R[id].tv,true); if(R[id].tv==='cerebrum') xrayTo(!!R[id].inner); }
   if(id && R[id].kind==='deep' && !xray && !cutOn) setXray(true);
   if(id && R[id].kind==='bpath'){ if(cutOn) setCut(false); if(!xray) setXray(true); }
+  if(id && R[id].kind==='cnerve'){ if(cutOn) setCut(false); if(!xray) setXray(true); }
   if(id && R[id].kind==='vessel' && !vesselsOn) setVessels(true);
   if(id && R[id].kind==='cover' && !meningesOn) setMeninges(true);
   selected=id;
@@ -5923,7 +6186,7 @@ function applyVisibility(){
   var spSel=(selected && R[selected] && R[selected].kind==='path')?selected:null;
   pathTubes.forEach(function(m){ m.visible=showAllPaths || m.userData.region===spSel; });
   REGIONS.forEach(function(r){ if(r.kind==='tract'){ var v=tractVisible(r.id); r.meshes.forEach(function(m){ m.visible=v; }); } });
-  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && mode!=='mind' && vesselsOn && !bpShown); });
+  vesselMeshes.forEach(function(v){ v.visible=(mode==='diseases')?!!(D && D.vessels && dView==='brain'):(mode!=='senses' && mode!=='think' && mode!=='hw' && mode!=='sleep' && mode!=='mind' && vesselsOn && !bpShown && !cnShown); });
   var mv=menVisible(); menMeshes.forEach(function(m){ m.visible=mv && layerOn[m.userData.region]; });
   Object.keys(MEN_N).forEach(function(id){ R[id].meshes.forEach(function(m){ m.visible=mode!=='senses' && layerOn[MEN_N[id]]; }); });
   applySenseVis(); applyThinkVis(); applyHWVis(); applySleepVis(); applyMindVis();
@@ -9840,7 +10103,7 @@ function olSetup(){
 function olShown(o){ for(var x=o; x; x=x.parent){ if(!x.visible) return false; } return true; }
 function olMeshes(){
   olList.length=0;
-  var r=selected && R[selected]; if(!r || r.kind==='cortex' || r.kind==='bpath') return olList; // a pathway's own glow is its highlight
+  var r=selected && R[selected]; if(!r || r.kind==='cortex' || r.kind==='bpath' || r.kind==='cnerve') return olList; // a pathway's own glow is its highlight
   var ids=(r.kind==='section' && SECTION_MEMBERS[r.id])?SECTION_MEMBERS[r.id]:[r.id];
   ids.forEach(function(id){ var q=R[id]; if(q && q.meshes) q.meshes.forEach(function(m){ var mm=/** @type {any} */(m); if(mm.isMesh && !Array.isArray(mm.material) && olShown(mm)) olList.push(mm); }); });
   return olList;
@@ -9879,7 +10142,7 @@ function renderOutline(){
 }
 function kick(ms){ renderUntil=Math.max(renderUntil,performance.now()+(ms||900)); }
 ['pointerdown','pointermove','pointerup','wheel','keydown','click','input','change','touchstart'].forEach(function(t){ window.addEventListener(t,function(){ kick(); },{passive:true,capture:true}); });
-var PRIORITY=['prefrontal','parietal','occipital','temporal','cerebellum','motor','sensory','premotor','pons','medulla','midbrain','broca','wernicke','auditory','thalamus','hippocampus','amygdala','basal','snigra','callosum','hypothalamus','cingulate','insula','pituitary','dura','arachnoid','pia','mca','aca','veins','carotid','vertebral','willis','pca'];
+var PRIORITY=['prefrontal','parietal','occipital','temporal','cerebellum','motor','sensory','premotor','pons','medulla','midbrain','broca','wernicke','auditory','thalamus','hippocampus','amygdala','basal','snigra','callosum','hypothalamus','cingulate','insula','pituitary','dura','arachnoid','pia','mca','aca','veins','carotid','vertebral','willis','pca','cn_olf','cn_opt','cn_ocul','cn_troch','cn_trig','cn_abd','cn_fac','cn_vest','cn_glos','cn_vag','cn_acc','cn_hypo'];
 function lblX(el,x,y){ var hw=(el._w||(el._w=el.offsetWidth||0))/2+4; if(hw>4 && W>hw*2 && x>=0 && x<=W){ x=clamp(x,hw,W-hw); if(y<toolsB+14 && x+hw>toolsL && toolsL-hw>=hw) x=toolsL-hw; } return x; }
 function setLbl(el,on,x,y){
   if(on) x=lblX(el,x,y);
@@ -9914,12 +10177,15 @@ function updateLabels(){
       if(r.kind==='cortex') show=xrayT<0.5 || r.id===selected;
       else if(r.kind==='deep') show=xrayT>0.6 || (cutOn && mode==='brain' && !!cutAt[r.id]);
       else if(r.kind==='bpath') show=r.id===selected;
+      else if(r.kind==='cnerve') show=false;
       else if(r.kind==='vessel') show=vesselsOn;
       else if(r.kind==='cover') show=menVisible() && layerOn[r.id];
     }
     if(show && layerOf(r.id) && !layerOn[layerOf(r.id)]) show=false;
     // while a pathway is shown, name only the pathway and the parts it passes through
     if(bpShown && mode==='brain') show=showLabels && !!a && (r.id===bpShown || R[bpShown].rel.indexOf(r.id)>=0);
+    // while a cranial nerve is shown, name it and the part of the brainstem it leaves from (or all twelve)
+    if(cnShown && mode==='brain') show=showLabels && !!a && (cnShown==='cn_all'?(r.kind==='cnerve' && r.id!=='cn_all'):(r.id===cnShown || ['midbrain','pons','medulla'].indexOf(r.id)>=0));
     var cp=(show && cutOn && mode==='brain')?cutLbl(r,a):null;
     if(cp===false) show=false;
     if(show && cp){ tmpV.copy(cp); }
@@ -9961,7 +10227,7 @@ function frame(now){
   cur.ox+=(tgt.ox-cur.ox)*k; cur.oy+=(tgt.oy-cur.oy)*k; cur.pm+=(tgt.pm-cur.pm)*k;
   xrayT+=((xray?1:0)-xrayT)*(1-Math.exp(-dt*7));
   cortexMat.opacity=1-(mode==='diseases'?0.5:(mode==='senses'?0.72:(mode==='think'?0.8:(mode==='sleep'?(slv==='cycle'?0.42:0.82):(mode==='mind'?(csv==='states'?0.42:(csv==='moment'?0.55:(csv==='origin'?0.6:(csv==='mindw'?0.6:0.82)))):0.86)))))*xrayT; stemMats.forEach(function(sm){ sm.opacity=1-0.55*xrayT; sm.depthWrite=xrayT<0.05; }); cortexMat.depthWrite=xrayT<0.05;
-  var vis=xrayT>0.02;
+  var vis=xrayT>0.02 && !(cnShown && mode==='brain'); // a cranial nerve view shows the brainstem without the deep parts in front of it
   for(var i=0;i<deepMeshes.length;i++){ var dm=deepMeshes[i].material; deepMeshes[i].visible=vis; dm.opacity=xrayT*((mode==='senses'||mode==='think'||mode==='sleep'||mode==='mind') && dm.userData.seOp!=null?dm.userData.seOp:1); }
   if(cutOn) cutFrame();
   if(bpShown){ for(var bi=0;bi<bpTex.length;bi++) bpTex[bi].offset.x-=dt*0.7; }

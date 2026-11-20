@@ -9427,7 +9427,8 @@ $('#csOut').addEventListener('click',function(){ if(csIn) csSetIn(false); });
 
 /* ------------------------------------------------------------ meninges layer switches */
 var layerOn={dura:true,arachnoid:true,pia:true}, layerCollapsed=false, lyCard=$('#layers');
-function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:MEN_N[id]||null):null; }
+// the spinal fluid sits under the arachnoid, so it is shown and hidden with that layer
+function layerOf(id){ return (id && R[id])?(R[id].kind==='cover'?id:(MEN_N[id]||(id==='sc_csf'?'arachnoid':null))):null; }
 function setLayer(l,on){
   layerOn[l]=on;
   if(!on && layerOf(selected)===l) select(null);
@@ -9902,7 +9903,7 @@ function updateLabels(){
     if(box===toolsEl){ toolsL=Math.min(toolsL,tr.left-ar.left); toolsB=Math.max(toolsB,tr.bottom-ar.top); }
     for(var ty=tr.top+12;ty<tr.bottom;ty+=24) blocks.push({x:(tr.left+tr.right)/2-ar.left,y:ty-ar.top,w:tr.width}); } });
   if(!cutCard.hidden){ var cr=cutCard.getBoundingClientRect(); if(cr.width) for(var cy=cr.top+12;cy<cr.bottom+12;cy+=24) blocks.push({x:(cr.left+cr.right)/2-ar.left,y:cy-ar.top,w:cr.width}); }
-  labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?H-panel.offsetHeight:1e9;
+  labTop=topUI-4; labBot=(!sideLayout() && panel.classList.contains('open'))?panel.getBoundingClientRect().top-ar.top:1e9; // the panel's real top edge (it sits above a bottom bar in some views)
   var items={};
   REGIONS.forEach(function(r){
     if(mode==='diseases'){

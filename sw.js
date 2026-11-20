@@ -4,7 +4,7 @@
 /// <reference lib="webworker" />
 /** @type {ServiceWorkerGlobalScope} */
 const sw = /** @type {any} */ (self);
-const CACHE = 'brain-explorer-v2';
+const CACHE = 'brain-explorer-v3'; // v3: clears any bad copies an older version may have kept
 const LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.1.0/fuse.min.js'];
 const CORE = ['./', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
@@ -22,16 +22,24 @@ sw.addEventListener('activate', e => {
 
 // the page: network first, falling back to the cached copy after a few seconds or when offline
 function page(req) {
+  const p = new URL(req.url).pathname, scope = new URL(sw.registration.scope).pathname;
+  const isApp = p === scope || p === scope + 'index.html';
   return caches.open(CACHE).then(c => {
-    const net = fetch(req).then(r => { if (r.ok) c.put('./', r.clone()); return r; });
+    // only the app's own page is kept as the offline copy (not an icon or file opened in its own tab);
+    // a server error counts as a failure, so the saved copy is used instead
+    const net = fetch(req).then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (isApp && (r.headers.get('content-type') || '').indexOf('text/html') >= 0) c.put('./', r.clone());
+      return r;
+    });
     const slow = new Promise(res => setTimeout(() => c.match('./').then(m => m && res(m)), 4000));
-    return Promise.race([net, slow]).catch(() => c.match('./').then(m => m || net));
+    return Promise.race([net, slow]).catch(() => c.match('./').then(m => m || fetch(req)));
   });
 }
 // files that never change at the same address: cache first
 function cacheFirst(req) {
   return caches.match(req).then(m => m || fetch(req).then(r => {
-    if (r.ok || r.type === 'opaque') caches.open(CACHE).then(c => c.put(req, r.clone()));
+    if (r.ok) caches.open(CACHE).then(c => c.put(req, r.clone())); // never keep a failed or unreadable download
     return r;
   }));
 }

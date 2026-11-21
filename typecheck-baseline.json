@@ -1,10 +1,7 @@
 {
  "index.html | 2542 | Index signature in type 'ArrayLike<number>' only permits reading. | if(side<0){ var a=g.index.array; for(var k=0;k<a.length;k+=3){ var t=a[k+1]; a[k+1]=a[k+2]; a[k+2]=t; } }": 4,
  "index.html | 2345 | Argument of type 'Vector' is not assignable to parameter of type 'Vector3'.   Type 'Vector' is missing the following properties from type 'Vector3': x, y, z, isVector3, and 48 more. | var sub=new THREE.Curve(); sub.getPoint=function(t,o){ return stemCurve.getPointAt(t0+(t1-t0)*t,o); };": 1,
- "index.html | 2345 | Argument of type 'Curve<Vector>' is not assignable to parameter of type 'Curve<Vector3>'.   Type 'Vector' is missing the following properties from type 'Vector3': x, y, z, isVector3, and 48 more. | var rad=20, g=new THREE.TubeGeometry(sub,tub,0.12,rad,false), p=g.attributes.position;": 1,
- "index.html | 2339 | Property 'x' does not exist on type 'Vector'. | p.setXYZ(idx,c.x+(p.getX(idx)-c.x)*s,c.y+(p.getY(idx)-c.y)*s,c.z+(p.getZ(idx)-c.z)*s);": 2,
- "index.html | 2339 | Property 'y' does not exist on type 'Vector'. | p.setXYZ(idx,c.x+(p.getX(idx)-c.x)*s,c.y+(p.getY(idx)-c.y)*s,c.z+(p.getZ(idx)-c.z)*s);": 2,
- "index.html | 2339 | Property 'z' does not exist on type 'Vector'. | p.setXYZ(idx,c.x+(p.getX(idx)-c.x)*s,c.y+(p.getY(idx)-c.y)*s,c.z+(p.getZ(idx)-c.z)*s);": 2,
+ "index.html | 2345 | Argument of type 'Curve<Vector>' is not assignable to parameter of type 'Curve<Vector3>'.   Type 'Vector' is missing the following properties from type 'Vector3': x, y, z, isVector3, and 48 more. | var rad=64; tub=tub*4; var g=new THREE.TubeGeometry(sub,tub,0.12,rad,false), p=g.attributes.position, ao=new Float32Array(p.count);": 1,
  "index.html | 2339 | Property 'material' does not exist on type 'Object3D'. | var bodyMat=nerveGroup.children.filter(function(c){ return !c.userData.region && c.material && c.material.depthWrite===false && Math.abs(c.material.opacity-0.14": 4,
  "index.html | 2339 | Property 'isMesh' does not exist on type 'Object3D'. | if(ch.userData.region || !ch.isMesh || !ch.material || ch.material.depthWrite!==false || Math.abs(ch.material.opacity-0.14)>0.01) return;": 1,
  "index.html | 2339 | Property 'material' does not exist on type 'Object3D'. | if(ch.userData.region || !ch.isMesh || !ch.material || ch.material.depthWrite!==false || Math.abs(ch.material.opacity-0.14)>0.01) return;": 3,

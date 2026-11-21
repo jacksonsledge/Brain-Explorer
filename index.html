@@ -3928,12 +3928,39 @@ function classify(u,v,xx,side){
   return 'parietal';
 }
 
-var cortexMat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.62,metalness:0,transparent:true});
+/* ---- surface detail helpers */
+// smooth 3D gradient noise (Perlin); the lines where it crosses zero wander like the grooves of a real brain
+var NOISE=(function(){
+  var perm=new Uint8Array(512), g=[[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
+  var seed=1234567; function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
+  var p=[]; for(var i=0;i<256;i++) p.push(i); for(i=255;i>0;i--){ var j=Math.floor(rnd()*(i+1)), t=p[i]; p[i]=p[j]; p[j]=t; } for(i=0;i<512;i++) perm[i]=p[i&255];
+  function fade(t){ return t*t*t*(t*(t*6-15)+10); }
+  function dot(h,x,y,z){ var q=g[h%12]; return q[0]*x+q[1]*y+q[2]*z; }
+  return function(x,y,z){
+    var X=Math.floor(x), Y=Math.floor(y), Z=Math.floor(z); x-=X; y-=Y; z-=Z; X&=255; Y&=255; Z&=255;
+    var u=fade(x), v=fade(y), w=fade(z), A=perm[X]+Y, AA=perm[A]+Z, AB=perm[A+1]+Z, B=perm[X+1]+Y, BA=perm[B]+Z, BB=perm[B+1]+Z;
+    function l(a,b,t){ return a+(b-a)*t; }
+    return l(l(l(dot(perm[AA],x,y,z),dot(perm[BA],x-1,y,z),u),l(dot(perm[AB],x,y-1,z),dot(perm[BB],x-1,y-1,z),u),v),
+             l(l(dot(perm[AA+1],x,y,z-1),dot(perm[BA+1],x-1,y,z-1),u),l(dot(perm[AB+1],x,y-1,z-1),dot(perm[BB+1],x-1,y-1,z-1),u),v),w);
+  };
+})();
+// a material whose colour is darkened by a per-vertex 'ao' value, so the floors of grooves fall into shadow
+function aoShade(mat){
+  mat.onBeforeCompile=function(sh){
+    sh.vertexShader=sh.vertexShader.replace('void main() {','attribute float ao;\nvarying float vAo;\nvoid main() {\n\tvAo=ao;');
+    sh.fragmentShader=sh.fragmentShader.replace('void main() {','varying float vAo;\nvoid main() {').replace('#include <color_fragment>','#include <color_fragment>\n\tdiffuseColor.rgb*=vAo;');
+  };
+  mat.customProgramCacheKey=function(){ return 'ao'; };
+  return mat;
+}
+// a slightly glossy, moist tissue finish
+var cortexMat=aoShade(new THREE.MeshPhysicalMaterial({vertexColors:true,roughness:0.5,metalness:0,clearcoat:0.35,clearcoatRoughness:0.38,transparent:true}));
 var cortexMeshes=[];
 
 function buildHemisphere(side){
-  var g=new THREE.SphereGeometry(1,144,108);
-  var pos=g.attributes.position, n=pos.count, dirs=new Float32Array(n*3);
+  var g=new THREE.SphereGeometry(1,224,168);
+  var pos=g.attributes.position, n=pos.count, dirs=new Float32Array(n*3), aoA=new Float32Array(n);
+  var off=side>0?[0,0,0]:[17.3,4.1,9.7]; // each half gets its own pattern of folds, as in a real brain
   var cx=0.34, cy=0.15, rx=0.5, ry=0.62, rz=1.05, ph=side>0?0:1.7;
   for(var i=0;i<n;i++){
     var dx=pos.getX(i), dy=pos.getY(i), dz=pos.getZ(i);
@@ -3942,20 +3969,27 @@ function buildHemisphere(side){
     r += 0.09*lat*Math.exp(-Math.pow((u-0.05)/0.42,2)-Math.pow((v+0.5)/0.28,2));
     var vs=-0.12-0.15*u;
     var w=smooth(-0.5,-0.2,u)*(1-smooth(0.55,0.85,u));
-    r -= 0.07*Math.exp(-Math.pow((v-vs)/0.055,2))*w*lat;
+    var gS=Math.exp(-Math.pow((v-vs)/0.055,2))*w*lat; // the lateral (Sylvian) fissure
+    r -= 0.07*gS;
     var uc=0.07-0.15*v;
-    r -= 0.05*Math.exp(-Math.pow((u-uc)/0.055,2))*smooth(-0.2,0.1,v)*Math.min(1,0.35+lat);
+    var gC=Math.exp(-Math.pow((u-uc)/0.045,2))*smooth(-0.2,0.1,v)*Math.min(1,0.35+lat); // the central sulcus
+    r -= 0.055*gC;
     var taper=1-0.14*Math.pow(Math.max(0,u),2)-0.08*Math.pow(Math.max(0,-u),2);
     var lx=rx*dx*r*taper, ly=ry*dy*r, lz=rz*dz*r;
     if(ly<0) ly*=0.72;
-    var f=Math.sin(17*lx+ph+2.5*Math.sin(11*ly+4*lz))+Math.sin(15*ly+2.5*Math.sin(9*lz+5*lx))+Math.sin(16*lz+2.5*Math.sin(10*lx+6*ly));
-    var wr=1+0.028*Math.tanh(0.9*f);
+    // gyri and sulci: deep grooves along the wandering zero lines of two noise fields, with rounded ridges between
+    // stretched front to back, as most gyri of the frontal and temporal lobes run lengthwise
+    var n1=NOISE(lx*3.9+off[0],ly*4.2+off[1],lz*2.3+off[2]), n2=NOISE(lx*7.8+off[1]+3.3,ly*8.2+off[2]+1.7,lz*5.2+off[0]+5.1);
+    var g1=Math.exp(-Math.pow(n1/0.075,2)), g2=Math.exp(-Math.pow(n2/0.09,2))*0.55;
+    var calm=1-0.85*Math.max(gS,gC); // folds give way to the two big landmark grooves
+    var wr=1.026-(0.042*g1+0.02*g2)*calm+0.006*(1-Math.max(g1,g2));
     lx*=wr; ly*=wr; lz*=wr;
+    aoA[i]=1-0.5*Math.min(1,(0.95*g1+0.55*g2)*calm+0.9*gS+0.75*gC);
     var xr=cx+lx; if(xr<0.03) xr=0.03;
     pos.setXYZ(i,side*xr,cy+ly,lz);
   }
   if(side<0){ var a=g.index.array; for(var k=0;k<a.length;k+=3){ var t=a[k+1]; a[k+1]=a[k+2]; a[k+2]=t; } }
-  g.setAttribute('dir',new THREE.BufferAttribute(dirs,3));
+  g.setAttribute('dir',new THREE.BufferAttribute(dirs,3)); g.setAttribute('ao',new THREE.BufferAttribute(aoA,1));
   g.computeVertexNormals();
   var ng=g.toNonIndexed(); g.dispose();
   var dir=ng.attributes.dir, nF=dir.count/3, faceReg=new Uint8Array(nF);
@@ -3986,18 +4020,22 @@ function addPart(id,geo,mat,deep){
 
 // cerebellum
 (function(){
-  var g=new THREE.SphereGeometry(1,96,72), p=g.attributes.position;
+  var g=new THREE.SphereGeometry(1,180,150), p=g.attributes.position, ao=new Float32Array(p.count);
   for(var i=0;i<p.count;i++){
     var dx=p.getX(i), dy=p.getY(i), dz=p.getZ(i);
-    var r=1-0.1*Math.exp(-Math.pow(dx/0.09,2))*Math.max(0,-dz);
+    var mid=Math.exp(-Math.pow(dx/0.1,2)), r=1-0.1*mid*Math.max(0,-dz);
+    r*=1+0.05*Math.exp(-Math.pow((Math.abs(dx)-0.55)/0.35,2)); // two rounded hemispheres either side of the vermis
     var x=0.56*dx*r, y=0.30*dy*r, z=0.40*dz*r;
     if(y>0) y*=0.8;
-    var f=Math.sin(y*52+2*Math.sin(x*6+z*4));
-    var s=1+0.025*f;
-    p.setXYZ(i,x*s,-0.38+y*s,-0.62+z*s);
+    // folia: many thin leaves running side to side, gently curving, cut by the deep horizontal fissure
+    var ph=y*95+3*Math.sin(x*5+z*3)+1.2*Math.sin(x*11-z*7), fol=Math.pow(0.5+0.5*Math.cos(ph),3);
+    var fis=Math.exp(-Math.pow((y+0.01-0.05*z)/0.02,2))*(1-mid*0.6);
+    var groove=Math.max(fol*(1-0.4*mid),fis), s=1-0.035*fol*(1-0.4*mid)-0.06*fis-0.04*mid*Math.max(0,dz+0.2);
+    p.setXYZ(i,x*s,-0.38+y*s,-0.62+z*s); ao[i]=1-0.45*Math.min(1,groove);
   }
+  g.setAttribute('ao',new THREE.BufferAttribute(ao,1));
   g.computeVertexNormals();
-  addPart('cerebellum',g,partMaterial('cerebellum',0.6),false);
+  addPart('cerebellum',g,aoShade(partMaterial('cerebellum',0.6)),false);
 })();
 
 // brainstem (three parts sharing one smooth taper)
@@ -4005,20 +4043,38 @@ var stemCurve=new THREE.CatmullRomCurve3([new THREE.Vector3(0,-0.02,0.02),new TH
 function stemTaper(t){ return 1+0.35*Math.exp(-Math.pow((t-0.35)/0.18,2))-0.25*t; }
 function stemSeg(id,t0,t1,tub){
   var sub=new THREE.Curve(); sub.getPoint=function(t,o){ return stemCurve.getPointAt(t0+(t1-t0)*t,o); };
-  var rad=20, g=new THREE.TubeGeometry(sub,tub,0.12,rad,false), p=g.attributes.position;
+  var rad=64; tub=tub*4; var g=new THREE.TubeGeometry(sub,tub,0.12,rad,false), p=g.attributes.position, ao=new Float32Array(p.count);
   for(var i=0;i<=tub;i++){
-    var c=sub.getPointAt(i/tub), s=stemTaper(t0+(t1-t0)*i/tub);
+    var c=/** @type {any} */(sub.getPointAt(i/tub)), T=t0+(t1-t0)*i/tub, s=stemTaper(T);
     for(var j=0;j<=rad;j++){
-      var idx=i*(rad+1)+j;
-      p.setXYZ(idx,c.x+(p.getX(idx)-c.x)*s,c.y+(p.getY(idx)-c.y)*s,c.z+(p.getZ(idx)-c.z)*s);
+      var idx=i*(rad+1)+j, ox=p.getX(idx)-c.x, oy=p.getY(idx)-c.y, oz=p.getZ(idx)-c.z, ol=Math.hypot(ox,oy,oz)||1;
+      var fx=ox/ol, fz=oz/ol, front=Math.max(0,fz), k=1, a=1;
+      // midbrain: the two cerebral peduncles on the front, with the hollow between them
+      var mb=1-smooth(0.2,0.3,T);
+      k+=mb*(0.16*front*Math.exp(-Math.pow((Math.abs(fx)-0.5)/0.28,2))-0.08*front*Math.exp(-Math.pow(fx/0.16,2)));
+      a-=mb*0.35*front*Math.exp(-Math.pow(fx/0.16,2));
+      // pons: a bulge striped side to side by its crossing fibres, with the shallow basilar groove down the middle
+      var pn=smooth(0.24,0.3,T)*(1-smooth(0.55,0.61,T)), str=0.5+0.5*Math.cos(T*340);
+      k+=pn*front*(0.05-0.007*str-0.03*Math.exp(-Math.pow(fx/0.12,2)));
+      a-=pn*front*(0.08*str+0.15*Math.exp(-Math.pow(fx/0.12,2)));
+      // medulla: the two pyramids beside the front midline, and the oval olives further round
+      var md=smooth(0.58,0.64,T);
+      k+=md*(0.13*front*Math.exp(-Math.pow((Math.abs(fx)-0.27)/0.15,2))-0.07*front*Math.exp(-Math.pow(fx/0.1,2)));
+      var ol2=Math.exp(-Math.pow((T-0.72)/0.07,2))*Math.exp(-Math.pow((Math.abs(fx)-0.8)/0.17,2))*Math.max(0,fz+0.4);
+      k+=md*0.2*ol2;
+      a-=md*(0.3*front*Math.exp(-Math.pow(fx/0.1,2))+0.25*front*Math.exp(-Math.pow((Math.abs(fx)-0.5)/0.08,2)));
+      var sk=s*k; ao[idx]=Math.max(0.45,a);
+      p.setXYZ(idx,c.x+ox*sk,c.y+oy*sk,c.z+oz*sk);
     }
   }
+  g.setAttribute('ao',new THREE.BufferAttribute(ao,1));
   g.computeVertexNormals();
-  return addPart(id,g,partMaterial(id,0.55),false);
+  return addPart(id,g,aoShade(partMaterial(id,0.55)),false);
 }
 stemSeg('midbrain',0,0.26,12); stemSeg('pons',0.26,0.58,20); stemSeg('medulla',0.58,1,24);
 (function(){
-  var cap=addPart('medulla',new THREE.SphereGeometry(0.09,24,16),R.medulla.meshes[0].material,false);
+  var cg=new THREE.SphereGeometry(0.09,24,16); cg.setAttribute('ao',new THREE.BufferAttribute(new Float32Array(cg.attributes.position.count).fill(1),1)); // no shadowed grooves on the end cap
+  var cap=addPart('medulla',cg,R.medulla.meshes[0].material,false);
   cap.position.copy(stemCurve.getPointAt(1)); cap.scale.set(1,0.9,1);
 })();
 
